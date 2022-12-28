@@ -1,0 +1,34 @@
+<ng-container [ngSwitch]="true">
+  <a *ngSwitchCase="!!menuItem.children" (click)="clickAnchor.emit()">
+    <ng-container *ngTemplateOutlet="innerItem"></ng-container>
+  </a>
+  <a
+    *ngSwitchCase="!!menuItem.route || menuItem.route === ''"
+    [routerLink]="disable ? undefined : menuItem.route"
+    (click)="onClick()"
+    routerLinkActive
+    #rla="routerLinkActive"
+    [routerLinkActiveOptions]="{ exact: menuItem.linkActiveExact === undefined ? true : menuItem.linkActiveExact }"
+  >
+    <ng-container *ngTemplateOutlet="innerItem"></ng-container>
+  </a>
+  <a *ngSwitchCase="!!menuItem.url" [href]="menuItem.url" [target]="menuItem.target">
+    <ng-container *ngTemplateOutlet="innerItem"></ng-container>
+  </a>
+</ng-container>
+
+<ng-template #innerItem>
+  <mat-icon class="asm-menu-anchor__icon" >
+    {{menuItemClass(menuItem)}}</mat-icon>
+  <span class="asm-menu-anchor__label">{{ menuItem.label }}</span>
+  <span
+    *ngIf="menuItem.badges || menuItem.children"
+    class="asm-menu-anchor__pull"
+    [ngClass]="{ 'asm-badges': menuItem.badges, 'asm-toggle': menuItem.children }"
+  >
+        <span *ngFor="let badge of menuItem.badges" [class]="badge.classes" class="asm-badges__badge">{{
+          badge.label
+          }}</span>
+        <span class="asm-toggle__icon"><ng-content select="[toggleIcon]"></ng-content></span>
+      </span>
+</ng-template>

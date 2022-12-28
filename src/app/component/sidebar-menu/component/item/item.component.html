@@ -1,0 +1,29 @@
+<ng-container [ngSwitch]="true">
+  <span *ngSwitchCase="!!menuItem.header" class="asm-menu-item__header">{{ menuItem.header }}</span>
+  <asm-menu-anchor
+    *ngSwitchCase="!menuItem.children && !menuItem.header"
+    class="asm-menu-anchor"
+    [menuItem]="menuItem"
+    [disable]="disable || isItemDisabled"
+  ></asm-menu-anchor>
+
+  <ng-container *ngSwitchCase="!!menuItem.children">
+    <asm-menu-anchor
+      class="asm-menu-anchor"
+      [ngClass]="{ 'asm-menu-anchor--open': node.isOpen }"
+      [menuItem]="menuItem"
+      (clickAnchor)="node.onNodeToggleClick()"
+      [isActive]="node.isActiveChild"
+    ><mat-icon toggleIcon [@rotate]="node.isOpen">{{node.nodeService.toggleIconClasses}}</mat-icon
+    ></asm-menu-anchor>
+    <asm-menu-node
+      #node
+      class="asm-menu-node"
+      [menuItem]="menuItem"
+      [level]="level"
+      [disable]="disable || isItemDisabled"
+      (isActive)="onNodeActive($event)"
+      (isFiltered)="onNodeFiltered($event)"
+    ></asm-menu-node>
+  </ng-container>
+</ng-container>

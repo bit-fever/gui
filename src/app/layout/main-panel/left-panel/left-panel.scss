@@ -1,0 +1,47 @@
+//=============================================================================
+//===
+//=== Copyright (C) 2022 Andrea Carboni
+//===
+//=== Use of this source code is governed by an MIT-style license that can be
+//=== found in the LICENSE file
+//=============================================================================
+
+.main-navigation {
+  background: #222d32;
+  height: 100%;
+  overflow: auto;
+
+  .input-search {
+    display: flex;
+    margin: 10px;
+    background-color: #374850;
+    align-items: center;
+    border-radius: 2px;
+    color: #666;
+
+    &.input-search--focus {
+      background: #fff;
+    }
+
+    input {
+      padding: 10px;
+      background-color: #374850;
+      border: none;
+    }
+
+    input:focus {
+      outline: none;
+      background-color: #fff;
+    }
+
+    i, input::placeholder {
+      color: #999;
+    }
+
+    i {
+      margin: 0 10px;
+    }
+  }
+}
+
+//=============================================================================

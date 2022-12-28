@@ -1,0 +1,71 @@
+//=============================================================================
+//===
+//=== Copyright (C) 2022 Andrea Carboni
+//===
+//=== Use of this source code is governed by an MIT-style license that can be
+//=== found in the LICENSE file
+//=============================================================================
+
+//=============================================================================
+//===
+//=== Events
+//===
+//=============================================================================
+
+export class AppEvent<T = any>  {
+
+	//-------------------------------------------------------------------------
+
+	constructor(public code : string, public params? : T) {}
+
+	//-------------------------------------------------------------------------
+	//--- System events
+	//-------------------------------------------------------------------------
+
+	static ANY                : string = "*";
+	static SUBMIT_START       : string = "submit.start";
+	static SUBMIT_END         : string = "submit.end";
+  static LOCALIZATION_READY : string = "localization.ready";
+	static LOGIN_SUCCESS      : string = "login.success";
+	static LOGIN_FAILED       : string = "login.failed";
+	static LOGOUT_SUCCESS     : string = "logout.success";
+	static LOGOUT_FAILED      : string = "logout.failed";
+	static INVALID_TOKEN      : string = "invalid.token";
+	static APPLICATION_READY  : string = "app.ready";
+
+	static MENU_BUTTON_CLICK  : string = "menu.button.click";
+	static RIGHT_PANEL_CLOSE  : string = "right.panel.close";
+
+  static USER_VIEW_OPEN     : string = "user.view.open";
+  static USER_VIEW_START    : string = "user.view.start";
+}
+
+//=============================================================================
+
+export interface EventHandler {
+	(event : AppEvent) : void;
+}
+
+//=============================================================================
+//===
+//=== Errors
+//===
+//=============================================================================
+
+export class ErrorEvent {
+	code : string | null;
+	error: string | null;
+
+  constructor() {
+    this.code  = null;
+    this.error = null;
+  }
+}
+
+//=============================================================================
+
+export interface ErrorHandler {
+	(event : ErrorEvent) : void;
+}
+
+//=============================================================================

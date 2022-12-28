@@ -1,0 +1,59 @@
+{
+  "app" : {
+    "title": "BitFever platform"
+  },
+
+  "unknown-url" : {
+    "message": "Unknown URL"
+  },
+
+
+	"card-panel" : {
+		"toggle.tooltip" : "Opens or closes the panel"
+	},
+
+	"login-panel" : {
+		"title"    : "Login",
+		"username" : "Username",
+		"password" : "Password",
+		"button"   : "Login",
+
+		"missing.info": {
+			"title" : "Missing information",
+			"descr" : "Please, provide a username or password first"
+		},
+
+		"login.error": {
+			"title" : "Login error",
+			"descr" : "Invalid username or password"
+		}
+	},
+
+	"list-panel" : {
+		"exportSel.tooltip" : "Exports selected rows",
+		"exportAll.tooltip" : "Exports all rows",
+		"refresh.tooltip"   : "Refresh"
+	},
+
+	"list-table" : {
+		"noRecords" : "No records found",
+		"all"       : "All"
+	},
+
+	"right-title" : {
+		"close.tooltip" : "Close"
+	},
+
+  "menu" : {
+    "main"             : "Main",
+    "main.home"        : "Home",
+
+    "markets"          : "Markets",
+    "markets.inventory": "Inventory",
+    "markets.data"     : "Data",
+
+    "administration"   : "Administration",
+    "admin.config"     : "Configuration",
+    "link"             : "GitHub"
+  }
+}
