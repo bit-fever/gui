@@ -55,5 +55,13 @@
     "administration"   : "Administration",
     "admin.config"     : "Configuration",
     "link"             : "GitHub"
+  },
+
+  "admin.config" : {
+    "title" : "Configuration"
+  },
+
+  "markets.inventory" : {
+    "title" : "Markets inventory"
   }
 }

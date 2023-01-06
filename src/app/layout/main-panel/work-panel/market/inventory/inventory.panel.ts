@@ -71,7 +71,7 @@ export class MarketInventoryPanel extends AbstractSubscriber {
 	//-------------------------------------------------------------------------
 
 	loc(code : string) : string {
-		return this.labelService.getLabel("markets", code);
+		return this.labelService.getLabel("markets.inventory", code);
 	}
 
   //-------------------------------------------------------------------------

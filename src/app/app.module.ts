@@ -17,10 +17,12 @@ import {MatToolbarModule}      from "@angular/material/toolbar";
 import {MatSidenavModule}      from "@angular/material/sidenav";
 import {MatIconModule}         from "@angular/material/icon";
 import {MatButtonModule}       from "@angular/material/button";
+import {MatCardModule}         from "@angular/material/card";
 import {MatExpansionModule}    from '@angular/material/expansion';
 import {MatListModule}         from '@angular/material/list';
 import {MatInputModule}        from '@angular/material/input';
 import {MatTableModule}        from "@angular/material/table";
+import {MatPaginatorModule}    from "@angular/material/paginator";
 
 //-----------------------------------------------------------------------------
 
@@ -77,9 +79,11 @@ import { AnchorComponent }      from "./component/sidebar-menu/component/anchor/
     MatSidenavModule,
     MatIconModule,
     MatButtonModule,
+    MatCardModule,
     MatExpansionModule,
     MatListModule,
     MatInputModule,
+    MatPaginatorModule,
     MatTableModule
   ],
   providers: [

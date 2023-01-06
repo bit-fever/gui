@@ -9,6 +9,7 @@
 import { Component } from '@angular/core';
 
 import {Configuration} from "../../../../../model/config";
+import {LabelService} from "../../../../../service/label.service";
 
 //=============================================================================
 
@@ -39,13 +40,9 @@ export class ConfigurationPanel {
 	//---
 	//-------------------------------------------------------------------------
 
-  constructor() {
-    console.log("CONFIG.................");
+	constructor(private labelService        : LabelService) {
+	  this.config.language = labelService.getLanguage();
   }
-	// constructor(private notificationService : NotificationService,
-	//             private labelService        : LabelService) {
-	//   this.config.language = labelService.getLanguage();
-  // }
 
 	//-------------------------------------------------------------------------
 	//---
@@ -59,9 +56,9 @@ export class ConfigurationPanel {
 
 	//-------------------------------------------------------------------------
 
-	// loc(code : string) : string {
-	// 	return this.labelService.getLabel("config", code);
-	// }
+	loc(code : string) : string {
+		return this.labelService.getLabel("admin.config", code);
+	}
 
 	//-------------------------------------------------------------------------
 	//---
