@@ -6,18 +6,23 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {Component}    from "@angular/core";
-
-import { AppEvent }        from "../../model/event";
-import { EventbusService } from "../../service/eventbus.service";
-import { LabelService }    from "../../service/label.service";
+import {Component}         from "@angular/core";
+import {MatIconModule}     from "@angular/material/icon";
+import {MatToolbarModule}  from "@angular/material/toolbar";
+import {HttpClientModule}  from "@angular/common/http";
+import {MatButtonModule}   from "@angular/material/button";
+import {AppEvent}          from "../../model/event";
+import {EventBusService}   from "../../service/eventbus.service";
+import {LabelService}      from "../../service/label.service";
 
 //=============================================================================
 
 @Component({
     selector    :   'header-panel',
     templateUrl : './header-panel.html',
-	styleUrls   : [ './header-panel.scss' ]
+	styleUrls   : [ './header-panel.scss' ],
+	imports     : [ MatButtonModule, MatIconModule, MatToolbarModule, HttpClientModule ],
+	standalone  : true
 })
 
 //=============================================================================
@@ -31,7 +36,7 @@ export class HeaderPanel {
 	//-------------------------------------------------------------------------
 
   constructor(private labelService    : LabelService,
-              private eventBusService : EventbusService
+              private eventBusService : EventBusService
  	) {}
 
 	//-------------------------------------------------------------------------

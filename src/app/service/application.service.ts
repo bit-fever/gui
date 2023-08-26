@@ -10,7 +10,7 @@ import {Injectable}         from '@angular/core';
 
 import {AppEvent}           from "../model/event";
 import {AbstractSubscriber} from "./abstract-subscriber";
-import {EventbusService}    from "./eventbus.service";
+import {EventBusService}    from "./eventbus.service";
 
 //=============================================================================
 
@@ -39,7 +39,7 @@ export class ApplicationService extends AbstractSubscriber {
 	//---
 	//-------------------------------------------------------------------------
 
-	constructor(eventBusService: EventbusService) {
+	constructor(eventBusService: EventBusService) {
 
 		super(eventBusService);
 

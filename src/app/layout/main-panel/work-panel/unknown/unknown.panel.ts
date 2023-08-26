@@ -8,13 +8,16 @@
 
 import {Component}    from '@angular/core';
 import {LabelService} from "../../../../service/label.service";
+import {MatIconModule} from "@angular/material/icon";
 
 //=============================================================================
 
 @Component({
 	selector    :     'unknown',
 	templateUrl :   './unknown.panel.html',
-	styleUrls   : [ './unknown.panel.scss' ]
+	styleUrls   : [ './unknown.panel.scss' ],
+	imports     : [ MatIconModule ],
+	standalone  : true
 })
 
 //=============================================================================

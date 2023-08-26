@@ -7,15 +7,14 @@
 //=============================================================================
 
 import {Injectable}   from "@angular/core";
-import {HttpClient}   from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {DomSanitizer} from "@angular/platform-browser";
-import {SafeUrl}      from "@angular/platform-browser";
 
 import {Observable, throwError}    from "rxjs";
-import {catchError, map, finalize} from "rxjs/operators";
+import {catchError, finalize}      from "rxjs/operators";
 
 import {AppEvent, ErrorEvent }     from "../model/event";
-import {EventbusService}           from "./eventbus.service"
+import {EventBusService}           from "./eventbus.service"
 
 //=============================================================================
 
@@ -37,8 +36,8 @@ export class HttpService {
 	//-------------------------------------------------------------------------
 
 	constructor(private httpClient      : HttpClient,
-              private eventBusService : EventbusService,
-              private domSanitizer    : DomSanitizer ) {}
+                private eventBusService : EventBusService,
+                private domSanitizer    : DomSanitizer ) {}
 
 	//-------------------------------------------------------------------------
 	//---
@@ -52,59 +51,50 @@ export class HttpService {
 
 	//-------------------------------------------------------------------------
 
-	public getObject(url : string, options? : any): Observable<any> {
+	public get = <T = any>(url : string, options? : any): Observable<T> => {
 
 		this.showLoader();
 
-		//--- "Pragma": "no-cache" for IE 11
-
-		let header = {
-			"Pragma"        : "no-cache",
-			"Cache-Control" : "no-cache",
-			"Expires"       : "0"
-		};
-
-		return this.httpClient.get(url, { params: options, headers : header }).pipe(
-			catchError((error) => this.handleError(error)),
+		return this.httpClient.get<T>(url, options).pipe(
+			catchError((err, caught) => this.handleError(err, caught)),
 			finalize  (()      => this.hideLoader())
 		);
 	}
 
 	//-------------------------------------------------------------------------
 
-	public getBlob(url : string, options? : any): Observable<any> {
+	public post = <T = any>(url: string, object: any, options?: any): Observable<T> => {
 
-		this.showLoader();
+    this.showLoader();
 
-		//--- Add timestamp to change static url to dynamic for IE 11
-
-		if (options != null) {
-			options.ts = Date.now();
-		}
-
-        return this.httpClient.get(url, { params: options, responseType : 'blob'}).pipe(
-			map(e => this.getSanitizedUrl(URL.createObjectURL(e))),
-			catchError((error) => this.handleError(error)),
-			finalize(() => this.hideLoader())
-		);
-	}
-
-	//-------------------------------------------------------------------------
-
-	public postObject(url: string, object: any, options?: any): Observable<any> {
-
-        this.showLoader();
-
-        return this.httpClient.post (url, object, options).pipe(
-			catchError((error) => this.handleError(error)),
+    return this.httpClient.post<T>(url, object, options).pipe(
+			catchError((error, caught) => this.handleError(error, caught)),
 			finalize  (()      => this.hideLoader())
 		);
 	}
 
 	//-------------------------------------------------------------------------
 
-	public getSanitizedUrl(url : string): SafeUrl {
-		return this.domSanitizer.bypassSecurityTrustResourceUrl(url);
+	public put = <T = any>(url: string, object: any, options?: any): Observable<T> => {
+
+	  this.showLoader();
+
+	  return this.httpClient.put<T>(url, object, options).pipe(
+	    catchError((error, caught) => this.handleError(error, caught)),
+	    finalize  (()      => this.hideLoader())
+    );
+	}
+
+	//-------------------------------------------------------------------------
+
+	public delete = <T = any>(url: string, options?: any): Observable<T> => {
+
+	  this.showLoader();
+
+	  return this.httpClient.delete<T>(url, options).pipe(
+		  catchError((error, caught) => this.handleError(error, caught)),
+		  finalize  (()      => this.hideLoader())
+	  );
 	}
 
 	//-------------------------------------------------------------------------
@@ -113,26 +103,19 @@ export class HttpService {
 	//---
 	//-------------------------------------------------------------------------
 
-	private handleError(response : any) : Observable<any> {
+	private handleError = (err: HttpErrorResponse, caught: Observable<any>) : Observable<any> => {
 
-		console.log("Got the following HTTP error : " + JSON.stringify(response));
+		console.log("HTTP error : " + JSON.stringify(err));
+    console.log("Observable : " + JSON.stringify(caught));
 
-		let error : ErrorEvent;
+		let reqError : ErrorEvent = {
+      code : err.status.toString(),
+      error: err.error.toString()
+    };
 
-		if (response.status == 422) {
-			//--- Unprocessable entity
-			error = response.error;
-		}
-		else {
-			error = {
-				code : response.status.toString(),
-				error: response.error.toString()
-			};
-		}
+		this.eventBusService.emitToError(reqError);
 
-		this.eventBusService.emitToError(error);
-
-		return throwError(error);
+		return throwError(reqError);
 	}
 
 	//-------------------------------------------------------------------------

@@ -10,7 +10,7 @@ import {Injectable}  from '@angular/core';
 
 import {AppEvent}        from "../model/event";
 import {HttpService}     from "./http.service";
-import {EventbusService} from "./eventbus.service";
+import {EventBusService} from "./eventbus.service";
 
 //=============================================================================
 
@@ -34,7 +34,7 @@ export class LabelService {
 
 	private languageMap : Map<String, EntityMap>;
 	private language    : string;
-  private loadCounter : number;
+	private loadCounter : number;
 
 	//-------------------------------------------------------------------------
 
@@ -47,11 +47,11 @@ export class LabelService {
 	//-------------------------------------------------------------------------
 
 	constructor(private httpService    : HttpService,
-              private eventBusService: EventbusService) {
+                private eventBusService: EventBusService) {
 
 		this.languageMap = new Map();
 		this.language    = "en";
-    this.loadCounter = 0;
+		this.loadCounter = 0;
 
 		//--- Load language files
 
@@ -130,7 +130,7 @@ export class LabelService {
 
 		let file : string = name +"-"+ language +".json";
 
-		this.httpService.getObject("assets/lang/"+ file)
+		this.httpService.get("assets/lang/"+ file)
 						.subscribe(	result => this.processFile(language, file, result),
 									error => console.log("Cannot load labels file : "+ file));
 	}

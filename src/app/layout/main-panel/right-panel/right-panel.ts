@@ -7,13 +7,16 @@
 //=============================================================================
 
 import { Component } from '@angular/core';
+import {RouterModule} from "@angular/router";
 
 //=============================================================================
 
 @Component({
     selector      :   'right-panel',
     templateUrl   : './right-panel.html',
-	styleUrls     : [ './right-panel.scss' ]
+	styleUrls     : [ './right-panel.scss' ],
+	imports       : [ RouterModule ],
+	standalone    : true
 })
 
 //=============================================================================

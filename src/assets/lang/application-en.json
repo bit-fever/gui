@@ -48,9 +48,9 @@
     "main"             : "Main",
     "main.home"        : "Home",
 
-    "markets"          : "Markets",
-    "markets.inventory": "Inventory",
-    "markets.data"     : "Data",
+    "portfolio"               : "Portfolios",
+    "portfolio.trading-system": "Trading systems",
+    "portfolio.monitoring"    : "Monitoring",
 
     "administration"   : "Administration",
     "admin.config"     : "Configuration",
@@ -61,7 +61,7 @@
     "title" : "Configuration"
   },
 
-  "markets.inventory" : {
-    "title" : "Markets inventory"
+  "portfolio.trading-system" : {
+    "title" : "Trading Systems"
   }
 }

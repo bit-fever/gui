@@ -7,19 +7,24 @@
 //=============================================================================
 
 import {Component, ViewChild} from '@angular/core';
-import {Router}               from "@angular/router";
-import {MatSidenav}           from "@angular/material/sidenav";
+import {Router, RouterModule} from "@angular/router";
+import {MatSidenav, MatSidenavModule} from "@angular/material/sidenav";
 
 import {AppEvent}             from "../../model/event";
 import {AbstractSubscriber}   from "../../service/abstract-subscriber";
-import {EventbusService}      from "../../service/eventbus.service";
+import {EventBusService}      from "../../service/eventbus.service";
+import {LeftPanel} from "./left-panel/left-panel";
+import {WorkPanel} from "./work-panel/work.panel";
+import {RightPanel} from "./right-panel/right-panel";
 
 //=============================================================================
 
 @Component({
 	selector   :    'main-panel',
 	templateUrl:  './main.panel.html',
-	styleUrls  : ['./main.panel.scss']
+	styleUrls  : ['./main.panel.scss'],
+	imports    : [ MatSidenavModule, RouterModule, LeftPanel, WorkPanel, RightPanel ],
+	standalone : true
 })
 
 //=============================================================================
@@ -41,7 +46,7 @@ export class MainPanel extends AbstractSubscriber {
 	//---
 	//-------------------------------------------------------------------------
 
-	constructor(eventBusService: EventbusService, private router : Router) {
+	constructor(eventBusService: EventBusService, private router : Router) {
 
 		super(eventBusService);
 

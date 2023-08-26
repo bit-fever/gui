@@ -14,7 +14,7 @@ import { Roles }              from '../model/user/roles';
 import { Menu }               from '../component/sidebar-menu/model';
 import { AbstractSubscriber } from "./abstract-subscriber";
 import { LabelService }       from "./label.service";
-import { EventbusService }    from "./eventbus.service";
+import { EventBusService }    from "./eventbus.service";
 
 //=============================================================================
 
@@ -36,7 +36,7 @@ export class MenuService extends AbstractSubscriber {
   //---
   //-------------------------------------------------------------------------
 
-  constructor(private labelService   : LabelService, eventBusService: EventbusService) {
+  constructor(private labelService   : LabelService, eventBusService: EventBusService) {
     super(eventBusService);
     super.subscribeToApp(AppEvent.LOCALIZATION_READY, (event : AppEvent) => this.setMenu());
   }
@@ -63,20 +63,20 @@ export class MenuService extends AbstractSubscriber {
       //-------------------------------------------------------------
 
       {
-        id: 'menu.markets',
-        header: this.labelService.getLabel('menu', 'markets'),
+        id: 'menu.portfolio',
+        header: this.labelService.getLabel('menu', 'portfolio'),
       },
       {
-        id: 'menu.markets.inventory',
-        label: this.labelService.getLabel('menu', 'markets.inventory'),
-        route: '/markets/inventory',
+        id: 'menu.portfolio.trading-system',
+        label: this.labelService.getLabel('menu', 'portfolio.trading-system'),
+        route: '/portfolio/trading-system',
         iconClasses: 'inventory'
       },
       {
-        id: 'menu.data',
-        label: this.labelService.getLabel('menu', 'markets.data'),
-        route: '',
-        iconClasses: 'storage'
+        id: 'menu.portfolio.monitoring',
+        label: this.labelService.getLabel('menu', 'portfolio.monitoring'),
+        route: '/portfolio/monitoring',
+        iconClasses: 'monitor_heart'
       },
 
       //-------------------------------------------------------------

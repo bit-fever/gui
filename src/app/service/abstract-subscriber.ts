@@ -6,17 +6,17 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {Injectable, OnDestroy} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {Subscription} from "rxjs";
 
 import {EventHandler, ErrorHandler, AppEvent, ErrorEvent} from "../model/event";
 
-import {EventbusService} from "./eventbus.service";
+import {EventBusService} from "./eventbus.service";
 
 //=============================================================================
 
 @Injectable()
-export abstract class AbstractSubscriber implements OnDestroy {
+export abstract class AbstractSubscriber {
 
 	//-------------------------------------------------------------------------
 	//---
@@ -32,17 +32,7 @@ export abstract class AbstractSubscriber implements OnDestroy {
 	//---
 	//-------------------------------------------------------------------------
 
-	constructor(private eventBusService : EventbusService) {}
-
-	//-------------------------------------------------------------------------
-	//---
-	//--- Lifecycle methods
-	//---
-	//-------------------------------------------------------------------------
-
-	public ngOnDestroy() {
-		this.subscriptions.forEach( (s : Subscription) => s.unsubscribe());
-	}
+	constructor(private eventBusService : EventBusService) {}
 
 	//-------------------------------------------------------------------------
 	//---
@@ -78,6 +68,12 @@ export abstract class AbstractSubscriber implements OnDestroy {
 
 	protected emitToError(event : ErrorEvent) : void {
 		this.eventBusService.emitToError(event);
+	}
+
+	//-------------------------------------------------------------------------
+
+	protected removeAllSubscriptions() {
+		this.subscriptions.forEach( (s : Subscription) => s.unsubscribe());
 	}
 }
 

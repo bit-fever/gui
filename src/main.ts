@@ -1,18 +1,61 @@
 //=============================================================================
 //===
-//=== Copyright (C) 2022 Andrea Carboni
+//=== Copyright (C) 2023 Andrea Carboni
 //===
 //=== Use of this source code is governed by an MIT-style license that can be
 //=== found in the LICENSE file
 //=============================================================================
 
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
-import { AppModule } from './app/app.module';
+import {importProvidersFrom}     from "@angular/core";
+import {bootstrapApplication}    from '@angular/platform-browser';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {AppComponent}            from "./app/layout/app.component";
+import {provideRouter, RouterModule, Routes} from "@angular/router";
+import {HomePanel} from "./app/layout/main-panel/work-panel/home/home.panel";
+import {TradingSystemPanel} from "./app/layout/main-panel/work-panel/portfolio/trading-system/trading-system.panel";
+import {ConfigurationPanel} from "./app/layout/main-panel/work-panel/admin/configuration/configuration.panel";
+import {UnknownPanel} from "./app/layout/main-panel/work-panel/unknown/unknown.panel";
+import {EventBusService} from "./app/service/eventbus.service";
+import {HttpService} from "./app/service/http.service";
+import {LabelService} from "./app/service/label.service";
+import {ApplicationService} from "./app/service/application.service";
+import {MenuService} from "./app/service/menu.service";
+import {NotificationService} from "./app/service/notification.service";
+import {SessionService} from "./app/service/session.service";
+import {TradingSystemService} from "./app/service/trading-system.service";
+import {HttpClientModule} from "@angular/common/http";
 
 //=============================================================================
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+const routes: Routes = [
+	{ path:'',                          redirectTo:'home', pathMatch: 'full'       },
+
+	{ path:'home',                      component: HomePanel                       },
+	{ path:'portfolio/trading-system',  component: TradingSystemPanel          },
+	{ path:'admin/config',              component: ConfigurationPanel              },
+	// { path:'user-view',              component: UserViewPanel, outlet : 'right' },
+
+	{ path:'**',                     component: UnknownPanel },
+];
+
+//=============================================================================
+
+bootstrapApplication(AppComponent, {
+	providers: [
+		importProvidersFrom(BrowserAnimationsModule),
+    importProvidersFrom(HttpClientModule),
+		provideRouter(routes),
+
+    ApplicationService,
+    EventBusService,
+    HttpService,
+    LabelService,
+    MenuService,
+    NotificationService,
+    SessionService,
+    TradingSystemService
+	]
+})
+.catch(err => console.error(err));
 
 //=============================================================================

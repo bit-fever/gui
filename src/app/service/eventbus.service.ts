@@ -15,7 +15,7 @@ import {AppEvent, ErrorEvent, ErrorHandler, EventHandler} from "../model/event";
 //=============================================================================
 
 @Injectable()
-export class EventbusService {
+export class EventBusService {
 
 	//-------------------------------------------------------------------------
 	//---

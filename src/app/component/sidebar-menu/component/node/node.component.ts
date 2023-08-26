@@ -34,10 +34,10 @@ import { trackByItem } from '../../internal/utils';
 //=============================================================================
 
 @Component({
-  selector: 'asm-menu-node',
-  templateUrl: './node.component.html',
-  animations: [openCloseAnimation],
-  changeDetection: ChangeDetectionStrategy.OnPush
+	selector       : 'asm-menu-node',
+	templateUrl    : './node.component.html',
+	animations     : [openCloseAnimation],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 //=============================================================================

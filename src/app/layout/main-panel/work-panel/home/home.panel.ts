@@ -23,7 +23,8 @@ import {Component}  from '@angular/core';
 @Component({
 	selector    :     'home-panel',
 	templateUrl :   './home.panel.html',
-	styleUrls   : [ './home.panel.scss' ]
+	styleUrls   : [ './home.panel.scss' ],
+  standalone  : true
 })
 
 //=============================================================================

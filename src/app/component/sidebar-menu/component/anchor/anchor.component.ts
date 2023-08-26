@@ -6,20 +6,28 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, HostBinding, ViewChild } from '@angular/core';
-import { RouterLinkActive } from '@angular/router';
+import {
+	Component,
+	Input,
+	Output,
+	EventEmitter,
+	ChangeDetectionStrategy,
+	HostBinding,
+	ViewChild
+} from '@angular/core';
+import {RouterLinkActive} from '@angular/router';
 
-import { MenuItem }      from '../../model';
-import { AnchorService } from '../../service/anchor.service';
-import {EventbusService} from "../../../../service/eventbus.service";
-import {AppEvent} from "../../../../model/event";
+import {MenuItem }       from '../../model';
+import {AnchorService}   from '../../service/anchor.service';
+import {EventBusService} from "../../../../service/eventbus.service";
+import {AppEvent}        from "../../../../model/event";
 
 //=============================================================================
 
 @Component({
-  selector: 'asm-menu-anchor',
-  templateUrl: './anchor.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+	selector       : 'asm-menu-anchor',
+	templateUrl    : './anchor.component.html',
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 //=============================================================================
@@ -50,7 +58,7 @@ export class AnchorComponent {
   //-------------------------------------------------------------------------
 
   constructor(public  anchorService  : AnchorService,
-              private eventBusService: EventbusService) {}
+              private eventBusService: EventBusService) {}
 
   //-------------------------------------------------------------------------
   //---

@@ -8,15 +8,20 @@
 
 import { Component } from '@angular/core';
 
+import {MatCardModule} from "@angular/material/card";
 import {Configuration} from "../../../../../model/config";
-import {LabelService} from "../../../../../service/label.service";
+import {LabelService}  from "../../../../../service/label.service";
+import {MatIconModule} from "@angular/material/icon";
+import {MatDividerModule} from "@angular/material/divider";
 
 //=============================================================================
 
 @Component({
 	selector	:    'configuration-panel',
-	templateUrl	:'./configuration.panel.html',
-	styleUrls:	['./configuration.panel.scss' ]
+	templateUrl	:  './configuration.panel.html',
+	styleUrls   : ['./configuration.panel.scss' ],
+	imports     : [ MatCardModule, MatIconModule, MatDividerModule ],
+	standalone  : true
 })
 
 //=============================================================================

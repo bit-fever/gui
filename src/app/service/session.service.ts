@@ -10,7 +10,7 @@ import {Injectable} from '@angular/core';
 
 import {AppEvent}           from "../model/event";
 import {AbstractSubscriber} from "./abstract-subscriber";
-import {EventbusService}    from "./eventbus.service";
+import {EventBusService}    from "./eventbus.service";
 import {HttpService}        from "./http.service";
 
 //=============================================================================
@@ -33,7 +33,7 @@ export class SessionService extends AbstractSubscriber {
 	//---
 	//-------------------------------------------------------------------------
 
-	constructor(eventBusService: EventbusService, private httpService : HttpService) {
+	constructor(eventBusService: EventBusService, private httpService : HttpService) {
 
 		super(eventBusService);
 //		this.clearSession();

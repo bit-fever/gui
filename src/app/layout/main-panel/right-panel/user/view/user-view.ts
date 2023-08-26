@@ -23,7 +23,8 @@ import { Component } from '@angular/core';
 @Component({
 	selector    :     'user-view',
 	templateUrl :   './user-view.html',
-	styleUrls   : [ './user-view.scss' ]
+	styleUrls   : [ './user-view.scss' ],
+  standalone  : true
 })
 
 //=============================================================================

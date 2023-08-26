@@ -7,13 +7,13 @@
 //=============================================================================
 
 import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  ChangeDetectorRef,
-  HostBinding,
+	ChangeDetectionStrategy,
+	Component,
+	Input,
+	OnDestroy,
+	OnInit,
+	ChangeDetectorRef,
+	HostBinding,
 } from '@angular/core';
 import { Event as RouterEvent, NavigationEnd, Router } from '@angular/router';
 
@@ -22,17 +22,17 @@ import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 
 import { MenuItem } from '../../model';
 
-import { RoleService } from '../../service/role.service';
-import { SearchService } from '../../service/search.service';
+import { RoleService }     from '../../service/role.service';
+import { SearchService }   from '../../service/search.service';
 import { rotateAnimation } from '../node/node.animations';
 
 //=============================================================================
 
 @Component({
-  selector: 'li[asm-menu-item][menuItem]',
-  templateUrl: './item.component.html',
-  animations: [rotateAnimation],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+	selector       : 'li[asm-menu-item][menuItem]',
+	templateUrl    : './item.component.html',
+	animations     : [rotateAnimation],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 //=============================================================================
