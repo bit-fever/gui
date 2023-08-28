@@ -13,6 +13,9 @@ import {Configuration} from "../../../../../model/config";
 import {LabelService}  from "../../../../../service/label.service";
 import {MatIconModule} from "@angular/material/icon";
 import {MatDividerModule} from "@angular/material/divider";
+import {AbstractPanel} from "../../../../../component/abstract.panel";
+import {EventBusService} from "../../../../../service/eventbus.service";
+import {MatButtonModule} from "@angular/material/button";
 
 //=============================================================================
 
@@ -20,13 +23,13 @@ import {MatDividerModule} from "@angular/material/divider";
 	selector	:    'configuration-panel',
 	templateUrl	:  './configuration.panel.html',
 	styleUrls   : ['./configuration.panel.scss' ],
-	imports     : [ MatCardModule, MatIconModule, MatDividerModule ],
+	imports     : [ MatCardModule, MatIconModule, MatDividerModule, MatButtonModule ],
 	standalone  : true
 })
 
 //=============================================================================
 
-export class ConfigurationPanel {
+export class ConfigurationPanel extends AbstractPanel {
 
 	//-------------------------------------------------------------------------
 	//---
@@ -45,9 +48,11 @@ export class ConfigurationPanel {
 	//---
 	//-------------------------------------------------------------------------
 
-	constructor(private labelService        : LabelService) {
-	  this.config.language = labelService.getLanguage();
-  }
+	constructor(eventBusService : EventBusService,
+	            labelService    : LabelService) {
+		super(eventBusService, labelService, "admin.config");
+		this.config.language = labelService.getLanguage();
+	}
 
 	//-------------------------------------------------------------------------
 	//---
@@ -58,12 +63,6 @@ export class ConfigurationPanel {
 	// get languages() : any {
 	// 	return this.labelService.getMapping("languages");
 	// }
-
-	//-------------------------------------------------------------------------
-
-	loc(code : string) : string {
-		return this.labelService.getLabel("admin.config", code);
-	}
 
 	//-------------------------------------------------------------------------
 	//---

@@ -51,11 +51,11 @@ export class MenuService extends AbstractSubscriber {
     const menu: Menu = [
       {
         id: 'menu.main',
-        header: this.labelService.getLabel('menu', 'main'),
+        header: this.get('main._label'),
       },
       {
         id: 'menu.main.home',
-        label: this.labelService.getLabel('menu', 'main.home'),
+        label: this.get('main.home'),
         route: '/home',
         iconClasses: 'home'
       },
@@ -64,17 +64,17 @@ export class MenuService extends AbstractSubscriber {
 
       {
         id: 'menu.portfolio',
-        header: this.labelService.getLabel('menu', 'portfolio'),
+        header: this.get('portfolio._label'),
       },
       {
         id: 'menu.portfolio.trading-system',
-        label: this.labelService.getLabel('menu', 'portfolio.trading-system'),
+        label: this.get('portfolio.trading-system'),
         route: '/portfolio/trading-system',
         iconClasses: 'inventory'
       },
       {
         id: 'menu.portfolio.monitoring',
-        label: this.labelService.getLabel('menu', 'portfolio.monitoring'),
+        label: this.get('portfolio.monitoring'),
         route: '/portfolio/monitoring',
         iconClasses: 'monitor_heart'
       },
@@ -83,17 +83,17 @@ export class MenuService extends AbstractSubscriber {
 
       {
         id: 'menu.admin',
-        header: this.labelService.getLabel('menu', 'administration')
+        header: this.get('admin._label')
       },
       {
         id: 'menu.admin.config',
-        label: this.labelService.getLabel('menu', 'admin.config'),
+        label: this.get('admin.config'),
         route: '/admin/config',
         iconClasses: 'tune'
       },
       {
         id: 'menu.link',
-        label: this.labelService.getLabel('menu', 'link'),
+        label: this.get('admin.link'),
         iconClasses: 'http',
         url: '//github.com/bit-fever',
       },
@@ -101,6 +101,12 @@ export class MenuService extends AbstractSubscriber {
 
     this.menu.next(menu);
   }
+
+	//-------------------------------------------------------------------------
+
+	private get(code : string) : string {
+	  return this.labelService.getLabelString("menu."+ code);
+	}
 }
 
 //=============================================================================

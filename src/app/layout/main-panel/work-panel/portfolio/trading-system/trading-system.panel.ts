@@ -6,20 +6,19 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
-
+import {Component}            from '@angular/core';
+import {CommonModule}         from "@angular/common";
+import {MatInputModule}       from "@angular/material/input";
+import {MatCardModule}        from "@angular/material/card";
+import {MatIconModule}        from "@angular/material/icon";
+import {MatButtonModule}      from "@angular/material/button";
+import {TradingSystem}        from "../../../../../model/model";
+import {ListService}          from "../../../../../model/flex-table";
+import {AbstractPanel}        from "../../../../../component/abstract.panel";
+import {FlexTablePanel}       from "../../../../../component/panel/flex-table/flex-table.panel";
 import {LabelService}         from "../../../../../service/label.service";
 import {EventBusService}      from "../../../../../service/eventbus.service";
-import {AbstractPanel}        from "../../../../../component/abstract.panel";
-import {TradingSystem}        from "../../../../../model/model";
 import {TradingSystemService} from "../../../../../service/trading-system.service";
-import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
-import {MatTableDataSource, MatTableModule} from "@angular/material/table";
-import {MatSort, MatSortModule} from "@angular/material/sort";
-import {MatCardModule} from "@angular/material/card";
-import {MatIconModule} from "@angular/material/icon";
-import {MatButtonModule} from "@angular/material/button";
-import {CommonModule} from "@angular/common";
 
 //=============================================================================
 
@@ -27,13 +26,13 @@ import {CommonModule} from "@angular/common";
 	selector    :     'portfolio-trading-system',
 	templateUrl :   './trading-system.panel.html',
 	styleUrls   : [ './trading-system.panel.scss' ],
-	imports     : [ CommonModule, MatButtonModule, MatPaginatorModule, MatTableModule, MatSortModule, MatCardModule, MatIconModule ],
+	imports     : [CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule, FlexTablePanel],
 	standalone  : true
 })
 
 //=============================================================================
 
-export class TradingSystemPanel extends AbstractPanel implements AfterViewInit {
+export class TradingSystemPanel extends AbstractPanel {
 
 	//-------------------------------------------------------------------------
 	//---
@@ -41,12 +40,8 @@ export class TradingSystemPanel extends AbstractPanel implements AfterViewInit {
 	//---
 	//-------------------------------------------------------------------------
 
-	tableColumns: string[] = ['name', 'instrumentId', 'lastPl', 'numTrades', 'tradingDays', 'suggestedAction', 'lastUpdate'];
-	tableData = new MatTableDataSource<TradingSystem>();
-	selRow: any;
-
-	@ViewChild(MatPaginator) paginator: MatPaginator|null = null;
-	@ViewChild(MatSort)      sort     : MatSort     |null = null;
+	columns: string[] = ['name', 'instrumentId', 'lastPl', 'numTrades', 'tradingDays', 'suggestedAction', 'lastUpdate'];
+	service: ListService<TradingSystem>;
 
 	//-------------------------------------------------------------------------
 	//---
@@ -54,11 +49,12 @@ export class TradingSystemPanel extends AbstractPanel implements AfterViewInit {
 	//---
 	//-------------------------------------------------------------------------
 
-	constructor(        eventBusService     : EventBusService,
-	            private labelService        : LabelService,
-				private tradingSystemService: TradingSystemService) {
+	constructor(eventBusService     : EventBusService,
+	            labelService        : LabelService,
+      			tradingSystemService: TradingSystemService) {
 
-		super(eventBusService);
+		super(eventBusService, labelService, "portfolio.trading-system");
+		this.service = tradingSystemService.getTradingSystems
 	}
 
 	//-------------------------------------------------------------------------
@@ -71,38 +67,8 @@ export class TradingSystemPanel extends AbstractPanel implements AfterViewInit {
 
 	//-------------------------------------------------------------------------
 
-	ngAfterViewInit() {
-		this.tableData.paginator = this.paginator;
-		this.tableData.sort      = this.sort;
-		this.reload();
-	}
-
-	//-------------------------------------------------------------------------
-
-	reload = () : void => {
-		this.tradingSystemService.getTradingSystems().subscribe(
-			result => {
-				this.tableData.data = result.result;
-			})
-	}
-
-	//-------------------------------------------------------------------------
-
-	loc(code : string) : string {
-		return this.labelService.getLabel("portfolio.trading-system", code);
-	}
-
-	//-------------------------------------------------------------------------
-
-	onRowClick(row : any) : void {
-		//console.log(JSON.stringify(row));
-		this.selRow = row;
-	}
-
-	//-------------------------------------------------------------------------
-
-	isRowClicked(row : any) : boolean {
-		return row == this.selRow;
+	onRowSelected(selection : TradingSystem[]) {
+		console.log(JSON.stringify(selection))
 	}
 }
 

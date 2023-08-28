@@ -14,6 +14,7 @@ import {MatButtonModule}   from "@angular/material/button";
 import {AppEvent}          from "../../model/event";
 import {EventBusService}   from "../../service/eventbus.service";
 import {LabelService}      from "../../service/label.service";
+import {AbstractPanel} from "../../component/abstract.panel";
 
 //=============================================================================
 
@@ -27,7 +28,7 @@ import {LabelService}      from "../../service/label.service";
 
 //=============================================================================
 
-export class HeaderPanel {
+export class HeaderPanel extends AbstractPanel {
 
 	//-------------------------------------------------------------------------
 	//---
@@ -35,9 +36,10 @@ export class HeaderPanel {
 	//---
 	//-------------------------------------------------------------------------
 
-  constructor(private labelService    : LabelService,
-              private eventBusService : EventBusService
- 	) {}
+	constructor(eventBusService : EventBusService,
+	            labelService    : LabelService) {
+		super(eventBusService, labelService, "header");
+	}
 
 	//-------------------------------------------------------------------------
 	//---
@@ -45,20 +47,16 @@ export class HeaderPanel {
 	//---
 	//-------------------------------------------------------------------------
 
-	loc(key : string) : string {
-		return this.labelService.getLabel("app", key);
+	//-------------------------------------------------------------------------
+	//---
+	//--- Events
+	//---
+	//-------------------------------------------------------------------------
+
+	onMenuClick() {
+		let event : AppEvent = new AppEvent(AppEvent.MENU_BUTTON_CLICK);
+		this.eventBusService.emitToApp(event);
 	}
-
-  //-------------------------------------------------------------------------
-  //---
-  //--- Events
-  //---
-  //-------------------------------------------------------------------------
-
-  onMenuClick() {
-    let event : AppEvent = new AppEvent(AppEvent.MENU_BUTTON_CLICK);
-    this.eventBusService.emitToApp(event);
-  }
 }
 
 //=============================================================================

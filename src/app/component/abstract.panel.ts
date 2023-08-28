@@ -10,6 +10,7 @@ import {Injectable, OnDestroy, OnInit} from "@angular/core";
 
 import {AbstractSubscriber} from "../service/abstract-subscriber";
 import {EventBusService}    from "../service/eventbus.service";
+import {LabelService} from "../service/label.service";
 
 //=============================================================================
 
@@ -22,6 +23,7 @@ export abstract class AbstractPanel extends AbstractSubscriber implements OnInit
 	//---
 	//-------------------------------------------------------------------------
 
+	private pageCode : string;
 
 	//-------------------------------------------------------------------------
 	//---
@@ -29,8 +31,11 @@ export abstract class AbstractPanel extends AbstractSubscriber implements OnInit
 	//---
 	//-------------------------------------------------------------------------
 
-	constructor(eventBusService : EventBusService) {
+	constructor(protected override eventBusService : EventBusService,
+	            protected labelService : LabelService,
+	            pageCode : string) {
 		super(eventBusService)
+		this.pageCode = pageCode;
 	}
 
 	//-------------------------------------------------------------------------
@@ -58,6 +63,16 @@ export abstract class AbstractPanel extends AbstractSubscriber implements OnInit
 
 	protected init    = (): void => {};
 	protected destroy = (): void => {};
+
+	//---------------------------------------------------------------------------
+	//---
+	//--- Public methods
+	//---
+	//---------------------------------------------------------------------------
+
+	public loc = (code : string) : string => {
+		return this.labelService.getLabelString("page."+ this.pageCode +"."+ code);
+	}
 }
 
 //=============================================================================

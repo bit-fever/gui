@@ -40,7 +40,7 @@ export class UnknownPanel {
 	//-------------------------------------------------------------------------
 
 	get message() : string {
-		return this.labelService.getLabel("unknown-url", "message");
+		return this.labelService.getLabelString("page.unknown.message");
 	}
 }
 

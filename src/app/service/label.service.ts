@@ -1,21 +1,16 @@
 //=============================================================================
 //===
-//=== Copyright (C) 2022 Andrea Carboni
+//=== Copyright (C) 2023 Andrea Carboni
 //===
 //=== Use of this source code is governed by an MIT-style license that can be
 //=== found in the LICENSE file
 //=============================================================================
 
-import {Injectable}  from '@angular/core';
-
-import {AppEvent}        from "../model/event";
-import {HttpService}     from "./http.service";
-import {EventBusService} from "./eventbus.service";
-
-//=============================================================================
-
-type LabelMap  = Map<string, string>;
-type EntityMap = Map<string, LabelMap>;
+import {Injectable}       from '@angular/core';
+import {AppEvent}         from "../model/event";
+import {HttpService}      from "./http.service";
+import {EventBusService}  from "./eventbus.service";
+import {parse}            from 'yaml';
 
 //=============================================================================
 
@@ -32,7 +27,7 @@ export class LabelService {
 
 	//-------------------------------------------------------------------------
 
-	private languageMap : Map<String, EntityMap>;
+	private languageMap : Map<String, any>;
 	private language    : string;
 	private loadCounter : number;
 
@@ -46,8 +41,7 @@ export class LabelService {
 	//---
 	//-------------------------------------------------------------------------
 
-	constructor(private httpService    : HttpService,
-                private eventBusService: EventBusService) {
+	constructor(private httpService : HttpService, private eventBusService: EventBusService) {
 
 		this.languageMap = new Map();
 		this.language    = "en";
@@ -78,39 +72,35 @@ export class LabelService {
 
 	//-------------------------------------------------------------------------
 
-	public getLabel(entity : string, code : string) : string {
-
-		if (code == null) {
-			return "???";
-		}
-
-		let labels : LabelMap|undefined = this.getLabelMap(entity);
-
-		if (labels == undefined) {
-			return "?"+entity+"?";
-		}
-
-		let label : string|undefined = labels.get(code);
-
-		if (label == undefined) {
-			return entity+".?"+ code +"?";
-		}
-
-		return label;
+	public getLabelString(code: string) : string {
+		return this.getLabel(code).toString();
 	}
 
 	//-------------------------------------------------------------------------
 
-	public getLabelMap(entity : string) : LabelMap|undefined {
+	public getLabel(code: string) : any {
 
-		let entities : EntityMap|undefined = this.languageMap.get(this.language);
-
-		if (entities != undefined) {
-			return entities.get(entity);
+		if (code == null) {
+			return "?null?";
 		}
 
-		//--- Probably, we are still loading data
-		return undefined;
+		let labels : any|undefined = this.languageMap.get(this.language);
+
+		if (labels == undefined) {
+			return "?not-loaded?";
+		}
+
+		let tokens = code.split(".");
+
+		for (var token of tokens) {
+			labels = labels[token]
+
+			if (labels == undefined) {
+				return "?"+code+"?";
+			}
+		}
+
+		return labels;
 	}
 
 	//-------------------------------------------------------------------------
@@ -128,50 +118,29 @@ export class LabelService {
 
 	private loadLanguageFile(language : string, name : string) {
 
-		let file : string = name +"-"+ language +".json";
+		let file : string = name +"-"+ language +".yaml";
 
-		this.httpService.get("assets/lang/"+ file)
-						.subscribe(	result => this.processFile(language, file, result),
+		this.httpService.get<string>("assets/lang/"+ file, { responseType : "text" })
+			.subscribe(	result => this.processFile(language, file, result),
 									error => console.log("Cannot load labels file : "+ file));
 	}
 
 	//-------------------------------------------------------------------------
 
-	private processFile(language : string, file:string, data : any) : void {
+	private processFile(language : string, file:string, data : string) : void {
 
 		console.log("Loaded labels file : "+ file);
 
-		let entities : EntityMap|undefined = this.languageMap.get(language);
+		let yamlMap: any = parse(data.toString())
+		this.languageMap.set(language, yamlMap);
 
-		if (entities == undefined) {
-			entities = new Map<string, LabelMap>();
-			this.languageMap.set(language, entities);
+		this.loadCounter--;
+
+		if (this.loadCounter == 0) {
+			console.log("All language files has been loaded. Localization is ready.");
+			this.eventBusService.emitToApp(new AppEvent(AppEvent.LOCALIZATION_READY));
 		}
-
-		for (let key in data) {
-			entities.set(key, this.buildLabelMap(data[key]));
-		}
-
-    this.loadCounter--;
-
-    if (this.loadCounter == 0) {
-      console.log("All language files has been loaded. Localization is ready.");
-      this.eventBusService.emitToApp(new AppEvent(AppEvent.LOCALIZATION_READY));
-    }
 	}
-
-  //-------------------------------------------------------------------------
-
-  private buildLabelMap(data : any) : LabelMap {
-
-    let labels = new Map<string, string>();
-
-    for (let key in data) {
-      labels.set(key, data[key]);
-    }
-
-    return labels;
-  }
 }
 
 //=============================================================================

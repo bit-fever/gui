@@ -32,7 +32,7 @@ export abstract class AbstractSubscriber {
 	//---
 	//-------------------------------------------------------------------------
 
-	constructor(private eventBusService : EventBusService) {}
+	constructor(protected eventBusService : EventBusService) {}
 
 	//-------------------------------------------------------------------------
 	//---

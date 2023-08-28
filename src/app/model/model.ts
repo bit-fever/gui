@@ -6,15 +6,6 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-export class ListResponse<T = any> {
-	offset  : number  = 0;
-	limit   : number  = 0;
-	overflow: boolean = false;
-	result  : T[]     = [];
-}
-
-//=============================================================================
-
 export class Portfolio {
   id             : number|null = null;
   name           : string|null = null;

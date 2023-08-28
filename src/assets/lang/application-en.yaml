@@ -1,0 +1,57 @@
+
+# ==============================================================================
+
+menu:
+  main:
+    _label: "Main"
+    home: "Home"
+  portfolio:
+    _label: "Portfolio"
+    trading-system: "Trading systems"
+    monitoring: "Monitoring"
+  admin:
+    _label: "Administration"
+    config: "Configuration"
+    link: "GitHub"
+
+# ==============================================================================
+
+flex-table:
+
+# ==============================================================================
+
+model:
+  trading-system:
+    id             : "Id"
+    code           : "Code"
+    name           : "Name"
+    instrumentId   : "Instrument"
+    portfolioId    : "Portfolio"
+    firstUpdate    : "First update"
+    lastUpdate     : "Last update"
+    lastPl         : "Last P/L"
+    tradingDays    : "Trading days"
+    numTrades      : "Num. of trades"
+    filterType     : "Filter type"
+    filter         : "Filter"
+    suggestedAction: "Sugg. action"
+    createdAt      : "Created at"
+    updatedAt      : "Updated at"
+
+# ==============================================================================
+# ===
+# === Pages
+# ===
+# ==============================================================================
+
+page:
+  header:
+    title: "BitFever platform"
+  unknown:
+    message: Unknown page
+  admin:
+    config:
+      title: Configuration
+  portfolio:
+    trading-system:
+      title: Trading systems
