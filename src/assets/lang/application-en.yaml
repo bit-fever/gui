@@ -1,42 +1,70 @@
+# ==============================================================================
+# ===
+# === Buttons
+# ===
+# ==============================================================================
 
+button:
+  view: VIEW
+
+# ==============================================================================
+# ===
+# === Left menu
+# ===
 # ==============================================================================
 
 menu:
   main:
-    _label: "Main"
-    home: "Home"
+    _label: Main
+    home: Home
   portfolio:
-    _label: "Portfolio"
-    trading-system: "Trading systems"
-    monitoring: "Monitoring"
+    _label: Portfolio
+    trading-system: Trading systems
+    monitoring: Monitoring
   admin:
-    _label: "Administration"
-    config: "Configuration"
-    link: "GitHub"
+    _label: Administration
+    config: Configuration
+    link: GitHub
 
+# ==============================================================================
+# ===
+# === Flex table
+# ===
 # ==============================================================================
 
 flex-table:
+  no-data: No data
 
+# ==============================================================================
+# ===
+# === Model
+# ===
 # ==============================================================================
 
 model:
   trading-system:
-    id             : "Id"
-    code           : "Code"
-    name           : "Name"
-    instrumentId   : "Instrument"
-    portfolioId    : "Portfolio"
-    firstUpdate    : "First update"
-    lastUpdate     : "Last update"
-    lastPl         : "Last P/L"
-    tradingDays    : "Trading days"
-    numTrades      : "Num. of trades"
-    filterType     : "Filter type"
-    filter         : "Filter"
-    suggestedAction: "Sugg. action"
-    createdAt      : "Created at"
-    updatedAt      : "Updated at"
+    id              : Id
+    code            : Code
+    name            : Name
+    instrumentTicker: Instrument
+    portfolioName   : Portfolio
+    firstUpdate     : First update
+    lastUpdate      : Last update
+    lastPl          : Last P/L
+    tradingDays     : Trading days
+    numTrades       : Num. of trades
+    filterType      : Filter type
+    filter          : Filter
+    suggestedAction : Sugg. action
+    createdAt       : Created at
+    updatedAt       : Updated at
+
+  instrument:
+    id             : Id
+    ticker         : Ticker;
+    name           : Name;
+    createdAt      : Created at
+    updatedAt      : Updated at
 
 # ==============================================================================
 # ===
@@ -46,7 +74,7 @@ model:
 
 page:
   header:
-    title: "BitFever platform"
+    title: BitFever platform
   unknown:
     message: Unknown page
   admin:

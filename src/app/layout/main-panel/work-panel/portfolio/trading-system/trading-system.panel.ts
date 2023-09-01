@@ -6,19 +6,21 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {Component}            from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {CommonModule}         from "@angular/common";
 import {MatInputModule}       from "@angular/material/input";
 import {MatCardModule}        from "@angular/material/card";
 import {MatIconModule}        from "@angular/material/icon";
 import {MatButtonModule}      from "@angular/material/button";
-import {TradingSystem}        from "../../../../../model/model";
-import {ListService}          from "../../../../../model/flex-table";
+import {TradingSystem, TradingSystemFull} from "../../../../../model/model";
+import {FlexTableColumn, ListService} from "../../../../../model/flex-table";
 import {AbstractPanel}        from "../../../../../component/abstract.panel";
 import {FlexTablePanel}       from "../../../../../component/panel/flex-table/flex-table.panel";
 import {LabelService}         from "../../../../../service/label.service";
 import {EventBusService}      from "../../../../../service/eventbus.service";
 import {TradingSystemService} from "../../../../../service/trading-system.service";
+import {AppEvent} from "../../../../../model/event";
+import {IntDateTranscoder, SuggestedActionTranscoder} from "../../../../../component/panel/flex-table/transcoders";
 
 //=============================================================================
 
@@ -40,8 +42,11 @@ export class TradingSystemPanel extends AbstractPanel {
 	//---
 	//-------------------------------------------------------------------------
 
-	columns: string[] = ['name', 'instrumentId', 'lastPl', 'numTrades', 'tradingDays', 'suggestedAction', 'lastUpdate'];
-	service: ListService<TradingSystem>;
+	columns: FlexTableColumn[] = [];
+	service: ListService<TradingSystemFull>;
+  disView: boolean = true;
+
+  @ViewChild("table") table : FlexTablePanel<TradingSystemFull>|null = null;
 
 	//-------------------------------------------------------------------------
 	//---
@@ -55,6 +60,7 @@ export class TradingSystemPanel extends AbstractPanel {
 
 		super(eventBusService, labelService, "portfolio.trading-system");
 		this.service = tradingSystemService.getTradingSystems
+		super.subscribeToApp(AppEvent.LOCALIZATION_READY, (event : AppEvent) => this.setup());
 	}
 
 	//-------------------------------------------------------------------------
@@ -67,9 +73,56 @@ export class TradingSystemPanel extends AbstractPanel {
 
 	//-------------------------------------------------------------------------
 
-	onRowSelected(selection : TradingSystem[]) {
-		console.log(JSON.stringify(selection))
+	onRowSelected(selection : TradingSystemFull[]) {
+    this.updateButtons(selection);
 	}
+
+  //-------------------------------------------------------------------------
+
+  onViewClick() {
+    // @ts-ignore
+    let selection = this.table.getSelection();
+
+    if (selection.length > 0) {
+      console.log(JSON.stringify(selection))
+    }
+  }
+
+	//-------------------------------------------------------------------------
+	//---
+	//--- Init methods
+	//---
+	//-------------------------------------------------------------------------
+
+	setup = () => {
+		this.setupColumns();
+	}
+
+	//-------------------------------------------------------------------------
+
+	setupColumns = () => {
+		let ts = this.labelService.getLabel("model.trading-system");
+
+		this.columns = [
+			new FlexTableColumn(ts, "name"),
+			new FlexTableColumn(ts, "instrumentTicker"),
+			new FlexTableColumn(ts, "lastPl"),
+			new FlexTableColumn(ts, "tradingDays"),
+			new FlexTableColumn(ts, "numTrades"),
+			new FlexTableColumn(ts, "suggestedAction", undefined, new SuggestedActionTranscoder()),
+			new FlexTableColumn(ts, "lastUpdate", new IntDateTranscoder()),
+		]
+	}
+
+  //-------------------------------------------------------------------------
+  //---
+  //--- Private methods
+  //---
+  //-------------------------------------------------------------------------
+
+  private updateButtons = (selection : TradingSystemFull[]) => {
+    this.disView = (selection.length != 1)
+  }
 }
 
 //=============================================================================

@@ -24,26 +24,41 @@ export type ListService<T> = (params? : any) => Observable<ListResponse<T>>;
 //=============================================================================
 
 export class FlexTableColumn {
-  column?      : string;
-  header?      : string;
+  column      : string;
+  header      : string;
   transcoder?  : Transcoder;
   iconStyler?  : IconStyler;
+
+  constructor(obj:any, column : string, transCoder? : Transcoder, iconStyler? : IconStyler) {
+    this.column     = column;
+    this.header     = obj[column];
+    this.transcoder = transCoder;
+    this.iconStyler = iconStyler;
+  }
 }
 
 //=============================================================================
 
-export type Transcoder = (value : any, row? : any) => string;
+export interface Transcoder {
+	transcode(value: any, row?: any): string;
+}
 
 //=============================================================================
 
-export type IconStyler = (value : any, row? : any) => IconStyle;
-
+export interface IconStyler {
+	getStyle(value : any, row? : any) : IconStyle;
+}
 
 //=============================================================================
 
 export class IconStyle {
   icon?  : string;
   color? : string;
+
+  constructor(icon : string, color? : string) {
+    this.icon = icon;
+    this.color= color;
+  }
 }
 
 //=============================================================================

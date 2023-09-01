@@ -6,11 +6,11 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {Injectable}     from "@angular/core";
-import {HttpService}    from "./http.service";
-import {Observable}     from "rxjs";
-import {TradingSystem}  from "../model/model";
-import {ListResponse}   from "../model/flex-table";
+import {Injectable}        from "@angular/core";
+import {Observable}        from "rxjs";
+import {TradingSystemFull} from "../model/model";
+import {ListResponse}      from "../model/flex-table";
+import {HttpService}       from "./http.service";
 
 //=============================================================================
 
@@ -23,9 +23,7 @@ export class TradingSystemService {
   //---
   //---------------------------------------------------------------------------
 
-  constructor(private httpService: HttpService) {
-
-  }
+  constructor(private httpService: HttpService) {}
 
   //---------------------------------------------------------------------------
   //---
@@ -33,8 +31,8 @@ export class TradingSystemService {
   //---
   //---------------------------------------------------------------------------
 
-  public getTradingSystems = (): Observable<ListResponse<TradingSystem>> => {
-    return this.httpService.get<ListResponse<TradingSystem>>('/api/portfolio/v1/trading-systems');
+  public getTradingSystems = (): Observable<ListResponse<TradingSystemFull>> => {
+    return this.httpService.get<ListResponse<TradingSystemFull>>('/api/portfolio/v1/trading-systems');
   }
 }
 

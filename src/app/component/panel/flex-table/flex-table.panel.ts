@@ -16,7 +16,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {LabelService} from "../../../service/label.service";
-import {ListService} from "../../../model/flex-table";
+import {FlexTableColumn, ListService} from "../../../model/flex-table";
+import {MatButtonModule} from "@angular/material/button";
 
 //=============================================================================
 
@@ -24,7 +25,7 @@ import {ListService} from "../../../model/flex-table";
   selector    :     'flex-table',
   templateUrl :   './flex-table.panel.html',
   styleUrls   : [ './flex-table.panel.scss' ],
-  imports     : [ CommonModule, MatTableModule, MatSortModule, MatIconModule, MatFormFieldModule, MatInputModule, MatCheckboxModule ],
+  imports: [CommonModule, MatTableModule, MatSortModule, MatIconModule, MatFormFieldModule, MatInputModule, MatCheckboxModule, MatButtonModule],
   standalone  : true
 })
 
@@ -47,7 +48,7 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
 
   //-------------------------------------------------------------------------
 
-  tableColumns    : string[] = [];
+  tableColumns    : FlexTableColumn[] = [];
   displayedColumns: string[] = [];
   tableData = new MatTableDataSource<T>();
   selection = new SelectionModel<T>(true, []);
@@ -66,16 +67,16 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
   //---
   //-------------------------------------------------------------------------
 
-  get columns(): string[] {
+  get columns(): FlexTableColumn[] {
     return this.tableColumns;
   }
 
   //-------------------------------------------------------------------------
 
   @Input()
-  set columns(value: string[]) {
+  set columns(value: FlexTableColumn[]) {
     this.tableColumns     = value;
-    this.displayedColumns = ["select", ...value]
+    this.displayedColumns = ["select", ...value.map( c => c.column )]
   }
 
   //-------------------------------------------------------------------------
@@ -104,9 +105,9 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
 
   //-------------------------------------------------------------------------
 
-  // loc(code : string) : string {
-  //   return this.labelService.getLabel(this.locCode, code);
-  // }
+  loc(code : string) : string {
+    return this.labelService.getLabelString("flex-table."+ code);
+  }
 
   //-------------------------------------------------------------------------
 
@@ -141,6 +142,12 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.tableData.filter = filterValue.trim().toLowerCase();
+  }
+
+  //-------------------------------------------------------------------------
+
+  public getSelection = () : T[] => {
+    return this.selection.selected
   }
 }
 

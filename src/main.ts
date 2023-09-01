@@ -24,6 +24,7 @@ import {NotificationService} from "./app/service/notification.service";
 import {SessionService} from "./app/service/session.service";
 import {TradingSystemService} from "./app/service/trading-system.service";
 import {HttpClientModule} from "@angular/common/http";
+import {InstrumentService} from "./app/service/instrument.service";
 
 //=============================================================================
 
@@ -43,17 +44,18 @@ const routes: Routes = [
 bootstrapApplication(AppComponent, {
 	providers: [
 		importProvidersFrom(BrowserAnimationsModule),
-    importProvidersFrom(HttpClientModule),
+        importProvidersFrom(HttpClientModule),
 		provideRouter(routes),
 
-    ApplicationService,
-    EventBusService,
-    HttpService,
-    LabelService,
-    MenuService,
-    NotificationService,
-    SessionService,
-    TradingSystemService
+	    ApplicationService,
+	    EventBusService,
+	    HttpService,
+		InstrumentService,
+	    LabelService,
+	    MenuService,
+	    NotificationService,
+	    SessionService,
+	    TradingSystemService
 	]
 })
 .catch(err => console.error(err));
