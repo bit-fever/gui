@@ -8,9 +8,17 @@
 
 export class Portfolio {
   id?        : number;
+  parentId?  : number;
   name?      : string;
   createdAt? : string;
   updatedAt? : string;
+}
+
+//=============================================================================
+
+export class PortfolioTree extends Portfolio {
+  children      : PortfolioTree[] = [];
+  tradingSystems: TradingSystem[] = [];
 }
 
 //=============================================================================

@@ -83,3 +83,5 @@ page:
   portfolio:
     trading-system:
       title: Trading systems
+    monitoring:
+      title: Portfolio monitoring

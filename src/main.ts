@@ -10,7 +10,7 @@ import {importProvidersFrom}     from "@angular/core";
 import {bootstrapApplication}    from '@angular/platform-browser';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {AppComponent}            from "./app/layout/app.component";
-import {provideRouter, RouterModule, Routes} from "@angular/router";
+import {provideRouter, Routes} from "@angular/router";
 import {HomePanel} from "./app/layout/main-panel/work-panel/home/home.panel";
 import {TradingSystemPanel} from "./app/layout/main-panel/work-panel/portfolio/trading-system/trading-system.panel";
 import {ConfigurationPanel} from "./app/layout/main-panel/work-panel/admin/configuration/configuration.panel";
@@ -25,6 +25,8 @@ import {SessionService} from "./app/service/session.service";
 import {TradingSystemService} from "./app/service/trading-system.service";
 import {HttpClientModule} from "@angular/common/http";
 import {InstrumentService} from "./app/service/instrument.service";
+import {MonitoringPanel} from "./app/layout/main-panel/work-panel/portfolio/monitoring/monitoring.panel";
+import {PortfolioService} from "./app/service/portfolio.service";
 
 //=============================================================================
 
@@ -32,7 +34,8 @@ const routes: Routes = [
 	{ path:'',                          redirectTo:'home', pathMatch: 'full'       },
 
 	{ path:'home',                      component: HomePanel                       },
-	{ path:'portfolio/trading-system',  component: TradingSystemPanel          },
+	{ path:'portfolio/trading-system',  component: TradingSystemPanel              },
+  { path:'portfolio/monitoring',      component: MonitoringPanel                 },
 	{ path:'admin/config',              component: ConfigurationPanel              },
 	// { path:'user-view',              component: UserViewPanel, outlet : 'right' },
 
@@ -44,18 +47,19 @@ const routes: Routes = [
 bootstrapApplication(AppComponent, {
 	providers: [
 		importProvidersFrom(BrowserAnimationsModule),
-        importProvidersFrom(HttpClientModule),
+    importProvidersFrom(HttpClientModule),
 		provideRouter(routes),
 
-	    ApplicationService,
-	    EventBusService,
-	    HttpService,
+    ApplicationService,
+    EventBusService,
+    HttpService,
 		InstrumentService,
-	    LabelService,
-	    MenuService,
-	    NotificationService,
-	    SessionService,
-	    TradingSystemService
+    LabelService,
+    MenuService,
+    NotificationService,
+    PortfolioService,
+    SessionService,
+    TradingSystemService
 	]
 })
 .catch(err => console.error(err));

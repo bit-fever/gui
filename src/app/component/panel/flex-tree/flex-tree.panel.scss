@@ -1,0 +1,39 @@
+//=============================================================================
+//===
+//=== Copyright (C) 2023 Andrea Carboni
+//===
+//=== Use of this source code is governed by an MIT-style license that can be
+//=== found in the LICENSE file
+//=============================================================================
+
+.flex-tree-invisible {
+  display: none;
+}
+
+.flex-tree ul, .flex-tree li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+}
+
+/* This padding sets alignment of the nested nodes. */
+.flex-tree .mat-nested-tree-node div[role=group] {
+  padding-left: 30px;
+}
+
+/* Padding for leaf nodes. */
+.flex-tree div[role=group] > .mat-tree-node {
+  padding-left: 30px;
+}
+
+.flex-tree mat-tree-node div[role=treeitem]:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.flex-tree mat-nested-tree-node div[role=treeitem]:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+//=============================================================================

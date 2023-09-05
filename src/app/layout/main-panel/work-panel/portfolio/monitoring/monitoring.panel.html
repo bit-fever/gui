@@ -1,0 +1,23 @@
+<mat-card class="panel-style">
+  <mat-card-header>
+    <div mat-card-avatar>
+      <mat-icon fontIcon="monitor_heart"></mat-icon>
+    </div>
+
+    <mat-card-title>{{loc('title')}}</mat-card-title>
+  </mat-card-header>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <mat-card-actions>
+  </mat-card-actions>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <mat-card-content>
+    <flex-tree
+      [roots]       = "roots"
+      [nodeProvider]= "nodeProvider"
+    ></flex-tree>
+  </mat-card-content>
+</mat-card>
