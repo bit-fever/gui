@@ -6,8 +6,32 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-.panel-style {
-	margin: 16px;
+.main-panel {
+  //position : relative;
+  //display  : block;
+  //overflow : auto;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 0;
+  height   : 100%;
+  overflow: hidden;
+}
+
+//=============================================================================
+
+.toolbar-panel {
+
+}
+
+//=============================================================================
+
+.table-panel {
+  flex: 1 1 auto;
+  overflow: auto;
 }
 
 //=============================================================================

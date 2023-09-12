@@ -6,32 +6,46 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-.spacer {
+.search-panel {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 0;
+}
+
+//-----------------------------------------------------------------------------
+
+.search-field {
   flex: 1 1 auto;
 }
 
-table {
-  width: 100%;
-}
+//=============================================================================
 
 .mat-mdc-row .mat-mdc-cell {
   border-top: 1px solid transparent;
   cursor: pointer;
 }
 
+//-----------------------------------------------------------------------------
+
 .mat-mdc-row:hover .mat-mdc-cell {
   border-color: currentColor;
 }
+
+//-----------------------------------------------------------------------------
 
 .mat-mdc-form-field {
   font-size: 14px;
   width: 90%;
 }
 
-.table-data-container {
-  min-height: 200px;
-  max-height: 512px;
-  overflow: auto;
+//-----------------------------------------------------------------------------
+
+.mat-mdc-form-field-infix {
+  min-height: 40px;
 }
 
 //=============================================================================
+

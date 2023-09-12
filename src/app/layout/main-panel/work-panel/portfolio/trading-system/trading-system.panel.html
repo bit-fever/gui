@@ -1,26 +1,16 @@
-<mat-card class="panel-style">
-	<mat-card-header>
-		<div mat-card-avatar>
-			<mat-icon fontIcon="inventory"></mat-icon>
-		</div>
-
-		<mat-card-title>{{loc('title')}}</mat-card-title>
-	</mat-card-header>
-
+<div class="main-panel">
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-	<mat-card-actions>
+	<div class="toolbar-panel">
 		<button mat-button (click)="onViewClick()" [disabled]="disView">{{button("view")}}</button>
-	</mat-card-actions>
+	</div>
 
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-	<mat-card-content>
-    <flex-table #table
-        locCode       = "pages.portfolio.trading-system"
-        [columns]     = "columns"
-        [dataProvider]= "service"
-        (onRowsSelected)="onRowSelected($event)"
-    ></flex-table>
-	</mat-card-content>
-</mat-card>
+  <flex-table #table class="table-panel"
+      locCode       = "pages.portfolio.trading-system"
+      [columns]     = "columns"
+      [dataProvider]= "service"
+      (onRowsSelected)="onRowSelected($event)"
+  ></flex-table>
+</div>

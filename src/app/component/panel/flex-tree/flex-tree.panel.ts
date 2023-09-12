@@ -38,7 +38,7 @@ export class FlexTreePanel<T> {
   //-------------------------------------------------------------------------
 
   @Input()  nodeProvider   : TreeNodeProvider<T>;
-  @Output() onRowsSelected : EventEmitter<T> = new EventEmitter<T>();
+  @Output() onNodeSelected : EventEmitter<T> = new EventEmitter<T>();
 
   //-------------------------------------------------------------------------
 
@@ -94,7 +94,7 @@ export class FlexTreePanel<T> {
   onClick = (node : T) => {
     this.selection.clear()
     this.selection.select(node);
-    console.log(JSON.stringify(node))
+    this.onNodeSelected.emit(node);
   }
 
   //-------------------------------------------------------------------------

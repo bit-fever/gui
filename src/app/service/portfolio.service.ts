@@ -31,7 +31,7 @@ export class PortfolioService {
   //---------------------------------------------------------------------------
 
   public getPortfolioTree = (): Observable<PortfolioTree[]> => {
-    return this.httpService.get<PortfolioTree[]>('/api/portfolio/v1/portfolio-tree');
+    return this.httpService.get<PortfolioTree[]>('/api/portfolio/v1/portfolio/tree');
   }
 }
 

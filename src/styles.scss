@@ -9,7 +9,7 @@
 @import "styles/variables";
 @import "styles/material";
 @import "styles/sidebar-menu-theme.scss";
-@import '~normalize.css/normalize.css';
+@import 'normalize.css/normalize.css';
 
 //=============================================================================
 
@@ -25,8 +25,29 @@ body {
   margin     : 0;
   font-weight: 300;
   color: #495057;
-  font-size: 14px;
   font-family: $font-family;
+  --mat-toolbar-standard-height: 48px;
+  --mat-table-row-item-container-height: 40px;
+}
+
+//=============================================================================
+
+.mat-mdc-list-base {
+  --mdc-list-list-item-one-line-container-height: 32px;
+  --mdc-list-list-item-label-text-size: 13px;
+}
+
+.mat-tree-node, .mat-nested-tree-node {
+  font-size: 13px;
+}
+
+mat-nested-tree-node .mat-mdc-icon-button.mat-mdc-button-base {
+  --mdc-icon-button-state-layer-size: 32px;
+  padding: 3px 0 0 0;
+}
+
+.mat-tree-node {
+  min-height: 16px;
 }
 
 //=============================================================================

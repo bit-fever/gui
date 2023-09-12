@@ -69,7 +69,10 @@ export class TradingSystemPanel extends AbstractPanel {
 	//---
 	//-------------------------------------------------------------------------
 
-	override init = () : void => {}
+	override init = () : void => {
+    //--- The LOCALIZATION_READY cannot be monitored if the component is not yet created
+    this.setup();
+  }
 
 	//-------------------------------------------------------------------------
 

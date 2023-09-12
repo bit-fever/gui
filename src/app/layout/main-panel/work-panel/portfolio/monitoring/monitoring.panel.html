@@ -1,23 +1,37 @@
-<mat-card class="panel-style">
-  <mat-card-header>
-    <div mat-card-avatar>
-      <mat-icon fontIcon="monitor_heart"></mat-icon>
+<div class="main-layout">
+
+  <div mat-card-avatar>
+    <mat-icon fontIcon="monitor_heart"></mat-icon>
+    <span>{{loc('title')}}</span>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <div class="panel-layout">
+    <div class="tree-layout">
+      <span>{{loc("portfolios")}}</span>
+      <mat-divider></mat-divider>
+      <flex-tree
+        [roots]         = "roots"
+        [nodeProvider]  = "nodeProvider"
+        (onNodeSelected)="onNodeSelected($event)"
+      ></flex-tree>
     </div>
 
-    <mat-card-title>{{loc('title')}}</mat-card-title>
-  </mat-card-header>
+    <div class="list-layout">
+      <span>{{loc("trading-systems")}}</span>
+      <mat-divider></mat-divider>
+      <mat-selection-list #tsList>
+        <mat-list-option *ngFor="let ts of tradingSystems">
+          {{ts.name}}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
 
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-  <mat-card-actions>
-  </mat-card-actions>
-
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-  <mat-card-content>
-    <flex-tree
-      [roots]       = "roots"
-      [nodeProvider]= "nodeProvider"
-    ></flex-tree>
-  </mat-card-content>
-</mat-card>
+    <div class="chart-layout">
+      <canvas  id="MyChart" >{{ chart }}</canvas>
+    </div>
+  </div>
+</div>

@@ -6,8 +6,45 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-.panel-style {
-  margin: 16px;
+.main-layout {
+  margin: 0 16px 0 16px;
+  position : relative;
+  height   : 100%;
+  overflow : auto;
+  display  : flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 16px 16px;
+}
+
+//=============================================================================
+
+.panel-layout {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 16px 16px;
+  flex: 1 1 auto;
+}
+
+//=============================================================================
+
+.tree-layout {
+}
+
+//=============================================================================
+
+.list-layout {
+}
+
+//=============================================================================
+
+.chart-layout {
+  flex: 1 1 auto;
 }
 
 //=============================================================================
