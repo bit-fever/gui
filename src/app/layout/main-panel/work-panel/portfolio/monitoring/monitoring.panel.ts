@@ -8,20 +8,28 @@
 
 import {Component, ViewChild} from '@angular/core';
 import {CommonModule}            from "@angular/common";
-import {MatCardModule}           from "@angular/material/card";
 import {MatIconModule}           from "@angular/material/icon";
 import {MatButtonModule}         from "@angular/material/button";
-import {MatTreeModule}           from "@angular/material/tree";
-import {Chart}                   from "chart.js/auto";
 import {AbstractPanel}           from "../../../../../component/abstract.panel";
 import {LabelService}            from "../../../../../service/label.service";
 import {EventBusService}         from "../../../../../service/eventbus.service";
 import {FlexTreePanel}           from "../../../../../component/panel/flex-tree/flex-tree.panel";
 import {TreeNodeProvider}        from "../../../../../model/flex-tree";
 import {PortfolioService}        from "../../../../../service/portfolio.service";
-import {PortfolioTree, TradingSystem} from "../../../../../model/model";
-import {MatListModule} from "@angular/material/list";
+import {
+  PortfolioMonitoringResponse,
+  PortfolioTree,
+  TradingSystem
+} from "../../../../../model/model";
 import {MatDividerModule} from "@angular/material/divider";
+import {FlexTablePanel} from "../../../../../component/panel/flex-table/flex-table.panel";
+import {FlexTableColumn} from "../../../../../model/flex-table";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatSelectChange, MatSelectModule} from "@angular/material/select";
+import {AppEvent} from "../../../../../model/event";
+import {MatSlideToggleChange, MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {createChart} from "./chart-management";
+import {ChartOptions, ChartType} from "./model";
 
 //=============================================================================
 
@@ -50,8 +58,8 @@ class PorfolioNodeProvider implements TreeNodeProvider<PortfolioTree> {
   selector    :     'portfolio-monitoring',
   templateUrl :   './monitoring.panel.html',
   styleUrls   : [ './monitoring.panel.scss' ],
-  imports     : [CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatTreeModule,
-                 MatListModule, MatDividerModule, FlexTreePanel],
+  imports     : [CommonModule, MatButtonModule, MatIconModule, MatDividerModule, MatFormFieldModule,
+                 MatSelectModule, MatSlideToggleModule, FlexTreePanel, FlexTablePanel],
   standalone  : true
 })
 
@@ -65,13 +73,24 @@ export class MonitoringPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  roots : PortfolioTree[] = [];
   nodeProvider = new PorfolioNodeProvider();
+  roots         : PortfolioTree[] = [];
   tradingSystems: TradingSystem[] = [];
+  columns       : FlexTableColumn[] = [];
 
-  chart : any;
+  chart     : any;
+  periods   : any;
+  chartTypes: any;
 
-  @ViewChild("tsList") matList = null;
+  options = new ChartOptions();
+
+  selectedPeriod   : number   = 30;
+  selectedChartType: string   = ChartType.Equities;
+  selectedIds      : number[] = [];
+  serviceResponse  : PortfolioMonitoringResponse|null = null;
+
+  // @ts-ignore
+  @ViewChild("tsTable") flexTable : FlexTablePanel;
 
   //-------------------------------------------------------------------------
   //---
@@ -84,6 +103,7 @@ export class MonitoringPanel extends AbstractPanel {
               private portfolioService : PortfolioService) {
 
     super(eventBusService, labelService, "portfolio.monitoring");
+    super.subscribeToApp(AppEvent.LOCALIZATION_READY, (event : AppEvent) => this.setupAfterLanguageLoaded());
   }
 
   //-------------------------------------------------------------------------
@@ -93,12 +113,26 @@ export class MonitoringPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   override init = () : void => {
-    this.createLineChart();
+    this.setupAfterLanguageLoaded();
     this.portfolioService.getPortfolioTree().subscribe(
       result => {
         this.roots = result;
       }
     )
+  }
+
+  //-------------------------------------------------------------------------
+
+  private setupAfterLanguageLoaded = () => {
+    this.setupColumns();
+    this.periods    = this.labelMap("periods");
+    this.chartTypes = this.labelMap("chartTypes");
+
+    this.options.labelTotRawProfit   = this.loc("totalRawProfit")
+    this.options.labelTotNetProfit   = this.loc("totalNetProfit")
+    this.options.labelTotRawDrawdown = this.loc("totalRawDrawdown")
+    this.options.labelTotNetDrawdown = this.loc("totalNetDrawdown")
+    this.options.labelTotTrades      = this.loc("totalTrades")
   }
 
   //-------------------------------------------------------------------------
@@ -116,12 +150,105 @@ export class MonitoringPanel extends AbstractPanel {
 
       return 0;
     });
+
+    this.flexTable.clearSelection();
+    this.destroyChart();
+    this.selectedIds = [];
+  }
+
+  //-------------------------------------------------------------------------
+
+  onRowSelected(selection : TradingSystem[]) {
+    // @ts-ignore
+    this.selectedIds = selection.map( ts => ts.id);
+    this.reload(true);
+  }
+
+  //-------------------------------------------------------------------------
+
+  onPeriodChange(e: MatSelectChange) {
+    this.selectedPeriod = e.value;
+    this.reload(true);
+  }
+
+  //-------------------------------------------------------------------------
+
+  onChartTypeChange(e : MatSelectChange) {
+    this.options.chartType = e.value;
+    this.reload(false);
+  }
+
+  //-------------------------------------------------------------------------
+
+  onTotalsChange(e : MatSlideToggleChange) {
+    this.options.showTotals = e.checked;
+    this.reload(false);
+  }
+
+  //-------------------------------------------------------------------------
+
+  onRawProfitChange(e : MatSlideToggleChange) {
+    this.options.showRawProfit = e.checked;
+    this.reload(false);
+  }
+
+  //-------------------------------------------------------------------------
+
+  onNetProfitChange(e : MatSlideToggleChange) {
+    this.options.showNetProfit = e.checked;
+    this.reload(false);
+  }
+
+  //-------------------------------------------------------------------------
+
+  onRawDrawdownChange(e : MatSlideToggleChange) {
+    this.options.showRawDrawdown = e.checked;
+    this.reload(false);
+  }
+
+  //-------------------------------------------------------------------------
+
+  onNetDrawdownChange(e : MatSlideToggleChange) {
+    this.options.showNetDrawdown = e.checked;
+    this.reload(false);
   }
 
   //-------------------------------------------------------------------------
   //---
   //--- Private methods
   //---
+  //-------------------------------------------------------------------------
+
+  private reload = (callService : boolean) => {
+    this.destroyChart();
+
+    if (this.selectedIds.length == 0) {
+      return;
+    }
+
+    if (callService) {
+      this.portfolioService.getPortfolioMonitoring(this.selectedIds, this.selectedPeriod).subscribe(
+        result => {
+          this.serviceResponse = result;
+          this.chart = createChart(this.options, result);
+        }
+      )
+    }
+    else if (this.serviceResponse != null) {
+      this.chart = createChart(this.options, this.serviceResponse);
+    }
+  }
+
+  //-------------------------------------------------------------------------
+
+  private setupColumns = () => {
+    let ts = this.labelService.getLabel("model.tradingSystem");
+
+    this.columns = [
+      new FlexTableColumn(ts, "name"),
+    ]
+  }
+
   //-------------------------------------------------------------------------
 
   private buildTSList(node : PortfolioTree) : TradingSystem[] {
@@ -137,64 +264,11 @@ export class MonitoringPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  createBarChart(){
-
-    this.chart = new Chart("MyChart", {
-      type: 'bar', //this denotes tha type of chart
-
-      data: {// values on X-Axis
-        labels: ['2022-05-10', '2022-05-11', '2022-05-12','2022-05-13',
-          '2022-05-14', '2022-05-15', '2022-05-16','2022-05-17', ],
-        datasets: [
-          {
-            label: "Sales",
-            data: ['467','576', '572', '79', '92',
-              '574', '573', '576'],
-            backgroundColor: 'blue'
-          },
-          {
-            label: "Profit",
-            data: ['542', '542', '536', '327', '17',
-              '0.00', '538', '541'],
-            backgroundColor: 'limegreen'
-          }
-        ]
-      },
-      options: {
-        aspectRatio:2.5
-      }
-
-    });
-  }
-
-  createLineChart(){
-
-    this.chart = new Chart("MyChart", {
-      type: 'line', //this denotes tha type of chart
-
-      data: {// values on X-Axis
-        labels: ['2022-05-10', '2022-05-11', '2022-05-12','2022-05-13',
-          '2022-05-14', '2022-05-15', '2022-05-16','2022-05-17', ],
-        datasets: [
-          {
-            label: "Sales",
-            data: ['467','576', '572', '79', '92',
-              '574', '573', '576'],
-            backgroundColor: 'blue'
-          },
-          {
-            label: "Profit",
-            data: ['542', '542', '536', '327', '17',
-              '0.00', '538', '541'],
-            backgroundColor: 'limegreen'
-          }
-        ]
-      },
-      options: {
-        aspectRatio:2.5
-      }
-
-    });
+  private destroyChart() {
+    if (this.chart != undefined) {
+      this.chart.destroy();
+      this.chart = undefined;
+    }
   }
 }
 

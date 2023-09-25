@@ -39,7 +39,6 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
   //---
   //-------------------------------------------------------------------------
 
-  @Input() locCode       : string = "";
   @Input() dataProvider? : ListService<T>;
 
   @Output() onRowsSelected : EventEmitter<T[]> = new EventEmitter<T[]>();
@@ -48,6 +47,7 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
 
   //-------------------------------------------------------------------------
 
+  rawData         : T[] = [];
   tableColumns    : FlexTableColumn[] = [];
   displayedColumns: string[] = [];
   tableData = new MatTableDataSource<T>();
@@ -80,6 +80,20 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
   }
 
   //-------------------------------------------------------------------------
+
+  get data(): T[] {
+    return this.rawData;
+  }
+
+  //-------------------------------------------------------------------------
+
+  @Input()
+  set data(value: T[]) {
+    this.rawData        = value;
+    this.tableData.data = value;
+  }
+
+  //-------------------------------------------------------------------------
   //---
   //--- Public methods
   //---
@@ -97,16 +111,20 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
       this.dataProvider().subscribe(
         result => {
           this.tableData.data = result.result;
-          this.selection = new SelectionModel<T>(true, []);
+          this.clearSelection();
         }
       )
+    }
+    else if (this.data != undefined) {
+      this.tableData.data = this.data;
+      this.clearSelection();
     }
   }
 
   //-------------------------------------------------------------------------
 
   loc(code : string) : string {
-    return this.labelService.getLabelString("flex-table."+ code);
+    return this.labelService.getLabelString("flexTable."+ code);
   }
 
   //-------------------------------------------------------------------------
@@ -148,6 +166,12 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
 
   public getSelection = () : T[] => {
     return this.selection.selected
+  }
+
+  //-------------------------------------------------------------------------
+
+  public clearSelection() {
+    this.selection = new SelectionModel<T>(true, []);
   }
 }
 

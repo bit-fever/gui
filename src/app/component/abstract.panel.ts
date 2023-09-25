@@ -79,6 +79,12 @@ export abstract class AbstractPanel extends AbstractSubscriber implements OnInit
   public button = (code : string) : string => {
     return this.labelService.getLabelString("button."+code);
   }
+
+  //---------------------------------------------------------------------------
+
+  public labelMap = (code : string) : any => {
+    return this.labelService.getLabel("page."+ this.pageCode +"."+ code);
+  }
 }
 
 //=============================================================================

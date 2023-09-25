@@ -1,37 +1,59 @@
 <div class="main-layout">
 
-  <div mat-card-avatar>
-    <mat-icon fontIcon="monitor_heart"></mat-icon>
-    <span>{{loc('title')}}</span>
-  </div>
-
-  <mat-divider></mat-divider>
-
-  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-  <div class="panel-layout">
-    <div class="tree-layout">
-      <span>{{loc("portfolios")}}</span>
+  <div class="left-layout">
+    <div class="portfolio-layout">
+      <b><span>{{loc("portfolios")}}</span></b>
       <mat-divider></mat-divider>
-      <flex-tree
+      <flex-tree class="tree-layout"
         [roots]         = "roots"
         [nodeProvider]  = "nodeProvider"
         (onNodeSelected)="onNodeSelected($event)"
       ></flex-tree>
     </div>
 
-    <div class="list-layout">
-      <span>{{loc("trading-systems")}}</span>
+    <div class="ts-layout">
+      <b><span>{{loc("tradingSystems")}}</span></b>
       <mat-divider></mat-divider>
-      <mat-selection-list #tsList>
-        <mat-list-option *ngFor="let ts of tradingSystems">
-          {{ts.name}}
-        </mat-list-option>
-      </mat-selection-list>
+      <flex-table #tsTable class="tsTable-layout"
+                  [columns]       = "columns"
+                  [data]          = "tradingSystems"
+                  (onRowsSelected)="onRowSelected($event)"
+      ></flex-table>
+    </div>
+
+  </div>
+
+  <div class="center-layout">
+    <div class="options-layout">
+      <mat-form-field>
+        <mat-label>{{loc("period")}}</mat-label>
+        <mat-select [value]="selectedPeriod" (selectionChange)="onPeriodChange($event)">
+          <mat-option *ngFor="let p of periods" [value]="p.id">
+            {{p.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>{{loc("chartType")}}</mat-label>
+        <mat-select [value]="selectedChartType" (selectionChange)="onChartTypeChange($event)">
+          <mat-option *ngFor="let p of chartTypes" [value]="p.id">
+            {{p.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <span class="spacer"></span>
+
+      <mat-slide-toggle (change)="onTotalsChange     ($event)" [checked]="options.showTotals"     >{{loc("showTotals")}}</mat-slide-toggle>
+      <mat-slide-toggle (change)="onRawProfitChange  ($event)" [checked]="options.showRawProfit"  >{{loc("showRawProfit")}}</mat-slide-toggle>
+      <mat-slide-toggle (change)="onNetProfitChange  ($event)" [checked]="options.showNetProfit"  >{{loc("showNetProfit")}}</mat-slide-toggle>
+      <mat-slide-toggle (change)="onRawDrawdownChange($event)" [checked]="options.showRawDrawdown">{{loc("showRawDrawdown")}}</mat-slide-toggle>
+      <mat-slide-toggle (change)="onNetDrawdownChange($event)" [checked]="options.showNetDrawdown">{{loc("showNetDrawdown")}}</mat-slide-toggle>
     </div>
 
     <div class="chart-layout">
-      <canvas  id="MyChart" >{{ chart }}</canvas>
+      <canvas  id="equityChart" >{{ chart }}</canvas>
     </div>
   </div>
 </div>

@@ -8,8 +8,9 @@
 
 import {Injectable}      from "@angular/core";
 import {Observable}      from "rxjs";
-import {PortfolioTree}   from "../model/model";
+import {PortfolioMonitoringResponse, PortfolioTree} from "../model/model";
 import {HttpService}     from "./http.service";
+import {HttpParams} from "@angular/common/http";
 
 //=============================================================================
 
@@ -32,6 +33,18 @@ export class PortfolioService {
 
   public getPortfolioTree = (): Observable<PortfolioTree[]> => {
     return this.httpService.get<PortfolioTree[]>('/api/portfolio/v1/portfolio/tree');
+  }
+
+  //---------------------------------------------------------------------------
+
+  public getPortfolioMonitoring = (ids : number[], period : number): Observable<PortfolioMonitoringResponse> => {
+
+    let params = {
+      "tsIds" : ids,
+      "period": period
+    };
+
+    return this.httpService.post<PortfolioMonitoringResponse>('/api/portfolio/v1/portfolio/monitoring', params);
   }
 }
 

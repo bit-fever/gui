@@ -58,7 +58,7 @@ export class TradingSystemPanel extends AbstractPanel {
 	            labelService        : LabelService,
       			tradingSystemService: TradingSystemService) {
 
-		super(eventBusService, labelService, "portfolio.trading-system");
+		super(eventBusService, labelService, "portfolio.tradingSystem");
 		this.service = tradingSystemService.getTradingSystems
 		super.subscribeToApp(AppEvent.LOCALIZATION_READY, (event : AppEvent) => this.setup());
 	}
@@ -104,7 +104,7 @@ export class TradingSystemPanel extends AbstractPanel {
 	//-------------------------------------------------------------------------
 
 	setupColumns = () => {
-		let ts = this.labelService.getLabel("model.trading-system");
+		let ts = this.labelService.getLabel("model.tradingSystem");
 
 		this.columns = [
 			new FlexTableColumn(ts, "name"),

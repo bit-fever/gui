@@ -59,3 +59,27 @@ export class TradingSystemFull extends TradingSystem {
 }
 
 //=============================================================================
+
+class BaseMonitoring {
+  days       : number[] = [];
+  rawProfit  : number[] = [];
+  netProfit  : number[] = [];
+  rawDrawdown: number[] = [];
+  netDrawdown: number[] = [];
+  numTrades  : number[] = [];
+}
+
+//-----------------------------------------------------------------------------
+
+export class TradingSystemMonitoring extends BaseMonitoring {
+  id  : number = 0;
+  name: string = '';
+}
+
+//-----------------------------------------------------------------------------
+
+export class PortfolioMonitoringResponse extends BaseMonitoring {
+  tradingSystems : TradingSystemMonitoring[] = [];
+}
+
+//=============================================================================

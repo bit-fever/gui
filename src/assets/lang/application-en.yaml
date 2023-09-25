@@ -19,7 +19,7 @@ menu:
     home: Home
   portfolio:
     _label: Portfolio
-    trading-system: Trading systems
+    tradingSystem: Trading systems
     monitoring: Monitoring
   admin:
     _label: Administration
@@ -32,8 +32,8 @@ menu:
 # ===
 # ==============================================================================
 
-flex-table:
-  no-data: No data
+flexTable:
+  noData: No data
 
 # ==============================================================================
 # ===
@@ -42,7 +42,7 @@ flex-table:
 # ==============================================================================
 
 model:
-  trading-system:
+  tradingSystem:
     id              : Id
     code            : Code
     name            : Name
@@ -81,9 +81,39 @@ page:
     config:
       title: Configuration
   portfolio:
-    trading-system:
-      title: Trading systems
+    tradingSystem:
     monitoring:
-      title: Portfolio monitoring
       portfolios: Portfolios
-      trading-systems: Trading systems
+      tradingSystems: Trading systems
+      options: Options
+      period: Period
+      periods:
+        - id: 30
+          name: Last month
+        - id: 60
+          name: Last 2 months
+        - id: 90
+          name: Last 3 months
+        - id: 180
+          name: Last 6 months
+        - id: 365
+          name: Last year
+        - id: 730
+          name: Last 2 years
+      chartType: Chart type
+      chartTypes:
+        - id: equities
+          name: Equities
+        - id: trades
+          name: Trades
+      showTotals:   Totals
+      showRawProfit:   Raw profits
+      showNetProfit:   Net profits
+      showRawDrawdown: Raw drawdowns
+      showNetDrawdown: Net drawdowns
+
+      totalRawProfit:   Total raw profit
+      totalNetProfit:   Total net profit
+      totalRawDrawdown: Total raw drawdown
+      totalNetDrawdown: Total net drawdown
+      totalTrades:      Total trades
