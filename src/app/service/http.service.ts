@@ -7,7 +7,7 @@
 //=============================================================================
 
 import {Injectable}   from "@angular/core";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {DomSanitizer} from "@angular/platform-browser";
 
 import {Observable, throwError}    from "rxjs";
@@ -15,6 +15,7 @@ import {catchError, finalize}      from "rxjs/operators";
 
 import {AppEvent, ErrorEvent }     from "../model/event";
 import {EventBusService}           from "./eventbus.service"
+import {SessionService} from "./session.service";
 
 //=============================================================================
 
@@ -36,8 +37,8 @@ export class HttpService {
 	//-------------------------------------------------------------------------
 
 	constructor(private httpClient      : HttpClient,
-                private eventBusService : EventBusService,
-                private domSanitizer    : DomSanitizer ) {}
+              private eventBusService : EventBusService,
+              private sessionService  : SessionService) {}
 
 	//-------------------------------------------------------------------------
 	//---
@@ -55,7 +56,7 @@ export class HttpService {
 
 		this.showLoader();
 
-		return this.httpClient.get<T>(url, options).pipe(
+		return this.httpClient.get<T>(url, this.setupOptions(options)).pipe(
 			catchError((err, caught) => this.handleError(err, caught)),
 			finalize  (()      => this.hideLoader())
 		);
@@ -67,7 +68,7 @@ export class HttpService {
 
     this.showLoader();
 
-    return this.httpClient.post<T>(url, object, options).pipe(
+    return this.httpClient.post<T>(url, object, this.setupOptions(options)).pipe(
 			catchError((error, caught) => this.handleError(error, caught)),
 			finalize  (()      => this.hideLoader())
 		);
@@ -79,7 +80,7 @@ export class HttpService {
 
 	  this.showLoader();
 
-	  return this.httpClient.put<T>(url, object, options).pipe(
+	  return this.httpClient.put<T>(url, object, this.setupOptions(options)).pipe(
 	    catchError((error, caught) => this.handleError(error, caught)),
 	    finalize  (()      => this.hideLoader())
     );
@@ -91,7 +92,7 @@ export class HttpService {
 
 	  this.showLoader();
 
-	  return this.httpClient.delete<T>(url, options).pipe(
+	  return this.httpClient.delete<T>(url, this.setupOptions(options)).pipe(
 		  catchError((error, caught) => this.handleError(error, caught)),
 		  finalize  (()      => this.hideLoader())
 	  );
@@ -103,6 +104,29 @@ export class HttpService {
 	//---
 	//-------------------------------------------------------------------------
 
+  private setupOptions(options : any) : any {
+    if ( ! this.sessionService.isAuthenticated) {
+      return options;
+    }
+
+    if (options == null) {
+      options = {
+        headers: new HttpHeaders({
+          Authorization: 'Bearer ' + this.sessionService.accessToken,
+        }),
+      }
+    }
+    else {
+      options['headers'] = new HttpHeaders({
+        Authorization: 'Bearer ' + this.sessionService.accessToken,
+      })
+    }
+
+    return options;
+  }
+
+  //-------------------------------------------------------------------------
+
 	private handleError = (err: HttpErrorResponse, caught: Observable<any>) : Observable<any> => {
 
 		console.log("HTTP error : " + JSON.stringify(err));
@@ -110,7 +134,7 @@ export class HttpService {
 
 		let reqError : ErrorEvent = {
       code : err.status.toString(),
-      error: err.error.toString()
+      error: err.error.error.toString()
     };
 
 		this.eventBusService.emitToError(reqError);

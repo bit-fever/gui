@@ -32,11 +32,11 @@ body {
 
 //=============================================================================
 
-.mat-mdc-list-base {
-  --mdc-list-list-item-one-line-container-height: 32px;
-  --mdc-list-list-item-label-text-size: 13px;
-}
-
+//.mat-mdc-list-base {
+//  --mdc-list-list-item-one-line-container-height: 32px;
+//  --mdc-list-list-item-label-text-size: 13px;
+//}
+//
 .mat-tree-node, .mat-nested-tree-node {
   font-size: 13px;
 }
@@ -48,6 +48,16 @@ mat-nested-tree-node .mat-mdc-icon-button.mat-mdc-button-base {
 
 .mat-tree-node {
   min-height: 16px;
+}
+
+//--- MatChips --------------------------------
+
+.mat-mdc-chip.mat-mdc-standard-chip {
+  --mdc-chip-container-height: 24px;
+}
+
+.mat-mdc-standard-chip {
+  --mdc-chip-label-text-size: 12px;
 }
 
 //=============================================================================

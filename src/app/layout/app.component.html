@@ -1,2 +1,4 @@
-<header-panel></header-panel>
-<main-panel></main-panel>
+<div *ngIf="sessionService.isAuthenticated">
+  <header-panel></header-panel>
+  <main-panel></main-panel>
+</div>

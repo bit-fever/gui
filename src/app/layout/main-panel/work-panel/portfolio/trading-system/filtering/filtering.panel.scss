@@ -1,0 +1,60 @@
+//=============================================================================
+//===
+//=== Copyright (C) 2023 Andrea Carboni
+//===
+//=== Use of this source code is governed by an MIT-style license that can be
+//=== found in the LICENSE file
+//=============================================================================
+
+.main-layout {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 16px;
+  height   : 100%;
+  overflow: hidden;
+  padding: 0 8px 0 8px;
+}
+
+//=============================================================================
+
+.left-layout {
+  width: 320px;
+}
+
+.left-layout .mat-expansion-panel-header-title {
+  justify-content: space-between;
+  align-items: center;
+}
+
+//=============================================================================
+
+.center-layout {
+  flex: 1 1 auto;
+}
+
+//=============================================================================
+
+.filler {
+  flex: 1 1 auto;
+}
+
+//=============================================================================
+
+.chart-layout {
+  width: 100%;
+  height: 100%;
+}
+
+//=============================================================================
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+}
+
+//=============================================================================

@@ -6,22 +6,8 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-.main-panel {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-items: stretch;
-  gap: 0;
-  height   : 100%;
-  overflow: hidden;
-}
-
-//=============================================================================
-
-.table-panel {
-  flex: 1 1 auto;
-  overflow: auto;
-}
+export const environment = {
+  production: true,
+};
 
 //=============================================================================

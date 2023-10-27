@@ -8,9 +8,9 @@
 
 import {Injectable}        from "@angular/core";
 import {Observable}        from "rxjs";
-import {TradingSystemFull} from "../model/model";
 import {ListResponse}      from "../model/flex-table";
 import {HttpService}       from "./http.service";
+import {FilteringParams, FilteringResponse, TradingSystemFull} from "../model/model";
 
 //=============================================================================
 
@@ -33,6 +33,12 @@ export class TradingSystemService {
 
   public getTradingSystems = (): Observable<ListResponse<TradingSystemFull>> => {
     return this.httpService.get<ListResponse<TradingSystemFull>>('/api/portfolio/v1/trading-systems');
+  }
+
+  //---------------------------------------------------------------------------
+
+  public getFilteringAnalysis = (tsId : number, params : FilteringParams|null): Observable<FilteringResponse> => {
+    return this.httpService.post<FilteringResponse>('/api/portfolio/v1/trading-systems/'+ tsId +'/filtering-analysis', params);
   }
 }
 

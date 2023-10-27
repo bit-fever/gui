@@ -10,6 +10,7 @@ import {PortfolioMonitoringResponse, TradingSystemMonitoring} from "../../../../
 import {ChartConfiguration} from "chart.js";
 import {Chart} from "chart.js/auto";
 import {ChartOptions, ChartType} from "./model";
+import {Lib} from "../../../../../lib/lib";
 
 //=============================================================================
 
@@ -27,37 +28,18 @@ export function createChart(options : ChartOptions, result : PortfolioMonitoring
 //=============================================================================
 
 export function createEquityChart(options : ChartOptions, result : PortfolioMonitoringResponse) : Chart {
-  let config : ChartConfiguration = {
-    type: 'line',
-
-    data: {
-      labels: [],
-      datasets: []
-    },
-
-    options: {
-      aspectRatio:2,
-      scales: {
-        y: {
-          ticks: {
-            callback: value => `${value} $`
-          }
-        }
-      }
-    }
-  }
-
-  let days: string[] = convertDaysArray(result.days);
+  let config = Lib.chart.lineConfig("$")
+  let days = Lib.chart.formatDays(result.days);
 
   let datasets : any[] = [];
 
   if (options.showTotals) {
     datasets = [...datasets,
-      buildDataSet(options.labelTotRawProfit, days, result.rawProfit),
-      buildDataSet(options.labelTotNetProfit, days, result.netProfit),
+      Lib.chart.buildDataSet(options.labelTotRawProfit, days, result.rawProfit),
+      Lib.chart.buildDataSet(options.labelTotNetProfit, days, result.netProfit),
     ]
 
-    let ds = buildDataSet(options.labelTotRawDrawdown, days, result.rawDrawdown);
+    let ds = Lib.chart.buildDataSet(options.labelTotRawDrawdown, days, result.rawDrawdown);
     ds.fill = {
       target: { value: 0 },
       below: "#E0808080"
@@ -65,7 +47,7 @@ export function createEquityChart(options : ChartOptions, result : PortfolioMoni
 
     datasets = [...datasets, ds];
 
-    ds = buildDataSet(options.labelTotNetDrawdown, days, result.netDrawdown);
+    ds = Lib.chart.buildDataSet(options.labelTotNetDrawdown, days, result.netDrawdown);
     ds.fill = {
       target: { value: 0 },
       below: "#C0808080"
@@ -79,7 +61,7 @@ export function createEquityChart(options : ChartOptions, result : PortfolioMoni
   });
 
   config.data.datasets = datasets;
-  config.data.labels = formatDays(result.days);
+  config.data.labels = Lib.chart.formatDays(result.days);
 
   return new Chart("equityChart", config);
 }
@@ -87,35 +69,23 @@ export function createEquityChart(options : ChartOptions, result : PortfolioMoni
 //=============================================================================
 
 export function createTradesChart(options : ChartOptions, result : PortfolioMonitoringResponse) : Chart {
-  let config : ChartConfiguration = {
-    type: 'line',
-
-    data: {
-      labels: [],
-      datasets: []
-    },
-
-    options: {
-      aspectRatio:2,
-    }
-  }
-
-  let days: string[] = convertDaysArray(result.days);
+  let config = Lib.chart.lineConfig()
+  let days = Lib.chart.formatDays(result.days);
 
   let datasets : any[] = [];
 
   if (options.showTotals) {
-    let ds = buildDataSet(options.labelTotTrades, days, result.numTrades);
+    let ds = Lib.chart.buildDataSet(options.labelTotTrades, days, result.numTrades);
     datasets = [...datasets, ds];
   }
 
   result.tradingSystems.forEach(function (tsm) {
-    let ds = buildDataSet(tsm.name, days, tsm.numTrades);
+    let ds = Lib.chart.buildDataSet(tsm.name, days, tsm.numTrades);
     datasets = [...datasets, ds];
   });
 
   config.data.datasets = datasets;
-  config.data.labels = formatDays(result.days);
+  config.data.labels = Lib.chart.formatDays(result.days);
 
   return new Chart("equityChart", config);
 }
@@ -129,18 +99,18 @@ export function createTradesChart(options : ChartOptions, result : PortfolioMoni
 function buildTSMDataSet(options : ChartOptions, tsa : TradingSystemMonitoring) : any {
 
   let res : any[]    = []
-  let days: string[] = convertDaysArray(tsa.days);
+  let days: string[] = Lib.chart.formatDays(tsa.days);
 
   if (options.showRawProfit) {
-    res = [...res, buildDataSet(tsa.name +" (Raw Profit)", days, tsa.rawProfit)];
+    res = [...res, Lib.chart.buildDataSet(tsa.name +" (Raw Profit)", days, tsa.rawProfit)];
   }
 
   if (options.showNetProfit) {
-    res = [...res, buildDataSet(tsa.name +" (Net Profit)", days, tsa.netProfit)];
+    res = [...res, Lib.chart.buildDataSet(tsa.name +" (Net Profit)", days, tsa.netProfit)];
   }
 
   if (options.showRawDrawdown) {
-    let ds = buildDataSet(tsa.name + " (Raw DD)", days, tsa.rawDrawdown);
+    let ds = Lib.chart.buildDataSet(tsa.name + " (Raw DD)", days, tsa.rawDrawdown);
     ds.fill = {
       target: { value: 0 },
       below: "#FF808080"
@@ -149,7 +119,7 @@ function buildTSMDataSet(options : ChartOptions, tsa : TradingSystemMonitoring) 
   }
 
   if (options.showNetDrawdown) {
-    let ds = buildDataSet(tsa.name + " (Net DD)", days, tsa.netDrawdown);
+    let ds = Lib.chart.buildDataSet(tsa.name + " (Net DD)", days, tsa.netDrawdown);
     ds.fill = {
       target: { value: 0 },
       below: "#FF808080"
@@ -158,60 +128,6 @@ function buildTSMDataSet(options : ChartOptions, tsa : TradingSystemMonitoring) 
   }
 
   return res
-}
-
-//=============================================================================
-
-function convertDaysArray(days : number[]) : string[] {
-  let res : string[] = [];
-
-  for (let i=0; i<days.length; i++) {
-    res = [...res, formatDay(days[i])]
-  }
-
-  return res;
-}
-
-//=============================================================================
-
-function buildDataSet(name : string, days : string[], serie : number[]) : any {
-
-  let data : any[] = []
-
-  for (let i=0; i<days.length; i++) {
-    let elem = {
-      x: days[i],
-      y: serie[i]
-    }
-    data = [...data, elem]
-  }
-
-  return {
-    label: name,
-    data: data
-  }
-}
-
-//=============================================================================
-
-function formatDays(data : number[]) : string[] {
-  let res : string[] = [];
-
-  for (let i=0; i<data.length; i++) {
-    let rawDay = String(data[i]);
-    let forDay = rawDay.substring(0, 4) +"-"+ rawDay.substring(4,6) +"-"+ rawDay.substring(6,8)
-
-    res = [...res, forDay]
-  }
-
-  return res;
-}
-
-//=============================================================================
-
-function formatDay(day : number) : string {
-  let sDay = String(day);
-  return sDay.substring(0, 4) +"-"+ sDay.substring(4,6) +"-"+ sDay.substring(6,8)
 }
 
 //=============================================================================

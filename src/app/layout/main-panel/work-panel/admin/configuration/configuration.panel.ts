@@ -16,6 +16,7 @@ import {MatDividerModule} from "@angular/material/divider";
 import {AbstractPanel} from "../../../../../component/abstract.panel";
 import {EventBusService} from "../../../../../service/eventbus.service";
 import {MatButtonModule} from "@angular/material/button";
+import {Router, RouterModule} from "@angular/router";
 
 //=============================================================================
 
@@ -23,7 +24,7 @@ import {MatButtonModule} from "@angular/material/button";
 	selector	:    'configuration-panel',
 	templateUrl	:  './configuration.panel.html',
 	styleUrls   : ['./configuration.panel.scss' ],
-	imports     : [ MatCardModule, MatIconModule, MatDividerModule, MatButtonModule ],
+	imports     : [ MatCardModule, MatIconModule, MatDividerModule, MatButtonModule, RouterModule ],
 	standalone  : true
 })
 
@@ -49,8 +50,9 @@ export class ConfigurationPanel extends AbstractPanel {
 	//-------------------------------------------------------------------------
 
 	constructor(eventBusService : EventBusService,
-	            labelService    : LabelService) {
-		super(eventBusService, labelService, "admin.config");
+	            labelService    : LabelService,
+              router          : Router) {
+		super(eventBusService, labelService, router, "admin.config");
 		this.config.language = labelService.getLanguage();
 	}
 

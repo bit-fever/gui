@@ -6,23 +6,44 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {Component}   from '@angular/core';
-import {MainPanel}   from "./main-panel/main.panel";
-import {HeaderPanel} from "./header-panel/header-panel";
+import {Component, OnInit} from '@angular/core';
+import {NgIf}           from "@angular/common";
+import {AuthModule}     from "angular-auth-oidc-client";
+import {MainPanel}      from "./main-panel/main.panel";
+import {HeaderPanel}    from "./header-panel/header-panel";
+import {SessionService} from "../service/session.service";
 
 //=============================================================================
 
 @Component({
 	selector   : 'app-root',
-	templateUrl: './app.component.html',
+	templateUrl:   './app.component.html',
 	styleUrls  : [ './app.component.scss'],
-	imports    : [ HeaderPanel, MainPanel ],
+  imports:     [HeaderPanel, MainPanel, NgIf, AuthModule],
 	standalone : true
 })
 
 //=============================================================================
 
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+  //-------------------------------------------------------------------------
+  //---
+  //--- Constructor
+  //---
+  //-------------------------------------------------------------------------
+
+  constructor(public sessionService : SessionService) {}
+
+  //-------------------------------------------------------------------------
+  //---
+  //--- Events
+  //---
+  //-------------------------------------------------------------------------
+
+  ngOnInit() {
+    this.sessionService.checkAuthentication();
+  }
 }
 
 //=============================================================================

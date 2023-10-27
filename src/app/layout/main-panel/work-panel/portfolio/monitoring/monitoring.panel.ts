@@ -26,10 +26,11 @@ import {FlexTablePanel} from "../../../../../component/panel/flex-table/flex-tab
 import {FlexTableColumn} from "../../../../../model/flex-table";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectChange, MatSelectModule} from "@angular/material/select";
-import {AppEvent} from "../../../../../model/event";
 import {MatSlideToggleChange, MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {createChart} from "./chart-management";
 import {ChartOptions, ChartType} from "./model";
+import {Router, RouterModule} from "@angular/router";
+import {MatChipEvent, MatChipSelectionChange, MatChipsModule} from "@angular/material/chips";
 
 //=============================================================================
 
@@ -59,7 +60,8 @@ class PorfolioNodeProvider implements TreeNodeProvider<PortfolioTree> {
   templateUrl :   './monitoring.panel.html',
   styleUrls   : [ './monitoring.panel.scss' ],
   imports     : [CommonModule, MatButtonModule, MatIconModule, MatDividerModule, MatFormFieldModule,
-                 MatSelectModule, MatSlideToggleModule, FlexTreePanel, FlexTablePanel],
+                 MatSelectModule, MatSlideToggleModule, RouterModule, MatChipsModule,
+                 FlexTreePanel, FlexTablePanel],
   standalone  : true
 })
 
@@ -100,10 +102,10 @@ export class MonitoringPanel extends AbstractPanel {
 
   constructor(eventBusService  : EventBusService,
               labelService     : LabelService,
+              router           : Router,
               private portfolioService : PortfolioService) {
 
-    super(eventBusService, labelService, "portfolio.monitoring");
-    super.subscribeToApp(AppEvent.LOCALIZATION_READY, (event : AppEvent) => this.setupAfterLanguageLoaded());
+    super(eventBusService, labelService, router, "portfolio.monitoring");
   }
 
   //-------------------------------------------------------------------------
@@ -113,17 +115,6 @@ export class MonitoringPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   override init = () : void => {
-    this.setupAfterLanguageLoaded();
-    this.portfolioService.getPortfolioTree().subscribe(
-      result => {
-        this.roots = result;
-      }
-    )
-  }
-
-  //-------------------------------------------------------------------------
-
-  private setupAfterLanguageLoaded = () => {
     this.setupColumns();
     this.periods    = this.labelMap("periods");
     this.chartTypes = this.labelMap("chartTypes");
@@ -133,6 +124,12 @@ export class MonitoringPanel extends AbstractPanel {
     this.options.labelTotRawDrawdown = this.loc("totalRawDrawdown")
     this.options.labelTotNetDrawdown = this.loc("totalNetDrawdown")
     this.options.labelTotTrades      = this.loc("totalTrades")
+
+    this.portfolioService.getPortfolioTree().subscribe(
+      result => {
+        this.roots = result;
+      }
+    )
   }
 
   //-------------------------------------------------------------------------
@@ -180,36 +177,36 @@ export class MonitoringPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  onTotalsChange(e : MatSlideToggleChange) {
-    this.options.showTotals = e.checked;
+  onTotalsChange(e: MatChipSelectionChange) {
+    this.options.showTotals = e.selected;
     this.reload(false);
   }
 
   //-------------------------------------------------------------------------
 
-  onRawProfitChange(e : MatSlideToggleChange) {
-    this.options.showRawProfit = e.checked;
+  onRawProfitChange(e : MatChipSelectionChange) {
+    this.options.showRawProfit = e.selected;
     this.reload(false);
   }
 
   //-------------------------------------------------------------------------
 
-  onNetProfitChange(e : MatSlideToggleChange) {
-    this.options.showNetProfit = e.checked;
+  onNetProfitChange(e : MatChipSelectionChange) {
+    this.options.showNetProfit = e.selected;
     this.reload(false);
   }
 
   //-------------------------------------------------------------------------
 
-  onRawDrawdownChange(e : MatSlideToggleChange) {
-    this.options.showRawDrawdown = e.checked;
+  onRawDrawdownChange(e : MatChipSelectionChange) {
+    this.options.showRawDrawdown = e.selected;
     this.reload(false);
   }
 
   //-------------------------------------------------------------------------
 
-  onNetDrawdownChange(e : MatSlideToggleChange) {
-    this.options.showNetDrawdown = e.checked;
+  onNetDrawdownChange(e : MatChipSelectionChange) {
+    this.options.showNetDrawdown = e.selected;
     this.reload(false);
   }
 

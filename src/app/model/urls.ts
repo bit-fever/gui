@@ -6,22 +6,14 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-.main-panel {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-items: stretch;
-  gap: 0;
-  height   : 100%;
-  overflow: hidden;
-}
+export enum Url {
+  Home                               = "home",
+  Portfolio_TradingSystems           = "portfolio/trading-systems",
+  Portfolio_TradingSystems_Id = "portfolio/trading-systems/:id",
+  Portfolio_Monitoring               = "portfolio/monitoring",
+  Admin_Config                       = "admin/config",
 
-//=============================================================================
-
-.table-panel {
-  flex: 1 1 auto;
-  overflow: auto;
+  Filtering = "filtering",
 }
 
 //=============================================================================

@@ -6,16 +6,17 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {Injectable, OnDestroy, OnInit} from "@angular/core";
+import {AfterViewChecked, AfterViewInit, Injectable, OnDestroy, OnInit} from "@angular/core";
 
 import {AbstractSubscriber} from "../service/abstract-subscriber";
 import {EventBusService}    from "../service/eventbus.service";
 import {LabelService} from "../service/label.service";
+import {Router} from "@angular/router";
 
 //=============================================================================
 
 @Injectable()
-export abstract class AbstractPanel extends AbstractSubscriber implements OnInit, OnDestroy {
+export abstract class AbstractPanel extends AbstractSubscriber implements OnInit, OnDestroy, AfterViewChecked  {
 
 	//-------------------------------------------------------------------------
 	//---
@@ -31,8 +32,9 @@ export abstract class AbstractPanel extends AbstractSubscriber implements OnInit
 	//---
 	//-------------------------------------------------------------------------
 
-	constructor(protected override eventBusService : EventBusService,
+	protected constructor(protected override eventBusService : EventBusService,
 	            protected labelService : LabelService,
+              protected router       : Router,
 	            pageCode : string) {
 		super(eventBusService)
 		this.pageCode = pageCode;
@@ -55,6 +57,12 @@ export abstract class AbstractPanel extends AbstractSubscriber implements OnInit
 		this.destroy();
 	}
 
+  //---------------------------------------------------------------------------
+
+  public ngAfterViewChecked() {
+    this.viewInit();
+  }
+
 	//---------------------------------------------------------------------------
 	//---
 	//--- Hooks methods
@@ -63,6 +71,8 @@ export abstract class AbstractPanel extends AbstractSubscriber implements OnInit
 
 	protected init    = (): void => {};
 	protected destroy = (): void => {};
+
+  protected viewInit = (): void => {};
 
 	//---------------------------------------------------------------------------
 	//---
@@ -84,6 +94,23 @@ export abstract class AbstractPanel extends AbstractSubscriber implements OnInit
 
   public labelMap = (code : string) : any => {
     return this.labelService.getLabel("page."+ this.pageCode +"."+ code);
+  }
+
+  //---------------------------------------------------------------------------
+
+  public navigateTo1(page : string, rightPanel : string|null) : Promise<boolean> {
+    let outlet : any = {
+      primary : page,
+      right   : rightPanel
+    };
+
+    return this.router.navigate([{ outlets: outlet }]);
+  }
+
+  //---------------------------------------------------------------------------
+
+  public navigateTo(urlFragments : any[]) : Promise<boolean> {
+    return this.router.navigate(urlFragments);
   }
 }
 

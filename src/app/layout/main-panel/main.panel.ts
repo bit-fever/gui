@@ -52,9 +52,7 @@ export class MainPanel extends AbstractSubscriber {
 
 		//--- Local Fat Arrow is mandatory in order to preserve 'this'
 
-		super.subscribeToApp(AppEvent.ANY,               e => this.onMenuButtonClick(e));
-		// super.subscribeToApp(AppEvent.LOGIN_SUCCESS,     e => this.onLoginSuccess   (e));
-		super.subscribeToApp(AppEvent.RIGHT_PANEL_CLOSE, e => this.onRightPanelClose(e));
+		super.subscribeToApp(AppEvent.ANY, e => this.onAnyEvent(e));
 
 		//--- Custom events
 
@@ -67,7 +65,7 @@ export class MainPanel extends AbstractSubscriber {
 	//---
 	//-------------------------------------------------------------------------
 
-	private onMenuButtonClick(event : AppEvent) {
+	private onAnyEvent(event : AppEvent) {
 
 		if (event.code == AppEvent.MENU_BUTTON_CLICK) {
 
@@ -78,8 +76,8 @@ export class MainPanel extends AbstractSubscriber {
 			}
 		}
 		else {
-		  if (this.leftNavig) {
-        this.leftNavig.opened = false;
+      if (event.code == AppEvent.RIGHT_PANEL_CLOSE) {
+        this.rightNavig.opened = false;
       }
 		}
 	}
@@ -89,12 +87,6 @@ export class MainPanel extends AbstractSubscriber {
 	// private onLoginSuccess(event : AppEvent) : void {
 	// 	this.rightNavig.opened = false;
 	// }
-
-	//-------------------------------------------------------------------------
-
-	private onRightPanelClose(event : AppEvent) : void {
-		this.rightNavig.opened = false;
-	}
 
 	//-------------------------------------------------------------------------
 

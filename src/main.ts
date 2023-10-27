@@ -6,50 +6,42 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {importProvidersFrom}     from "@angular/core";
+import {enableProdMode, importProvidersFrom} from "@angular/core";
 import {bootstrapApplication}    from '@angular/platform-browser';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {HttpClientModule, provideHttpClient, withInterceptors} from "@angular/common/http";
+import {provideRouter}           from "@angular/router";
+import {authInterceptor, provideAuth} from "angular-auth-oidc-client";
+
+import {routes}                  from "./routes";
+import {authConfig}              from "./authentication";
+
 import {AppComponent}            from "./app/layout/app.component";
-import {provideRouter, Routes} from "@angular/router";
-import {HomePanel} from "./app/layout/main-panel/work-panel/home/home.panel";
-import {TradingSystemPanel} from "./app/layout/main-panel/work-panel/portfolio/trading-system/trading-system.panel";
-import {ConfigurationPanel} from "./app/layout/main-panel/work-panel/admin/configuration/configuration.panel";
-import {UnknownPanel} from "./app/layout/main-panel/work-panel/unknown/unknown.panel";
-import {EventBusService} from "./app/service/eventbus.service";
-import {HttpService} from "./app/service/http.service";
-import {LabelService} from "./app/service/label.service";
-import {ApplicationService} from "./app/service/application.service";
-import {MenuService} from "./app/service/menu.service";
-import {NotificationService} from "./app/service/notification.service";
-import {SessionService} from "./app/service/session.service";
-import {TradingSystemService} from "./app/service/trading-system.service";
-import {HttpClientModule} from "@angular/common/http";
-import {InstrumentService} from "./app/service/instrument.service";
-import {MonitoringPanel} from "./app/layout/main-panel/work-panel/portfolio/monitoring/monitoring.panel";
-import {PortfolioService} from "./app/service/portfolio.service";
+import {EventBusService}         from "./app/service/eventbus.service";
+import {HttpService}             from "./app/service/http.service";
+import {LabelService}            from "./app/service/label.service";
+import {ApplicationService}      from "./app/service/application.service";
+import {MenuService}             from "./app/service/menu.service";
+import {NotificationService}     from "./app/service/notification.service";
+import {SessionService}          from "./app/service/session.service";
+import {TradingSystemService}    from "./app/service/trading-system.service";
+import {InstrumentService}       from "./app/service/instrument.service";
+import {PortfolioService}        from "./app/service/portfolio.service";
+import {environment} from "./environments/environment";
 
 //=============================================================================
 
-const routes: Routes = [
-	{ path:'',                          redirectTo:'home', pathMatch: 'full'       },
-
-	{ path:'home',                      component: HomePanel                       },
-	{ path:'portfolio/trading-system',  component: TradingSystemPanel              },
-  { path:'portfolio/monitoring',      component: MonitoringPanel                 },
-	{ path:'admin/config',              component: ConfigurationPanel              },
-	// { path:'user-view',              component: UserViewPanel, outlet : 'right' },
-
-	{ path:'**',                     component: UnknownPanel },
-];
-
-//=============================================================================
+if (environment.production) {
+  enableProdMode();
+}
 
 bootstrapApplication(AppComponent, {
 	providers: [
 		importProvidersFrom(BrowserAnimationsModule),
     importProvidersFrom(HttpClientModule),
+//    provideHttpClient(withInterceptors([ authInterceptor() ])),
 		provideRouter(routes),
-
+    provideAuth(authConfig),
     ApplicationService,
     EventBusService,
     HttpService,

@@ -1,8 +1,9 @@
 <div class="main-panel">
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-	<div class="toolbar-panel">
-		<button mat-button (click)="onViewClick()" [disabled]="disView">{{button("view")}}</button>
+	<div>
+		<button mat-button (click)="onViewClick()"   [disabled]="disView">{{button("view")}}</button>
+    <button mat-button (click)="onFilterClick()" [disabled]="disFilter">{{button("filter")}}</button>
 	</div>
 
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

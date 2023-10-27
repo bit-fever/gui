@@ -8,14 +8,16 @@
 
 import {Component}    from '@angular/core';
 import {RouterModule} from "@angular/router";
+import {NgIf} from "@angular/common";
+import {LabelService} from "../../../service/label.service";
 
 //=============================================================================
 
 @Component({
-    selector     :   'work-panel',
-    templateUrl  : './work.panel.html',
+  selector     :   'work-panel',
+  templateUrl  : './work.panel.html',
 	styleUrls    : [ './work.panel.scss' ],
-	imports      : [ RouterModule ],
+	imports      : [RouterModule, NgIf],
 	standalone   : true
 })
 
@@ -29,6 +31,8 @@ export class WorkPanel {
   //---
   //---------------------------------------------------------------------------
 
+  constructor(protected labelService:LabelService) {
+  }
 }
 
 //=============================================================================

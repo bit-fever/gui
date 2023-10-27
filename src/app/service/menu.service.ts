@@ -15,6 +15,7 @@ import { Menu }               from '../component/sidebar-menu/model';
 import { AbstractSubscriber } from "./abstract-subscriber";
 import { LabelService }       from "./label.service";
 import { EventBusService }    from "./eventbus.service";
+import {Url} from "../model/urls";
 
 //=============================================================================
 
@@ -56,7 +57,7 @@ export class MenuService extends AbstractSubscriber {
       {
         id: 'menu.main.home',
         label: this.get('main.home'),
-        route: '/home',
+        route: Url.Home,
         iconClasses: 'home'
       },
 
@@ -69,13 +70,13 @@ export class MenuService extends AbstractSubscriber {
       {
         id: 'menu.portfolio.trading-system',
         label: this.get('portfolio.tradingSystem'),
-        route: '/portfolio/trading-system',
+        route: Url.Portfolio_TradingSystems,
         iconClasses: 'inventory'
       },
       {
         id: 'menu.portfolio.monitoring',
         label: this.get('portfolio.monitoring'),
-        route: '/portfolio/monitoring',
+        route: Url.Portfolio_Monitoring,
         iconClasses: 'monitor_heart'
       },
 
@@ -88,7 +89,7 @@ export class MenuService extends AbstractSubscriber {
       {
         id: 'menu.admin.config',
         label: this.get('admin.config'),
-        route: '/admin/config',
+        route: Url.Admin_Config,
         iconClasses: 'tune'
       },
       {

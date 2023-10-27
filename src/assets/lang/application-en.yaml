@@ -5,7 +5,12 @@
 # ==============================================================================
 
 button:
-  view: VIEW
+  view:     VIEW
+  filter:   FILTER
+  save:     SAVE
+  run:      RUN
+  optimize: OPTIMIZE
+  reload:   RELOAD
 
 # ==============================================================================
 # ===
@@ -117,3 +122,21 @@ page:
       totalRawDrawdown: Total raw drawdown
       totalNetDrawdown: Total net drawdown
       totalTrades:      Total trades
+
+    filtering:
+      enabled: Enabled
+      longShortPeriods: Long vs short periods
+      longPeriod: Long period (weeks)
+      shortPeriod: Short period (weeks)
+      threshold: Threshold
+      minPositivePerc: Min positive %
+      equityAverage: Equity vs its average
+      equityPeriods: Periods (days)
+      summary: Summary
+      analysis: Analysis
+      chart:
+        unfProfit:   Unfiltered profit
+        filProfit:   Filtered profit
+        unfDrawdown: Unfiltered DD
+        filDrawdown: Filtered DD
+        average:     Average

@@ -45,11 +45,13 @@
 
       <span class="spacer"></span>
 
-      <mat-slide-toggle (change)="onTotalsChange     ($event)" [checked]="options.showTotals"     >{{loc("showTotals")}}</mat-slide-toggle>
-      <mat-slide-toggle (change)="onRawProfitChange  ($event)" [checked]="options.showRawProfit"  >{{loc("showRawProfit")}}</mat-slide-toggle>
-      <mat-slide-toggle (change)="onNetProfitChange  ($event)" [checked]="options.showNetProfit"  >{{loc("showNetProfit")}}</mat-slide-toggle>
-      <mat-slide-toggle (change)="onRawDrawdownChange($event)" [checked]="options.showRawDrawdown">{{loc("showRawDrawdown")}}</mat-slide-toggle>
-      <mat-slide-toggle (change)="onNetDrawdownChange($event)" [checked]="options.showNetDrawdown">{{loc("showNetDrawdown")}}</mat-slide-toggle>
+      <mat-chip-listbox [multiple]="true" class="chip-style">
+        <mat-chip-option (selectionChange)="onTotalsChange     ($event)" [selected]="options.showTotals"     >{{loc("showTotals")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onRawProfitChange  ($event)" [selected]="options.showRawProfit"  >{{loc("showRawProfit")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onNetProfitChange  ($event)" [selected]="options.showNetProfit"  >{{loc("showNetProfit")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onRawDrawdownChange($event)" [selected]="options.showRawDrawdown">{{loc("showRawDrawdown")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onNetDrawdownChange($event)" [selected]="options.showNetDrawdown">{{loc("showNetDrawdown")}}</mat-chip-option>
+      </mat-chip-listbox>
     </div>
 
     <div class="chart-layout">

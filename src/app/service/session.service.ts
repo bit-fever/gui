@@ -12,6 +12,8 @@ import {AppEvent}           from "../model/event";
 import {AbstractSubscriber} from "./abstract-subscriber";
 import {EventBusService}    from "./eventbus.service";
 import {HttpService}        from "./http.service";
+import {OidcSecurityService, UserDataResult} from "angular-auth-oidc-client";
+import {Observable} from "rxjs";
 
 //=============================================================================
 
@@ -26,6 +28,9 @@ export class SessionService extends AbstractSubscriber {
 
 	// public session     : Session;
 	// public permissions : Map<string, boolean>;
+  isAuthenticated = false;
+  accessToken : string|null = null;
+  userData    : UserDataResult|null = null;
 
 	//-------------------------------------------------------------------------
 	//---
@@ -33,12 +38,8 @@ export class SessionService extends AbstractSubscriber {
 	//---
 	//-------------------------------------------------------------------------
 
-	constructor(eventBusService: EventBusService, private httpService : HttpService) {
-
+	constructor(eventBusService: EventBusService, private oidcSecurityService: OidcSecurityService) {
 		super(eventBusService);
-//		this.clearSession();
-
-//		super.subscribeToApp(AppEvent.INVALID_TOKEN, event => this.onInvalidToken(event));
 	}
 
 	//-------------------------------------------------------------------------
@@ -47,29 +48,41 @@ export class SessionService extends AbstractSubscriber {
 	//---
 	//-------------------------------------------------------------------------
 
-	// public login(cred : Credentials) : void {
-  //
-	// 	console.log("SessionService.login : Logging in user='" + cred.username + "'");
-  //
-	// 	//--- Loads user profile from server
-  //
-	// 	this.httpService.postObject("/api/session/login", cred)
-	// 		.subscribe(	result => this.loginSuccess(result),
-	// 					error => this.loginError(error));
-	// }
+  public checkAuthentication() {
+    this.oidcSecurityService.checkAuth().subscribe((res) => {
+      this.isAuthenticated = res.isAuthenticated;
+      this.userData        = res.userData;
+      this.accessToken     = res.accessToken;
 
-	//-------------------------------------------------------------------------
+      console.log('Authenticated : '+ this.isAuthenticated);
 
-	// public logout() : void {
-  //
-	// 	console.log("SessionService.logout : Logging out user='" + (this.user || "???") + "'");
-  //
-	// 	this.httpService.postObject("/api/session/logout", { token: "this.token" })
-	// 		.subscribe(	result => this.logoutSuccess(),
-	// 					error => this.logoutError(error));
-	// }
+      if ( ! this.isAuthenticated) {
+        console.log("User not authenticated.");
+        this.login();
+      }
+    });
+  }
 
-	//-------------------------------------------------------------------------
+  //-------------------------------------------------------------------------
+
+  login() {
+    console.log('Calling login...');
+    this.oidcSecurityService.authorize();
+  }
+
+  //-------------------------------------------------------------------------
+
+  logout() {
+    console.log('Calling logout...');
+    this.oidcSecurityService.logoff().subscribe((result) => {
+      console.log(result)
+      this.isAuthenticated = false;
+      this.userData        = null;
+      this.accessToken     = null;
+    });
+  }
+
+  //-------------------------------------------------------------------------
 
 	// public clearSession() : void {
   //
@@ -113,12 +126,6 @@ export class SessionService extends AbstractSubscriber {
   //
 	// 	console.log("Login successful for user="+ this.user.username);
 	// }
-
-	//-------------------------------------------------------------------------
-
-	private loginError(response: any) {
-		super.emitToApp(new AppEvent(AppEvent.LOGIN_FAILED, response));
-	}
 
 	//-------------------------------------------------------------------------
 

@@ -11,18 +11,20 @@ import {MatIconModule}     from "@angular/material/icon";
 import {MatToolbarModule}  from "@angular/material/toolbar";
 import {HttpClientModule}  from "@angular/common/http";
 import {MatButtonModule}   from "@angular/material/button";
-import {AppEvent}          from "../../model/event";
+import {AppEvent, ErrorEvent} from "../../model/event";
 import {EventBusService}   from "../../service/eventbus.service";
 import {LabelService}      from "../../service/label.service";
 import {AbstractPanel} from "../../component/abstract.panel";
+import {Router, RouterModule} from "@angular/router";
+import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 
 //=============================================================================
 
 @Component({
-    selector    :   'header-panel',
-    templateUrl : './header-panel.html',
+  selector    :   'header-panel',
+  templateUrl : './header-panel.html',
 	styleUrls   : [ './header-panel.scss' ],
-	imports     : [ MatButtonModule, MatIconModule, MatToolbarModule, HttpClientModule ],
+	imports     : [ MatButtonModule, MatIconModule, MatToolbarModule, HttpClientModule, RouterModule, MatSnackBarModule],
 	standalone  : true
 })
 
@@ -37,8 +39,12 @@ export class HeaderPanel extends AbstractPanel {
 	//-------------------------------------------------------------------------
 
 	constructor(eventBusService : EventBusService,
-	            labelService    : LabelService) {
-		super(eventBusService, labelService, "header");
+	            labelService    : LabelService,
+              router          : Router,
+              private _snackBar: MatSnackBar) {
+		super(eventBusService, labelService, router, "header");
+
+    eventBusService.subscribeToError(this.onError)
 	}
 
 	//-------------------------------------------------------------------------
@@ -57,6 +63,12 @@ export class HeaderPanel extends AbstractPanel {
 		let event : AppEvent = new AppEvent(AppEvent.MENU_BUTTON_CLICK);
 		this.eventBusService.emitToApp(event);
 	}
+
+  //-------------------------------------------------------------------------
+
+  private onError = (event : ErrorEvent) => {
+    this._snackBar.open(""+ event.error, "Ok")
+  }
 }
 
 //=============================================================================

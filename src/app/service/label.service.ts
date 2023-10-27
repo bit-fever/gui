@@ -23,6 +23,10 @@ export class LabelService {
 	//---
 	//-------------------------------------------------------------------------
 
+  public isLoaded : boolean = false;
+
+  //-------------------------------------------------------------------------
+
 	private static APPLICATION_FILE : string = "application";
 
 	//-------------------------------------------------------------------------
@@ -139,6 +143,7 @@ export class LabelService {
 		if (this.loadCounter == 0) {
 			console.log("All language files has been loaded. Localization is ready.");
 			this.eventBusService.emitToApp(new AppEvent(AppEvent.LOCALIZATION_READY));
+      this.isLoaded = true;
 		}
 	}
 }
