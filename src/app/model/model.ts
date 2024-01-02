@@ -6,8 +6,15 @@
 //=== found in the LICENSE file
 //=============================================================================
 
+//=============================================================================
+//===
+//=== Inventory
+//===
+//=============================================================================
+
 export class Portfolio {
   id?        : number;
+  username?  : string;
   parentId?  : number;
   name?      : string;
   createdAt? : string;
@@ -16,47 +23,172 @@ export class Portfolio {
 
 //=============================================================================
 
-export class PortfolioTree extends Portfolio {
-  children      : PortfolioTree[] = [];
-  tradingSystems: TradingSystem[] = [];
-}
-
-//=============================================================================
-
-export class Instrument {
+export class TradingSession {
   id?        : number;
-  ticker?    : string;
+  username?  : string;
   name?      : string;
+  config?    : string;
   createdAt? : string;
   updatedAt? : string;
 }
 
 //=============================================================================
 
-export class TradingSystem {
-  id?             : number;
-  code?           : string;
-  name?           : string;
-  instrumentId?   : number;
-  portfolioId?    : number;
-  firstUpdate?    : number;
-  lastUpdate?     : number;
-  lastPl?         : number;
-  tradingDays?    : number;
-  numTrades?      : number;
-  filterType?     : number;
-  filter?         : string;
-  suggestedAction?: number;
-  createdAt?      : string;
-  updatedAt?      : string;
+export class PortfolioTree extends Portfolio {
+  children      : PortfolioTree   [] = [];
+  tradingSystems: InvTradingSystem[] = [];
 }
 
 //=============================================================================
 
-export class TradingSystemFull extends TradingSystem {
+export class TradingSystemSpec {
+  id?               : number
+  name?             : string
+  portfolioId?      : number
+  productFeedId?    : number
+  productBrokerId?  : number
+  tradingSessionId? : number
+  workspaceCode?    : string
+}
+
+//=============================================================================
+
+export class InvTradingSystem extends TradingSystemSpec {
+  username?         : string;
+  createdAt?        : string;
+  updatedAt?        : string;
+}
+
+//=============================================================================
+
+export class InvTradingSystemFull extends InvTradingSystem {
 	instrumentTicker? : string;
 	portfolioName?    : string;
 }
+
+//=============================================================================
+
+export class ConnectionSpec {
+  code?         : string
+  name?         : string
+  systemCode?   : string
+  systemConfig? : string
+}
+
+//=============================================================================
+
+export class Connection extends ConnectionSpec {
+  id?                    : number
+  username?              : string
+  systemName?            : string
+  connectionCode?        : string
+  supportsFeed?          : boolean
+  supportsBroker?        : boolean
+  supportsMultipleFeeds? : boolean
+  supportsInventory?     : boolean
+  createdAt?             : string
+  updatedAt?             : string
+}
+
+//=============================================================================
+
+export class ProductFeed {
+  id?             : number
+  connectionId?   : number
+  username?       : string
+  symbol?         : string
+  name?           : string
+  priceScale?     : number
+  minMovement?    : number
+  marketType?     : string
+  productType?    : string
+  exchange?       : string
+  createdAt?      : string
+  updatedAt?      : string
+}
+
+//=============================================================================
+
+export class ProductBroker {
+  id?           : number
+  connectionId? : number
+  username?     : string
+  symbol?       : string
+  name?         : string
+  pointValue?   : number
+  costPerTrade? : number
+  marginValue?  : number
+  currencyId?   : number
+  marketType?   : string
+  productType?  : string
+  exchange?     : string
+  createdAt?    : string
+  updatedAt?    : string
+}
+
+//=============================================================================
+//===
+//=== Portfolio
+//===
+//=============================================================================
+
+export class PorTradingSystem {
+  id?              : number;
+  sourceId?        : number;
+  username?        : string;
+  workspaceCode?   : string;
+  name?            : string;
+  status?          : string;
+  firstUpdate?     : number;
+  lastUpdate?      : number;
+  closedProfit?    : number;
+  tradingDays?     : number;
+  numTrades?       : number;
+  productBrokerId? : number;
+  brokerSymbol?    : string;
+  pointValue?      : number;
+  costPerTrade?    : number;
+  marginValue?     : number;
+  currencyId?      : number;
+  currencyCode?    : string;
+}
+
+//=============================================================================
+//===
+//=== System adapter
+//===
+//=============================================================================
+
+export class AdapterParam {
+  name?      : string
+  type?      : string
+  label?     : string
+  nullable?  : boolean
+  minValue?  : number
+  maxValue?  : number
+  tooltip?   : string
+  groupName? : string
+}
+
+//=============================================================================
+
+export class Adapter {
+  code?                  : string
+  name?                  : string
+  params?                : AdapterParam[]
+  supportsFeed?          : boolean
+  supportsBroker?        : boolean
+  supportsMultipleFeeds? : boolean
+  supportsInventory?     : boolean
+}
+
+//=============================================================================
+
+
+
+
+
+
 
 //=============================================================================
 
@@ -150,4 +282,3 @@ export class FilteringResponse {
 }
 
 //=============================================================================
-

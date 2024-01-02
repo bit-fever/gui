@@ -19,7 +19,7 @@ import {PortfolioService}        from "../../../../../service/portfolio.service"
 import {
   PortfolioMonitoringResponse,
   PortfolioTree,
-  TradingSystem
+  InvTradingSystemFull
 } from "../../../../../model/model";
 import {MatDividerModule} from "@angular/material/divider";
 import {FlexTablePanel} from "../../../../../component/panel/flex-table/flex-table.panel";
@@ -31,6 +31,7 @@ import {createChart} from "./chart-management";
 import {ChartOptions, ChartType} from "./model";
 import {Router, RouterModule} from "@angular/router";
 import {MatChipEvent, MatChipSelectionChange, MatChipsModule} from "@angular/material/chips";
+import {InventoryService} from "../../../../../service/inventory.service";
 
 //=============================================================================
 
@@ -77,7 +78,7 @@ export class MonitoringPanel extends AbstractPanel {
 
   nodeProvider = new PorfolioNodeProvider();
   roots         : PortfolioTree[] = [];
-  tradingSystems: TradingSystem[] = [];
+  tradingSystems: InvTradingSystemFull[] = [];
   columns       : FlexTableColumn[] = [];
 
   chart     : any;
@@ -100,9 +101,10 @@ export class MonitoringPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  constructor(eventBusService  : EventBusService,
-              labelService     : LabelService,
-              router           : Router,
+  constructor(eventBusService          : EventBusService,
+              labelService             : LabelService,
+              router                   : Router,
+              private inventoryService : InventoryService,
               private portfolioService : PortfolioService) {
 
     super(eventBusService, labelService, router, "portfolio.monitoring");
@@ -125,7 +127,7 @@ export class MonitoringPanel extends AbstractPanel {
     this.options.labelTotNetDrawdown = this.loc("totalNetDrawdown")
     this.options.labelTotTrades      = this.loc("totalTrades")
 
-    this.portfolioService.getPortfolioTree().subscribe(
+    this.inventoryService.getPortfolioTree().subscribe(
       result => {
         this.roots = result;
       }
@@ -155,7 +157,7 @@ export class MonitoringPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  onRowSelected(selection : TradingSystem[]) {
+  onRowSelected(selection : InvTradingSystemFull[]) {
     // @ts-ignore
     this.selectedIds = selection.map( ts => ts.id);
     this.reload(true);
@@ -248,7 +250,7 @@ export class MonitoringPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  private buildTSList(node : PortfolioTree) : TradingSystem[] {
+  private buildTSList(node : PortfolioTree) : InvTradingSystemFull[] {
 
     let res = [...node.tradingSystems];
 

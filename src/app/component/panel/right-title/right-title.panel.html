@@ -1,0 +1,9 @@
+<mat-toolbar class="toolbar">
+  <mat-icon>{{icon}}</mat-icon>
+  <div class="title">{{title}}</div>
+  <span class="filler"></span>
+
+  <button mat-icon-button (click)="onClose.emit($event)">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>

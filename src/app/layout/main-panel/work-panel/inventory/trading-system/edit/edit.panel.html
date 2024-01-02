@@ -1,0 +1,24 @@
+<div class="main-layout">
+  <right-title-panel icon="cable" title="{{loc('new')}}" (onClose)="onClose()"></right-title-panel>
+
+  <div class="form-layout">
+    <input-text-required #tsNameCtrl       [(value)]="ts.name"           [label]="loc('name')" [len]="64"></input-text-required>
+    <br/>
+    <input-text-required #tsStrategyCtrl   [(value)]="ts.workspaceCode"   [label]="loc('workspaceCode')" [len]="36"></input-text-required>
+    <br/>
+    <select-text-required #tsPortfolioCtrl [(key)]="ts.portfolioId"      [label]="loc('portfolio')" keyField="id" valueField="name" [list]="portfolios"></select-text-required>
+    <br/>
+    <select-text-required #tsFeedCtrl      [(key)]="ts.productFeedId"    [label]="loc('feed')"      keyField="id" valueField="name" [list]="feeds"></select-text-required>
+    <br/>
+    <select-text-required #tsBrokerCtrl    [(key)]="ts.productBrokerId"  [label]="loc('broker')"    keyField="id" valueField="name" [list]="brokers"></select-text-required>
+    <br/>
+    <select-text-required #tsSessionCtrl   [(key)]="ts.tradingSessionId" [label]="loc('session')"   keyField="id" valueField="name" [list]="sessions"></select-text-required>
+  </div>
+
+  <div class="buttons-layout">
+    <mat-divider></mat-divider>
+    <button mat-button (click)="onSave()" [disabled]="!saveEnabled()">{{button("save")}}</button>
+    <button mat-button (click)="onClose()">{{button("cancel")}}</button>
+  </div>
+</div>
+

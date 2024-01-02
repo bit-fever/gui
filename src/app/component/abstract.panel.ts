@@ -12,6 +12,7 @@ import {AbstractSubscriber} from "../service/abstract-subscriber";
 import {EventBusService}    from "../service/eventbus.service";
 import {LabelService} from "../service/label.service";
 import {Router} from "@angular/router";
+import {AppEvent} from "../model/event";
 
 //=============================================================================
 
@@ -55,6 +56,7 @@ export abstract class AbstractPanel extends AbstractSubscriber implements OnInit
 	public ngOnDestroy() {
 		super.removeAllSubscriptions();
 		this.destroy();
+    console.log("Component destroyed: "+this.router.url)
 	}
 
   //---------------------------------------------------------------------------
@@ -98,13 +100,17 @@ export abstract class AbstractPanel extends AbstractSubscriber implements OnInit
 
   //---------------------------------------------------------------------------
 
-  public navigateTo1(page : string, rightPanel : string|null) : Promise<boolean> {
+  public openRightPanel(page : string, rightPanel : string, startEvent: string, params? : any) {
+    console.log("Opening right panel '"+ rightPanel +"' on '"+ page +"'");
+
     let outlet : any = {
       primary : page,
       right   : rightPanel
     };
 
-    return this.router.navigate([{ outlets: outlet }]);
+    this.router.navigate([{ outlets: outlet }]).then( () => {
+      super.emitToApp(new AppEvent(AppEvent.RIGHT_PANEL_OPEN, params, startEvent))
+    });
   }
 
   //---------------------------------------------------------------------------

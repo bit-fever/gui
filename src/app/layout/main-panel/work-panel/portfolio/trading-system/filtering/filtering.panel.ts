@@ -12,7 +12,6 @@ import {ActivatedRoute, Router, RouterModule} from "@angular/router";
 import {AbstractPanel} from "../../../../../../component/abstract.panel";
 import {EventBusService} from "../../../../../../service/eventbus.service";
 import {LabelService} from "../../../../../../service/label.service";
-import {TradingSystemService} from "../../../../../../service/trading-system.service";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatIconModule} from "@angular/material/icon";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -31,6 +30,7 @@ import {Chart} from "chart.js/auto";
 import {Lib} from "../../../../../../lib/lib";
 import {FormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
+import {PortfolioService} from "../../../../../../service/portfolio.service";
 
 //=============================================================================
 
@@ -70,11 +70,11 @@ export class FilteringPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  constructor(eventBusService     : EventBusService,
-              labelService        : LabelService,
-              router              : Router,
-              private route               : ActivatedRoute,
-              private tradingSystemService: TradingSystemService) {
+  constructor(eventBusService         : EventBusService,
+              labelService            : LabelService,
+              router                  : Router,
+              private route           : ActivatedRoute,
+              private portfolioService: PortfolioService) {
 
     super(eventBusService, labelService, router, "portfolio.filtering");
   }
@@ -137,7 +137,7 @@ export class FilteringPanel extends AbstractPanel {
   private callService(params : FilteringParams) {
     this.destroyChart();
 
-    this.tradingSystemService.getFilteringAnalysis(this.tsId, params).subscribe(
+    this.portfolioService.getFilteringAnalysis(this.tsId, params).subscribe(
       result => {
         this.analysis      = result;
         this.config        = result.config;

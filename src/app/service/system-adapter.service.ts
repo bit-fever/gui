@@ -10,12 +10,12 @@ import {Injectable}        from "@angular/core";
 import {Observable}        from "rxjs";
 import {ListResponse}      from "../model/flex-table";
 import {HttpService}       from "./http.service";
-import {FilteringParams, FilteringResponse, TradingSystemFull} from "../model/model";
+import {Adapter}           from "../model/model";
 
 //=============================================================================
 
 @Injectable()
-export class TradingSystemService {
+export class SystemAdapterService {
 
   //---------------------------------------------------------------------------
   //---
@@ -31,14 +31,8 @@ export class TradingSystemService {
   //---
   //---------------------------------------------------------------------------
 
-  public getTradingSystems = (): Observable<ListResponse<TradingSystemFull>> => {
-    return this.httpService.get<ListResponse<TradingSystemFull>>('/api/portfolio/v1/trading-systems');
-  }
-
-  //---------------------------------------------------------------------------
-
-  public getFilteringAnalysis = (tsId : number, params : FilteringParams|null): Observable<FilteringResponse> => {
-    return this.httpService.post<FilteringResponse>('/api/portfolio/v1/trading-systems/'+ tsId +'/filtering-analysis', params);
+  public getAdapters = (): Observable<ListResponse<Adapter>> => {
+    return this.httpService.get<ListResponse<Adapter>>('/api/system/v1/adapters');
   }
 }
 

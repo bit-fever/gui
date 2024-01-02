@@ -8,9 +8,16 @@
 
 import {Injectable}      from "@angular/core";
 import {Observable}      from "rxjs";
-import {PortfolioMonitoringResponse, PortfolioTree} from "../model/model";
+import {
+  FilteringParams, FilteringResponse,
+  Portfolio,
+  PortfolioMonitoringResponse,
+  PortfolioTree,
+  PorTradingSystem,
+} from "../model/model";
 import {HttpService}     from "./http.service";
 import {HttpParams} from "@angular/common/http";
+import {ListResponse} from "../model/flex-table";
 
 //=============================================================================
 
@@ -31,10 +38,24 @@ export class PortfolioService {
   //---
   //---------------------------------------------------------------------------
 
-  public getPortfolioTree = (): Observable<PortfolioTree[]> => {
-    return this.httpService.get<PortfolioTree[]>('/api/portfolio/v1/portfolio/tree');
+  //---------------------------------------------------------------------------
+  //--- Trading systems
+  //---------------------------------------------------------------------------
+
+  public getTradingSystems = (): Observable<ListResponse<PorTradingSystem>> => {
+    return this.httpService.get<ListResponse<PorTradingSystem>>('/api/portfolio/v1/trading-systems');
   }
 
+  //---------------------------------------------------------------------------
+  //--- Filtering
+  //---------------------------------------------------------------------------
+
+  public getFilteringAnalysis = (tsId : number, params : FilteringParams|null): Observable<FilteringResponse> => {
+    return this.httpService.post<FilteringResponse>('/api/inventory/v1/trading-systems/'+ tsId +'/filtering-analysis', params);
+  }
+
+  //---------------------------------------------------------------------------
+  //--- Portfolios
   //---------------------------------------------------------------------------
 
   public getPortfolioMonitoring = (ids : number[], period : number): Observable<PortfolioMonitoringResponse> => {

@@ -1,0 +1,20 @@
+<div class="main-layout">
+  <right-title-panel icon="cable" title="{{loc('new')}}" (onClose)="onClose()"></right-title-panel>
+
+  <div class="form-layout">
+    <div>
+      <input-text-required #connCodeCtrl [(value)]="conn.code" [label]="loc('code')" [len]="8"></input-text-required>
+      &nbsp;
+      <input-text-required #connNameCtrl [(value)]="conn.name" [label]="loc('name')" [len]="32"></input-text-required>
+    </div>
+
+    <select-text-required #connSystemCodeCtrl [(key)]="conn.systemCode" [label]="loc('system')" keyField="code" valueField="name" [list]="adapters"></select-text-required>
+  </div>
+
+  <div class="buttons-layout">
+    <mat-divider></mat-divider>
+    <button mat-button (click)="onSave()" [disabled]="!saveEnabled()">{{button("save")}}</button>
+    <button mat-button (click)="onClose()">{{button("cancel")}}</button>
+  </div>
+</div>
+

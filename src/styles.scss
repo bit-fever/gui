@@ -23,9 +23,7 @@ html, body {
 body {
   height     : 100%;
   margin     : 0;
-  font-weight: 300;
-  color: #495057;
-  font-family: $font-family;
+  background-color: #F0FaFF;
   --mat-toolbar-standard-height: 48px;
   --mat-table-row-item-container-height: 40px;
 }
@@ -58,6 +56,19 @@ mat-nested-tree-node .mat-mdc-icon-button.mat-mdc-button-base {
 
 .mat-mdc-standard-chip {
   --mdc-chip-label-text-size: 12px;
+}
+
+//=============================================================================
+
+button:not([disabled]) span {
+//  color: #505AF8;
+  color: #F37C40;
+}
+
+//=============================================================================
+
+button span {
+  font-size: smaller;
 }
 
 //=============================================================================

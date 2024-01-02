@@ -7,7 +7,12 @@
 //=============================================================================
 
 import {IconStyle, IconStyler, Transcoder} from "../../../model/flex-table";
+import {LabelService} from "../../../service/label.service";
 
+//=============================================================================
+//===
+//=== Transcoders
+//===
 //=============================================================================
 
 export class MapTranscoder implements Transcoder {
@@ -30,7 +35,30 @@ export class IntDateTranscoder implements Transcoder {
 
 //=============================================================================
 
-export class SuggestedActionTranscoder implements IconStyler {
+export class IsoDateTranscoder implements Transcoder {
+  transcode(value: number, row?: any): string {
+    let d = String(value)
+    return d.substring(0, 10)
+  }
+}
+
+//=============================================================================
+
+export class LabelTranscoder implements Transcoder {
+  constructor(private labelService: LabelService, private base:string) {
+  }
+  transcode(value: number, row?: any): string {
+    return this.labelService.getLabelString(this.base +"."+ value)
+  }
+}
+
+//=============================================================================
+//===
+//=== Icon stylers
+//===
+//=============================================================================
+
+export class SuggestedActionStyler implements IconStyler {
 
   getStyle(value : number, row? : any) : IconStyle {
     if (value == 1) return SA_ACTIVATE;
@@ -43,5 +71,31 @@ export class SuggestedActionTranscoder implements IconStyler {
 var SA_NONE       = new IconStyle("trending_flat", "#A0A0A0");
 var SA_ACTIVATE   = new IconStyle("trending_up",   "#00A000");
 var SA_DEACTIVATE = new IconStyle("trending_down", "#A00000");
+
+//=============================================================================
+
+export class FlagStyler implements IconStyler {
+
+  getStyle(value : boolean, row? : any) : IconStyle {
+    if (value) return FLAG_TRUE_GREEN;
+
+    return FLAG_FALSE;
+  }
+}
+
+var FLAG_FALSE      = new IconStyle("radio_button_unchecked", "#A0A0A0");
+var FLAG_TRUE_GREEN = new IconStyle("radio_button_checked",   "#00A000");
+var FLAG_TRUE_RED   = new IconStyle("radio_button_checked",   "#A00000");
+
+//=============================================================================
+
+export class ConnectionStyler implements IconStyler {
+
+  getStyle(value : string, row? : any) : IconStyle {
+    if (value != undefined && value != '') return FLAG_TRUE_RED;
+
+    return FLAG_FALSE;
+  }
+}
 
 //=============================================================================

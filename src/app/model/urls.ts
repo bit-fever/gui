@@ -7,13 +7,18 @@
 //=============================================================================
 
 export enum Url {
-  Home                               = "home",
-  Portfolio_TradingSystems           = "portfolio/trading-systems",
+  Home                        = "home",
+  Inventory_TradingSystems    = "inventory/trading-systems",
+  Portfolio_TradingSystems    = "portfolio/trading-systems",
   Portfolio_TradingSystems_Id = "portfolio/trading-systems/:id",
-  Portfolio_Monitoring               = "portfolio/monitoring",
-  Admin_Config                       = "admin/config",
+  Portfolio_Monitoring        = "portfolio/monitoring",
+  Admin_Connections           = "admin/connections",
+  Admin_Config                = "admin/config",
 
-  Filtering = "filtering",
+  Sub_Filtering = "filtering",
+
+  Right_Connection_Edit    = "connection-edit",
+  Right_TradingSystem_Edit = "tradingSystem-edit"
 }
 
 //=============================================================================

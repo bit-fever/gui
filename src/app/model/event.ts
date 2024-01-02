@@ -16,7 +16,9 @@ export class AppEvent<T = any>  {
 
 	//-------------------------------------------------------------------------
 
-	constructor(public code : string, public params? : T) {}
+	constructor(public code           : string,
+              public params?        : T,
+              public propagateCode? : string) {}
 
 	//-------------------------------------------------------------------------
 	//--- System events
@@ -34,10 +36,14 @@ export class AppEvent<T = any>  {
 	static APPLICATION_READY  : string = "app.ready";
 
 	static MENU_BUTTON_CLICK  : string = "menu.button.click";
+  static RIGHT_PANEL_OPEN   : string = "right.panel.open";
 	static RIGHT_PANEL_CLOSE  : string = "right.panel.close";
 
-  static USER_VIEW_OPEN     : string = "user.view.open";
-  static USER_VIEW_START    : string = "user.view.start";
+  static CONNECTION_LIST_RELOAD: string = "connection.list.reload";
+  static CONNECTION_EDIT_START : string = "connection.edit.start";
+
+  static TRADINGSYSTEM_LIST_RELOAD: string = "tradingSystem.list.reload";
+  static TRADINGSYSTEM_EDIT_START : string = "tradingSystem.edit.start";
 }
 
 //=============================================================================

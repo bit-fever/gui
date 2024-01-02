@@ -12,16 +12,16 @@ import {MatInputModule}       from "@angular/material/input";
 import {MatCardModule}        from "@angular/material/card";
 import {MatIconModule}        from "@angular/material/icon";
 import {MatButtonModule}      from "@angular/material/button";
-import {TradingSystemFull}    from "../../../../../model/model";
+import {PorTradingSystem}     from "../../../../../model/model";
 import {FlexTableColumn, ListService} from "../../../../../model/flex-table";
 import {AbstractPanel}        from "../../../../../component/abstract.panel";
 import {FlexTablePanel}       from "../../../../../component/panel/flex-table/flex-table.panel";
 import {LabelService}         from "../../../../../service/label.service";
 import {EventBusService}      from "../../../../../service/eventbus.service";
-import {TradingSystemService} from "../../../../../service/trading-system.service";
-import {IntDateTranscoder, SuggestedActionTranscoder} from "../../../../../component/panel/flex-table/transcoders";
+import {IntDateTranscoder, LabelTranscoder} from "../../../../../component/panel/flex-table/transcoders";
 import {Router, RouterModule} from "@angular/router";
 import {Url} from "../../../../../model/urls";
+import {PortfolioService} from "../../../../../service/portfolio.service";
 
 //=============================================================================
 
@@ -36,7 +36,7 @@ import {Url} from "../../../../../model/urls";
 
 //=============================================================================
 
-export class TradingSystemPanel extends AbstractPanel {
+export class PorTradingSystemPanel extends AbstractPanel {
 
 	//-------------------------------------------------------------------------
 	//---
@@ -45,11 +45,11 @@ export class TradingSystemPanel extends AbstractPanel {
 	//-------------------------------------------------------------------------
 
 	columns  : FlexTableColumn[] = [];
-	service  : ListService<TradingSystemFull>;
+	service  : ListService<PorTradingSystem>;
   disView  : boolean = true;
   disFilter: boolean = true;
 
-  @ViewChild("table") table : FlexTablePanel<TradingSystemFull>|null = null;
+  @ViewChild("table") table : FlexTablePanel<PorTradingSystem>|null = null;
 
 	//-------------------------------------------------------------------------
 	//---
@@ -57,13 +57,13 @@ export class TradingSystemPanel extends AbstractPanel {
 	//---
 	//-------------------------------------------------------------------------
 
-	constructor(eventBusService     : EventBusService,
-	            labelService        : LabelService,
-              router              : Router,
-      			  tradingSystemService: TradingSystemService) {
+	constructor(eventBusService : EventBusService,
+	            labelService    : LabelService,
+              router          : Router,
+      			  portfolioService: PortfolioService) {
 
 		super(eventBusService, labelService, router, "portfolio.tradingSystem");
-		this.service = tradingSystemService.getTradingSystems;
+		this.service = portfolioService.getTradingSystems;
 	}
 
 	//-------------------------------------------------------------------------
@@ -78,7 +78,7 @@ export class TradingSystemPanel extends AbstractPanel {
 
 	//-------------------------------------------------------------------------
 
-	onRowSelected(selection : TradingSystemFull[]) {
+	onRowSelected(selection : PorTradingSystem[]) {
     this.updateButtons(selection);
 	}
 
@@ -100,7 +100,7 @@ export class TradingSystemPanel extends AbstractPanel {
     let selection = this.table.getSelection();
 
     if (selection.length > 0) {
-      this.navigateTo([ Url.Portfolio_TradingSystems, selection[0].id, Url.Filtering ]);
+      this.navigateTo([ Url.Portfolio_TradingSystems, selection[0].id, Url.Sub_Filtering ]);
     }
   }
 
@@ -115,11 +115,10 @@ export class TradingSystemPanel extends AbstractPanel {
 
 		this.columns = [
 			new FlexTableColumn(ts, "name"),
-			new FlexTableColumn(ts, "instrumentTicker"),
-			new FlexTableColumn(ts, "lastPl"),
+			new FlexTableColumn(ts, "status", new LabelTranscoder(this.labelService, "page.portfolio.tradingSystem.status")),
+			new FlexTableColumn(ts, "closedProfit"),
 			new FlexTableColumn(ts, "tradingDays"),
 			new FlexTableColumn(ts, "numTrades"),
-			new FlexTableColumn(ts, "suggestedAction", undefined, new SuggestedActionTranscoder()),
 			new FlexTableColumn(ts, "lastUpdate", new IntDateTranscoder()),
 		]
 	}
@@ -130,7 +129,7 @@ export class TradingSystemPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  private updateButtons = (selection : TradingSystemFull[]) => {
+  private updateButtons = (selection : PorTradingSystem[]) => {
     this.disView = (selection.length != 1)
     this.disFilter= this.disView
   }

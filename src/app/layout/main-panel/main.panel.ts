@@ -53,10 +53,6 @@ export class MainPanel extends AbstractSubscriber {
 		//--- Local Fat Arrow is mandatory in order to preserve 'this'
 
 		super.subscribeToApp(AppEvent.ANY, e => this.onAnyEvent(e));
-
-		//--- Custom events
-
-		// super.subscribeToApp(AppEvent.USER_VIEW_OPEN, (e: AppEvent) => this.onUserViewOpen(e));
 	}
 
 	//-------------------------------------------------------------------------
@@ -76,23 +72,14 @@ export class MainPanel extends AbstractSubscriber {
 			}
 		}
 		else {
-      if (event.code == AppEvent.RIGHT_PANEL_CLOSE) {
+      if (event.code == AppEvent.RIGHT_PANEL_OPEN) {
+        this.openRightNavig(event.propagateCode, event.params)
+      }
+      else if (event.code == AppEvent.RIGHT_PANEL_CLOSE) {
         this.rightNavig.opened = false;
       }
 		}
 	}
-
-	//-------------------------------------------------------------------------
-
-	// private onLoginSuccess(event : AppEvent) : void {
-	// 	this.rightNavig.opened = false;
-	// }
-
-	//-------------------------------------------------------------------------
-
-	// private onUserViewOpen(event : AppEvent) : void {
-	// 	this.openRightNavig(event.params, "home", "user-view", Events.USER_VIEW_START);
-	// }
 
 	//-------------------------------------------------------------------------
 	//---
@@ -100,22 +87,12 @@ export class MainPanel extends AbstractSubscriber {
 	//---
 	//-------------------------------------------------------------------------
 
-	private openRightNavig(params:any, primary:string, right:string, eventToPropagate:string|null = null) {
-
-		console.log("Opening right panel '"+ right +"' on '"+ primary +"'");
-
+	private openRightNavig(eventToPropagate:string|undefined, params:any) {
 		this.rightNavig.open().then(() => {
 			if (eventToPropagate) {
 				super.emitToApp(new AppEvent(eventToPropagate, params));
 			}
 		});
-
-		let outlet : any = {
-			primary : primary,
-			right   : right
-		};
-
-		this.router.navigate([{ outlets: outlet }]);
 	}
 }
 

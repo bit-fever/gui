@@ -5,12 +5,15 @@
 # ==============================================================================
 
 button:
+  create:   CREATE
   view:     VIEW
+  edit:     EDIT
   filter:   FILTER
   save:     SAVE
   run:      RUN
   optimize: OPTIMIZE
   reload:   RELOAD
+  cancel:   CANCEL
 
 # ==============================================================================
 # ===
@@ -22,14 +25,18 @@ menu:
   main:
     _label: Main
     home: Home
+  inventory:
+    _label: Inventory
+    tradingSystem: Trading systems
   portfolio:
     _label: Portfolio
     tradingSystem: Trading systems
-    monitoring: Monitoring
+    monitoring   : Monitoring
   admin:
     _label: Administration
-    config: Configuration
-    link: GitHub
+    connections  : Connections
+    config       : Configuration
+    link         : GitHub
 
 # ==============================================================================
 # ===
@@ -49,20 +56,23 @@ flexTable:
 model:
   tradingSystem:
     id              : Id
-    code            : Code
+    createdAt       : Created at
+    updatedAt       : Updated at
     name            : Name
-    instrumentTicker: Instrument
     portfolioName   : Portfolio
+    feedSymbol      : Feed symbol
+    brokerSymbol    : Broker symbol
+    tradingSession  : Session
+
+    code            : Code
     firstUpdate     : First update
     lastUpdate      : Last update
-    lastPl          : Last P/L
+    closedProfit    : Closed profit
     tradingDays     : Trading days
     numTrades       : Num. of trades
     filterType      : Filter type
     filter          : Filter
-    suggestedAction : Sugg. action
-    createdAt       : Created at
-    updatedAt       : Updated at
+    status          : Status
 
   instrument:
     id             : Id
@@ -70,6 +80,21 @@ model:
     name           : Name;
     createdAt      : Created at
     updatedAt      : Updated at
+
+  connection:
+    id                   : Id
+    username             : Username
+    code                 : Code
+    name                 : Name
+    systemCode           : System code
+    systemName           : System name
+    connectionCode       : Connected
+    supportsFeed         : Feed
+    supportsBroker       : Broker
+    supportsMultipleFeeds: MFeeds
+    supportsInventory    : Inventory
+    createdAt            : Created at
+    updatedAt            : Updated at
 
 # ==============================================================================
 # ===
@@ -82,11 +107,42 @@ page:
     title: BitFever platform
   unknown:
     message: Unknown page
+  # ==============================================================================
+
+  inventory:
+    tradingSystem:
+      new:           New trading system
+      name:          Name
+      workspaceCode: Workspace
+      portfolio:     Portfolio
+      feed:          Feed symbol
+      broker:        Broker symbol
+      session:       Trading session
+
+  # ==============================================================================
+
   admin:
     config:
       title: Configuration
+
+    # ----------------------------------------------------------------------------
+
+    connection:
+      new: New connection
+      code: Code
+      name: Name
+      system: System
+
+  # ==============================================================================
+
   portfolio:
     tradingSystem:
+      status:
+        en: Enabled
+        di: Disabled
+
+    # ----------------------------------------------------------------------------
+
     monitoring:
       portfolios: Portfolios
       tradingSystems: Trading systems
@@ -123,6 +179,8 @@ page:
       totalNetDrawdown: Total net drawdown
       totalTrades:      Total trades
 
+    # ----------------------------------------------------------------------------
+
     filtering:
       enabled: Enabled
       longShortPeriods: Long vs short periods
@@ -140,3 +198,14 @@ page:
         unfDrawdown: Unfiltered DD
         filDrawdown: Filtered DD
         average:     Average
+
+# ==============================================================================
+# ===
+# === Errors
+# ===
+# ==============================================================================
+
+errors:
+  input:
+    required: Value is required
+    tooLong: Value is too long

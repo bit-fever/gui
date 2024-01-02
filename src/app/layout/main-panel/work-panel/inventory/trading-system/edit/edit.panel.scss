@@ -6,15 +6,29 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-.toolbar {
-  background-color: #FFF8F4;
-//  background-color: #F4F8FF;
-  border-bottom: solid #F37C40;
-//  border-bottom: solid #505AC2;
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 8px;
+  height   : 100%;
+  overflow: hidden;
 }
+
 //=============================================================================
 
-.spacer {
+.form-layout {
   flex: 1 1 auto;
+  overflow: auto;
+  padding: 0 8px 0 8px;
 }
+
+//=============================================================================
+
+.buttons-layout {
+  text-align: center;
+}
+
 //=============================================================================

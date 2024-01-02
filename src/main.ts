@@ -9,9 +9,9 @@
 import {enableProdMode, importProvidersFrom} from "@angular/core";
 import {bootstrapApplication}    from '@angular/platform-browser';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {HttpClientModule, provideHttpClient, withInterceptors} from "@angular/common/http";
+import {HttpClientModule}        from "@angular/common/http";
 import {provideRouter}           from "@angular/router";
-import {authInterceptor, provideAuth} from "angular-auth-oidc-client";
+import {provideAuth}             from "angular-auth-oidc-client";
 
 import {routes}                  from "./routes";
 import {authConfig}              from "./authentication";
@@ -24,10 +24,10 @@ import {ApplicationService}      from "./app/service/application.service";
 import {MenuService}             from "./app/service/menu.service";
 import {NotificationService}     from "./app/service/notification.service";
 import {SessionService}          from "./app/service/session.service";
-import {TradingSystemService}    from "./app/service/trading-system.service";
-import {InstrumentService}       from "./app/service/instrument.service";
-import {PortfolioService}        from "./app/service/portfolio.service";
-import {environment} from "./environments/environment";
+import {environment}             from "./environments/environment";
+import {SystemAdapterService} from "./app/service/system-adapter.service";
+import {InventoryService} from "./app/service/inventory.service";
+import {PortfolioService} from "./app/service/portfolio.service";
 
 //=============================================================================
 
@@ -39,19 +39,18 @@ bootstrapApplication(AppComponent, {
 	providers: [
 		importProvidersFrom(BrowserAnimationsModule),
     importProvidersFrom(HttpClientModule),
-//    provideHttpClient(withInterceptors([ authInterceptor() ])),
 		provideRouter(routes),
     provideAuth(authConfig),
     ApplicationService,
     EventBusService,
     HttpService,
-		InstrumentService,
+    InventoryService,
     LabelService,
     MenuService,
     NotificationService,
     PortfolioService,
     SessionService,
-    TradingSystemService
+    SystemAdapterService
 	]
 })
 .catch(err => console.error(err));

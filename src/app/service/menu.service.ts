@@ -64,6 +64,19 @@ export class MenuService extends AbstractSubscriber {
       //-------------------------------------------------------------
 
       {
+        id: 'menu.inventory',
+        header: this.get('inventory._label'),
+      },
+      {
+        id: 'menu.inventory.trading-system',
+        label: this.get('inventory.tradingSystem'),
+        route: Url.Inventory_TradingSystems,
+        iconClasses: 'inventory'
+      },
+
+      //-------------------------------------------------------------
+
+      {
         id: 'menu.portfolio',
         header: this.get('portfolio._label'),
       },
@@ -85,6 +98,12 @@ export class MenuService extends AbstractSubscriber {
       {
         id: 'menu.admin',
         header: this.get('admin._label')
+      },
+      {
+        id: 'menu.admin.connections',
+        label: this.get('admin.connections'),
+        route: Url.Admin_Connections,
+        iconClasses: 'cable'
       },
       {
         id: 'menu.admin.config',
