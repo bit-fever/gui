@@ -18,7 +18,11 @@ import {AbstractPanel}        from "../../../../../component/abstract.panel";
 import {FlexTablePanel}       from "../../../../../component/panel/flex-table/flex-table.panel";
 import {LabelService}         from "../../../../../service/label.service";
 import {EventBusService}      from "../../../../../service/eventbus.service";
-import {IntDateTranscoder, LabelTranscoder} from "../../../../../component/panel/flex-table/transcoders";
+import {
+  IntDateTranscoder, IsoDateTranscoder,
+  LabelTranscoder,
+  TradingSystemStatusStyler
+} from "../../../../../component/panel/flex-table/transcoders";
 import {Router, RouterModule} from "@angular/router";
 import {Url} from "../../../../../model/urls";
 import {PortfolioService} from "../../../../../service/portfolio.service";
@@ -115,7 +119,7 @@ export class PorTradingSystemPanel extends AbstractPanel {
 
 		this.columns = [
 			new FlexTableColumn(ts, "name"),
-			new FlexTableColumn(ts, "status", new LabelTranscoder(this.labelService, "page.portfolio.tradingSystem.status")),
+			new FlexTableColumn(ts, "status", undefined, new TradingSystemStatusStyler()),
 			new FlexTableColumn(ts, "closedProfit"),
 			new FlexTableColumn(ts, "tradingDays"),
 			new FlexTableColumn(ts, "numTrades"),

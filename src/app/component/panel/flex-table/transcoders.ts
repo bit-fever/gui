@@ -99,3 +99,17 @@ export class ConnectionStyler implements IconStyler {
 }
 
 //=============================================================================
+
+export class TradingSystemStatusStyler implements IconStyler {
+
+  getStyle(value : string, row? : any) : IconStyle {
+    if (value == 'en') return TS_STATUS_ENABLED;
+
+    return TS_STATUS_DISABLED;
+  }
+}
+
+var TS_STATUS_DISABLED= new IconStyle("radio_button_unchecked", "#A0A0A0");
+var TS_STATUS_ENABLED = new IconStyle("radio_button_checked",   "#00A000");
+
+//=============================================================================
