@@ -49,6 +49,8 @@ export class SessionService extends AbstractSubscriber {
 	//-------------------------------------------------------------------------
 
   public checkAuthentication() {
+    console.log("Checking authentication...")
+
     this.oidcSecurityService.checkAuth().subscribe((res) => {
       this.isAuthenticated = res.isAuthenticated;
       this.userData        = res.userData;

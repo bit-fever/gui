@@ -11,7 +11,7 @@ import {Observable}        from "rxjs";
 import {ListResponse}      from "../model/flex-table";
 import {
   Connection,
-  ConnectionSpec, FilteringParams, FilteringResponse, InvTradingSystem,
+  ConnectionSpec, InvTradingSystem,
   InvTradingSystemFull, Portfolio, PortfolioTree,
   ProductBroker,
   ProductFeed,

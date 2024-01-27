@@ -1,14 +1,36 @@
 <div class="main-layout">
 
   <mat-accordion class="left-layout" multi>
-    <mat-expansion-panel [expanded]="config.longShort.enabled" hideToggle>
+    <mat-expansion-panel [expanded]="filters.posProEnabled" hideToggle>
       <mat-expansion-panel-header>
-        <mat-panel-title>{{loc("longShortPeriods")}}
+        <mat-panel-title>{{loc("positiveProfit")}}
           <span class="filler"></span>
-          <mat-icon>date_range</mat-icon>
-          <mat-slide-toggle (change)="onLongShortChange($event)" [checked]="config.longShort.enabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
+          <mat-icon>functions</mat-icon>
+          <mat-slide-toggle (change)="onPositiveProfitChange($event)" [checked]="filters.posProEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
         </mat-panel-title>
       </mat-expansion-panel-header>
+
+      <mat-form-field>
+        <mat-label>{{loc("weeks")}}</mat-label>
+        <input matInput type="number" min="1" max="50" required [(ngModel)]="filters.posProWeeks">
+      </mat-form-field>
+    </mat-expansion-panel>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <mat-expansion-panel [expanded]="filters.shoLonEnabled" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{loc("shortLongPeriods")}}
+          <span class="filler"></span>
+          <mat-icon>date_range</mat-icon>
+          <mat-slide-toggle (change)="onShortLongPeriodsChange($event)" [checked]="filters.shoLonEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <mat-form-field>
+        <mat-label>{{loc("shortPeriod")}}</mat-label>
+        <input matInput type="number" min="1" max="50" required>
+      </mat-form-field>
 
       <mat-form-field>
         <mat-label>{{loc("longPeriod")}}</mat-label>
@@ -16,25 +38,47 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>{{loc("shortPeriod")}}</mat-label>
-        <input matInput type="number" min="1" max="50" required>
+        <mat-label>{{loc("longPercentage")}}</mat-label>
+        <input matInput type="number" min="1" max="100" required>
       </mat-form-field>
     </mat-expansion-panel>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <mat-expansion-panel [expanded]="config.equityAverage.enabled" hideToggle>
+    <mat-expansion-panel [expanded]="filters.winPerEnabled" hideToggle>
       <mat-expansion-panel-header>
-        <mat-panel-title>{{loc("equityAverage")}}
+        <mat-panel-title>{{loc("winningPercentage")}}
           <span class="filler"></span>
           <mat-icon>functions</mat-icon>
-          <mat-slide-toggle (change)="onEquityAverageChange($event)" [checked]="config.equityAverage.enabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
+          <mat-slide-toggle (change)="onWinningPercentageChange($event)" [checked]="filters.winPerEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
         </mat-panel-title>
       </mat-expansion-panel-header>
 
       <mat-form-field>
-        <mat-label>{{loc("equityPeriods")}}</mat-label>
-        <input matInput type="number" min="1" max="200" required [(ngModel)]="config.equityAverage.days">
+        <mat-label>{{loc("weeks")}}</mat-label>
+        <input matInput type="number" min="1" max="200" required [(ngModel)]="filters.winPerWeeks">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>{{loc("winningPercValue")}}</mat-label>
+        <input matInput type="number" min="1" max="100" required [(ngModel)]="filters.winPerValue">
+      </mat-form-field>
+    </mat-expansion-panel>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <mat-expansion-panel [expanded]="filters.equAvgEnabled" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{loc("equityAverage")}}
+          <span class="filler"></span>
+          <mat-icon>functions</mat-icon>
+          <mat-slide-toggle (change)="onEquityAverageChange($event)" [checked]="filters.equAvgEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <mat-form-field>
+        <mat-label>{{loc("equityDays")}}</mat-label>
+        <input matInput type="number" min="1" max="200" required [(ngModel)]="filters.equAvgDays">
       </mat-form-field>
     </mat-expansion-panel>
 

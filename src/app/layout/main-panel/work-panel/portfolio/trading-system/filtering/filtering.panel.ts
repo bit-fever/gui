@@ -20,9 +20,9 @@ import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {MatSlideToggleChange, MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {
-  FilteringConfig,
-  FilteringParams,
-  FilteringResponse, TradingSystemSmall,
+  FilterAnalysisRequest,
+  FilterAnalysisResponse,
+  TradingFilters, TradingSystemSmall,
 } from "../../../../../../model/model";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatButtonModule} from "@angular/material/button";
@@ -31,6 +31,7 @@ import {Lib} from "../../../../../../lib/lib";
 import {FormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
 import {PortfolioService} from "../../../../../../service/portfolio.service";
+import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
 
 //=============================================================================
 
@@ -39,8 +40,8 @@ import {PortfolioService} from "../../../../../../service/portfolio.service";
   templateUrl :   './filtering.panel.html',
   styleUrls   : [ './filtering.panel.scss' ],
   imports: [CommonModule, RouterModule, MatExpansionModule, MatIconModule, MatFormFieldModule, FormsModule,
-            MatInputModule, MatOptionModule, MatSelectModule, MatSlideToggleModule, MatTabsModule, MatButtonModule,
-            MatDividerModule],
+    MatInputModule, MatOptionModule, MatSelectModule, MatSlideToggleModule, MatTabsModule, MatButtonModule,
+    MatDividerModule, SelectTextRequired],
   standalone  : true
 })
 
@@ -54,7 +55,7 @@ export class FilteringPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  config             = new FilteringConfig()
+  filters             = new TradingFilters()
   tradingSystem  = new TradingSystemSmall();
 
   chart : any;
@@ -62,7 +63,7 @@ export class FilteringPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   private tsId : number = 0;
-  private analysis = new FilteringResponse();
+  private analysis = new FilterAnalysisResponse();
 
   //-------------------------------------------------------------------------
   //---
@@ -87,7 +88,7 @@ export class FilteringPanel extends AbstractPanel {
 
   override init = () : void => {
     this.tsId = Number(this.route.snapshot.paramMap.get("id"));
-    this.callService(new FilteringParams())
+    this.callService(new FilterAnalysisRequest())
   }
 
   //-------------------------------------------------------------------------
@@ -96,20 +97,32 @@ export class FilteringPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  onLongShortChange(e : MatSlideToggleChange) {
-    this.config.longShort.enabled = e.checked;
+  onPositiveProfitChange(e : MatSlideToggleChange) {
+    this.filters.posProEnabled = e.checked;
+  }
+
+  //-------------------------------------------------------------------------
+
+  onShortLongPeriodsChange(e : MatSlideToggleChange) {
+    this.filters.shoLonEnabled = e.checked;
+  }
+
+  //-------------------------------------------------------------------------
+
+  onWinningPercentageChange(e : MatSlideToggleChange) {
+    this.filters.winPerEnabled = e.checked;
   }
 
   //-------------------------------------------------------------------------
 
   onEquityAverageChange(e : MatSlideToggleChange) {
-    this.config.equityAverage.enabled = e.checked;
+    this.filters.equAvgEnabled = e.checked;
   }
 
   //-------------------------------------------------------------------------
 
   onRunClick() {
-    this.callService(this.toParams())
+    this.callService(new FilterAnalysisRequest(this.filters))
   }
 
   //-------------------------------------------------------------------------
@@ -120,12 +133,17 @@ export class FilteringPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onSaveClick() {
+    this.portfolioService.setTradingFilters(this.tsId, this.filters).subscribe(
+      result => {
+
+      }
+    )
   }
 
   //-------------------------------------------------------------------------
 
   onReloadClick() {
-    this.callService(new FilteringParams());
+    this.callService(new FilterAnalysisRequest());
   }
 
   //-------------------------------------------------------------------------
@@ -134,13 +152,13 @@ export class FilteringPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  private callService(params : FilteringParams) {
+  private callService(req : FilterAnalysisRequest) {
     this.destroyChart();
 
-    this.portfolioService.getFilteringAnalysis(this.tsId, params).subscribe(
+    this.portfolioService.runFilterAnalysis(this.tsId, req).subscribe(
       result => {
         this.analysis      = result;
-        this.config        = result.config;
+        this.filters       = result.filters;
         this.tradingSystem = result.tradingSystem;
         this.chart         = this.createChart(result);
       }
@@ -149,17 +167,7 @@ export class FilteringPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  private toParams() {
-    let params = new FilteringParams()
-    params.noConfig = false;
-    params.config   = this.config;
-
-    return params
-  }
-
-  //-------------------------------------------------------------------------
-
-  private createChart(res: FilteringResponse): Chart {
+  private createChart(res: FilterAnalysisResponse): Chart {
       let config = Lib.chart.lineConfig("$")
       let days = Lib.chart.formatDays(res.equities.days);
 
@@ -190,7 +198,7 @@ export class FilteringPanel extends AbstractPanel {
 
       //--- Moving average
 
-      if (res.config.equityAverage.enabled) {
+      if (res.filters.equAvgEnabled) {
         ds = Lib.chart.buildDataSet(this.loc("chart.average"), days, res.equities.average);
         ds.type="scatter"
         datasets = [...datasets, ds];

@@ -184,14 +184,6 @@ export class Adapter {
 
 //=============================================================================
 
-
-
-
-
-
-
-//=============================================================================
-
 class BaseMonitoring {
   days       : number[] = [];
   rawProfit  : number[] = [];
@@ -215,34 +207,37 @@ export class PortfolioMonitoringResponse extends BaseMonitoring {
 }
 
 //=============================================================================
+//===
+//=== Filtering
+//===
+//=============================================================================
 
-export class LongShort {
-  enabled      : boolean = false
-  longPeriod   : number  = 36
-  shortPeriod  : number  = 8
-  threshold    : number  = 1.2
-  shortPosPerc : number  = 50
+export class TradingFilters {
+  tradingSystemId   : number  = 0
+  equAvgEnabled     : boolean = false
+  equAvgDays        : number  = 0
+
+  posProEnabled     : boolean = false
+  posProWeeks       : number  = 0
+
+  winPerEnabled     : boolean = false
+  winPerWeeks       : number  = 0
+  winPerValue       : number  = 0
+
+  shoLonEnabled     : boolean = false
+  shoLonShortWeeks  : number  = 0
+  shoLonLongWeeks   : number  = 0
+  shoLonLongPerc    : number  = 0
 }
 
-//-----------------------------------------------------------------------------
+//=============================================================================
 
-export class EquityAverage {
-  enabled : boolean = false
-  days    : number  = 30
-}
+export class FilterAnalysisRequest {
+  filters? : TradingFilters
 
-//-----------------------------------------------------------------------------
-
-export class FilteringConfig {
-  longShort     : LongShort     = new LongShort()
-  equityAverage : EquityAverage = new EquityAverage()
-}
-
-//-------------------------------------------------------------------------
-
-export class FilteringParams {
-  noConfig : boolean         = true
-  config   : FilteringConfig = new FilteringConfig()
+  constructor(filters? : TradingFilters) {
+    this.filters = filters
+  }
 }
 
 //=============================================================================
@@ -274,11 +269,11 @@ export class Equities {
 
 //-----------------------------------------------------------------------------
 
-export class FilteringResponse {
+export class FilterAnalysisResponse {
   tradingSystem : TradingSystemSmall = new TradingSystemSmall()
   summary       : Summary            = new Summary()
   equities      : Equities           = new Equities()
-  config        : FilteringConfig    = new FilteringConfig();
+  filters       : TradingFilters     = new TradingFilters()
 }
 
 //=============================================================================

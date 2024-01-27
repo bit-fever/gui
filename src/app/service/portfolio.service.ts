@@ -9,14 +9,11 @@
 import {Injectable}      from "@angular/core";
 import {Observable}      from "rxjs";
 import {
-  FilteringParams, FilteringResponse,
-  Portfolio,
+  FilterAnalysisRequest, FilterAnalysisResponse,
   PortfolioMonitoringResponse,
-  PortfolioTree,
-  PorTradingSystem,
+  PorTradingSystem, TradingFilters,
 } from "../model/model";
 import {HttpService}     from "./http.service";
-import {HttpParams} from "@angular/common/http";
 import {ListResponse} from "../model/flex-table";
 
 //=============================================================================
@@ -50,8 +47,20 @@ export class PortfolioService {
   //--- Filtering
   //---------------------------------------------------------------------------
 
-  public getFilteringAnalysis = (tsId : number, params : FilteringParams|null): Observable<FilteringResponse> => {
-    return this.httpService.post<FilteringResponse>('/api/inventory/v1/trading-systems/'+ tsId +'/filtering-analysis', params);
+  public getTradingFilters = (tsId : number): Observable<TradingFilters> => {
+    return this.httpService.get<TradingFilters>('/api/portfolio/v1/trading-systems/'+ tsId +'/filters');
+  }
+
+  //---------------------------------------------------------------------------
+
+  public setTradingFilters = (tsId : number, filters : TradingFilters): Observable<string> => {
+    return this.httpService.post<string>('/api/portfolio/v1/trading-systems/'+ tsId +'/filters', filters);
+  }
+
+  //---------------------------------------------------------------------------
+
+  public runFilterAnalysis = (tsId : number, req : FilterAnalysisRequest): Observable<FilterAnalysisResponse> => {
+    return this.httpService.post<FilterAnalysisResponse>('/api/portfolio/v1/trading-systems/'+ tsId +'/filter-analysis', req);
   }
 
   //---------------------------------------------------------------------------

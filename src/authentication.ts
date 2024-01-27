@@ -22,7 +22,7 @@ export const authConfig : PassedInitialConfig = {
     useRefreshToken: true,
     logLevel: LogLevel.Debug,
     secureRoutes: [ 'https://bitfever-server:8443/' ],
-    ignoreNonceAfterRefresh: true
+    //ignoreNonceAfterRefresh: true
   },
 }
 
