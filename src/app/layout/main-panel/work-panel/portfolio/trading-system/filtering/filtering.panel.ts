@@ -6,7 +6,7 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {CommonModule}         from "@angular/common";
 import {ActivatedRoute, Router, RouterModule} from "@angular/router";
 import {AbstractPanel} from "../../../../../../component/abstract.panel";
@@ -21,7 +21,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatSlideToggleChange, MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {
   FilterAnalysisRequest,
-  FilterAnalysisResponse,
+  FilterAnalysisResponse, InvTradingSystemFull, Plot, PorTradingSystem, Summary,
   TradingFilters, TradingSystemSmall,
 } from "../../../../../../model/model";
 import {MatTabsModule} from "@angular/material/tabs";
@@ -32,6 +32,12 @@ import {FormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
 import {PortfolioService} from "../../../../../../service/portfolio.service";
 import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {FlexTablePanel} from "../../../../../../component/panel/flex-table/flex-table.panel";
+import {FlexTableColumn, ListResponse, ListService} from "../../../../../../model/flex-table";
+import {Observable, of} from "rxjs";
+import {SimpleTablePanel} from "../../../../../../component/panel/simple-table/simple-table.panel";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 //=============================================================================
 
@@ -41,7 +47,7 @@ import {SelectTextRequired} from "../../../../../../component/form/select-requir
   styleUrls   : [ './filtering.panel.scss' ],
   imports: [CommonModule, RouterModule, MatExpansionModule, MatIconModule, MatFormFieldModule, FormsModule,
     MatInputModule, MatOptionModule, MatSelectModule, MatSlideToggleModule, MatTabsModule, MatButtonModule,
-    MatDividerModule, SelectTextRequired],
+    MatDividerModule, SelectTextRequired, MatGridListModule, SimpleTablePanel],
   standalone  : true
 })
 
@@ -55,10 +61,17 @@ export class FilteringPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  filters             = new TradingFilters()
-  tradingSystem  = new TradingSystemSmall();
+  filters           = new TradingFilters()
+  tradingSystem= new TradingSystemSmall()
+  summary               = new Summary()
 
-  chart : any;
+  equityChart     : any;
+  activationChart : any;
+
+  summaryColumns: FlexTableColumn[] = [];
+  summaryData   : SummaryRow[]      = []
+
+  @ViewChild("table") table : FlexTablePanel<SummaryRow>|null = null;
 
   //-------------------------------------------------------------------------
 
@@ -75,9 +88,18 @@ export class FilteringPanel extends AbstractPanel {
               labelService            : LabelService,
               router                  : Router,
               private route           : ActivatedRoute,
+              private snackBar        : MatSnackBar,
               private portfolioService: PortfolioService) {
 
     super(eventBusService, labelService, router, "portfolio.filtering");
+
+    let ts = this.labelService.getLabel("page.portfolio.filtering.summ");
+
+    this.summaryColumns = [
+      new FlexTableColumn(ts, "name"),
+      new FlexTableColumn(ts, "unfiltered"),
+      new FlexTableColumn(ts, "filtered")
+    ]
   }
 
   //-------------------------------------------------------------------------
@@ -103,8 +125,8 @@ export class FilteringPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  onShortLongPeriodsChange(e : MatSlideToggleChange) {
-    this.filters.shoLonEnabled = e.checked;
+  onOldVsNewChange(e : MatSlideToggleChange) {
+    this.filters.oldNewEnabled = e.checked;
   }
 
   //-------------------------------------------------------------------------
@@ -135,7 +157,7 @@ export class FilteringPanel extends AbstractPanel {
   onSaveClick() {
     this.portfolioService.setTradingFilters(this.tsId, this.filters).subscribe(
       result => {
-
+        this.snackBar.open(this.loc("filterSaved"), undefined, { duration: 3000 })
       }
     )
   }
@@ -153,27 +175,42 @@ export class FilteringPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   private callService(req : FilterAnalysisRequest) {
-    this.destroyChart();
+    this.destroyCharts();
 
     this.portfolioService.runFilterAnalysis(this.tsId, req).subscribe(
       result => {
-        this.analysis      = result;
-        this.filters       = result.filters;
-        this.tradingSystem = result.tradingSystem;
-        this.chart         = this.createChart(result);
+        this.analysis       = result;
+        this.filters        = result.filters;
+        this.tradingSystem  = result.tradingSystem;
+        this.summary        = result.summary;
+        this.equityChart    = this.createEquityChart(result);
+        this.activationChart= this.createActivationChart(result);
+
+        this.summaryData = this.buildSummary(this.summary)
       }
     )
   }
 
   //-------------------------------------------------------------------------
 
-  private createChart(res: FilterAnalysisResponse): Chart {
+  private buildSummary(s : Summary) : SummaryRow[] {
+    return [
+      new SummaryRow(this.loc("summ.netProfit"),    String(s.unfProfit),       String(s.filProfit)),
+      new SummaryRow(this.loc("summ.maxDrawdown"),  String(s.unfMaxDrawdown),  String(s.filMaxDrawdown)),
+      new SummaryRow(this.loc("summ.winningPerc"),  s.unfWinningPerc+ " %", s.filWinningPerc +" %"),
+      new SummaryRow(this.loc("summ.averageTrade"), String(s.unfAverageTrade), String(s.filAverageTrade))
+    ]
+  }
+
+  //-------------------------------------------------------------------------
+
+  private createEquityChart(res: FilterAnalysisResponse): Chart {
       let config = Lib.chart.lineConfig("$")
       let days = Lib.chart.formatDays(res.equities.days);
 
       let datasets: any[] = [
-        Lib.chart.buildDataSet(this.loc("chart.unfProfit"), days, res.equities.unfilteredProfit),
-        Lib.chart.buildDataSet(this.loc("chart.filProfit"), days, res.equities.filteredProfit),
+        Lib.chart.buildDataSet(this.loc("chart.unfEquity"), days, res.equities.unfilteredEquity),
+        Lib.chart.buildDataSet(this.loc("chart.filEquity"), days, res.equities.filteredEquity),
       ];
 
       //--- Unfiltered drawdown
@@ -198,8 +235,9 @@ export class FilteringPanel extends AbstractPanel {
 
       //--- Moving average
 
-      if (res.filters.equAvgEnabled) {
-        ds = Lib.chart.buildDataSet(this.loc("chart.average"), days, res.equities.average);
+      if (res.equities.average) {
+        let avg = res.equities.average
+        ds = Lib.chart.buildDataSet(this.loc("chart.average"), Lib.chart.formatDays(avg.days), avg.values);
         ds.type="scatter"
         datasets = [...datasets, ds];
       }
@@ -207,16 +245,102 @@ export class FilteringPanel extends AbstractPanel {
       config.data.datasets = datasets;
       config.data.labels   = days;
 
-      return new Chart("filteringChart", config);
+      return new Chart("equityChart", config);
   }
 
   //-------------------------------------------------------------------------
 
-  private destroyChart() {
-    if (this.chart != undefined) {
-      this.chart.destroy();
-      this.chart = undefined;
+  private createActivationChart(res: FilterAnalysisResponse): Chart {
+    let config = Lib.chart.lineConfig("")
+    let days = Lib.chart.formatDays(res.equities.days);
+
+    let datasets: any[] = [
+    ];
+
+    //--- Average activation
+
+    let factor = 0
+
+    if (res.activations.equityVsAverage) {
+      let ds = this.addActivationDataset(res.activations.equityVsAverage, "chart.equOverAvg", factor)
+      datasets = [...datasets, ds];
+      factor += 2
     }
+
+    if (res.activations.positiveProfit) {
+      let ds = this.addActivationDataset(res.activations.positiveProfit, "chart.positProfit", factor)
+      datasets = [...datasets, ds];
+      factor += 2
+    }
+
+    if (res.activations.oldVsNew) {
+      let ds = this.addActivationDataset(res.activations.oldVsNew, "chart.oldVsNew", factor)
+      datasets = [...datasets, ds];
+      factor += 2
+    }
+
+    if (res.activations.winningPercentage) {
+      let ds = this.addActivationDataset(res.activations.winningPercentage, "chart.winningPerc", factor)
+      datasets = [...datasets, ds];
+      factor += 2
+    }
+
+    let ds = this.addActivationDatasetBase(res.equities.days, res.equities.filterActivation, "chart.filterActivation", factor)
+    datasets = [...datasets, ds];
+
+    config.data.datasets = datasets;
+    config.data.labels   = days;
+
+    return new Chart("activationChart", config);
+  }
+
+  //-------------------------------------------------------------------------
+
+  private addActivationDataset(plot : Plot, label : string, factor : number) : any {
+    return this.addActivationDatasetBase(plot.days, plot.values, label, factor)
+  }
+
+  //-------------------------------------------------------------------------
+
+  private addActivationDatasetBase(days:number[], values:number[], label : string, factor : number) : any {
+    for (let i=0; i<values.length; i++) {
+      values[i] += factor
+    }
+
+    let ds = Lib.chart.buildDataSet(this.loc(label), Lib.chart.formatDays(days), values);
+
+    ds.step    = true
+    ds.stepped = "before"
+
+    return ds
+  }
+
+  //-------------------------------------------------------------------------
+
+  private destroyCharts() {
+    if (this.equityChart != undefined) {
+      this.equityChart.destroy();
+      this.equityChart = undefined;
+    }
+
+    if (this.activationChart != undefined) {
+      this.activationChart.destroy();
+      this.activationChart = undefined;
+    }
+  }
+}
+
+//=============================================================================
+
+class SummaryRow {
+  name?       : string
+  unfiltered? : string
+  filtered?   : string
+
+  constructor(name:string, unfiltered:string, filtered:string) {
+    this.name       = name
+    this.unfiltered = unfiltered
+    this.filtered   = filtered
   }
 }
 

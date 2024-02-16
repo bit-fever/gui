@@ -213,21 +213,20 @@ export class PortfolioMonitoringResponse extends BaseMonitoring {
 //=============================================================================
 
 export class TradingFilters {
-  tradingSystemId   : number  = 0
-  equAvgEnabled     : boolean = false
-  equAvgDays        : number  = 0
+  equAvgEnabled  : boolean = false
+  equAvgDays     : number  = 0
 
-  posProEnabled     : boolean = false
-  posProWeeks       : number  = 0
+  posProEnabled  : boolean = false
+  posProDays     : number  = 0
 
-  winPerEnabled     : boolean = false
-  winPerWeeks       : number  = 0
-  winPerValue       : number  = 0
+  winPerEnabled  : boolean = false
+  winPerDays     : number  = 0
+  winPerValue    : number  = 0
 
-  shoLonEnabled     : boolean = false
-  shoLonShortWeeks  : number  = 0
-  shoLonLongWeeks   : number  = 0
-  shoLonLongPerc    : number  = 0
+  oldNewEnabled  : boolean = false
+  oldNewOldDays  : number  = 0
+  oldNewOldPerc  : number  = 0
+  oldNewNewDays  : number  = 0
 }
 
 //=============================================================================
@@ -250,21 +249,42 @@ export class TradingSystemSmall {
 //-----------------------------------------------------------------------------
 
 export class Summary {
-  unfilteredProfit : number = 0
-  filteredProfit   : number = 0
-  unfilteredMaxDD  : number = 0
-  filteredMaxDD    : number = 0
+  unfProfit       : number = 0
+  filProfit       : number = 0
+  unfMaxDrawdown  : number = 0
+  filMaxDrawdown  : number = 0
+  unfWinningPerc  : number = 0
+  filWinningPerc  : number = 0
+  unfAverageTrade : number = 0
+  filAverageTrade : number = 0
+}
+
+//-----------------------------------------------------------------------------
+
+export class Plot {
+  days   : number[] = []
+  values : number[] = []
 }
 
 //-----------------------------------------------------------------------------
 
 export class Equities {
   days               : number[] = []
-  unfilteredProfit   : number[] = []
-  filteredProfit     : number[] = []
+  unfilteredEquity   : number[] = []
+  filteredEquity     : number[] = []
   unfilteredDrawdown : number[] = []
   filteredDrawdown   : number[] = []
-  average            : number[] = []
+  filterActivation   : number[] = []
+  average            : Plot = new Plot()
+}
+
+//-----------------------------------------------------------------------------
+
+export class Activations {
+  equityVsAverage?   : Plot
+  positiveProfit?    : Plot
+  winningPercentage? : Plot
+  oldVsNew?          : Plot
 }
 
 //-----------------------------------------------------------------------------
@@ -274,6 +294,7 @@ export class FilterAnalysisResponse {
   summary       : Summary            = new Summary()
   equities      : Equities           = new Equities()
   filters       : TradingFilters     = new TradingFilters()
+  activations   : Activations        = new Activations()
 }
 
 //=============================================================================

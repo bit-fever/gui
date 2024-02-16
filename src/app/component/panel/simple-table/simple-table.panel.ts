@@ -22,16 +22,16 @@ import {MatButtonModule} from "@angular/material/button";
 //=============================================================================
 
 @Component({
-  selector    :     'flex-table',
-  templateUrl :   './flex-table.panel.html',
-  styleUrls   : [ './flex-table.panel.scss' ],
-  imports: [CommonModule, MatTableModule, MatSortModule, MatIconModule, MatFormFieldModule, MatInputModule, MatCheckboxModule, MatButtonModule],
+  selector    :     'simple-table',
+  templateUrl :   './simple-table.panel.html',
+  styleUrls   : [ './simple-table.panel.scss' ],
+  imports: [CommonModule, MatTableModule, MatSortModule, MatFormFieldModule, MatInputModule, MatIconModule],
   standalone  : true
 })
 
 //=============================================================================
 
-export class FlexTablePanel<T = any> implements AfterViewInit {
+export class SimpleTablePanel<T = any> implements AfterViewInit {
 
   //-------------------------------------------------------------------------
   //---
@@ -39,10 +39,7 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
   //---
   //-------------------------------------------------------------------------
 
-  @Input() dataProvider? : ListService<T>;
-  @Input() searchPanel    = true
-
-  @Output() onRowsSelected : EventEmitter<T[]> = new EventEmitter<T[]>();
+  @Input() searchPanel= true
 
   @ViewChild(MatSort) sort : MatSort |null = null;
 
@@ -52,7 +49,6 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
   tableColumns    : FlexTableColumn[] = [];
   displayedColumns: string[] = [];
   tableData = new MatTableDataSource<T>();
-  selection = new SelectionModel<T>(true, []);
 
   //-------------------------------------------------------------------------
   //---
@@ -77,7 +73,7 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
   @Input()
   set columns(value: FlexTableColumn[]) {
     this.tableColumns     = value;
-    this.displayedColumns = ["select", ...value.map( c => c.column )]
+    this.displayedColumns = [ ...value.map( c => c.column )]
   }
 
   //-------------------------------------------------------------------------
@@ -102,58 +98,12 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
 
   ngAfterViewInit() {
     this.tableData.sort = this.sort;
-    this.reload();
-  }
-
-  //-------------------------------------------------------------------------
-
-  reload = () : void => {
-    if (this.dataProvider != undefined) {
-      this.dataProvider().subscribe(
-        result => {
-          this.tableData.data = result.result;
-          this.clearSelection();
-        }
-      )
-    }
-    else if (this.data != undefined) {
-      this.tableData.data = this.data;
-      this.clearSelection();
-    }
   }
 
   //-------------------------------------------------------------------------
 
   loc(code : string) : string {
-    return this.labelService.getLabelString("flexTable."+ code);
-  }
-
-  //-------------------------------------------------------------------------
-
-  onRowClick(row : any) : void {
-    this.selection.toggle(row)
-    this.onRowsSelected.emit(this.selection.selected)
-  }
-
-  //-------------------------------------------------------------------------
-
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.tableData.data.length;
-    return numSelected === numRows;
-  }
-
-  //-------------------------------------------------------------------------
-
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      this.onRowsSelected.emit(this.selection.selected)
-      return;
-    }
-
-    this.selection.select(...this.tableData.data);
-    this.onRowsSelected.emit(this.selection.selected)
+    return this.labelService.getLabelString("simpleTable."+ code);
   }
 
   //-------------------------------------------------------------------------
@@ -161,18 +111,6 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.tableData.filter = filterValue.trim().toLowerCase();
-  }
-
-  //-------------------------------------------------------------------------
-
-  public getSelection = () : T[] => {
-    return this.selection.selected
-  }
-
-  //-------------------------------------------------------------------------
-
-  public clearSelection() {
-    this.selection = new SelectionModel<T>(true, []);
   }
 }
 

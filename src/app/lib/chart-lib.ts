@@ -7,6 +7,7 @@
 //=============================================================================
 
 import {ChartConfiguration} from "chart.js";
+import {Plot} from "../model/model";
 
 export class ChartLib {
 
@@ -53,6 +54,24 @@ export class ChartLib {
 
     for (let i=0; i<days.length; i++) {
       res = [...res, this.formatDay(days[i])]
+    }
+
+    return res;
+  }
+
+  //-------------------------------------------------------------------------
+
+  public formatActivation(plot : Plot) : Plot {
+    let res = new Plot();
+
+    for (let i=0; i<plot.days.length; i++) {
+      let day = plot.days[i]
+      let val = plot.values[i]
+
+      if (val != 0) {
+        res.days   = [...res.days  , day]
+        res.values = [...res.values, val]
+      }
     }
 
     return res;

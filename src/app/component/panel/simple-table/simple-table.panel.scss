@@ -1,0 +1,51 @@
+//=============================================================================
+//===
+//=== Copyright (C) 2023 Andrea Carboni
+//===
+//=== Use of this source code is governed by an MIT-style license that can be
+//=== found in the LICENSE file
+//=============================================================================
+
+.search-panel {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 0;
+}
+
+//-----------------------------------------------------------------------------
+
+.search-field {
+  flex: 1 1 auto;
+}
+
+//=============================================================================
+
+.mat-mdc-row .mat-mdc-cell {
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+//-----------------------------------------------------------------------------
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  border-color: currentColor;
+}
+
+//-----------------------------------------------------------------------------
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 90%;
+}
+
+//-----------------------------------------------------------------------------
+
+.mat-mdc-form-field-infix {
+  min-height: 40px;
+}
+
+//=============================================================================
+

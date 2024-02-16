@@ -182,25 +182,39 @@ page:
     # ----------------------------------------------------------------------------
 
     filtering:
-      weeks: Weeks
+      days:              Trading days
       positiveProfit:    Positive profit
-      shortLongPeriods:  Short better than long
-      shortPeriod:       Short period (weeks)
-      longPeriod:        Long period (weeks)
-      longPercentage:    Long percentage
+      oldVsNew:          Old period vs new period
+      oldDays:           Old period (trading days)
+      newDays:           New period (trading days)
+      oldPercentage:     Old period %
       winningPercentage: Winning % > value
       winningPercValue:  Value (%)
       equityAverage:     Equity over its average
-      equityDays:        Average length (days)
-
+      equityDays:        Average length (trading days)
+      filterSaved:       Filter saved
       summary: Summary
       analysis: Analysis
+      summ:
+        name:
+        unfiltered:   Unfiltered
+        filtered:     Filtered
+        netProfit:    Net profit
+        maxDrawdown:  Max drawdown
+        winningPerc:  Winning percentage
+        averageTrade: Average trade
+
       chart:
-        unfProfit:   Unfiltered profit
-        filProfit:   Filtered profit
+        unfEquity:   Unfiltered equity
+        filEquity:   Filtered equity
         unfDrawdown: Unfiltered DD
         filDrawdown: Filtered DD
         average:     Average
+        equOverAvg:  Equity over average
+        positProfit: Positive profit
+        oldVsNew:    Old vs new period
+        winningPerc: Winning % > value
+        filterActivation: Filter activation
 
 # ==============================================================================
 # ===

@@ -11,35 +11,35 @@
       </mat-expansion-panel-header>
 
       <mat-form-field>
-        <mat-label>{{loc("weeks")}}</mat-label>
-        <input matInput type="number" min="1" max="50" required [(ngModel)]="filters.posProWeeks">
+        <mat-label>{{loc("days")}}</mat-label>
+        <input matInput type="number" min="1" max="300" required [(ngModel)]="filters.posProDays">
       </mat-form-field>
     </mat-expansion-panel>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <mat-expansion-panel [expanded]="filters.shoLonEnabled" hideToggle>
+    <mat-expansion-panel [expanded]="filters.oldNewEnabled" hideToggle>
       <mat-expansion-panel-header>
-        <mat-panel-title>{{loc("shortLongPeriods")}}
+        <mat-panel-title>{{loc("oldVsNew")}}
           <span class="filler"></span>
           <mat-icon>date_range</mat-icon>
-          <mat-slide-toggle (change)="onShortLongPeriodsChange($event)" [checked]="filters.shoLonEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
+          <mat-slide-toggle (change)="onOldVsNewChange($event)" [checked]="filters.oldNewEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
         </mat-panel-title>
       </mat-expansion-panel-header>
 
       <mat-form-field>
-        <mat-label>{{loc("shortPeriod")}}</mat-label>
-        <input matInput type="number" min="1" max="50" required>
+        <mat-label>{{loc("oldDays")}}</mat-label>
+        <input matInput type="number" min="1" max="600" required  [(ngModel)]="filters.oldNewOldDays">
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>{{loc("longPeriod")}}</mat-label>
-        <input matInput type="number" min="1" max="100" required>
+        <mat-label>{{loc("newDays")}}</mat-label>
+        <input matInput type="number" min="1" max="300" required [(ngModel)]="filters.oldNewNewDays">
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>{{loc("longPercentage")}}</mat-label>
-        <input matInput type="number" min="1" max="100" required>
+        <mat-label>{{loc("oldPercentage")}}</mat-label>
+        <input matInput type="number" min="1" max="150" required [(ngModel)]="filters.oldNewOldPerc">
       </mat-form-field>
     </mat-expansion-panel>
 
@@ -49,14 +49,14 @@
       <mat-expansion-panel-header>
         <mat-panel-title>{{loc("winningPercentage")}}
           <span class="filler"></span>
-          <mat-icon>functions</mat-icon>
+          <mat-icon>percent</mat-icon>
           <mat-slide-toggle (change)="onWinningPercentageChange($event)" [checked]="filters.winPerEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
         </mat-panel-title>
       </mat-expansion-panel-header>
 
       <mat-form-field>
-        <mat-label>{{loc("weeks")}}</mat-label>
-        <input matInput type="number" min="1" max="200" required [(ngModel)]="filters.winPerWeeks">
+        <mat-label>{{loc("days")}}</mat-label>
+        <input matInput type="number" min="1" max="300" required [(ngModel)]="filters.winPerDays">
       </mat-form-field>
 
       <mat-form-field>
@@ -71,14 +71,14 @@
       <mat-expansion-panel-header>
         <mat-panel-title>{{loc("equityAverage")}}
           <span class="filler"></span>
-          <mat-icon>functions</mat-icon>
+          <mat-icon>ssid_chart</mat-icon>
           <mat-slide-toggle (change)="onEquityAverageChange($event)" [checked]="filters.equAvgEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
         </mat-panel-title>
       </mat-expansion-panel-header>
 
       <mat-form-field>
         <mat-label>{{loc("equityDays")}}</mat-label>
-        <input matInput type="number" min="1" max="200" required [(ngModel)]="filters.equAvgDays">
+        <input matInput type="number" min="1" max="300" required [(ngModel)]="filters.equAvgDays">
       </mat-form-field>
     </mat-expansion-panel>
 
@@ -97,16 +97,23 @@
       <button mat-button (click)="onReloadClick()"  >{{button("reload")}}</button>
     </div>
 
-    <canvas  id="filteringChart">{{ chart }}</canvas>
+    <div class="chart-layout">
+      <canvas  id="equityChart"    >{{ equityChart }}</canvas>
+      <canvas  id="activationChart">{{ activationChart }}</canvas>
 
-    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
-      <mat-tab label="{{loc('summary')}}">
-      </mat-tab>
+      <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+        <mat-tab label="{{loc('summary')}}">
+          <simple-table #table class="table-panel"
+                        [columns]    = "summaryColumns"
+                        [data]       = "summaryData"
+                        [searchPanel]= "false"
+          ></simple-table>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
 
-      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-      <mat-tab label="{{loc('analysis')}}">
-      </mat-tab>
-    </mat-tab-group>
   </div>
+
+  <!-- ====================================================================== -->
+
 </div>
