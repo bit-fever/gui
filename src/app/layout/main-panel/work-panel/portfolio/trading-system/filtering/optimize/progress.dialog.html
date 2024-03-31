@@ -1,0 +1,67 @@
+<h2 mat-dialog-title>{{loc("title_progress")}}</h2>
+<mat-dialog-content class="mat-typography">
+  <div class="main-layout">
+    <mat-progress-spinner class="example-margin" [value]="percentage">
+    </mat-progress-spinner>
+
+    <table class="summary-layout">
+      <tr>
+        <td>{{loc("taCurrStep")}}</td>
+        <td class="data-style">{{response?.currStep}}</td>
+        <td class="separator-layout"></td>
+        <td>{{loc("taOptimFor")}}</td>
+        <td class="data-style">{{response?.fieldToOptimize}}</td>
+        <td class="separator-layout"></td>
+        <td>{{loc("taPosProfit")}}</td>
+        <td>
+          <mat-icon *ngIf="response?.filters?.posProfit"  fontIcon="done"></mat-icon>
+          <mat-icon *ngIf="!response?.filters?.posProfit" fontIcon="close"></mat-icon>
+        </td>
+      </tr>
+      <tr>
+        <td>{{loc("taTotalSteps")}}</td>
+        <td class="data-style">{{response?.maxSteps}}</td>
+        <td></td>
+        <td>{{loc("taBestValue")}}</td>
+        <td class="data-style">{{response?.bestValue}}</td>
+        <td></td>
+        <td>{{loc("taOldVsNew")}}</td>
+        <td>
+          <mat-icon *ngIf="response?.filters?.oldVsNew"  fontIcon="done"></mat-icon>
+          <mat-icon *ngIf="!response?.filters?.oldVsNew" fontIcon="close"></mat-icon>
+        </td>
+      </tr>
+      <tr>
+        <td>{{loc("taPercentage")}}</td>
+        <td class="data-style">{{percentage}} %</td>
+        <td></td>
+        <td>{{loc("taBaseValue")}}</td>
+        <td class="data-style">{{response?.baseValue}}</td>
+        <td></td>
+        <td>{{loc("taWinPerc")}}</td>
+        <td>
+          <mat-icon *ngIf="response?.filters?.winPerc"  fontIcon="done"></mat-icon>
+          <mat-icon *ngIf="!response?.filters?.winPerc" fontIcon="close"></mat-icon>
+        </td>
+      </tr>
+      <tr>
+        <td>{{loc("taDuration")}}</td>
+        <td class="data-style">{{response?.duration}} secs</td>
+        <td></td>
+        <td>{{loc("taGain")}}</td>
+        <td class="data-style">{{gain}} %</td>
+        <td></td>
+        <td>{{loc("taEquVsAvg")}}</td>
+        <td>
+          <mat-icon *ngIf="response?.filters?.equVsAvg"  fontIcon="done"></mat-icon>
+          <mat-icon *ngIf="!response?.filters?.equVsAvg" fontIcon="close"></mat-icon>
+        </td>
+      </tr>
+    </table>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onAbort()">{{button("abort")}}</button>
+  <button mat-button mat-dialog-close>{{button("close")}}</button>
+</mat-dialog-actions>

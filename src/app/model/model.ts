@@ -12,6 +12,16 @@
 //===
 //=============================================================================
 
+import _default from "chart.js/dist/plugins/plugin.tooltip";
+
+//-----------------------------------------------------------------------------
+
+export class StatusResponse {
+  status? : string
+}
+
+//-----------------------------------------------------------------------------
+
 export class Portfolio {
   id?        : number;
   username?  : string;
@@ -295,6 +305,95 @@ export class FilterAnalysisResponse {
   equities      : Equities           = new Equities()
   filters       : TradingFilters     = new TradingFilters()
   activations   : Activations        = new Activations()
+}
+
+//=============================================================================
+//===
+//=== FilterOptimizationRequest
+//===
+//=============================================================================
+
+export class FieldOptimization {
+  enabled : boolean
+  curValue:number
+  minValue: number
+  maxValue: number
+  step    : number
+
+  //-----------------------------------------------------------------------------
+
+  constructor(enabled : boolean, curValue:number, minValue : number, maxValue : number, step:number) {
+    this.enabled = enabled
+    this.curValue= curValue
+    this.minValue= minValue
+    this.maxValue= maxValue
+    this.step    = step
+  }
+
+  //-----------------------------------------------------------------------------
+
+  public toggle() {
+    this.enabled = !this.enabled
+  }
+}
+
+//=============================================================================
+
+export class FilterOptimizationRequest {
+  fieldToOptimize : string  = "net-profit"
+  enablePosProfit : boolean = true
+  enableOldNew    : boolean = true
+  enableWinPerc   : boolean = true
+  enableEquAvg    : boolean = true
+
+  posProDays    : FieldOptimization = new FieldOptimization(true, 20, 5, 300, 5)
+  oldNewOldDays : FieldOptimization = new FieldOptimization(true, 20, 5, 600, 5)
+  oldNewNewDays : FieldOptimization = new FieldOptimization(true, 20, 5, 300, 5)
+  oldNewOldPerc : FieldOptimization = new FieldOptimization(true, 90, 5, 150, 5)
+  winPercDays   : FieldOptimization = new FieldOptimization(true, 20, 5, 300, 5)
+  winPercPerc   : FieldOptimization = new FieldOptimization(true, 50, 5, 100, 5)
+  equAvgDays    : FieldOptimization = new FieldOptimization(true, 20, 5, 300, 5)
+}
+
+//=============================================================================
+//===
+//=== FilterOptimizationProgress
+//===
+//=============================================================================
+
+export class FilterOptimizationResponse {
+  currStep?        : number
+  maxSteps?        : number
+  startTime?       : string
+  endTime?         : string
+  status?          : string
+  runs?            : FilterRun[]
+  baseValue?       : number
+  bestValue?       : number
+  fieldToOptimize? : string
+  duration?        : number
+  filters?         : SelectedFilters
+}
+
+//=============================================================================
+
+export class FilterRun {
+  filterType  : string = ""
+  days        : number = 0
+  newDays     : number = 0
+  percentage  : number = 0
+  netProfit   : number = 0
+  avgTrade    : number = 0
+  maxDrawdown : number = 0
+}
+
+//=============================================================================
+
+export class SelectedFilters {
+  posProfit? : boolean
+  oldVsNew?  : boolean
+  winPerc?   : boolean
+  equVsAvg?  : boolean
 }
 
 //=============================================================================

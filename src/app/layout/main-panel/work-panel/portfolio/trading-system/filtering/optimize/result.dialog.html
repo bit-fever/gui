@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>{{loc("title_result")}}</h2>
+<mat-dialog-content class="mat-typography">
+  <flex-table #table class="table-panel"
+              [columns]       = "columns"
+              [data]          = "runs"
+              (onRowsSelected)="onRowSelected($event)"
+  ></flex-table>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onRestart()">{{button("restart")}}</button>
+  <button mat-button (click)="onUse()" [disabled]="disUse">{{button("use")}}</button>
+  <button mat-button mat-dialog-close>{{button("close")}}</button>
+</mat-dialog-actions>

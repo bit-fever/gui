@@ -87,9 +87,6 @@
   <!-- ====================================================================== -->
 
   <div class="center-layout">
-    <span class="title">{{tradingSystem.name}}</span>
-    <mat-divider></mat-divider>
-
     <div>
       <button mat-button (click)="onRunClick()"     >{{button("run")}}</button>
       <button mat-button (click)="onOptimizeClick()">{{button("optimize")}}</button>
@@ -98,11 +95,8 @@
     </div>
 
     <div class="chart-layout">
-      <canvas  id="equityChart"    >{{ equityChart }}</canvas>
-      <canvas  id="activationChart">{{ activationChart }}</canvas>
-
       <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
-        <mat-tab label="{{loc('summary')}}">
+        <mat-tab label="{{tradingSystem.name}}">
           <simple-table #table class="table-panel"
                         [columns]    = "summaryColumns"
                         [data]       = "summaryData"
@@ -110,6 +104,9 @@
           ></simple-table>
         </mat-tab>
       </mat-tab-group>
+
+      <canvas  id="equityChart"    >{{ equityChart }}</canvas>
+      <canvas  id="activationChart">{{ activationChart }}</canvas>
     </div>
 
   </div>

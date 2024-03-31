@@ -28,6 +28,10 @@ export class MapTranscoder implements Transcoder {
 
 export class IntDateTranscoder implements Transcoder {
   transcode(value: number, row?: any): string {
+    if (value == 0) {
+      return ""
+    }
+
     let d = String(value)
     return d.substring(0, 4) +"-"+ d.substring(4,6) +"-"+ d.substring(6,8)
   }

@@ -1,6 +1,6 @@
 //=============================================================================
 //===
-//=== Copyright (C) 2023 Andrea Carboni
+//=== Copyright (C) 2024 Andrea Carboni
 //===
 //=== Use of this source code is governed by an MIT-style license that can be
 //=== found in the LICENSE file
@@ -9,9 +9,9 @@
 import {Injectable}      from "@angular/core";
 import {Observable}      from "rxjs";
 import {
-  FilterAnalysisRequest, FilterAnalysisResponse,
+  FilterAnalysisRequest, FilterAnalysisResponse, FilterOptimizationResponse, FilterOptimizationRequest,
   PortfolioMonitoringResponse,
-  PorTradingSystem, TradingFilters,
+  PorTradingSystem, StatusResponse, TradingFilters,
 } from "../model/model";
 import {HttpService}     from "./http.service";
 import {ListResponse} from "../model/flex-table";
@@ -61,6 +61,24 @@ export class PortfolioService {
 
   public runFilterAnalysis = (tsId : number, req : FilterAnalysisRequest): Observable<FilterAnalysisResponse> => {
     return this.httpService.post<FilterAnalysisResponse>('/api/portfolio/v1/trading-systems/'+ tsId +'/filter-analysis', req);
+  }
+
+  //---------------------------------------------------------------------------
+
+  public startFilterOptimization = (tsId : number, req : FilterOptimizationRequest): Observable<StatusResponse> => {
+    return this.httpService.post<StatusResponse>('/api/portfolio/v1/trading-systems/'+ tsId +'/filter-optimization', req);
+  }
+
+  //---------------------------------------------------------------------------
+
+  public stopFilterOptimization = (tsId : number): Observable<StatusResponse> => {
+    return this.httpService.delete<StatusResponse>('/api/portfolio/v1/trading-systems/'+ tsId +'/filter-optimization');
+  }
+
+  //---------------------------------------------------------------------------
+
+  public getFilterOptimizationInfo = (tsId : number): Observable<FilterOptimizationResponse> => {
+    return this.httpService.get<FilterOptimizationResponse>('/api/portfolio/v1/trading-systems/'+ tsId +'/filter-optimization');
   }
 
   //---------------------------------------------------------------------------

@@ -21,7 +21,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatSlideToggleChange, MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {
   FilterAnalysisRequest,
-  FilterAnalysisResponse, InvTradingSystemFull, Plot, PorTradingSystem, Summary,
+  FilterAnalysisResponse, FilterRun, Plot, Summary,
   TradingFilters, TradingSystemSmall,
 } from "../../../../../../model/model";
 import {MatTabsModule} from "@angular/material/tabs";
@@ -34,10 +34,13 @@ import {PortfolioService} from "../../../../../../service/portfolio.service";
 import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {FlexTablePanel} from "../../../../../../component/panel/flex-table/flex-table.panel";
-import {FlexTableColumn, ListResponse, ListService} from "../../../../../../model/flex-table";
-import {Observable, of} from "rxjs";
+import {FlexTableColumn} from "../../../../../../model/flex-table";
 import {SimpleTablePanel} from "../../../../../../component/panel/simple-table/simple-table.panel";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatDialog, MatDialogModule} from "@angular/material/dialog";
+import {OptimizeProgressDialog} from "./optimize/progress.dialog";
+import {OptimizeResultDialog} from "./optimize/result.dialog";
+import {OptimizeParameterDialog} from "./optimize/parameter.dialog";
 
 //=============================================================================
 
@@ -47,7 +50,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   styleUrls   : [ './filtering.panel.scss' ],
   imports: [CommonModule, RouterModule, MatExpansionModule, MatIconModule, MatFormFieldModule, FormsModule,
     MatInputModule, MatOptionModule, MatSelectModule, MatSlideToggleModule, MatTabsModule, MatButtonModule,
-    MatDividerModule, SelectTextRequired, MatGridListModule, SimpleTablePanel],
+    MatDividerModule, SelectTextRequired, MatGridListModule, SimpleTablePanel, MatDialogModule],
   standalone  : true
 })
 
@@ -89,7 +92,8 @@ export class FilteringPanel extends AbstractPanel {
               router                  : Router,
               private route           : ActivatedRoute,
               private snackBar        : MatSnackBar,
-              private portfolioService: PortfolioService) {
+              private portfolioService: PortfolioService,
+              public  dialog          : MatDialog) {
 
     super(eventBusService, labelService, router, "portfolio.filtering");
 
@@ -150,6 +154,19 @@ export class FilteringPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onOptimizeClick() {
+    this.portfolioService.getFilterOptimizationInfo(this.tsId).subscribe(
+      result => {
+        if (result.status == "idle") {
+          this.openParametersDialog()
+        }
+        else if (result.status == "running"){
+          this.openProgressDialog()
+        }
+        else {
+          this.openResultDialog()
+        }
+      }
+    )
   }
 
   //-------------------------------------------------------------------------
@@ -327,6 +344,101 @@ export class FilteringPanel extends AbstractPanel {
       this.activationChart.destroy();
       this.activationChart = undefined;
     }
+  }
+
+  //-------------------------------------------------------------------------
+
+  private openParametersDialog() {
+    const dialogRef = this.dialog.open(OptimizeParameterDialog, {
+      minWidth: "1024px",
+      data: {
+        tsId  : this.tradingSystem.id,
+        tsName: this.tradingSystem.name
+      }
+    })
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.openProgressDialog()
+      }
+    })
+  }
+
+  //-------------------------------------------------------------------------
+
+  private openProgressDialog() {
+    const dialogRef = this.dialog.open(OptimizeProgressDialog, {
+      data: {
+        tsId  : this.tradingSystem.id,
+        tsName: this.tradingSystem.name
+      }
+    })
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.openResultDialog()
+      }
+    })
+  }
+
+  //-------------------------------------------------------------------------
+
+  private openResultDialog() {
+    const dialogRef = this.dialog.open(OptimizeResultDialog, {
+      data: {
+        tsId  : this.tradingSystem.id,
+        tsName: this.tradingSystem.name
+      }
+    })
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        let run : FilterRun = result["run"]
+        if (run != null) {
+          console.log("Got run to use: ")
+          this.filters = this.convertRun(run)
+          this.onRunClick()
+        }
+        else {
+          this.openParametersDialog()
+        }
+      }
+    })
+  }
+
+  //-------------------------------------------------------------------------
+
+  private convertRun(run : FilterRun) : TradingFilters {
+    let f = new TradingFilters()
+
+    if (run.filterType == "posProfit") {
+      f.posProEnabled = true
+      f.posProDays    = run.days
+    }
+
+    else if (run.filterType == "oldVsNew") {
+      f.oldNewEnabled = true
+      f.oldNewOldDays = run.days
+      f.oldNewNewDays = run.newDays
+      f.oldNewOldPerc = run.percentage
+    }
+
+    else if (run.filterType == "winPerc") {
+      f.winPerEnabled = true
+      f.winPerDays    = run.days
+      f.winPerValue   = run.percentage
+    }
+
+    else if (run.filterType == "equVsAvg") {
+      f.equAvgEnabled = true
+      f.equAvgDays    = run.days
+    }
+
+    else {
+      console.log("Unknown filter type: "+ run.filterType)
+    }
+
+    return f
   }
 }
 

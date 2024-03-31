@@ -1,0 +1,162 @@
+<h2 mat-dialog-title>{{loc("title_params")}}</h2>
+<mat-dialog-content class="mat-typography">
+  <select-text-required [(key)]="options.fieldToOptimize" [label]="loc('optimizeFor')" keyField="id" valueField="name" [list]="labelMap('fieldOptions')"></select-text-required>
+  <mat-chip-option (selectionChange)="onPosProfitChange($event)" [selected]="options.enablePosProfit">{{loc("positiveProfit")}}</mat-chip-option>
+  <mat-chip-option (selectionChange)="onOldVsNewChange ($event)" [selected]="options.enableOldNew"   >{{loc("oldVsNewPeriod")}}</mat-chip-option>
+  <mat-chip-option (selectionChange)="onWinPercChange  ($event)" [selected]="options.enableWinPerc"  >{{loc("winningPerc")}}</mat-chip-option>
+  <mat-chip-option (selectionChange)="onEquVsAvgChange ($event)" [selected]="options.enableEquAvg"   >{{loc("equityVsAverage")}}</mat-chip-option>
+
+  <table>
+    <tr>
+      <th>{{loc("selected")}}</th>
+      <th>{{loc("filter")}}</th>
+      <th>{{loc("parameter")}}</th>
+      <th>{{loc("options")}}</th>
+    </tr>
+
+    <!-- Prositive profit: days - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <tr *ngIf="options.enablePosProfit">
+      <td>
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? options.posProDays.toggle() : null"
+                      [checked]="options.posProDays.enabled">
+        </mat-checkbox>
+      </td>
+      <td>{{loc("positiveProfit")}}</td>
+      <td>{{loc("days")}}</td>
+      <td>
+        <input-int-required *ngIf="!options.posProDays.enabled" [(value)]="options.posProDays.curValue" [label]="loc('curValue')" [min]="1" [max]="300"></input-int-required>
+
+        <input-int-required *ngIf="options.posProDays.enabled" [(value)]="options.posProDays.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-int-required>
+        <input-int-required *ngIf="options.posProDays.enabled" [(value)]="options.posProDays.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-int-required>
+        <input-int-required *ngIf="options.posProDays.enabled" [(value)]="options.posProDays.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-int-required>
+      </td>
+    </tr>
+
+    <!-- Old vs new period: old days - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <tr *ngIf="options.enableOldNew">
+      <td>
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? options.oldNewOldDays.toggle() : null"
+                      [checked]="options.oldNewOldDays.enabled">
+        </mat-checkbox>
+      </td>
+      <td>{{loc("oldVsNewPeriod")}}</td>
+      <td>{{loc("oldDays")}}</td>
+      <td>
+        <input-int-required *ngIf="!options.oldNewOldDays.enabled" [(value)]="options.oldNewOldDays.curValue" [label]="loc('curValue')" [min]="1" [max]="600"></input-int-required>
+
+        <input-int-required *ngIf="options.oldNewOldDays.enabled" [(value)]="options.oldNewOldDays.minValue" [label]="loc('minValue')" [min]="1" [max]="600"></input-int-required>
+        <input-int-required *ngIf="options.oldNewOldDays.enabled" [(value)]="options.oldNewOldDays.maxValue" [label]="loc('maxValue')" [min]="1" [max]="600"></input-int-required>
+        <input-int-required *ngIf="options.oldNewOldDays.enabled" [(value)]="options.oldNewOldDays.step"     [label]="loc('step')"     [min]="1" [max]="600"></input-int-required>
+      </td>
+    </tr>
+
+    <!-- Old vs new period: new days - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <tr *ngIf="options.enableOldNew">
+      <td>
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? options.oldNewNewDays.toggle() : null"
+                      [checked]="options.oldNewNewDays.enabled">
+        </mat-checkbox>
+      </td>
+      <td>{{loc("oldVsNewPeriod")}}</td>
+      <td>{{loc("newDays")}}</td>
+      <td>
+        <input-int-required *ngIf="!options.oldNewNewDays.enabled" [(value)]="options.oldNewNewDays.curValue" [label]="loc('curValue')" [min]="1" [max]="300"></input-int-required>
+
+        <input-int-required *ngIf="options.oldNewNewDays.enabled" [(value)]="options.oldNewNewDays.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-int-required>
+        <input-int-required *ngIf="options.oldNewNewDays.enabled" [(value)]="options.oldNewNewDays.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-int-required>
+        <input-int-required *ngIf="options.oldNewNewDays.enabled" [(value)]="options.oldNewNewDays.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-int-required>
+      </td>
+    </tr>
+
+    <!-- Old vs new period: old percentage - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <tr *ngIf="options.enableOldNew">
+      <td>
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? options.oldNewOldPerc.toggle() : null"
+                      [checked]="options.oldNewOldPerc.enabled">
+        </mat-checkbox>
+      </td>
+      <td>{{loc("oldVsNewPeriod")}}</td>
+      <td>{{loc("oldPerc")}}</td>
+      <td>
+        <input-int-required *ngIf="!options.oldNewOldPerc.enabled" [(value)]="options.oldNewOldPerc.curValue" [label]="loc('curValue')" [min]="1" [max]="150"></input-int-required>
+
+        <input-int-required *ngIf="options.oldNewOldPerc.enabled" [(value)]="options.oldNewOldPerc.minValue" [label]="loc('minValue')" [min]="1" [max]="150"></input-int-required>
+        <input-int-required *ngIf="options.oldNewOldPerc.enabled" [(value)]="options.oldNewOldPerc.maxValue" [label]="loc('maxValue')" [min]="1" [max]="150"></input-int-required>
+        <input-int-required *ngIf="options.oldNewOldPerc.enabled" [(value)]="options.oldNewOldPerc.step"     [label]="loc('step')"     [min]="1" [max]="150"></input-int-required>
+      </td>
+    </tr>
+
+    <!-- Winning percentage: days - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <tr *ngIf="options.enableWinPerc">
+      <td>
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? options.winPercDays.toggle() : null"
+                      [checked]="options.winPercDays.enabled">
+        </mat-checkbox>
+      </td>
+      <td>{{loc("winningPerc")}}</td>
+      <td>{{loc("days")}}</td>
+      <td>
+        <input-int-required *ngIf="!options.winPercDays.enabled" [(value)]="options.winPercDays.curValue" [label]="loc('curValue')" [min]="1" [max]="300"></input-int-required>
+
+        <input-int-required *ngIf="options.winPercDays.enabled" [(value)]="options.winPercDays.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-int-required>
+        <input-int-required *ngIf="options.winPercDays.enabled" [(value)]="options.winPercDays.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-int-required>
+        <input-int-required *ngIf="options.winPercDays.enabled" [(value)]="options.winPercDays.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-int-required>
+      </td>
+    </tr>
+
+    <!-- Winning percentage: percentage - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <tr *ngIf="options.enableWinPerc">
+      <td>
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? options.winPercPerc.toggle() : null"
+                      [checked]="options.winPercPerc.enabled">
+        </mat-checkbox>
+      </td>
+      <td>{{loc("winningPerc")}}</td>
+      <td>{{loc("percentage")}}</td>
+      <td>
+        <input-int-required *ngIf="!options.winPercPerc.enabled" [(value)]="options.winPercPerc.curValue" [label]="loc('curValue')" [min]="1" [max]="100"></input-int-required>
+
+        <input-int-required *ngIf="options.winPercPerc.enabled" [(value)]="options.winPercPerc.minValue" [label]="loc('minValue')" [min]="1" [max]="100"></input-int-required>
+        <input-int-required *ngIf="options.winPercPerc.enabled" [(value)]="options.winPercPerc.maxValue" [label]="loc('maxValue')" [min]="1" [max]="100"></input-int-required>
+        <input-int-required *ngIf="options.winPercPerc.enabled" [(value)]="options.winPercPerc.step"     [label]="loc('step')"     [min]="1" [max]="100"></input-int-required>
+      </td>
+    </tr>
+
+    <!-- Equity vs average: days - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <tr *ngIf="options.enableEquAvg">
+      <td>
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? options.equAvgDays.toggle() : null"
+                      [checked]="options.equAvgDays.enabled">
+        </mat-checkbox>
+      </td>
+      <td>{{loc("equityVsAverage")}}</td>
+      <td>{{loc("days")}}</td>
+      <td>
+        <input-int-required *ngIf="!options.equAvgDays.enabled" [(value)]="options.equAvgDays.curValue" [label]="loc('curValue')" [min]="1" [max]="300"></input-int-required>
+
+        <input-int-required *ngIf="options.equAvgDays.enabled" [(value)]="options.equAvgDays.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-int-required>
+        <input-int-required *ngIf="options.equAvgDays.enabled" [(value)]="options.equAvgDays.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-int-required>
+        <input-int-required *ngIf="options.equAvgDays.enabled" [(value)]="options.equAvgDays.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-int-required>
+      </td>
+    </tr>
+
+  </table>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>{{button("cancel")}}</button>
+  <button mat-button (click)="onRun()">{{button("run")}}</button>
+</mat-dialog-actions>

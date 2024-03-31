@@ -14,6 +14,10 @@ button:
   optimize: OPTIMIZE
   reload:   RELOAD
   cancel:   CANCEL
+  abort:    ABORT
+  close:    CLOSE
+  use:      USE
+  restart:  RESTART
 
 # ==============================================================================
 # ===
@@ -45,6 +49,9 @@ menu:
 # ==============================================================================
 
 flexTable:
+  noData: No data
+
+simpleTable:
   noData: No data
 
 # ==============================================================================
@@ -95,6 +102,15 @@ model:
     supportsInventory    : Inventory
     createdAt            : Created at
     updatedAt            : Updated at
+
+  filterOptimiz:
+    filterType:  Filter
+    days:        (Old) Days
+    newDays:     New days
+    percentage:  Percentage
+    netProfit:   Net profit
+    avgTrade:    Average trade
+    maxDrawdown: Max Drawdown
 
 # ==============================================================================
 # ===
@@ -215,6 +231,48 @@ page:
         oldVsNew:    Old vs new period
         winningPerc: Winning % > value
         filterActivation: Filter activation
+
+      optimize:
+        title_params:   Filter optimization - Parameters
+        title_progress: Filter optimization - Progress
+        title_result:   Filter optimization - Result
+        optimizeFor: Optimize for
+        positiveProfit:  Positive profit
+        oldVsNewPeriod:  Old vs new
+        winningPerc:     Winning %
+        equityVsAverage: Equity vs average
+        selected:  Selected
+        filter:    Filter
+        parameter: Parameter
+        options:   Options
+        days:      Days
+        oldDays:   Old days
+        newDays:   New days
+        oldPerc:   Old %
+        percentage: Win %
+        curValue : Current value
+        minValue : Min value
+        maxValue : Max value
+        step     : Step
+        fieldOptions:
+          - id: net-profit
+            name: Net profit
+          - id: drawdrown
+            name: Drawdown
+          - id: avg-trade
+            name: Average trade
+        taCurrStep:   Current step
+        taTotalSteps: Total steps
+        taPercentage: Percentage
+        taBestValue:  Best value
+        taBaseValue:  Base value
+        taOptimFor:   Optimize for
+        taPosProfit:  Positive profit
+        taOldVsNew:   Old vs new periods
+        taWinPerc:    Winning percentage
+        taEquVsAvg:   Equity vs average
+        taDuration:   Duration
+        taGain:       Gain
 
 # ==============================================================================
 # ===
