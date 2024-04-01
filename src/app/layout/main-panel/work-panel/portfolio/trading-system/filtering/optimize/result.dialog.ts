@@ -23,6 +23,7 @@ import {PortfolioService} from "../../../../../../../service/portfolio.service";
 import {DialogData} from "./dialog-data";
 import {FlexTablePanel} from "../../../../../../../component/panel/flex-table/flex-table.panel";
 import {FlexTableColumn} from "../../../../../../../model/flex-table";
+import {MatIconModule} from "@angular/material/icon";
 
 //=============================================================================
 
@@ -31,7 +32,7 @@ import {FlexTableColumn} from "../../../../../../../model/flex-table";
   templateUrl : 'result.dialog.html',
   styleUrls   : [ 'result.dialog.scss' ],
   imports: [MatDialogModule, MatButtonModule, SelectTextRequired, MatChipsModule, MatCheckboxModule,
-            NgIf, InputIntRequired, FlexTablePanel],
+    NgIf, InputIntRequired, FlexTablePanel, MatIconModule],
   standalone  : true,
 })
 
@@ -48,6 +49,10 @@ export class OptimizeResultDialog extends AbstractPanel {
   disUse  : boolean = true;
   runs    : FilterRun[] = [];
   selRun? : FilterRun
+
+  steps?    : number
+  duration? : number
+  field?    : string
 
   //-------------------------------------------------------------------------
   //---
@@ -67,7 +72,10 @@ export class OptimizeResultDialog extends AbstractPanel {
     this.portfolioService.getFilterOptimizationInfo(this.data.tsId).subscribe(
       result => {
         if (result.runs) {
-          this.runs = result.runs
+          this.steps    = result.maxSteps
+          this.duration = result.duration
+          this.field    = result.fieldToOptimize
+          this.runs     = result.runs
         }
       }
     )

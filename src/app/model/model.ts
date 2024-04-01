@@ -346,13 +346,13 @@ export class FilterOptimizationRequest {
   enableWinPerc   : boolean = true
   enableEquAvg    : boolean = true
 
-  posProDays    : FieldOptimization = new FieldOptimization(true, 20, 5, 300, 5)
-  oldNewOldDays : FieldOptimization = new FieldOptimization(true, 20, 5, 600, 5)
-  oldNewNewDays : FieldOptimization = new FieldOptimization(true, 20, 5, 300, 5)
+  posProDays    : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 2)
+  oldNewOldDays : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 2)
+  oldNewNewDays : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 2)
   oldNewOldPerc : FieldOptimization = new FieldOptimization(true, 90, 5, 150, 5)
-  winPercDays   : FieldOptimization = new FieldOptimization(true, 20, 5, 300, 5)
+  winPercDays   : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 2)
   winPercPerc   : FieldOptimization = new FieldOptimization(true, 50, 5, 100, 5)
-  equAvgDays    : FieldOptimization = new FieldOptimization(true, 20, 5, 300, 5)
+  equAvgDays    : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 2)
 }
 
 //=============================================================================
