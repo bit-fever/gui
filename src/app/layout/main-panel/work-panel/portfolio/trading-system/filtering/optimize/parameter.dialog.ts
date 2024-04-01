@@ -106,7 +106,7 @@ export class OptimizeParameterDialog extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   private updateFields() {
-
+    //TODO: update "run" button and add value validation
   }
 }
 
