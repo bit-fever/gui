@@ -1,0 +1,24 @@
+<div class="main-layout">
+  <right-title-panel icon="dataset" title="{{loc('edit')}}" (onClose)="onClose()"></right-title-panel>
+
+  <div class="form-layout">
+    <input-text-required   #pdSymbolCtrl   [label]="loc('symbol')"      [(value)]="pd.symbol"      [len]="16"></input-text-required><br/>
+    <input-text-required   #pdNameCtrl     [label]="loc('name')"        [(value)]="pd.name"        [len]="64"></input-text-required><br/>
+    <input-number-required #pdIncremCtrl   [label]="loc('increment')"   [(value)]="pd.increment"   [min]="0.00000001" [max]="1"></input-number-required><br/>
+    <select-text-required  #pdMarketCtrl   [label]="loc('marketType')"  [(key)]  ="pd.marketType"  [map]="markets"></select-text-required><br/>
+    <select-text-required  #pdProductCtrl  [label]="loc('productType')" [(key)]  ="pd.productType" [map]="products"></select-text-required><br/>
+    <input-text-required   #pdLocClassCtrl [label]="loc('localClass')"  [(value)]="pd.localClass"  [len]="8"></input-text-required><br/>
+    <select-text-required  #pdExchangeCtrl
+                           [(key)]="pd.exchangeId"
+                           [label]="loc('exchange')"
+                           keyField="id" valueField="code"
+                           [list]="exchanges"></select-text-required>
+  </div>
+
+  <div class="buttons-layout">
+    <mat-divider></mat-divider>
+    <button mat-button (click)="onSave()" [disabled]="!saveEnabled()">{{button("save")}}</button>
+    <button mat-button (click)="onClose()">{{button("cancel")}}</button>
+  </div>
+</div>
+

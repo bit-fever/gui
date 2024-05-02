@@ -31,6 +31,8 @@ menu:
     home: Home
   inventory:
     _label: Inventory
+    productData  : Product (data)
+    productBroker: Product (broker)
     tradingSystem: Trading systems
   portfolio:
     _label: Portfolio
@@ -67,7 +69,7 @@ model:
     updatedAt       : Updated at
     name            : Name
     portfolioName   : Portfolio
-    feedSymbol      : Feed symbol
+    dataSymbol      : Data symbol
     brokerSymbol    : Broker symbol
     tradingSession  : Session
 
@@ -81,12 +83,12 @@ model:
     filter          : Filter
     status          : Status
 
-  instrument:
-    id             : Id
-    ticker         : Ticker;
-    name           : Name;
-    createdAt      : Created at
-    updatedAt      : Updated at
+#  instrument:
+#    id             : Id
+#    ticker         : Ticker;
+#    name           : Name;
+#    createdAt      : Created at
+#    updatedAt      : Updated at
 
   connection:
     id                   : Id
@@ -96,9 +98,9 @@ model:
     systemCode           : System code
     systemName           : System name
     connectionCode       : Connected
-    supportsFeed         : Feed
+    supportsData         : Data
     supportsBroker       : Broker
-    supportsMultipleFeeds: MFeeds
+    supportsMultipleData : MData
     supportsInventory    : Inventory
     createdAt            : Created at
     updatedAt            : Updated at
@@ -111,6 +113,36 @@ model:
     netProfit:   Net profit
     avgTrade:    Average trade
     maxDrawdown: Max Drawdown
+
+  productData:
+    id                   : Id
+    username             : Username
+    symbol               : Symbol
+    name                 : Name
+    increment            : Increment
+    marketType           : Market type
+    productType          : Product type
+    createdAt            : Created at
+    updatedAt            : Updated at
+    connectionCode       : Connection
+    systemCode           : System
+    exchangeCode         : Exchange
+
+  productBroker:
+    id                   : Id
+    username             : Username
+    symbol               : Symbol
+    name                 : Name
+    pointValue           : Point value
+    costPerTrade         : Cost per trade
+    marginValue          : Margin value
+    marketType           : Market type
+    productType          : Product type
+    createdAt            : Created at
+    updatedAt            : Updated at
+    connectionCode       : Connection
+    currencyCode         : Currency
+    exchangeCode         : Exchange
 
 # ==============================================================================
 # ===
@@ -131,9 +163,35 @@ page:
       name:          Name
       workspaceCode: Workspace
       portfolio:     Portfolio
-      feed:          Feed symbol
+      data:          Data symbol
       broker:        Broker symbol
       session:       Trading session
+
+    productData:
+      new:         New product for data
+      edit:        Edit product for data
+      connection:  Connection
+      symbol:      Symbol
+      name:        Name
+      increment:   Increment
+      marketType:  Market
+      productType: Product
+      localClass:  Local class
+      exchange:    Exchange
+
+    productBroker:
+      new:          New product for broker
+      edit:         Edit product for broker
+      connection:   Connection
+      symbol:       Symbol
+      name:         Name
+      pointValue:   Point value
+      costPerTrade: Cost per trade
+      marginValue:  Margin value
+      marketType:   Market
+      productType:  Product
+      localClass:   Local class
+      exchange:     Exchange
 
   # ==============================================================================
 
@@ -276,6 +334,26 @@ page:
 
 # ==============================================================================
 # ===
+# === Maps
+# ===
+# ==============================================================================
+
+map:
+  market:
+    IN: Index
+    EN: Energy
+    ME: Metal
+    GR: Grain
+    BO: Bond
+    MT: Meat
+    SO: Soft
+    FX: Currency
+
+  product:
+    FU: Futures
+
+# ==============================================================================
+# ===
 # === Errors
 # ===
 # ==============================================================================
@@ -284,3 +362,5 @@ errors:
   input:
     required: Value is required
     tooLong: Value is too long
+    minValue: Min value is
+    maxValue: Max value is

@@ -100,7 +100,7 @@ export abstract class AbstractPanel extends AbstractSubscriber implements OnInit
 
   //---------------------------------------------------------------------------
 
-  public openRightPanel(page : string, rightPanel : string, startEvent: string, params? : any) {
+  public openRightPanel(page : string, rightPanel : string, startEvent?: string, params? : any) {
     console.log("Opening right panel '"+ rightPanel +"' on '"+ page +"'");
 
     let outlet : any = {

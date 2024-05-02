@@ -12,7 +12,7 @@ import {MatInputModule}       from "@angular/material/input";
 import {MatCardModule}        from "@angular/material/card";
 import {MatIconModule}        from "@angular/material/icon";
 import {MatButtonModule}      from "@angular/material/button";
-import {InvTradingSystemFull}    from "../../../../../model/model";
+import {InvTradingSystemFull, ProductData} from "../../../../../model/model";
 import {FlexTableColumn, ListResponse, ListService} from "../../../../../model/flex-table";
 import {AbstractPanel}        from "../../../../../component/abstract.panel";
 import {FlexTablePanel}       from "../../../../../component/panel/flex-table/flex-table.panel";
@@ -23,21 +23,22 @@ import {Url} from "../../../../../model/urls";
 import {AppEvent} from "../../../../../model/event";
 import {Observable} from "rxjs";
 import {InventoryService} from "../../../../../service/inventory.service";
+import {LabelTranscoder} from "../../../../../component/panel/flex-table/transcoders";
 
 //=============================================================================
 
 @Component({
-  selector    :     'inventory-trading-system',
-  templateUrl :   './trading-system.panel.html',
-  styleUrls   : [ './trading-system.panel.scss' ],
+  selector    :     'inventory-product-data',
+  templateUrl :   './product-data.list.html',
+  styleUrls   : [ './product-data.list.scss' ],
   imports     : [ CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
-                  RouterModule, FlexTablePanel],
+    RouterModule, FlexTablePanel],
   standalone  : true
 })
 
 //=============================================================================
 
-export class InvTradingSystemPanel extends AbstractPanel {
+export class InvProductDataPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
   //---
@@ -46,12 +47,12 @@ export class InvTradingSystemPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   columns  : FlexTableColumn[] = [];
-  service  : ListService<InvTradingSystemFull>;
+  service  : ListService<ProductData>;
   disCreate: boolean = false;
   disView  : boolean = true;
   disEdit  : boolean = true;
 
-  @ViewChild("table") table : FlexTablePanel<InvTradingSystemFull>|null = null;
+  @ViewChild("table") table : FlexTablePanel<ProductData>|null = null;
 
   //-------------------------------------------------------------------------
   //---
@@ -64,11 +65,11 @@ export class InvTradingSystemPanel extends AbstractPanel {
               router                  : Router,
               private inventoryService: InventoryService) {
 
-    super(eventBusService, labelService, router, "inventory.tradingSystem");
+    super(eventBusService, labelService, router, "inventory.productData");
 
-    this.service = this.getTradingSystemsFull;
+    this.service = this.getProductData;
 
-    eventBusService.subscribeToApp(AppEvent.TRADINGSYSTEM_LIST_RELOAD, () => {
+    eventBusService.subscribeToApp(AppEvent.PRODUCTDATA_LIST_RELOAD, () => {
       this.table?.reload()
     })
   }
@@ -79,9 +80,10 @@ export class InvTradingSystemPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  private getTradingSystemsFull = (): Observable<ListResponse<InvTradingSystemFull>> => {
-    return this.inventoryService.getTradingSystems(true);
+  private getProductData = (): Observable<ListResponse<ProductData>> => {
+    return this.inventoryService.getProductData(true);
   }
+
   //-------------------------------------------------------------------------
 
   override init = () : void => {
@@ -90,14 +92,14 @@ export class InvTradingSystemPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  onRowSelected(selection : InvTradingSystemFull[]) {
+  onRowSelected(selection : ProductData[]) {
     this.updateButtons(selection);
   }
 
   //-------------------------------------------------------------------------
 
   onCreateClick() {
-    this.openRightPanel(Url.Inventory_TradingSystems, Url.Right_TradingSystem_Edit, AppEvent.TRADINGSYSTEM_EDIT_START);
+    this.openRightPanel(Url.Inventory_ProductData, Url.Right_ProductData_Create, AppEvent.PRODUCTDATA_CREATE_START);
   }
 
   //-------------------------------------------------------------------------
@@ -116,18 +118,7 @@ export class InvTradingSystemPanel extends AbstractPanel {
   onEditClick() {
     // @ts-ignore
     let selection = this.table.getSelection();
-    this.openRightPanel(Url.Inventory_TradingSystems, Url.Right_TradingSystem_Edit, AppEvent.TRADINGSYSTEM_EDIT_START, selection[0]);
-  }
-
-  //-------------------------------------------------------------------------
-
-  onFilterClick() {
-    // @ts-ignore
-    let selection = this.table.getSelection();
-
-    if (selection.length > 0) {
-      this.navigateTo([ Url.Portfolio_TradingSystems, selection[0].id, Url.Sub_Filtering ]);
-    }
+    this.openRightPanel(Url.Inventory_ProductData, Url.Right_ProductData_Edit, AppEvent.PRODUCTDATA_EDIT_START, selection[0]);
   }
 
   //-------------------------------------------------------------------------
@@ -137,14 +128,17 @@ export class InvTradingSystemPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   setupColumns = () => {
-    let ts = this.labelService.getLabel("model.tradingSystem");
+    let ts = this.labelService.getLabel("model.productData");
 
     this.columns = [
+      // new FlexTableColumn(ts, "username"),
+      new FlexTableColumn(ts, "symbol"),
       new FlexTableColumn(ts, "name"),
-      new FlexTableColumn(ts, "portfolioName"),
-      new FlexTableColumn(ts, "dataSymbol"),
-      new FlexTableColumn(ts, "brokerSymbol"),
-      new FlexTableColumn(ts, "tradingSession"),
+      new FlexTableColumn(ts, "marketType", new LabelTranscoder(this.labelService, "map.market")),
+      // new FlexTableColumn(ts, "productType"),
+      new FlexTableColumn(ts, "exchangeCode"),
+      new FlexTableColumn(ts, "connectionCode"),
+      new FlexTableColumn(ts, "systemCode"),
     ]
   }
 

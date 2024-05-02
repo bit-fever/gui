@@ -8,7 +8,10 @@
 
 export enum Url {
   Home                        = "home",
+  Inventory_ProductData       = "inventory/product-data",
+  Inventory_ProductBroker     = "inventory/product-broker",
   Inventory_TradingSystems    = "inventory/trading-systems",
+
   Portfolio_TradingSystems    = "portfolio/trading-systems",
   Portfolio_TradingSystems_Id = "portfolio/trading-systems/:id",
   Portfolio_Monitoring        = "portfolio/monitoring",
@@ -17,8 +20,12 @@ export enum Url {
 
   Sub_Filtering = "filtering",
 
-  Right_Connection_Edit    = "connection-edit",
-  Right_TradingSystem_Edit = "tradingSystem-edit"
+  Right_Connection_Edit     = "connection-edit",
+  Right_TradingSystem_Edit  = "tradingSystem-edit",
+  Right_ProductData_Create  = "productData-create",
+  Right_ProductData_Edit    = "productData-edit",
+  Right_ProductBroker_Create= "productBroker-create",
+  Right_ProductBroker_Edit  = "productBroker-edit"
 }
 
 //=============================================================================

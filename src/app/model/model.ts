@@ -20,7 +20,25 @@ export class StatusResponse {
   status? : string
 }
 
-//-----------------------------------------------------------------------------
+//=============================================================================
+
+export class Currency {
+  id?       : number;
+  code?     : string;
+  name?     : string;
+}
+
+//=============================================================================
+
+export class Exchange {
+  id?       : number;
+  code?     : string;
+  name?     : string;
+  timezone? : string;
+  url?      : string;
+}
+
+//=============================================================================
 
 export class Portfolio {
   id?        : number;
@@ -55,7 +73,7 @@ export class TradingSystemSpec {
   id?               : number
   name?             : string
   portfolioId?      : number
-  productFeedId?    : number
+  productDataId?    : number
   productBrokerId?  : number
   tradingSessionId? : number
   workspaceCode?    : string
@@ -92,7 +110,7 @@ export class Connection extends ConnectionSpec {
   username?              : string
   systemName?            : string
   connectionCode?        : string
-  supportsFeed?          : boolean
+  supportsData?          : boolean
   supportsBroker?        : boolean
   supportsMultipleFeeds? : boolean
   supportsInventory?     : boolean
@@ -102,36 +120,46 @@ export class Connection extends ConnectionSpec {
 
 //=============================================================================
 
-export class ProductFeed {
-  id?             : number
-  connectionId?   : number
+export class ProductDataSpec {
+  id?           : number
+  connectionId? : number
+  exchangeId?   : number
+  symbol?       : string
+  name?         : string
+  increment?    : number
+  marketType?   : string
+  productType?  : string
+  localClass?   : string
+}
+
+//=============================================================================
+
+export class ProductData extends ProductDataSpec {
   username?       : string
-  symbol?         : string
-  name?           : string
-  priceScale?     : number
-  minMovement?    : number
-  marketType?     : string
-  productType?    : string
-  exchange?       : string
   createdAt?      : string
   updatedAt?      : string
 }
 
 //=============================================================================
 
-export class ProductBroker {
+export class ProductBrokerSpec {
   id?           : number
   connectionId? : number
-  username?     : string
+  exchangeId?   : number
   symbol?       : string
   name?         : string
   pointValue?   : number
   costPerTrade? : number
   marginValue?  : number
-  currencyId?   : number
   marketType?   : string
   productType?  : string
-  exchange?     : string
+  localClass?   : string
+}
+
+//=============================================================================
+
+export class ProductBroker extends ProductBrokerSpec {
+  username?     : string
   createdAt?    : string
   updatedAt?    : string
 }

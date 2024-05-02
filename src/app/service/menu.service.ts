@@ -68,6 +68,18 @@ export class MenuService extends AbstractSubscriber {
         header: this.get('inventory._label'),
       },
       {
+        id: 'menu.inventory.product-data',
+        label: this.get('inventory.productData'),
+        route: Url.Inventory_ProductData,
+        iconClasses: 'dataset'
+      },
+      {
+        id: 'menu.inventory.product-broker',
+        label: this.get('inventory.productBroker'),
+        route: Url.Inventory_ProductBroker,
+        iconClasses: 'currency_exchange'
+      },
+      {
         id: 'menu.inventory.trading-system',
         label: this.get('inventory.tradingSystem'),
         route: Url.Inventory_TradingSystems,

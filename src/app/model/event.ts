@@ -44,6 +44,14 @@ export class AppEvent<T = any>  {
 
   static TRADINGSYSTEM_LIST_RELOAD: string = "tradingSystem.list.reload";
   static TRADINGSYSTEM_EDIT_START : string = "tradingSystem.edit.start";
+
+  static PRODUCTDATA_LIST_RELOAD : string = "productData.list.reload";
+  static PRODUCTDATA_CREATE_START: string = "productData.create.start";
+  static PRODUCTDATA_EDIT_START  : string = "productData.edit.start";
+
+  static PRODUCTBROKER_LIST_RELOAD : string = "productBroker.list.reload";
+  static PRODUCTBROKER_CREATE_START: string = "productBroker.create.start";
+  static PRODUCTBROKER_EDIT_START  : string = "productBroker.edit.start";
 }
 
 //=============================================================================

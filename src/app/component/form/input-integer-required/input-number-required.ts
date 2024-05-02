@@ -19,26 +19,27 @@ import {
   FormGroupDirective,
   FormsModule,
   NgForm,
-  ReactiveFormsModule,
+  ReactiveFormsModule, ValidatorFn,
   Validators
 } from "@angular/forms";
 import {AbstractSubscriber} from "../../../service/abstract-subscriber";
 import {EventBusService}    from "../../../service/eventbus.service";
 import {LabelService}       from "../../../service/label.service";
+import {BfErrorStateMatcher} from "../error-state-matcher";
 
 //=============================================================================
 
 @Component({
-  selector    :     'input-int-required',
-  templateUrl :   './input-int-required.html',
-  styleUrls   : [ './input-int-required.scss' ],
-  imports     : [ MatFormFieldModule, MatOptionModule, MatInputModule, FormsModule, ReactiveFormsModule],
+  selector    :     'input-number-required',
+  templateUrl :   './input-number-required.html',
+  styleUrls   : [ './input-number-required.scss' ],
+  imports: [MatFormFieldModule, MatOptionModule, MatInputModule, FormsModule, ReactiveFormsModule, NgIf, MatButtonModule, MatIconModule],
   standalone  : true
 })
 
 //=============================================================================
 
-export class InputIntRequired extends AbstractSubscriber {
+export class InputNumberRequired extends AbstractSubscriber {
 
   //-------------------------------------------------------------------------
   //---
@@ -47,15 +48,16 @@ export class InputIntRequired extends AbstractSubscriber {
   //-------------------------------------------------------------------------
 
   @Input() label : string = ""
-  @Input() min   : number = 0
-  @Input() max   : number = 0
 
   @Output() valueChange = new EventEmitter<any>();
 
   //-------------------------------------------------------------------------
 
   formControl = new FormControl()
+  matcher    = new BfErrorStateMatcher();
 
+  private _min?  : number
+  private _max?  : number
   private _valid : boolean= false
 
   //-------------------------------------------------------------------------
@@ -75,15 +77,43 @@ export class InputIntRequired extends AbstractSubscriber {
   //---
   //-------------------------------------------------------------------------
 
-  get value() : number {
+  get value() : number|undefined {
     return this.formControl.value
   }
 
   //-------------------------------------------------------------------------
 
   @Input()
-  set value(v : number) {
+  set value(v : number|undefined) {
     this.formControl.setValue(v)
+  }
+
+  //-------------------------------------------------------------------------
+
+  get min() : number|undefined {
+    return this._min
+  }
+
+  //-------------------------------------------------------------------------
+
+  @Input()
+  set min(m:number|undefined) {
+    this._min = m
+    this.updateValidators()
+  }
+
+  //-------------------------------------------------------------------------
+
+  get max() : number|undefined {
+    return this._max
+  }
+
+  //-------------------------------------------------------------------------
+
+  @Input()
+  set max(m:number|undefined) {
+    this._max = m
+    this.updateValidators()
   }
 
   //-------------------------------------------------------------------------
@@ -97,6 +127,18 @@ export class InputIntRequired extends AbstractSubscriber {
   }
 
   //-------------------------------------------------------------------------
+
+  onClear() {
+    this.formControl.setValue('')
+  }
+
+  //-------------------------------------------------------------------------
+
+  public isValid = () : boolean => {
+    return this._valid
+  }
+
+  //-------------------------------------------------------------------------
   //---
   //--- Private methods
   //---
@@ -105,6 +147,23 @@ export class InputIntRequired extends AbstractSubscriber {
   private valueChanged = (s : FormControlStatus) => {
     this._valid = (s == "VALID")
     this.valueChange.emit(this.formControl.value)
+  }
+
+  //-------------------------------------------------------------------------
+
+  private updateValidators() {
+    let validators = [ Validators.required ]
+
+    if (this._min) {
+      validators = [ ...validators, Validators.min(this._min) ]
+    }
+
+    if (this._max) {
+      validators = [ ...validators, Validators.max(this._max) ]
+    }
+
+    this.formControl.setValidators(validators)
+    this.formControl.updateValueAndValidity()
   }
 }
 

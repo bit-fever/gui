@@ -18,7 +18,7 @@ import {MatChipsModule} from "@angular/material/chips";
 import {FilterRun} from "../../../../../../../model/model";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {NgIf} from "@angular/common";
-import {InputIntRequired} from "../../../../../../../component/form/input-integer-required/input-int-required";
+import {InputNumberRequired} from "../../../../../../../component/form/input-integer-required/input-number-required";
 import {PortfolioService} from "../../../../../../../service/portfolio.service";
 import {DialogData} from "./dialog-data";
 import {FlexTablePanel} from "../../../../../../../component/panel/flex-table/flex-table.panel";
@@ -32,7 +32,7 @@ import {MatIconModule} from "@angular/material/icon";
   templateUrl : 'result.dialog.html',
   styleUrls   : [ 'result.dialog.scss' ],
   imports: [MatDialogModule, MatButtonModule, SelectTextRequired, MatChipsModule, MatCheckboxModule,
-    NgIf, InputIntRequired, FlexTablePanel, MatIconModule],
+    NgIf, InputNumberRequired, FlexTablePanel, MatIconModule],
   standalone  : true,
 })
 

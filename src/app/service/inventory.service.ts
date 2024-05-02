@@ -11,10 +11,10 @@ import {Observable}        from "rxjs";
 import {ListResponse}      from "../model/flex-table";
 import {
   Connection,
-  ConnectionSpec, InvTradingSystem,
+  ConnectionSpec, Currency, Exchange, InvTradingSystem,
   InvTradingSystemFull, Portfolio, PortfolioTree,
-  ProductBroker,
-  ProductFeed,
+  ProductBroker, ProductBrokerSpec,
+  ProductData, ProductDataSpec,
   TradingSession, TradingSystemSpec
 } from "../model/model";
 import {HttpService}       from "./http.service";
@@ -39,6 +39,16 @@ export class InventoryService {
   //---
   //---------------------------------------------------------------------------
 
+  public getCurrencies = (): Observable<ListResponse<Currency>> => {
+    return this.httpService.get<ListResponse<Currency>>('/api/inventory/v1/currencies');
+  }
+
+  //---------------------------------------------------------------------------
+
+  public getExchanges = (): Observable<ListResponse<Exchange>> => {
+    return this.httpService.get<ListResponse<Exchange>>('/api/inventory/v1/exchanges');
+  }
+
   //---------------------------------------------------------------------------
   //--- Connections
   //---------------------------------------------------------------------------
@@ -54,11 +64,25 @@ export class InventoryService {
   }
 
   //---------------------------------------------------------------------------
-  //--- Product feeds
+  //--- Product data
   //---------------------------------------------------------------------------
 
-  public getProductFeeds = (details: boolean): Observable<ListResponse<ProductFeed>> => {
-    return this.httpService.get<ListResponse<ProductFeed>>('/api/inventory/v1/product-feeds');
+  public getProductData = (details: boolean): Observable<ListResponse<ProductData>> => {
+    let params = new HttpParams()
+    params = params.set("details", details)
+    return this.httpService.get<ListResponse<ProductData>>('/api/inventory/v1/product-data', { params: params });
+  }
+
+  //---------------------------------------------------------------------------
+
+  public addProductData = (pds : ProductDataSpec): Observable<ProductData> => {
+    return this.httpService.post<ProductData>('/api/inventory/v1/product-data', pds);
+  }
+
+  //---------------------------------------------------------------------------
+
+  public updateProductData = (pds : ProductDataSpec): Observable<ProductData> => {
+    return this.httpService.put<ProductData>('/api/inventory/v1/product-data/'+pds.id, pds);
   }
 
   //---------------------------------------------------------------------------
@@ -66,7 +90,21 @@ export class InventoryService {
   //---------------------------------------------------------------------------
 
   public getProductBrokers = (details: boolean): Observable<ListResponse<ProductBroker>> => {
-    return this.httpService.get<ListResponse<ProductBroker>>('/api/inventory/v1/product-brokers');
+    let params = new HttpParams()
+    params = params.set("details", details)
+    return this.httpService.get<ListResponse<ProductBroker>>('/api/inventory/v1/product-brokers', { params: params });
+  }
+
+  //---------------------------------------------------------------------------
+
+  public addProductBroker = (pbs : ProductBrokerSpec): Observable<ProductBroker> => {
+    return this.httpService.post<ProductBroker>('/api/inventory/v1/product-broker', pbs);
+  }
+
+  //---------------------------------------------------------------------------
+
+  public updateProductBroker = (pbs : ProductBrokerSpec): Observable<ProductBroker> => {
+    return this.httpService.put<ProductBroker>('/api/inventory/v1/product-broker/'+pbs.id, pbs);
   }
 
   //---------------------------------------------------------------------------
@@ -83,7 +121,7 @@ export class InventoryService {
 
   public getTradingSystems = (details : boolean): Observable<ListResponse<InvTradingSystemFull>> => {
     let params = new HttpParams()
-    params = params.set("details", true)
+    params = params.set("details", details)
     return this.httpService.get<ListResponse<InvTradingSystemFull>>('/api/inventory/v1/trading-systems', { params: params });
   }
 
@@ -96,7 +134,7 @@ export class InventoryService {
   //---------------------------------------------------------------------------
 
   public updateTradingSystem = (tss : TradingSystemSpec): Observable<InvTradingSystem> => {
-    return this.httpService.put<InvTradingSystem>('/api/inventory/v1/trading-systems', tss);
+    return this.httpService.put<InvTradingSystem>('/api/inventory/v1/trading-systems/'+ tss.id, tss);
   }
 
   //---------------------------------------------------------------------------

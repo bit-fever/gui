@@ -1,6 +1,6 @@
 //=============================================================================
 //===
-//=== Copyright (C) 2023 Andrea Carboni
+//=== Copyright (C) 2024 Andrea Carboni
 //===
 //=== Use of this source code is governed by an MIT-style license that can be
 //=== found in the LICENSE file
@@ -23,31 +23,37 @@ import {MatButtonModule} from "@angular/material/button";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
 import {InputTextRequired} from "../../../../../../component/form/input-text-required/input-text-required";
+import {SystemAdapterService} from "../../../../../../service/system-adapter.service";
 import {
+  Adapter, Connection,
+  ConnectionSpec, Exchange,
   Portfolio,
-  ProductBroker, ProductData,
+  ProductBroker, ProductData, ProductDataSpec,
   TradingSession,
   TradingSystemSpec
 } from "../../../../../../model/model";
 import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
+import {Url} from "../../../../../../model/urls";
+import {PortfolioService} from "../../../../../../service/portfolio.service";
 import {InventoryService} from "../../../../../../service/inventory.service";
+import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
 
 //=============================================================================
 
 @Component({
-  selector    :     "tradingSystem-edit",
-  templateUrl :   './edit.panel.html',
-  styleUrls   : [ './edit.panel.scss' ],
+  selector    :     "productData-edit",
+  templateUrl :   './product-data.edit.html',
+  styleUrls   : [ './product-data.edit.scss' ],
   imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
-            MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
-            MatDividerModule, InputTextRequired, SelectTextRequired
+    MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
+    MatDividerModule, InputTextRequired, SelectTextRequired, InputNumberRequired
   ],
   standalone  : true
 })
 
 //=============================================================================
 
-export class TradingSystemEditPanel extends AbstractPanel {
+export class ProductDataEditPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
   //---
@@ -55,18 +61,18 @@ export class TradingSystemEditPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  ts = new TradingSystemSpec()
-  portfolios : Portfolio     [] = []
-  data       : ProductData   [] = []
-  brokers    : ProductBroker [] = []
-  sessions   : TradingSession[] = []
+  pd = new ProductDataSpec()
+  exchanges   : Exchange[] = []
+  markets     : Object[]   = []
+  products    : Object[]   = []
 
-  @ViewChild("tsNameCtrl")      tsNameCtrl?      : InputTextRequired
-  @ViewChild("tsStrategyCtrl")  tsStrategyCtrl?  : InputTextRequired
-  @ViewChild("tsPortfolioCtrl") tsPortfolioCtrl? : SelectTextRequired
-  @ViewChild("tsDataCtrl")      tsDataCtrl?      : SelectTextRequired
-  @ViewChild("tsBrokerCtrl")    tsBrokerCtrl?    : SelectTextRequired
-  @ViewChild("tsSessionCtrl")   tsSessionCtrl?   : SelectTextRequired
+  @ViewChild("pdSymbolCtrl")   pdSymbolCtrl?   : InputTextRequired
+  @ViewChild("pdNameCtrl")     pdNameCtrl?     : InputTextRequired
+  @ViewChild("pdIncremCtrl")   pdIncremCtrl?   : InputNumberRequired
+  @ViewChild("pdMarketCtrl")   pdMarketCtrl?   : SelectTextRequired
+  @ViewChild("pdProductCtrl")  pdProductCtrl?  : SelectTextRequired
+  @ViewChild("pdLocClassCtrl") pdLocClassCtrl? : InputTextRequired
+  @ViewChild("pdExchangeCtrl") pdExchangeCtrl? : SelectTextRequired
 
   //-------------------------------------------------------------------------
   //---
@@ -79,27 +85,12 @@ export class TradingSystemEditPanel extends AbstractPanel {
               router                   : Router,
               private inventoryService : InventoryService) {
 
-    super(eventBusService, labelService, router, "inventory.tradingSystem");
-    super.subscribeToApp(AppEvent.TRADINGSYSTEM_EDIT_START, (e : AppEvent) => this.onStart(e));
+    super(eventBusService, labelService, router, "inventory.productData");
+    super.subscribeToApp(AppEvent.PRODUCTDATA_EDIT_START, (e : AppEvent) => this.onStart(e));
 
-    inventoryService.getPortfolios().subscribe(
+    inventoryService.getExchanges().subscribe(
       result => {
-        this.portfolios = result.result;
-    })
-
-    inventoryService.getProductData(false).subscribe(
-      result => {
-        this.data = result.result;
-      })
-
-    inventoryService.getProductBrokers(false).subscribe(
-      result => {
-        this.brokers = result.result;
-      })
-
-    inventoryService.getTradingSessions().subscribe(
-      result => {
-        this.sessions = result.result;
+        this.exchanges = result.result;
       })
   }
 
@@ -110,44 +101,34 @@ export class TradingSystemEditPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   private onStart(event : AppEvent) : void {
-    console.log("TradingSystemEditPanel: Starting...");
-
-    this.ts = event.params
-
-    if (this.ts == undefined) {
-      this.ts = new TradingSystemSpec()
-    }
+    console.log("ProductDataEditPanel: Starting...");
+    this.pd       = event.params
+    this.markets  = this.labelService.getLabel("map.market")
+    this.products = this.labelService.getLabel("map.product")
   }
 
   //-------------------------------------------------------------------------
 
   public saveEnabled() : boolean|undefined {
-    return  this.tsNameCtrl     ?.isValid() &&
-            this.tsStrategyCtrl ?.isValid() &&
-            this.tsPortfolioCtrl?.isValid() &&
-            this.tsDataCtrl     ?.isValid() &&
-            this.tsBrokerCtrl   ?.isValid() &&
-            this.tsSessionCtrl  ?.isValid()
+    return  this.pdSymbolCtrl  ?.isValid() &&
+            this.pdNameCtrl    ?.isValid() &&
+            this.pdIncremCtrl  ?.isValid() &&
+            this.pdMarketCtrl  ?.isValid() &&
+            this.pdProductCtrl ?.isValid() &&
+            this.pdLocClassCtrl?.isValid() &&
+            this.pdExchangeCtrl?.isValid()
   }
 
   //-------------------------------------------------------------------------
 
   public onSave() : void {
 
-    console.log("TradingSystem is : \n"+ JSON.stringify(this.ts));
+    console.log("Product for data is : \n"+ JSON.stringify(this.pd));
 
-    if (this.ts.id == undefined) {
-      this.inventoryService.addTradingSystem(this.ts).subscribe( c => {
-        this.onClose();
-        this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_LIST_RELOAD))
-      })
-    }
-    else {
-      this.inventoryService.updateTradingSystem(this.ts).subscribe( c => {
-        this.onClose();
-        this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_LIST_RELOAD))
-      })
-    }
+    this.inventoryService.updateProductData(this.pd).subscribe( c => {
+      this.onClose();
+      this.emitToApp(new AppEvent<any>(AppEvent.PRODUCTDATA_LIST_RELOAD))
+    })
   }
 
   //-------------------------------------------------------------------------

@@ -18,7 +18,7 @@ import {MatChipSelectionChange, MatChipsModule} from "@angular/material/chips";
 import {FilterOptimizationRequest} from "../../../../../../../model/model";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {NgIf} from "@angular/common";
-import {InputIntRequired} from "../../../../../../../component/form/input-integer-required/input-int-required";
+import {InputNumberRequired} from "../../../../../../../component/form/input-integer-required/input-number-required";
 import {PortfolioService} from "../../../../../../../service/portfolio.service";
 import {DialogData} from "./dialog-data";
 
@@ -29,7 +29,7 @@ import {DialogData} from "./dialog-data";
   templateUrl : 'parameter.dialog.html',
   styleUrls   : [ 'parameter.dialog.scss' ],
   imports: [MatDialogModule, MatButtonModule, SelectTextRequired, MatChipsModule, MatCheckboxModule,
-            NgIf, InputIntRequired],
+            NgIf, InputNumberRequired],
   standalone  : true,
 })
 

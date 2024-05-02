@@ -1,6 +1,6 @@
 <mat-form-field class="main-layout">
   <mat-label>{{label}}</mat-label>
-  <input matInput type="text" [formControl]="formControl" [errorStateMatcher]="matcher" [maxLength]="len">
+  <input matInput type="text" [formControl]="formControl" [errorStateMatcher]="matcher">
   <button *ngIf="formControl.value" matSuffix mat-icon-button (click)="onClear()">
     <mat-icon>close</mat-icon>
   </button>

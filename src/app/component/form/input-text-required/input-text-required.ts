@@ -25,6 +25,7 @@ import {
 import {AbstractSubscriber} from "../../../service/abstract-subscriber";
 import {EventBusService}    from "../../../service/eventbus.service";
 import {LabelService}       from "../../../service/label.service";
+import {BfErrorStateMatcher} from "../error-state-matcher";
 
 //=============================================================================
 
@@ -54,7 +55,7 @@ export class InputTextRequired extends AbstractSubscriber {
   //-------------------------------------------------------------------------
 
   formControl = new FormControl()
-  matcher = new MyErrorStateMatcher();
+  matcher = new BfErrorStateMatcher();
 
   private _len   : number = 1
   private _valid : boolean= false
@@ -133,15 +134,6 @@ export class InputTextRequired extends AbstractSubscriber {
   private valueChanged = (s : FormControlStatus) => {
     this._valid = (s == "VALID")
     this.valueChange.emit(this.formControl.value)
-  }
-}
-
-//=============================================================================
-
-class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
   }
 }
 
