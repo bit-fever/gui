@@ -9,6 +9,7 @@
 export enum Url {
   Home                        = "home",
   Inventory_ProductData       = "inventory/product-data",
+  Inventory_ProductData_Id    = "inventory/product-data/:id",
   Inventory_ProductBroker     = "inventory/product-broker",
   Inventory_TradingSystems    = "inventory/trading-systems",
 

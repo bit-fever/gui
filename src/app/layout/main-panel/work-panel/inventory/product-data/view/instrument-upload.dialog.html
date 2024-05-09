@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>{{loc("title")}}</h2>
+
+<mat-dialog-content class="mat-typography">
+  <div class="main-layout">
+    <input-text-required   #iuSymbolCtrl [label]="mod('symbol')"         [(value)]="symbol" [len]="16"></input-text-required>
+    <input-text-required   #iuNameCtrl   [label]="mod('name')"           [(value)]="name"   [len]="64"></input-text-required>
+    <date-picker           #iuExpirCtrl  [label]="mod('expirationDate')" [(value)]="expirDate" [required]="true"></date-picker>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onUpload()">{{button("upload")}}</button>
+  <button mat-button mat-dialog-close>{{button("close")}}</button>
+</mat-dialog-actions>

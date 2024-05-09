@@ -28,6 +28,7 @@ import {environment}             from "./environments/environment";
 import {SystemAdapterService} from "./app/service/system-adapter.service";
 import {InventoryService} from "./app/service/inventory.service";
 import {PortfolioService} from "./app/service/portfolio.service";
+import {MatNativeDateModule} from "@angular/material/core";
 
 //=============================================================================
 
@@ -39,6 +40,7 @@ bootstrapApplication(AppComponent, {
 	providers: [
 		importProvidersFrom(BrowserAnimationsModule),
     importProvidersFrom(HttpClientModule),
+    importProvidersFrom(MatNativeDateModule),
 		provideRouter(routes),
     provideAuth(authConfig),
     ApplicationService,

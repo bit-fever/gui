@@ -72,18 +72,21 @@ export class OptimizeParameterDialog extends AbstractPanel {
   }
 
   //-------------------------------------------------------------------------
+
   onOldVsNewChange(e: MatChipSelectionChange) {
     this.options.enableOldNew = e.selected;
     this.updateFields();
   }
 
   //-------------------------------------------------------------------------
+
   onWinPercChange(e: MatChipSelectionChange) {
     this.options.enableWinPerc = e.selected;
     this.updateFields();
   }
 
   //-------------------------------------------------------------------------
+
   onEquVsAvgChange(e: MatChipSelectionChange) {
     this.options.enableEquAvg = e.selected;
     this.updateFields();

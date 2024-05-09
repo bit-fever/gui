@@ -109,7 +109,7 @@ export class InvProductDataPanel extends AbstractPanel {
     let selection = this.table.getSelection();
 
     if (selection.length > 0) {
-      console.log(JSON.stringify(selection))
+      this.navigateTo([ Url.Inventory_ProductData, selection[0].id ]);
     }
   }
 

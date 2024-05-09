@@ -28,7 +28,7 @@ export class MapTranscoder implements Transcoder {
 
 export class IntDateTranscoder implements Transcoder {
   transcode(value: number, row?: any): string {
-    if (value == 0) {
+    if (value == undefined || value == 0) {
       return ""
     }
 

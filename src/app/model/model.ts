@@ -31,11 +31,12 @@ export class Currency {
 //=============================================================================
 
 export class Exchange {
-  id?       : number;
-  code?     : string;
-  name?     : string;
-  timezone? : string;
-  url?      : string;
+  id?        : number;
+  currencyId?:number;
+  code?      : string;
+  name?      : string;
+  timezone?  : string;
+  url?       : string;
 }
 
 //=============================================================================
@@ -138,6 +139,24 @@ export class ProductData extends ProductDataSpec {
   username?       : string
   createdAt?      : string
   updatedAt?      : string
+}
+
+//=============================================================================
+
+export class InstrumentData {
+  id?            : number
+  productDataId? : number
+  symbol?        : string
+  name?          : string
+  expirationDate?: string
+  isContinuous?  : boolean
+}
+
+//=============================================================================
+
+export class ProductDataExt extends ProductData {
+  connection? : Connection
+  exchange?   : Exchange
 }
 
 //=============================================================================

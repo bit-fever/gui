@@ -26,6 +26,7 @@ export abstract class AbstractPanel extends AbstractSubscriber implements OnInit
 	//-------------------------------------------------------------------------
 
 	private pageCode : string;
+  private modelCode: string;
 
 	//-------------------------------------------------------------------------
 	//---
@@ -36,9 +37,11 @@ export abstract class AbstractPanel extends AbstractSubscriber implements OnInit
 	protected constructor(protected override eventBusService : EventBusService,
 	            protected labelService : LabelService,
               protected router       : Router,
-	            pageCode : string) {
+	            pageCode  : string,
+              modelCode?: string) {
 		super(eventBusService)
-		this.pageCode = pageCode;
+		this.pageCode = pageCode
+    this.modelCode= modelCode||""
 	}
 
 	//-------------------------------------------------------------------------
@@ -85,6 +88,12 @@ export abstract class AbstractPanel extends AbstractSubscriber implements OnInit
 	public loc = (code : string) : string => {
 		return this.labelService.getLabelString("page."+ this.pageCode +"."+ code);
 	}
+
+  //---------------------------------------------------------------------------
+
+  public mod = (code : string) : string => {
+    return this.labelService.getLabelString("model."+ this.modelCode +"."+ code);
+  }
 
   //---------------------------------------------------------------------------
 

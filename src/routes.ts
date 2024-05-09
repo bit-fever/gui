@@ -33,6 +33,9 @@ import {
 import {
   ProductBrokerEditPanel
 } from "./app/layout/main-panel/work-panel/inventory/product-broker/edit/product-broker.edit";
+import {
+  InvProductDataViewPanel
+} from "./app/layout/main-panel/work-panel/inventory/product-data/view/product-data.view";
 
 //=============================================================================
 
@@ -43,14 +46,16 @@ export const routes: Routes = [
 
   //--- Inventory
 
-  { path: Url.Inventory_ProductData,              component: InvProductDataPanel             },
-  { path: Url.Right_ProductData_Create,           component: ProductDataCreatePanel, outlet : 'right' },
-  { path: Url.Right_ProductData_Edit,             component: ProductDataEditPanel,   outlet : 'right' },
+  { path: Url.Inventory_ProductData,              component: InvProductDataPanel      },
+  { path: Url.Inventory_ProductData_Id,           component: InvProductDataViewPanel  },
+
+  { path: Url.Right_ProductData_Create,           component: ProductDataCreatePanel,   outlet : 'right' },
+  { path: Url.Right_ProductData_Edit,             component: ProductDataEditPanel,     outlet : 'right' },
   { path: Url.Inventory_ProductBroker,            component: InvProductBrokerPanel           },
   { path: Url.Right_ProductBroker_Create,         component: ProductBrokerCreatePanel, outlet : 'right' },
   { path: Url.Right_ProductBroker_Edit,           component: ProductBrokerEditPanel,   outlet : 'right' },
   { path: Url.Inventory_TradingSystems,           component: InvTradingSystemPanel           },
-  { path: Url.Right_TradingSystem_Edit,           component: TradingSystemEditPanel, outlet : 'right' },
+  { path: Url.Right_TradingSystem_Edit,           component: TradingSystemEditPanel,   outlet : 'right' },
 
   //--- Portfolio
 

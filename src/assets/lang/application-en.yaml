@@ -18,6 +18,8 @@ button:
   close:    CLOSE
   use:      USE
   restart:  RESTART
+  upload:   UPLOAD
+  chart:    CHART
 
 # ==============================================================================
 # ===
@@ -115,34 +117,42 @@ model:
     maxDrawdown: Max Drawdown
 
   productData:
-    id                   : Id
-    username             : Username
-    symbol               : Symbol
-    name                 : Name
-    increment            : Increment
-    marketType           : Market type
-    productType          : Product type
-    createdAt            : Created at
-    updatedAt            : Updated at
-    connectionCode       : Connection
-    systemCode           : System
-    exchangeCode         : Exchange
+    id             : Id
+    username       : Username
+    symbol         : Symbol
+    name           : Name
+    increment      : Increment
+    marketType     : Market type
+    productType    : Product type
+    createdAt      : Created at
+    updatedAt      : Updated at
+    connectionCode : Connection
+    systemCode     : System
+    exchangeCode   : Exchange
+    localClass     : Local class
+
+  instrumentData:
+    id: Id
+    symbol         : Symbol
+    name           : Name
+    expirationDate : Expiration date
+    isContinuous   : Continuous
 
   productBroker:
-    id                   : Id
-    username             : Username
-    symbol               : Symbol
-    name                 : Name
-    pointValue           : Point value
-    costPerTrade         : Cost per trade
-    marginValue          : Margin value
-    marketType           : Market type
-    productType          : Product type
-    createdAt            : Created at
-    updatedAt            : Updated at
-    connectionCode       : Connection
-    currencyCode         : Currency
-    exchangeCode         : Exchange
+    id             : Id
+    username       : Username
+    symbol         : Symbol
+    name           : Name
+    pointValue     : Point value
+    costPerTrade   : Cost per trade
+    marginValue    : Margin value
+    marketType     : Market type
+    productType    : Product type
+    createdAt      : Created at
+    updatedAt      : Updated at
+    connectionCode : Connection
+    currencyCode   : Currency
+    exchangeCode   : Exchange
 
 # ==============================================================================
 # ===
@@ -155,6 +165,7 @@ page:
     title: BitFever platform
   unknown:
     message: Unknown page
+
   # ==============================================================================
 
   inventory:
@@ -168,16 +179,11 @@ page:
       session:       Trading session
 
     productData:
-      new:         New product for data
-      edit:        Edit product for data
-      connection:  Connection
-      symbol:      Symbol
-      name:        Name
-      increment:   Increment
-      marketType:  Market
-      productType: Product
-      localClass:  Local class
-      exchange:    Exchange
+      new:   New product for data
+      edit:  Edit product for data
+      instruments: Instruments
+      upload:
+        title: Instrument data upload
 
     productBroker:
       new:          New product for broker

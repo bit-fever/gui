@@ -1,0 +1,64 @@
+<div class="main-panel">
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <div>
+    <button mat-button (click)="onUploadClick()">{{button("upload")}}</button>
+    <button mat-button (click)="onChartClick()" [disabled]="disChart">{{button("chart")}}</button>
+  </div>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <table class="info-layout">
+    <tr>
+      <td>{{mod("symbol")}}</td>
+      <td class="data-style">{{pd.symbol}}</td>
+      <td class="separator-width"></td>
+      <td>{{mod("localClass")}}</td>
+      <td class="data-style">{{pd.localClass}}</td>
+    </tr>
+
+    <tr>
+      <td>{{mod("name")}}</td>
+      <td class="data-style">{{pd.name}}</td>
+      <td></td>
+      <td>{{mod("marketType")}}</td>
+      <td class="data-style">{{market}}</td>
+    </tr>
+
+    <tr>
+      <td>{{mod("connectionCode")}}</td>
+      <td class="data-style">{{pd.connection?.code}}</td>
+      <td></td>
+      <td>{{mod("productType")}}</td>
+      <td class="data-style">{{product}}</td>
+    </tr>
+
+    <tr>
+      <td>{{mod("exchangeCode")}}</td>
+      <td class="data-style">{{pd.exchange?.code}}</td>
+      <td></td>
+      <td>{{mod("createdAt")}}</td>
+      <td class="data-style">{{pd.createdAt}}</td>
+    </tr>
+
+    <tr>
+      <td>{{mod("increment")}}</td>
+      <td class="data-style">{{pd.increment}}</td>
+      <td></td>
+      <td>{{mod("updatedAt")}}</td>
+      <td class="data-style">{{pd.updatedAt}}</td>
+    </tr>
+  </table>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <mat-tab-group class="table-panel" [mat-stretch-tabs]="false">
+    <mat-tab label="{{loc('instruments')}}">
+      <flex-table #table
+                  [columns]       = "columns"
+                  [dataProvider]  = "service"
+                  (onRowsSelected)="onRowSelected($event)"
+      ></flex-table>
+    </mat-tab>
+  </mat-tab-group>
+</div>

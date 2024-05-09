@@ -11,10 +11,10 @@ import {Observable}        from "rxjs";
 import {ListResponse}      from "../model/flex-table";
 import {
   Connection,
-  ConnectionSpec, Currency, Exchange, InvTradingSystem,
+  ConnectionSpec, Currency, Exchange, InstrumentData, InvTradingSystem,
   InvTradingSystemFull, Portfolio, PortfolioTree,
   ProductBroker, ProductBrokerSpec,
-  ProductData, ProductDataSpec,
+  ProductData, ProductDataExt, ProductDataSpec,
   TradingSession, TradingSystemSpec
 } from "../model/model";
 import {HttpService}       from "./http.service";
@@ -75,6 +75,14 @@ export class InventoryService {
 
   //---------------------------------------------------------------------------
 
+  public getProductDataById = (id:number, details: boolean): Observable<ProductDataExt> => {
+    let params = new HttpParams()
+    params = params.set("details", details)
+    return this.httpService.get<ProductDataExt>('/api/inventory/v1/product-data/'+ id, { params: params });
+  }
+
+  //---------------------------------------------------------------------------
+
   public addProductData = (pds : ProductDataSpec): Observable<ProductData> => {
     return this.httpService.post<ProductData>('/api/inventory/v1/product-data', pds);
   }
@@ -83,6 +91,12 @@ export class InventoryService {
 
   public updateProductData = (pds : ProductDataSpec): Observable<ProductData> => {
     return this.httpService.put<ProductData>('/api/inventory/v1/product-data/'+pds.id, pds);
+  }
+
+  //---------------------------------------------------------------------------
+
+  public getInstrumentsByDataId = (id: number): Observable<ListResponse<InstrumentData>> => {
+    return this.httpService.get<ListResponse<InstrumentData>>('/api/inventory/v1/product-data/'+id+'/instruments');
   }
 
   //---------------------------------------------------------------------------
