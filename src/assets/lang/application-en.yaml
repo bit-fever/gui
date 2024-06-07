@@ -20,6 +20,7 @@ button:
   restart:  RESTART
   upload:   UPLOAD
   chart:    CHART
+  ok:       Ok
 
 # ==============================================================================
 # ===
@@ -57,6 +58,11 @@ flexTable:
 
 simpleTable:
   noData: No data
+
+fileUpload:
+  instructions: Drag and drop the file(s) here or click on "Browse Files".
+  tipRemove: Remove file
+  browseFiles: Browse Files
 
 # ==============================================================================
 # ===
@@ -183,7 +189,9 @@ page:
       edit:  Edit product for data
       instruments: Instruments
       upload:
-        title: Instrument data upload
+        title  : Instrument data upload
+        success: Datafile successfully uploaded
+        error  : Cannot upload datafile
 
     productBroker:
       new:          New product for broker

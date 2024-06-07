@@ -130,7 +130,6 @@ export class ProductDataSpec {
   increment?    : number
   marketType?   : string
   productType?  : string
-  localClass?   : string
 }
 
 //=============================================================================
@@ -172,7 +171,6 @@ export class ProductBrokerSpec {
   marginValue?  : number
   marketType?   : string
   productType?  : string
-  localClass?   : string
 }
 
 //=============================================================================
@@ -441,6 +439,24 @@ export class SelectedFilters {
   oldVsNew?  : boolean
   winPerc?   : boolean
   equVsAvg?  : boolean
+}
+
+//=============================================================================
+//===
+//=== File upload
+//===
+//=============================================================================
+
+export class DatafileUploadSpec {
+  symbol?       : string
+  name?         : string
+  expirationDate: number|null = null
+}
+
+//=============================================================================
+
+export class DatafileUploadResponse {
+
 }
 
 //=============================================================================

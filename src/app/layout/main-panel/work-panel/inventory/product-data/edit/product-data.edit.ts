@@ -62,17 +62,17 @@ export class ProductDataEditPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   pd = new ProductDataSpec()
-  exchanges   : Exchange[] = []
   markets     : Object[]   = []
   products    : Object[]   = []
 
-  @ViewChild("pdSymbolCtrl")   pdSymbolCtrl?   : InputTextRequired
+  //--- The symbol and exchanges cannot be changed because
+  //---  - symbol  : is the root used to retrieve instruments from the datasource
+  //---  - exchange: its timezone is used to convert the timestamp of data
+
   @ViewChild("pdNameCtrl")     pdNameCtrl?     : InputTextRequired
   @ViewChild("pdIncremCtrl")   pdIncremCtrl?   : InputNumberRequired
   @ViewChild("pdMarketCtrl")   pdMarketCtrl?   : SelectTextRequired
   @ViewChild("pdProductCtrl")  pdProductCtrl?  : SelectTextRequired
-  @ViewChild("pdLocClassCtrl") pdLocClassCtrl? : InputTextRequired
-  @ViewChild("pdExchangeCtrl") pdExchangeCtrl? : SelectTextRequired
 
   //-------------------------------------------------------------------------
   //---
@@ -87,11 +87,6 @@ export class ProductDataEditPanel extends AbstractPanel {
 
     super(eventBusService, labelService, router, "inventory.productData");
     super.subscribeToApp(AppEvent.PRODUCTDATA_EDIT_START, (e : AppEvent) => this.onStart(e));
-
-    inventoryService.getExchanges().subscribe(
-      result => {
-        this.exchanges = result.result;
-      })
   }
 
   //-------------------------------------------------------------------------
@@ -102,6 +97,7 @@ export class ProductDataEditPanel extends AbstractPanel {
 
   private onStart(event : AppEvent) : void {
     console.log("ProductDataEditPanel: Starting...");
+
     this.pd       = event.params
     this.markets  = this.labelService.getLabel("map.market")
     this.products = this.labelService.getLabel("map.product")
@@ -110,13 +106,10 @@ export class ProductDataEditPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   public saveEnabled() : boolean|undefined {
-    return  this.pdSymbolCtrl  ?.isValid() &&
-            this.pdNameCtrl    ?.isValid() &&
+    return  this.pdNameCtrl    ?.isValid() &&
             this.pdIncremCtrl  ?.isValid() &&
             this.pdMarketCtrl  ?.isValid() &&
-            this.pdProductCtrl ?.isValid() &&
-            this.pdLocClassCtrl?.isValid() &&
-            this.pdExchangeCtrl?.isValid()
+            this.pdProductCtrl ?.isValid()
   }
 
   //-------------------------------------------------------------------------

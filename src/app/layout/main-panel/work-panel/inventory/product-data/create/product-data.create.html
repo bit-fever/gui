@@ -2,10 +2,9 @@
   <right-title-panel icon="dataset" title="{{loc('new')}}" (onClose)="onClose()"></right-title-panel>
 
   <div class="form-layout">
-    <select-text-required #pdConnCtrl
+    <select-text-required #pdConnCtrl keyField="id" valueField="name"
                           [(key)]="pd.connectionId"
                           [label]="loc('connection')"
-                          keyField="id" valueField="name"
                           [list]="connections"
                           (keyChange)="onConnectionChange($event)"></select-text-required>
     <br/>
@@ -15,7 +14,6 @@
       <input-number-required #pdIncremCtrl   [label]="loc('increment')"   [(value)]="pd.increment"   [min]="0.00000001" [max]="1"></input-number-required><br/>
       <select-text-required  #pdMarketCtrl   [label]="loc('marketType')"  [(key)]  ="pd.marketType"  [map]="markets"></select-text-required><br/>
       <select-text-required  #pdProductCtrl  [label]="loc('productType')" [(key)]  ="pd.productType" [map]="products"></select-text-required><br/>
-      <input-text-required   #pdLocClassCtrl [label]="loc('localClass')"  [(value)]="pd.localClass"  [len]="8"></input-text-required><br/>
       <select-text-required  #pdExchangeCtrl
                             [(key)]="pd.exchangeId"
                             [label]="loc('exchange')"

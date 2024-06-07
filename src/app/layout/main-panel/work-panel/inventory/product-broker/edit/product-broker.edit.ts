@@ -66,12 +66,12 @@ export class ProductBrokerEditPanel extends AbstractPanel {
   products    : Object[]   = []
   exchanges   : Exchange[] = []
 
-  @ViewChild("pbSymbolCtrl")       pbSymbolCtrl?       : InputTextRequired
+  //---  The symbol cannot be changed because it is the root used to retrieve instruments from the broker
+
   @ViewChild("pbNameCtrl")         pbNameCtrl?         : InputTextRequired
   @ViewChild("pbPointValueCtrl")   pbPointValueCtrl?   : InputNumberRequired
   @ViewChild("pbCostPerTradeCtrl") pbCostPerTradeCtrl? : InputNumberRequired
   @ViewChild("pbMarginValueCtrl")  pbMarginValueCtrl?  : InputNumberRequired
-  @ViewChild("pbLocalClassCtrl")   pbLocalClassCtrl?   : InputTextRequired
   @ViewChild("pbMarketCtrl")       pbMarketCtrl?       : SelectTextRequired
   @ViewChild("pbProductCtrl")      pbProductCtrl?      : SelectTextRequired
   @ViewChild("pbExchangeCtrl")     pbExchangeCtrl?     : SelectTextRequired
@@ -113,12 +113,10 @@ export class ProductBrokerEditPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   public saveEnabled() : boolean|undefined {
-    return  this.pbSymbolCtrl      ?.isValid() &&
-            this.pbNameCtrl        ?.isValid() &&
+    return  this.pbNameCtrl        ?.isValid() &&
             this.pbPointValueCtrl  ?.isValid() &&
             this.pbCostPerTradeCtrl?.isValid() &&
             this.pbMarginValueCtrl ?.isValid() &&
-            this.pbLocalClassCtrl  ?.isValid() &&
             this.pbMarketCtrl      ?.isValid() &&
             this.pbProductCtrl     ?.isValid() &&
             this.pbExchangeCtrl    ?.isValid()

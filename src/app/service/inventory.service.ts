@@ -11,13 +11,13 @@ import {Observable}        from "rxjs";
 import {ListResponse}      from "../model/flex-table";
 import {
   Connection,
-  ConnectionSpec, Currency, Exchange, InstrumentData, InvTradingSystem,
+  ConnectionSpec, Currency, Exchange, DatafileUploadSpec, InstrumentData, InvTradingSystem,
   InvTradingSystemFull, Portfolio, PortfolioTree,
   ProductBroker, ProductBrokerSpec,
   ProductData, ProductDataExt, ProductDataSpec,
-  TradingSession, TradingSystemSpec
+  TradingSession, TradingSystemSpec, DatafileUploadResponse
 } from "../model/model";
-import {HttpService}       from "./http.service";
+import {HttpService, UploadEvent} from "./http.service";
 import {HttpParams} from "@angular/common/http";
 
 //=============================================================================
@@ -94,12 +94,6 @@ export class InventoryService {
   }
 
   //---------------------------------------------------------------------------
-
-  public getInstrumentsByDataId = (id: number): Observable<ListResponse<InstrumentData>> => {
-    return this.httpService.get<ListResponse<InstrumentData>>('/api/inventory/v1/product-data/'+id+'/instruments');
-  }
-
-  //---------------------------------------------------------------------------
   //--- Product brokers
   //---------------------------------------------------------------------------
 
@@ -112,13 +106,13 @@ export class InventoryService {
   //---------------------------------------------------------------------------
 
   public addProductBroker = (pbs : ProductBrokerSpec): Observable<ProductBroker> => {
-    return this.httpService.post<ProductBroker>('/api/inventory/v1/product-broker', pbs);
+    return this.httpService.post<ProductBroker>('/api/inventory/v1/product-brokers', pbs);
   }
 
   //---------------------------------------------------------------------------
 
   public updateProductBroker = (pbs : ProductBrokerSpec): Observable<ProductBroker> => {
-    return this.httpService.put<ProductBroker>('/api/inventory/v1/product-broker/'+pbs.id, pbs);
+    return this.httpService.put<ProductBroker>('/api/inventory/v1/product-brokers/'+pbs.id, pbs);
   }
 
   //---------------------------------------------------------------------------

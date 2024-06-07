@@ -29,6 +29,7 @@ import {SystemAdapterService} from "./app/service/system-adapter.service";
 import {InventoryService} from "./app/service/inventory.service";
 import {PortfolioService} from "./app/service/portfolio.service";
 import {MatNativeDateModule} from "@angular/material/core";
+import {CollectorService} from "./app/service/collector.service";
 
 //=============================================================================
 
@@ -47,6 +48,7 @@ bootstrapApplication(AppComponent, {
     EventBusService,
     HttpService,
     InventoryService,
+    CollectorService,
     LabelService,
     MenuService,
     NotificationService,

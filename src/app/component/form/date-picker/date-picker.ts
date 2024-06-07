@@ -48,6 +48,7 @@ export class DatePicker extends AbstractSubscriber {
 
   @Input() label    : string  = ""
   @Input() required : boolean = false
+  @Input() disabled : boolean = false
 
   @Output() valueChange = new EventEmitter<number|null>();
 
@@ -120,6 +121,7 @@ export class DatePicker extends AbstractSubscriber {
     console.log("Validating : "+control.value)
 
     if (this.required && control.value == null) {
+      console.log("Required!!!")
       return { "required": "-" }
     }
 

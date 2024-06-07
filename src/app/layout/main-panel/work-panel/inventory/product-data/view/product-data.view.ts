@@ -29,6 +29,7 @@ import {
   FlagStyler,
   IntDateTranscoder,
 } from "../../../../../../component/panel/flex-table/transcoders";
+import {CollectorService} from "../../../../../../service/collector.service";
 
 //=============================================================================
 
@@ -73,6 +74,7 @@ export class InvProductDataViewPanel extends AbstractPanel {
               router                  : Router,
               private route           : ActivatedRoute,
               private inventoryService: InventoryService,
+              private collectorService: CollectorService,
               public  dialog          : MatDialog) {
 
     super(eventBusService, labelService, router, "inventory.productData", "productData");
@@ -89,7 +91,7 @@ export class InvProductDataViewPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   private getInstrumentData = (): Observable<ListResponse<InstrumentData>> => {
-    return this.inventoryService.getInstrumentsByDataId(this.pdId);
+    return this.collectorService.getInstrumentsByDataId(this.pdId);
   }
 
   //-------------------------------------------------------------------------

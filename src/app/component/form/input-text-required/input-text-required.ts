@@ -57,8 +57,9 @@ export class InputTextRequired extends AbstractSubscriber {
   formControl = new FormControl()
   matcher = new BfErrorStateMatcher();
 
-  private _len   : number = 1
-  private _valid : boolean= false
+  private _len     : number  = 1
+  private _valid   : boolean = false
+  private _disabled: boolean = false
 
   //-------------------------------------------------------------------------
   //---
@@ -101,6 +102,24 @@ export class InputTextRequired extends AbstractSubscriber {
     this._len = l
     this.formControl.setValidators([ Validators.required, Validators.maxLength(l) ])
     this.formControl.updateValueAndValidity()
+  }
+
+  //-------------------------------------------------------------------------
+
+  get disabled() : boolean {
+    return this.formControl.disabled
+  }
+
+  //-------------------------------------------------------------------------
+
+  @Input()
+  set disabled(v : boolean) {
+    if (v) {
+      this.formControl.disable()
+    }
+    else {
+      this.formControl.enable()
+    }
   }
 
   //-------------------------------------------------------------------------

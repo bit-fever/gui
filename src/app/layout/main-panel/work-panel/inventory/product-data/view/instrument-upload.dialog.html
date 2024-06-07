@@ -2,13 +2,16 @@
 
 <mat-dialog-content class="mat-typography">
   <div class="main-layout">
-    <input-text-required   #iuSymbolCtrl [label]="mod('symbol')"         [(value)]="symbol" [len]="16"></input-text-required>
-    <input-text-required   #iuNameCtrl   [label]="mod('name')"           [(value)]="name"   [len]="64"></input-text-required>
-    <date-picker           #iuExpirCtrl  [label]="mod('expirationDate')" [(value)]="expirDate" [required]="true"></date-picker>
+    <input-text-required   #iuSymbolCtrl [label]="mod('symbol')"         [(value)]="spec.symbol"         [len]="16" [disabled]="buttonsDisabled"></input-text-required>
+    <input-text-required   #iuNameCtrl   [label]="mod('name')"           [(value)]="spec.name"           [len]="64" [disabled]="buttonsDisabled"></input-text-required>
+    <date-picker                         [label]="mod('expirationDate')" [(value)]="spec.expirationDate"            [disabled]="buttonsDisabled"></date-picker>
   </div>
+  <file-uploader #fileUpload [acceptedTypes]="'csv'" (onFileChange)="onFileChange($event)" [disabled]="buttonsDisabled"></file-uploader>
+  <br>
+  <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button (click)="onUpload()">{{button("upload")}}</button>
-  <button mat-button mat-dialog-close>{{button("close")}}</button>
+  <button mat-button [disabled]="!uploadEnabled()" (click)="onUpload()">{{button("upload")}}</button>
+  <button mat-button [disabled]="buttonsDisabled" mat-dialog-close>{{button("close")}}</button>
 </mat-dialog-actions>

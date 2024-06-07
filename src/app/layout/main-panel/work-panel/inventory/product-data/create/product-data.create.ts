@@ -77,7 +77,6 @@ export class ProductDataCreatePanel extends AbstractPanel {
   @ViewChild("pdIncremCtrl")   pdIncremCtrl?   : InputNumberRequired
   @ViewChild("pdMarketCtrl")   pdMarketCtrl?   : SelectTextRequired
   @ViewChild("pdProductCtrl")  pdProductCtrl?  : SelectTextRequired
-  @ViewChild("pdLocClassCtrl") pdLocClassCtrl? : InputTextRequired
   @ViewChild("pdExchangeCtrl") pdExchangeCtrl? : SelectTextRequired
 
   private connMap = new Map<number, Connection>()
@@ -165,7 +164,6 @@ export class ProductDataCreatePanel extends AbstractPanel {
             this.pdIncremCtrl  ?.isValid() &&
             this.pdMarketCtrl  ?.isValid() &&
             this.pdProductCtrl ?.isValid() &&
-            this.pdLocClassCtrl?.isValid() &&
             this.pdExchangeCtrl?.isValid()
   }
 

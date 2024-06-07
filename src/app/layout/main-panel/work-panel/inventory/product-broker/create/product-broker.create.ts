@@ -23,7 +23,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
 import {InputTextRequired} from "../../../../../../component/form/input-text-required/input-text-required";
-import {Connection, Currency, Exchange, ProductBrokerSpec} from "../../../../../../model/model";
+import {Connection, Exchange, ProductBrokerSpec} from "../../../../../../model/model";
 import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
 import {InventoryService} from "../../../../../../service/inventory.service";
 import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
@@ -63,7 +63,6 @@ export class ProductBrokerCreatePanel extends AbstractPanel {
   @ViewChild("pbPointValueCtrl")   pbPointValueCtrl?   : InputNumberRequired
   @ViewChild("pbCostPerTradeCtrl") pbCostPerTradeCtrl? : InputNumberRequired
   @ViewChild("pbMarginValueCtrl")  pbMarginValueCtrl?  : InputNumberRequired
-  @ViewChild("pbLocalClassCtrl")   pbLocalClassCtrl?   : InputTextRequired
   @ViewChild("pbMarketCtrl")       pbMarketCtrl?       : SelectTextRequired
   @ViewChild("pbProductCtrl")      pbProductCtrl?      : SelectTextRequired
   @ViewChild("pbExchangeCtrl")     pbExchangeCtrl?     : SelectTextRequired
@@ -80,7 +79,7 @@ export class ProductBrokerCreatePanel extends AbstractPanel {
               private inventoryService : InventoryService) {
 
     super(eventBusService, labelService, router, "inventory.productBroker");
-    super.subscribeToApp(AppEvent.PRODUCTDATA_EDIT_START, (e : AppEvent) => this.onStart(e));
+    super.subscribeToApp(AppEvent.PRODUCTBROKER_CREATE_START, (e : AppEvent) => this.onStart(e));
 
     inventoryService.getConnections().subscribe(
       result => {
@@ -108,7 +107,7 @@ export class ProductBrokerCreatePanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   private onStart(event : AppEvent) : void {
-    console.log("ProductDataEditPanel: Starting...");
+    console.log("ProductBrokerCreatePanel: Starting...");
 
     this.pb       = new ProductBrokerSpec()
     this.markets  = this.labelService.getLabel("map.market")
@@ -124,7 +123,6 @@ export class ProductBrokerCreatePanel extends AbstractPanel {
             this.pbPointValueCtrl  ?.isValid() &&
             this.pbCostPerTradeCtrl?.isValid() &&
             this.pbMarginValueCtrl ?.isValid() &&
-            this.pbLocalClassCtrl  ?.isValid() &&
             this.pbMarketCtrl      ?.isValid() &&
             this.pbProductCtrl     ?.isValid() &&
             this.pbExchangeCtrl    ?.isValid()

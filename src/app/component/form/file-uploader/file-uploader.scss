@@ -1,0 +1,107 @@
+//=============================================================================
+//===
+//=== Copyright (C) 2024 Andrea Carboni
+//=== Original code by Owrrpon
+//===
+//=== Use of this source code is governed by an MIT-style license that can be
+//=== found in the LICENSE file
+//=============================================================================
+
+
+.file-uploader {
+  background-color: #FFF8F4;
+  border: 2px dashed #F37C40;
+  padding: 3rem;
+}
+
+//=============================================================================
+
+.instructions {
+  color: #000000A0;
+  margin-bottom: 3rem;
+  padding: 0 1rem;
+  text-align: center;
+}
+
+//=============================================================================
+
+.files-for-upload {
+  margin-bottom: 1rem;
+  .selected-file {
+    border-radius: 0;
+    font-family: 'Roboto', sans-serif;
+    &:not(:last-of-type){
+      margin-bottom: 1rem;
+    }
+    .mat-expansion-panel-header{
+      cursor: default;
+      height: auto;
+      padding: 0;
+      .selected-file__header{
+        width: 100%;
+        display: flex;
+        align-items: stretch;
+        justify-content: flex-start;
+        .selected-file__name{
+          flex: 1 1 auto;
+          color: #F37C40;
+          overflow: hidden;
+          padding: 0 1.5rem;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .selected-file__actions{
+          display: flex;
+          justify-content: flex-end;
+          gap: 8px;
+          button{
+            display: flex;
+            align-items: center;
+            min-width: 0;
+            padding: 0 15px;
+            border     : 2px solid #F37C40;
+            background-color: #FFF8F4;
+          }
+        }
+      }
+      &.mat-expanded{
+        .selected-file__header{
+          border-bottom: solid 1px #F37C40;
+        }
+      }
+      .mat-content{
+        display: block;
+      }
+
+    }
+    .mat-expansion-panel-body{
+      padding-top: 1rem;
+      .selected-file__upload--error{
+        color: #0000FF;
+      }
+    }
+  }
+}
+
+//=============================================================================
+
+.file-upload__options {
+  display        : flex;
+  justify-content: center;
+  gap: 4px;
+  button input {
+    &.all_file__upload, &.all_file__cancel {
+      display    : flex;
+      align-items: center;
+      border     : 2px solid #F37C40;
+      min-width  : 0;
+      padding    : 0 15px;
+      background-color: #FFF8F4;
+    }
+  }
+  .file-upload__native-selection {
+    display: none;
+  }
+}
+
+//=============================================================================
