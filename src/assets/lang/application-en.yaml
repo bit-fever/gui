@@ -135,7 +135,6 @@ model:
     connectionCode : Connection
     systemCode     : System
     exchangeCode   : Exchange
-    localClass     : Local class
 
   instrumentData:
     id: Id

@@ -96,7 +96,7 @@ export class ProductDataCreatePanel extends AbstractPanel {
               router                   : Router,
               private inventoryService : InventoryService) {
 
-    super(eventBusService, labelService, router, "inventory.productData");
+    super(eventBusService, labelService, router, "inventory.productData", "productData");
     super.subscribeToApp(AppEvent.PRODUCTDATA_CREATE_START, (e : AppEvent) => this.onStart(e));
 
     inventoryService.getConnections().subscribe(

@@ -44,13 +44,13 @@ export class CollectorService {
   //---------------------------------------------------------------------------
 
   public getInstrumentsByDataId = (id: number): Observable<ListResponse<InstrumentData>> => {
-    return this.httpService.get<ListResponse<InstrumentData>>('/api/inventory/v1/product-data/'+id+'/instruments');
+    return this.httpService.get<ListResponse<InstrumentData>>('/api/collector/v1/product-data/'+id+'/instruments');
   }
 
   //---------------------------------------------------------------------------
 
   public uploadInstrumentData = (productId: number, spec: DatafileUploadSpec, files: any[]) : Observable<UploadEvent<DatafileUploadResponse>> => {
-    return this.httpService.upload<DatafileUploadResponse>('/api/inventory/v1/product-data/'+ productId +'/instruments', spec, files)
+    return this.httpService.upload<DatafileUploadResponse>('/api/collector/v1/product-data/'+ productId +'/instruments', spec, files)
   }
 }
 
