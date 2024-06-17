@@ -22,10 +22,12 @@ import {InventoryService} from "../../../../../../service/inventory.service";
 import {InputTextRequired} from "../../../../../../component/form/input-text-required/input-text-required";
 import {DatePicker} from "../../../../../../component/form/date-picker/date-picker";
 import {FileUploader} from "../../../../../../component/form/file-uploader/file-uploader";
-import {DatafileUploadSpec} from "../../../../../../model/model";
+import {DatafileUploadSpec, ParserMap} from "../../../../../../model/model";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CollectorService} from "../../../../../../service/collector.service";
+import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
+import {MatChipSelectionChange, MatChipsModule} from "@angular/material/chips";
 
 //=============================================================================
 
@@ -34,7 +36,7 @@ import {CollectorService} from "../../../../../../service/collector.service";
   templateUrl : 'instrument-upload.dialog.html',
   styleUrls   : [ 'instrument-upload.dialog.scss' ],
   imports: [MatDialogModule, MatButtonModule, NgIf, MatProgressSpinnerModule, MatGridListModule,
-    MatIconModule, InputTextRequired, DatePicker, FileUploader, MatProgressBarModule],
+    MatIconModule, InputTextRequired, DatePicker, FileUploader, MatProgressBarModule, SelectTextRequired, MatChipsModule],
   standalone  : true,
 })
 
@@ -54,11 +56,16 @@ export class InstrumentUploadDialog extends AbstractPanel {
   uploadDisabled = true
   buttonsDisabled = false
 
+  timezones = {}
+  parsers : ParserMap = {}
+
   //-------------------------------------------------------------------------
 
   @ViewChild("iuSymbolCtrl") symbolCtrl?   : InputTextRequired
   @ViewChild("iuNameCtrl")   nameCtrl?     : InputTextRequired
   @ViewChild("fileUpload")   fileUploader? : FileUploader
+  @ViewChild("timezoneCtrl") timezoneCtrl? : SelectTextRequired
+  @ViewChild("parserCtrl")   parserCtrl?   : SelectTextRequired
 
   //-------------------------------------------------------------------------
   //---
@@ -76,12 +83,24 @@ export class InstrumentUploadDialog extends AbstractPanel {
               @Inject(MAT_DIALOG_DATA) public data: DialogData) {
 
     super(eventBusService, labelService, router, "inventory.productData.upload", "instrumentData");
+
+    collectorService.getParsers().subscribe(
+      result => {
+        this.parsers   = result;
+        this.timezones = this.labelService.getLabel("map.uploadTimezone")
+      })
   }
 
   //-------------------------------------------------------------------------
   //---
   //--- Init methods
   //---
+  //-------------------------------------------------------------------------
+
+  onContinuousChange(e: MatChipSelectionChange) {
+    this.spec.continuous = e.selected;
+  }
+
   //-------------------------------------------------------------------------
 
   onFileChange(files : any[]) {
@@ -95,7 +114,12 @@ export class InstrumentUploadDialog extends AbstractPanel {
     this.buttonsDisabled = true
     this.uploadDisabled  = true
 
-    this.collectorService.uploadInstrumentData(1, this.spec, this.files).subscribe(
+    let id : number = 0
+    if (this.data.productData.id) {
+      id = this.data.productData.id
+    }
+
+    this.collectorService.uploadInstrumentData(id, this.spec, this.files).subscribe(
       event => {
         if (event.isInProgress()) {
           this.progress = event.percentage
@@ -120,8 +144,10 @@ export class InstrumentUploadDialog extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   public uploadEnabled() : boolean|undefined {
-    return  this.symbolCtrl?.isValid() &&
-            this.nameCtrl  ?.isValid() &&
+    return  this.symbolCtrl  ?.isValid() &&
+            this.nameCtrl    ?.isValid() &&
+            this.timezoneCtrl?.isValid() &&
+            this.parserCtrl  ?.isValid() &&
             !this.uploadDisabled
   }
 }

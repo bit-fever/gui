@@ -10,15 +10,9 @@ import {Injectable}        from "@angular/core";
 import {Observable}        from "rxjs";
 import {ListResponse}      from "../model/flex-table";
 import {
-  Connection,
-  ConnectionSpec, Currency, Exchange, DatafileUploadSpec, InstrumentData, InvTradingSystem,
-  InvTradingSystemFull, Portfolio, PortfolioTree,
-  ProductBroker, ProductBrokerSpec,
-  ProductData, ProductDataExt, ProductDataSpec,
-  TradingSession, TradingSystemSpec, DatafileUploadResponse
+  DatafileUploadSpec, InstrumentData, DatafileUploadResponse, ParserMap
 } from "../model/model";
 import {HttpService, UploadEvent} from "./http.service";
-import {HttpParams} from "@angular/common/http";
 
 //=============================================================================
 
@@ -41,6 +35,12 @@ export class CollectorService {
 
   //---------------------------------------------------------------------------
   //--- Product data
+  //---------------------------------------------------------------------------
+
+  public getParsers = (): Observable<ParserMap> => {
+    return this.httpService.get<ParserMap>('/api/collector/v1/config/parsers');
+  }
+
   //---------------------------------------------------------------------------
 
   public getInstrumentsByDataId = (id: number): Observable<ListResponse<InstrumentData>> => {

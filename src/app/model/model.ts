@@ -448,15 +448,23 @@ export class SelectedFilters {
 //=============================================================================
 
 export class DatafileUploadSpec {
-  symbol?       : string
-  name?         : string
-  expirationDate: number|null = null
+  symbol?    : string
+  name?      : string
+  continuous?: boolean
+  timezone?  : string
+  parser?    : string
 }
 
 //=============================================================================
 
 export class DatafileUploadResponse {
 
+}
+
+//=============================================================================
+
+export type ParserMap = {
+  [key: string]: string
 }
 
 //=============================================================================

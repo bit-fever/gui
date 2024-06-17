@@ -4,7 +4,13 @@
   <div class="main-layout">
     <input-text-required   #iuSymbolCtrl [label]="mod('symbol')"         [(value)]="spec.symbol"         [len]="16" [disabled]="buttonsDisabled"></input-text-required>
     <input-text-required   #iuNameCtrl   [label]="mod('name')"           [(value)]="spec.name"           [len]="64" [disabled]="buttonsDisabled"></input-text-required>
-    <date-picker                         [label]="mod('expirationDate')" [(value)]="spec.expirationDate"            [disabled]="buttonsDisabled"></date-picker>
+    <mat-chip-listbox>
+      <mat-chip-option (selectionChange)="onContinuousChange($event)" [selected]="spec.continuous">{{loc("continuous")}}</mat-chip-option>
+    </mat-chip-listbox>
+  </div>
+  <div class="main-layout">
+    <select-text-required  #timezoneCtrl [label]="loc('timezone')" [(key)]  ="spec.timezone" [map]="timezones"></select-text-required>
+    <select-text-required  #parserCtrl   [label]="loc('parser')"   [(key)]  ="spec.parser"   [map]="parsers"></select-text-required>
   </div>
   <file-uploader #fileUpload [acceptedTypes]="'csv'" (onFileChange)="onFileChange($event)" [disabled]="buttonsDisabled"></file-uploader>
   <br>

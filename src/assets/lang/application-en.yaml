@@ -188,9 +188,12 @@ page:
       edit:  Edit product for data
       instruments: Instruments
       upload:
-        title  : Instrument data upload
-        success: Datafile successfully uploaded
-        error  : Cannot upload datafile
+        title   : Instrument data upload
+        success : Datafile successfully uploaded
+        error   : Cannot upload datafile
+        timezone: Timezone
+        parser  : Parser
+        continuous: Continuous contract
 
     productBroker:
       new:          New product for broker
@@ -364,6 +367,10 @@ map:
 
   product:
     FU: Futures
+
+  uploadTimezone:
+    gmt: GMT
+    exc: Exchange
 
 # ==============================================================================
 # ===
