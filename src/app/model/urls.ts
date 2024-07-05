@@ -20,6 +20,7 @@ export enum Url {
   Admin_Config                = "admin/config",
 
   Sub_Filtering = "filtering",
+  Sub_Chart     = "chart",
 
   Right_Connection_Edit     = "connection-edit",
   Right_TradingSystem_Edit  = "tradingSystem-edit",

@@ -194,6 +194,11 @@ page:
         timezone: Timezone
         parser  : Parser
         continuous: Continuous contract
+      chart:
+        fromDate : From date
+        toDate   : To date
+        timeframe: Timeframe
+        timezone : Timezone
 
     productBroker:
       new:          New product for broker
@@ -371,6 +376,15 @@ map:
   uploadTimezone:
     gmt: GMT
     exc: Exchange
+
+  timeframe:
+    1m : 1 min
+    5m : 5 min
+    15m: 15 min
+    30m: 30 min
+    1h : 1 hour
+    12h: 12 hours
+    1d : 1 day
 
 # ==============================================================================
 # ===

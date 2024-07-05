@@ -1,0 +1,25 @@
+<div class="main-layout">
+
+  <div class="left-layout">
+      <flex-table #instrTable class="instrTable-layout"
+                  [columns]       = "columns"
+                  [dataProvider]  = "service"
+                  (onRowsSelected)="onRowSelected($event)"
+      ></flex-table>
+  </div>
+
+  <div class="center-layout">
+    <div class="options-layout">
+      <date-picker           #fromDateCtrl  [label]="loc('fromDate')"  [(value)]="fromDate"></date-picker>
+      <date-picker           #toDateCtrl    [label]="loc('toDate')"    [(value)]="toDate"></date-picker>
+      <select-text-required  #timeframeCtrl [label]="loc('timeframe')" [(key)]  ="selectedTimeframe" [map]="timeframes" (keyChange)="onTimeframeChange($event)"></select-text-required>
+      <select-text-required  #timezoneCtrl  [label]="loc('timezone')"  [(key)]  ="selectedTimezone"  [map]="timezones"  (keyChange)="onTimezoneChange($event)"></select-text-required>
+
+      <span class="spacer"></span>
+    </div>
+
+    <div class="chart-layout">
+      <canvas  id="dataChart" >{{ chart }}</canvas>
+    </div>
+  </div>
+</div>

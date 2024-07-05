@@ -36,6 +36,9 @@ import {
 import {
   InvProductDataViewPanel
 } from "./app/layout/main-panel/work-panel/inventory/product-data/view/product-data.view";
+import {
+  InstrumentDataChartPanel
+} from "./app/layout/main-panel/work-panel/inventory/product-data/view/chart/instrument-data.chart";
 
 //=============================================================================
 
@@ -48,6 +51,9 @@ export const routes: Routes = [
 
   { path: Url.Inventory_ProductData,              component: InvProductDataPanel      },
   { path: Url.Inventory_ProductData_Id,           component: InvProductDataViewPanel  },
+  { path: Url.Inventory_ProductData_Id, children : [
+      { path: Url.Sub_Chart, component:  InstrumentDataChartPanel }
+    ]},
 
   { path: Url.Right_ProductData_Create,           component: ProductDataCreatePanel,   outlet : 'right' },
   { path: Url.Right_ProductData_Edit,             component: ProductDataEditPanel,     outlet : 'right' },
@@ -66,6 +72,9 @@ export const routes: Routes = [
   ]},
 
   { path: Url.Portfolio_Monitoring,               component: MonitoringPanel                 },
+
+  //--- Admin
+
   { path: Url.Admin_Config,                       component: ConfigurationPanel              },
   { path: Url.Admin_Connections,                  component: ConnectionPanel                 },
   { path: Url.Right_Connection_Edit,              component: ConnectionEditPanel, outlet : 'right' },

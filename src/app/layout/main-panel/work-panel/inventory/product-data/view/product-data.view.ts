@@ -30,6 +30,7 @@ import {
   IntDateTranscoder,
 } from "../../../../../../component/panel/flex-table/transcoders";
 import {CollectorService} from "../../../../../../service/collector.service";
+import {Url} from "../../../../../../model/urls";
 
 //=============================================================================
 
@@ -135,6 +136,7 @@ export class InvProductDataViewPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onChartClick() {
+    this.navigateTo([ Url.Inventory_ProductData, this.pdId, Url.Sub_Chart ]);
   }
 
   //-------------------------------------------------------------------------
