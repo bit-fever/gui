@@ -20,17 +20,11 @@ export const authConfig : PassedInitialConfig = {
     responseType: 'code',
     silentRenew: true,
     useRefreshToken: true,
+    ignoreNonceAfterRefresh: true,
+    triggerRefreshWhenIdTokenExpired: false,
     logLevel: LogLevel.Debug,
     secureRoutes: [ 'https://bitfever-server:8443/' ],
-    //ignoreNonceAfterRefresh: true
   },
 }
 
 //=============================================================================
-/*
-  triggerAuthorizationResultEvent: true,
-  postLoginRoute: '/home',
-  forbiddenRoute: '/forbidden',
-  unauthorizedRoute: '/unauthorized',
-  historyCleanupOff: true,
-  */

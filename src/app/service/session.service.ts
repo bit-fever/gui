@@ -12,8 +12,9 @@ import {AppEvent}           from "../model/event";
 import {AbstractSubscriber} from "./abstract-subscriber";
 import {EventBusService}    from "./eventbus.service";
 import {HttpService}        from "./http.service";
-import {OidcSecurityService, UserDataResult} from "angular-auth-oidc-client";
+import {EventTypes, OidcSecurityService, PublicEventsService, UserDataResult} from "angular-auth-oidc-client";
 import {Observable} from "rxjs";
+import {filter} from "rxjs/operators";
 
 //=============================================================================
 
@@ -38,8 +39,18 @@ export class SessionService extends AbstractSubscriber {
 	//---
 	//-------------------------------------------------------------------------
 
-	constructor(eventBusService: EventBusService, private oidcSecurityService: OidcSecurityService) {
+	constructor(eventBusService: EventBusService,
+              private oidcSecurityService: OidcSecurityService,
+              private publicEventService : PublicEventsService) {
 		super(eventBusService);
+
+    publicEventService.registerForEvents()
+      .pipe(filter( (notification) => notification.type === EventTypes.NewAuthenticationResult))
+      .subscribe( (value) => {
+        oidcSecurityService.getRefreshToken().subscribe( (token) => {
+          this.accessToken = token
+        })
+      })
 	}
 
 	//-------------------------------------------------------------------------
@@ -76,7 +87,7 @@ export class SessionService extends AbstractSubscriber {
 
   logout() {
     console.log('Calling logout...');
-    this.oidcSecurityService.logoff().subscribe((result) => {
+    this.oidcSecurityService.logoffAndRevokeTokens().subscribe((result) => {
       console.log(result)
       this.isAuthenticated = false;
       this.userData        = null;

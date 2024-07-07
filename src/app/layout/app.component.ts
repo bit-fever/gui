@@ -8,7 +8,6 @@
 
 import {Component, OnInit} from '@angular/core';
 import {NgIf}           from "@angular/common";
-import {AuthModule}     from "angular-auth-oidc-client";
 import {MainPanel}      from "./main-panel/main.panel";
 import {HeaderPanel}    from "./header-panel/header-panel";
 import {SessionService} from "../service/session.service";
@@ -19,7 +18,7 @@ import {SessionService} from "../service/session.service";
 	selector   : 'app-root',
 	templateUrl:   './app.component.html',
 	styleUrls  : [ './app.component.scss'],
-  imports:     [HeaderPanel, MainPanel, NgIf, AuthModule],
+  imports:     [HeaderPanel, MainPanel, NgIf],
 	standalone : true
 })
 
