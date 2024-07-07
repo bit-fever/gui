@@ -47,7 +47,7 @@ export class SessionService extends AbstractSubscriber {
     publicEventService.registerForEvents()
       .pipe(filter( (notification) => notification.type === EventTypes.NewAuthenticationResult))
       .subscribe( (value) => {
-        oidcSecurityService.getRefreshToken().subscribe( (token) => {
+        oidcSecurityService.getAccessToken().subscribe( (token) => {
           this.accessToken = token
         })
       })

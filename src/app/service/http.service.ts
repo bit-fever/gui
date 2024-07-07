@@ -212,13 +212,13 @@ export class HttpService {
       }
     }
     else {
-      let headers = options['headers']
+      let headers = options.headers
 
       if ( ! headers) {
         headers = new HttpHeaders()
       }
 
-      options['headers'] = headers.set('Authorization', 'Bearer ' + this.sessionService.accessToken)
+      options.headers = headers.set('Authorization', 'Bearer ' + this.sessionService.accessToken)
     }
 
     return options;
