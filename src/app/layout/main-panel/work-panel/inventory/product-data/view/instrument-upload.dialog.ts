@@ -56,16 +56,16 @@ export class InstrumentUploadDialog extends AbstractPanel {
   uploadDisabled = true
   buttonsDisabled = false
 
-  timezones = {}
+  fileTimezones = {}
   parsers : ParserMap = {}
 
   //-------------------------------------------------------------------------
 
-  @ViewChild("iuSymbolCtrl") symbolCtrl?   : InputTextRequired
-  @ViewChild("iuNameCtrl")   nameCtrl?     : InputTextRequired
-  @ViewChild("fileUpload")   fileUploader? : FileUploader
-  @ViewChild("timezoneCtrl") timezoneCtrl? : SelectTextRequired
-  @ViewChild("parserCtrl")   parserCtrl?   : SelectTextRequired
+  @ViewChild("iuSymbolCtrl")     symbolCtrl?       : InputTextRequired
+  @ViewChild("iuNameCtrl")       nameCtrl?         : InputTextRequired
+  @ViewChild("fileUpload")       fileUploader?     : FileUploader
+  @ViewChild("fileTimezoneCtrl") fileTimezoneCtrl? : SelectTextRequired
+  @ViewChild("parserCtrl")       parserCtrl?       : SelectTextRequired
 
   //-------------------------------------------------------------------------
   //---
@@ -76,7 +76,6 @@ export class InstrumentUploadDialog extends AbstractPanel {
   constructor(eventBusService         : EventBusService,
               labelService            : LabelService,
               router                  : Router,
-              private inventoryService: InventoryService,
               private collectorService: CollectorService,
               private dialogRef       : MatDialogRef<InstrumentUploadDialog>,
               private snackBar        : MatSnackBar,
@@ -86,8 +85,8 @@ export class InstrumentUploadDialog extends AbstractPanel {
 
     collectorService.getParsers().subscribe(
       result => {
-        this.parsers   = result;
-        this.timezones = this.labelService.getLabel("map.uploadTimezone")
+        this.parsers       = result;
+        this.fileTimezones = this.labelService.getLabel("map.fileTimezone")
       })
   }
 
@@ -130,7 +129,8 @@ export class InstrumentUploadDialog extends AbstractPanel {
           this.dialogRef.close(true)
         }
         else if (event.isCompleted()) {
-          this.snackBar.open(this.loc("success"), this.button("ok"))
+          let message = this.loc("success") +" ("+event.result?.duration+" secs)"
+          this.snackBar.open(message, this.button("ok"))
           this.dialogRef.close(true)
         }
         else {
@@ -144,10 +144,10 @@ export class InstrumentUploadDialog extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   public uploadEnabled() : boolean|undefined {
-    return  this.symbolCtrl  ?.isValid() &&
-            this.nameCtrl    ?.isValid() &&
-            this.timezoneCtrl?.isValid() &&
-            this.parserCtrl  ?.isValid() &&
+    return  this.symbolCtrl      ?.isValid() &&
+            this.nameCtrl        ?.isValid() &&
+            this.fileTimezoneCtrl?.isValid() &&
+            this.parserCtrl      ?.isValid() &&
             !this.uploadDisabled
   }
 }

@@ -13,13 +13,14 @@
       <date-picker           #fromDateCtrl  [label]="loc('fromDate')"  [(value)]="fromDate"></date-picker>
       <date-picker           #toDateCtrl    [label]="loc('toDate')"    [(value)]="toDate"></date-picker>
       <select-text-required  #timeframeCtrl [label]="loc('timeframe')" [(key)]  ="selectedTimeframe" [map]="timeframes" (keyChange)="onTimeframeChange($event)"></select-text-required>
-      <select-text-required  #timezoneCtrl  [label]="loc('timezone')"  [(key)]  ="selectedTimezone"  [map]="timezones"  (keyChange)="onTimezoneChange($event)"></select-text-required>
+      <select-text-required  #timezoneCtrl  [label]="loc('timezone')"  [(key)]  ="selectedTimezone"  keyField="timezone" valueField="code" [list]="timezones" (keyChange)="onTimezoneChange($event)"></select-text-required>
 
       <span class="spacer"></span>
     </div>
 
     <div class="chart-layout">
-      <canvas  id="dataChart" >{{ chart }}</canvas>
+      <div id="mainChart"></div>
+      <div id="smallChart"></div>
     </div>
   </div>
 </div>

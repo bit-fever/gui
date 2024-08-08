@@ -149,6 +149,8 @@ export class InstrumentData {
   name?          : string
   expirationDate?: string
   isContinuous?  : boolean
+  dataFrom?      :number
+  dataTo?        :number
 }
 
 //=============================================================================
@@ -448,17 +450,18 @@ export class SelectedFilters {
 //=============================================================================
 
 export class DatafileUploadSpec {
-  symbol?    : string
-  name?      : string
-  continuous?: boolean
-  timezone?  : string
-  parser?    : string
+  symbol?       : string
+  name?         : string
+  continuous?   : boolean
+  fileTimezone? : string
+  parser?       : string
 }
 
 //=============================================================================
 
 export class DatafileUploadResponse {
-
+  duration? : number
+  bytes?    : number
 }
 
 //=============================================================================
@@ -466,5 +469,52 @@ export class DatafileUploadResponse {
 export type ParserMap = {
   [key: string]: string
 }
+
+//=============================================================================
+//===
+//=== Data
+//===
+//=============================================================================
+
+export class DataPoint {
+  time   : string = ""
+  open   : number = 0
+  high   : number = 0
+  low    : number = 0
+  close  : number = 0
+  volume : number = 0
+}
+
+//=============================================================================
+
+export class InstrumentDataResponse {
+  id          : number      = 0
+  symbol      : string      = ""
+  from        : string      = ""
+  to          : string      = ""
+  timeframe   : string      = ""
+  timezone    : string      = ""
+  reduction   : number      = 0
+  reduced     : boolean     = false
+  records     : number      = 0
+  dataPoints  : DataPoint[] = []
+}
+
+//=============================================================================
+
+// export class LinePoint {
+//   x : Date
+//   y : number
+//
+//   constructor(time : string, value : number) {
+//     let tokens = time.substring(0, 10).split("-")
+//     let y = tokens[0]
+//     let m = tokens[1]
+//     let d = tokens[2]
+//
+//     this.x = new Date(y,m,d)
+//     this.y = value
+//   }
+// }
 
 //=============================================================================

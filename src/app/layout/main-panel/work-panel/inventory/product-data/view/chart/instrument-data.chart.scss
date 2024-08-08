@@ -21,7 +21,8 @@
 //=============================================================================
 
 .left-layout {
-  width: 320px;
+  width: 300px;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -66,6 +67,12 @@
 
 .instrTable-layout {
   flex: 1 1 auto;
+  overflow: auto;
+}
+
+//=============================================================================
+
+.chart-style {
   overflow: auto;
 }
 

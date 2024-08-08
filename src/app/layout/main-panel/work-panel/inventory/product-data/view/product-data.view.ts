@@ -26,7 +26,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {InstrumentUploadDialog} from "./instrument-upload.dialog";
 import {
-  FlagStyler,
+  FlagStyler, InstrumentStatusStyler,
   IntDateTranscoder,
 } from "../../../../../../component/panel/flex-table/transcoders";
 import {CollectorService} from "../../../../../../service/collector.service";
@@ -91,8 +91,8 @@ export class InvProductDataViewPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  private getInstrumentData = (): Observable<ListResponse<InstrumentData>> => {
-    return this.collectorService.getInstrumentsByDataId(this.pdId);
+  private getInstruments = (): Observable<ListResponse<InstrumentData>> => {
+    return this.collectorService.getInstrumentsByProductId(this.pdId);
   }
 
   //-------------------------------------------------------------------------
@@ -100,7 +100,7 @@ export class InvProductDataViewPanel extends AbstractPanel {
   override init = () : void => {
     this.setupColumns();
     this.pdId    = Number(this.route.snapshot.paramMap.get("id"));
-    this.service = this.getInstrumentData;
+    this.service = this.getInstruments;
 
     this.inventoryService.getProductDataById(this.pdId, true).subscribe(
       result => {
@@ -153,6 +153,9 @@ export class InvProductDataViewPanel extends AbstractPanel {
       new FlexTableColumn(ts, "name"),
       new FlexTableColumn(ts, "expirationDate", new IntDateTranscoder()),
       new FlexTableColumn(ts, "isContinuous", undefined, new FlagStyler()),
+      new FlexTableColumn(ts, "dataFrom", new IntDateTranscoder()),
+      new FlexTableColumn(ts, "dataTo", new IntDateTranscoder()),
+      new FlexTableColumn(ts, "status", undefined, new InstrumentStatusStyler()),
     ]
   }
 

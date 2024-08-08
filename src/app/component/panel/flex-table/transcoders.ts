@@ -117,3 +117,19 @@ var TS_STATUS_DISABLED= new IconStyle("radio_button_unchecked", "#A0A0A0");
 var TS_STATUS_ENABLED = new IconStyle("radio_button_checked",   "#00A000");
 
 //=============================================================================
+
+export class InstrumentStatusStyler implements IconStyler {
+
+  getStyle(value : number, row? : any) : IconStyle {
+    if (value == 0) return STATUS_READY;
+    if (value == 1) return STATUS_PROCESSING;
+
+    return STATUS_ERROR;
+  }
+}
+
+var STATUS_READY      = new IconStyle("done",  "#00A000");
+var STATUS_PROCESSING = new IconStyle("build", "#0080FF");
+var STATUS_ERROR      = new IconStyle("error", "#A00000");
+
+//=============================================================================

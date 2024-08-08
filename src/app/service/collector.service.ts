@@ -10,9 +10,10 @@ import {Injectable}        from "@angular/core";
 import {Observable}        from "rxjs";
 import {ListResponse}      from "../model/flex-table";
 import {
-  DatafileUploadSpec, InstrumentData, DatafileUploadResponse, ParserMap
+  DatafileUploadSpec, InstrumentData, DatafileUploadResponse, ParserMap, DataPoint, InstrumentDataResponse
 } from "../model/model";
 import {HttpService, UploadEvent} from "./http.service";
+import {HttpHeaders, HttpParams, HttpParamsOptions} from "@angular/common/http";
 
 //=============================================================================
 
@@ -43,14 +44,30 @@ export class CollectorService {
 
   //---------------------------------------------------------------------------
 
-  public getInstrumentsByDataId = (id: number): Observable<ListResponse<InstrumentData>> => {
-    return this.httpService.get<ListResponse<InstrumentData>>('/api/collector/v1/product-data/'+id+'/instruments');
+  public getInstrumentsByProductId = (id: number): Observable<ListResponse<InstrumentData>> => {
+    return this.httpService.get<ListResponse<InstrumentData>>('/api/collector/v1/products/'+id+'/instruments');
   }
 
   //---------------------------------------------------------------------------
 
   public uploadInstrumentData = (productId: number, spec: DatafileUploadSpec, files: any[]) : Observable<UploadEvent<DatafileUploadResponse>> => {
-    return this.httpService.upload<DatafileUploadResponse>('/api/collector/v1/product-data/'+ productId +'/instruments', spec, files)
+    return this.httpService.upload<DatafileUploadResponse>('/api/collector/v1/products/'+ productId +'/instruments', spec, files)
+  }
+
+  //---------------------------------------------------------------------------
+
+  public getInstrumentData = (id: number, from:string, to:string, timeframe:string, timezone:string, reduction:number): Observable<InstrumentDataResponse> => {
+    let options= {
+      params: {
+        from     : from,
+        to       : to,
+        timeframe: timeframe,
+        timezone : timezone,
+        reduction: reduction,
+      },
+    }
+
+    return this.httpService.get<InstrumentDataResponse>('/api/collector/v1/instruments/'+id+'/data', options);
   }
 }
 

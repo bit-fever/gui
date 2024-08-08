@@ -142,6 +142,9 @@ model:
     name           : Name
     expirationDate : Expiration date
     isContinuous   : Continuous
+    dataFrom       : Data from
+    dataTo         : Data to
+    status         : Status
 
   productBroker:
     id             : Id
@@ -158,6 +161,9 @@ model:
     connectionCode : Connection
     currencyCode   : Currency
     exchangeCode   : Exchange
+
+  exchange:
+    code : Code
 
 # ==============================================================================
 # ===
@@ -191,7 +197,7 @@ page:
         title   : Instrument data upload
         success : Datafile successfully uploaded
         error   : Cannot upload datafile
-        timezone: Timezone
+        fileTimezone: File timezone
         parser  : Parser
         continuous: Continuous contract
       chart:
@@ -199,6 +205,7 @@ page:
         toDate   : To date
         timeframe: Timeframe
         timezone : Timezone
+        exchange : Exchange
 
     productBroker:
       new:          New product for broker
@@ -373,18 +380,15 @@ map:
   product:
     FU: Futures
 
-  uploadTimezone:
-    gmt: GMT
-    exc: Exchange
+  fileTimezone:
+    utc: GMT/UTC
+    exc: mange
 
   timeframe:
     1m : 1 min
     5m : 5 min
     15m: 15 min
-    30m: 30 min
-    1h : 1 hour
-    12h: 12 hours
-    1d : 1 day
+    60m: 1 hour
 
 # ==============================================================================
 # ===

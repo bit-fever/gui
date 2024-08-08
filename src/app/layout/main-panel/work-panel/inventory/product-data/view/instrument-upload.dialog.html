@@ -9,8 +9,8 @@
     </mat-chip-listbox>
   </div>
   <div class="main-layout">
-    <select-text-required  #timezoneCtrl [label]="loc('timezone')" [(key)]  ="spec.timezone" [map]="timezones"></select-text-required>
-    <select-text-required  #parserCtrl   [label]="loc('parser')"   [(key)]  ="spec.parser"   [map]="parsers"></select-text-required>
+    <select-text-required  #fileTimezoneCtrl [label]="loc('fileTimezone')" [(key)]="spec.fileTimezone" [map]="fileTimezones"></select-text-required>
+    <select-text-required  #parserCtrl       [label]="loc('parser')"       [(key)]="spec.parser"       [map]="parsers"></select-text-required>
   </div>
   <file-uploader #fileUpload [acceptedTypes]="'csv'" (onFileChange)="onFileChange($event)" [disabled]="buttonsDisabled"></file-uploader>
   <br>
