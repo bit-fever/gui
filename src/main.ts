@@ -9,7 +9,7 @@
 import {enableProdMode, importProvidersFrom} from "@angular/core";
 import {bootstrapApplication}    from '@angular/platform-browser';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import { HttpClientModule} from "@angular/common/http";
+import {} from "@angular/common/http";
 import {provideRouter}           from "@angular/router";
 import { provideAuth} from "angular-auth-oidc-client";
 

@@ -18,7 +18,7 @@ import {
   TradingSession, TradingSystemSpec, DatafileUploadResponse
 } from "../model/model";
 import {HttpService, UploadEvent} from "./http.service";
-import {HttpParams} from "@angular/common/http";
+import { HttpParams } from "@angular/common/http";
 
 //=============================================================================
 

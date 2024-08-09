@@ -13,7 +13,7 @@ import {
   DatafileUploadSpec, InstrumentData, DatafileUploadResponse, ParserMap, DataPoint, InstrumentDataResponse
 } from "../model/model";
 import {HttpService, UploadEvent} from "./http.service";
-import {HttpHeaders, HttpParams, HttpParamsOptions} from "@angular/common/http";
+import { HttpHeaders, HttpParams, HttpParamsOptions } from "@angular/common/http";
 
 //=============================================================================
 
