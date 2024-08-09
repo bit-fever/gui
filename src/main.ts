@@ -9,7 +9,7 @@
 import {enableProdMode, importProvidersFrom} from "@angular/core";
 import {bootstrapApplication}    from '@angular/platform-browser';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {} from "@angular/common/http";
+import {provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
 import {provideRouter}           from "@angular/router";
 import { provideAuth} from "angular-auth-oidc-client";
 
@@ -40,8 +40,8 @@ if (environment.production) {
 bootstrapApplication(AppComponent, {
 	providers: [
 		importProvidersFrom(BrowserAnimationsModule),
-    importProvidersFrom(HttpClientModule),
     importProvidersFrom(MatNativeDateModule),
+    provideHttpClient(withInterceptorsFromDi()),
 		provideRouter(routes),
     provideAuth(authConfig),
     ApplicationService,
