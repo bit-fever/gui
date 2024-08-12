@@ -16,6 +16,7 @@ import {LabelService}      from "../../service/label.service";
 import {AbstractPanel} from "../../component/abstract.panel";
 import {Router, RouterModule} from "@angular/router";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 //=============================================================================
 
@@ -23,7 +24,8 @@ import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
   selector    :   'header-panel',
   templateUrl : './header-panel.html',
 	styleUrls   : [ './header-panel.scss' ],
-	imports     : [ MatButtonModule, MatIconModule, MatToolbarModule, RouterModule, MatSnackBarModule],
+	imports     : [ MatButtonModule, MatIconModule, MatToolbarModule, RouterModule, MatSnackBarModule,
+                  MatProgressSpinnerModule],
   providers: [
   ],
 	standalone  : true
@@ -32,6 +34,8 @@ import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 //=============================================================================
 
 export class HeaderPanel extends AbstractPanel {
+
+  spinnerHidden = true
 
 	//-------------------------------------------------------------------------
 	//---
@@ -46,6 +50,8 @@ export class HeaderPanel extends AbstractPanel {
 		super(eventBusService, labelService, router, "header");
 
     eventBusService.subscribeToError(this.onError)
+    eventBusService.subscribeToApp(AppEvent.SUBMIT_START, this.onSubmitStart)
+    eventBusService.subscribeToApp(AppEvent.SUBMIT_END,   this.onSubmitEnd)
 	}
 
 	//-------------------------------------------------------------------------
@@ -69,6 +75,18 @@ export class HeaderPanel extends AbstractPanel {
 
   private onError = (event : ErrorEvent) => {
     this._snackBar.open(""+ event.error, "Ok")
+  }
+
+  //-------------------------------------------------------------------------
+
+  private onSubmitStart = (event : AppEvent) => {
+    this.spinnerHidden = false
+  }
+
+  //-------------------------------------------------------------------------
+
+  private onSubmitEnd = (event : AppEvent) => {
+    this.spinnerHidden = true
   }
 }
 

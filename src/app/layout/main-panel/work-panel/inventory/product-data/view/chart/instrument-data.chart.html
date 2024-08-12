@@ -10,17 +10,33 @@
 
   <div class="center-layout">
     <div class="options-layout">
-      <date-picker           #fromDateCtrl  [label]="loc('fromDate')"  [(value)]="fromDate"></date-picker>
-      <date-picker           #toDateCtrl    [label]="loc('toDate')"    [(value)]="toDate"></date-picker>
-      <select-text-required  #timeframeCtrl [label]="loc('timeframe')" [(key)]  ="selectedTimeframe" [map]="timeframes" (keyChange)="onTimeframeChange($event)"></select-text-required>
-      <select-text-required  #timezoneCtrl  [label]="loc('timezone')"  [(key)]  ="selectedTimezone"  keyField="timezone" valueField="code" [list]="timezones" (keyChange)="onTimezoneChange($event)"></select-text-required>
+      <date-picker           #fromDateCtrl  [label]="loc('fromDate')"  [(value)]="fromDate" (valueChange)="onFromChange($event)"></date-picker>
+      <date-picker           #toDateCtrl    [label]="loc('toDate')"    [(value)]="toDate"   (valueChange)="onToChange($event)"></date-picker>
+      <select-text-required  #timeframeCtrl [label]="loc('timeframe')" [(key)]  ="timeframe" [map]="timeframes"                                       (keyChange)="onTimeframeChange($event)"></select-text-required>
+      <select-text-required  #timezoneCtrl  [label]="loc('timezone')"  [(key)]  ="timezone"  keyField="timezone" valueField="code" [list]="timezones" (keyChange)="onTimezoneChange($event)"></select-text-required>
 
       <span class="spacer"></span>
+      <mat-icon class="reduce-status" style="color:{{drillStyle()}}">candlestick_chart</mat-icon>
     </div>
 
     <div class="chart-layout">
-      <div id="mainChart"></div>
-      <div id="smallChart"></div>
+        <apx-chart
+          #mainChart
+          [series]     = "mainChartOptions.series"
+          [chart]      = "mainChartOptions.chart"
+          [xaxis]      = "mainChartOptions.xaxis"
+          [plotOptions]= "mainChartOptions.plotOptions"
+        ></apx-chart>
+        <apx-chart
+          #smallChart
+          [series]     = "smallChartOptions.series"
+          [chart]      = "smallChartOptions.chart"
+          [xaxis]      = "smallChartOptions.xaxis"
+          [yaxis]      = "smallChartOptions.yaxis"
+          [dataLabels] = "smallChartOptions.dataLabels"
+          [stroke]     = "smallChartOptions.stroke"
+          [plotOptions]= "smallChartOptions.plotOptions"
+        ></apx-chart>
     </div>
   </div>
 </div>

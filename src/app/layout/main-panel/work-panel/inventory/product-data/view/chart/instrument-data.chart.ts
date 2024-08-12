@@ -6,7 +6,7 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {CommonModule}         from "@angular/common";
 import {MatInputModule}       from "@angular/material/input";
 import {MatIconModule}        from "@angular/material/icon";
@@ -22,12 +22,32 @@ import {MatChipsModule} from "@angular/material/chips";
 import {MatSelectModule} from "@angular/material/select";
 import {DataPoint, InstrumentData, InstrumentDataResponse} from "../../../../../../../model/model";
 import {FlexTableColumn, ListResponse, ListService} from "../../../../../../../model/flex-table";
-import {ChartOptions} from "../../../../portfolio/monitoring/model";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {SelectTextRequired} from "../../../../../../../component/form/select-required/select-text-required";
 import {DatePicker} from "../../../../../../../component/form/date-picker/date-picker";
-import {Observable} from "rxjs";
-import * as ApexCharts from 'apexcharts';
+import {Observable, timer} from "rxjs";
+import {
+  NgApexchartsModule,
+  ApexAxisChartSeries,
+  ApexStroke,
+  ApexChart,
+  ApexXAxis,
+  ApexYAxis,
+  ApexPlotOptions,
+  ApexDataLabels, ChartComponent,
+} from "ng-apexcharts";
+
+//=============================================================================
+
+export type ChartOptions = {
+  series     : ApexAxisChartSeries;
+  chart      : ApexChart;
+  xaxis      : ApexXAxis;
+  yaxis      : ApexYAxis;
+  plotOptions: ApexPlotOptions;
+  dataLabels : ApexDataLabels;
+  stroke     : ApexStroke;
+};
 
 //=============================================================================
 
@@ -36,7 +56,8 @@ import * as ApexCharts from 'apexcharts';
   templateUrl :   './instrument-data.chart.html',
   styleUrls   : [ './instrument-data.chart.scss' ],
   imports: [CommonModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule,
-    RouterModule, FlexTablePanel, MatChipsModule, MatSelectModule, SelectTextRequired, DatePicker],
+            RouterModule, FlexTablePanel, MatChipsModule, MatSelectModule, SelectTextRequired,
+            DatePicker, NgApexchartsModule],
   standalone  : true
 })
 
@@ -52,30 +73,31 @@ export class InstrumentDataChartPanel extends AbstractPanel {
 
   pdId : number = 0
 
-  fromDate : number|null = null
-  toDate   : number|null = null
+  fromDate      : number|null = null
+  toDate        : number|null = null
+  timeframe     : string = "60m"
+  timezone      : string = "exchange"
+  instrumentIds : number[] = [];
+  minPeriod     : number|undefined
+  maxPeriod     : number|undefined
 
-  instrumentData: InstrumentData[] = [];
-  service?      : ListService<InstrumentData>;
+  columns         : FlexTableColumn[] = [];
+  service?        : ListService<InstrumentData>;
+  serviceResponse?: InstrumentDataResponse
 
   timeframes: any
   timezones : any
-
-  selectedTimeframe: string = "60m"
-  selectedTimezone : string = "exchange"
-  selectedIds      : number[] = [];
-  columns          : FlexTableColumn[] = [];
-  chart            : ApexCharts|undefined
-  options = new ChartOptions();
-
-  serviceResponse?: InstrumentDataResponse
 
   // @ts-ignore
   @ViewChild("instrTable") flexTable : FlexTablePanel;
   // @ts-ignore
   @ViewChild("timeframeCtrl") timeframeCtrl : SelectTextRequired;
+  // @ts-ignore
+  @ViewChild("smallChart", { static: false}) smallChartCtrl : ChartComponent;
 
-  reduction : number = 2000
+  mainChartOptions  : ChartOptions;
+  smallChartOptions : ChartOptions;
+  reduction         : number = 1200
 
   //-------------------------------------------------------------------------
   //---
@@ -91,6 +113,9 @@ export class InstrumentDataChartPanel extends AbstractPanel {
               private collectorService: CollectorService) {
 
     super(eventBusService, labelService, router, "inventory.productData.chart");
+
+    this.mainChartOptions  = this.buildMainChartOptions()
+    this.smallChartOptions = this.buildSmallChartOptions()
   }
 
   //-------------------------------------------------------------------------
@@ -113,8 +138,7 @@ export class InstrumentDataChartPanel extends AbstractPanel {
           code     : this.loc("exchange")
         }
 
-        this.timezones = result.result
-        this.timezones = [ exchange, ...this.timezones]
+        this.timezones = [ exchange, ...result.result]
       }
     )
   }
@@ -129,22 +153,48 @@ export class InstrumentDataChartPanel extends AbstractPanel {
 
   onRowSelected(selection : InstrumentData[]) {
     // @ts-ignore
-    this.selectedIds = selection.map( instr => instr.id);
+    this.instrumentIds = selection.map( instr => instr.id);
     this.reload(true);
   }
 
   //-------------------------------------------------------------------------
 
   onTimeframeChange(value: string) {
-    this.selectedTimeframe = value;
+    this.timeframe = value;
     this.reload(true);
   }
 
   //-------------------------------------------------------------------------
 
   onTimezoneChange(value: string) {
-    this.selectedTimezone = value;
+    this.timezone = value;
     this.reload(true);
+  }
+
+  //-------------------------------------------------------------------------
+
+  onFromChange(value:number|null) {
+    this.reload(true)
+  }
+
+  //-------------------------------------------------------------------------
+
+  onToChange(value:number|null) {
+    this.reload(true)
+  }
+
+  //-------------------------------------------------------------------------
+
+  drillStyle() : string {
+    if (this.serviceResponse == undefined) {
+      return "#808080"
+    }
+
+    if (this.serviceResponse.reduced) {
+      return "#F08000"
+    }
+
+    return "#00A080"
   }
 
   //-------------------------------------------------------------------------
@@ -166,126 +216,140 @@ export class InstrumentDataChartPanel extends AbstractPanel {
   private reload = (callService : boolean) => {
     this.destroyChart();
 
-    if (this.selectedIds.length == 0) {
+    if (this.instrumentIds.length == 0) {
       return;
     }
 
     if (callService) {
-      this.collectorService.getInstrumentData(this.selectedIds[0], "", "", this.selectedTimeframe, this.selectedTimezone, this.reduction).subscribe(
+      this.collectorService.getInstrumentData(this.instrumentIds[0],
+                                              this.buildDate(this.fromDate, false),
+                                              this.buildDate(this.toDate, true),
+                                              this.timeframe, this.timezone,
+                                              this.reduction).subscribe(
         result => {
           this.serviceResponse = result;
           this.createChart()
         }
       )
     }
-    // else if (this.serviceResponse != null) {
-    //   this.chart = createChart(this.options, this.serviceResponse);
-    // }
   }
 
   //-------------------------------------------------------------------------
 
   private createChart() {
-    var options = {
-      chart: {
-        type: "candlestick",
-        height: 500,
-        id: "main",
-        toolbar: {
-          autoSelected: 'pan',
-          show: false
-        },
-        zoom: {
-          enabled: false
-        },
-      },
-      // title: {
-      //   text: "AAA",
-      //   align: "left",
-      // },
-      series: [{
-        name: 'Total Views',
+    this.mainChartOptions.series = [{
+        name: 'XXX',
         data: this.buildMainDataset(this.serviceResponse?.dataPoints)
-      }],
-      xaxis: {
-        labels: {
-          // formatter: function(value:string, timestamp:number, opts:any) {
-          //   return new Date(timestamp).toISOString()
-          // }
-        }
-      },
-      yaxis: {
-        tooltip: {
-          enabled: true
-        }
-      },
-      plotOptions: {
-        candlestick: {
-          colors: {
-            upward: '#3C90EB',
-            downward: '#DF7D46'
-          }
-        }
-      },
-    };
+    }]
 
-    this.chart = new ApexCharts(document.querySelector("#mainChart"), options);
-    this.chart.render();
-
-
-
-
-
-    var optionsSmall= {
-      series: [{
-        name: 'Range',
+    this.smallChartOptions.series = [{
+        name: 'volume',
         data: this.buildSmallDataset(this.serviceResponse?.dataPoints)
-      }],
-      chart: {
-        height: 200,
-        type: 'rangeArea',
-        brush: {
-          enabled: true,
-          target: 'main'
-        },
-        selection: {
-          enabled: true,
-          fill: {
-            color: '#ccc',
-            opacity: 0.4
-          },
-          stroke: {
-            color: '#0D47A1',
-          }
-        },
-        toolbar: {
-          show: false
-        }
-      },
-      dataLabels: {
-        enabled: false
-      },
-      xaxis: {
-        labels: {
-          show: false
-        }
       }
-    };
-
-    var chartBar = new ApexCharts(document.querySelector("#smallChart"), optionsSmall);
-    chartBar.render();
+    ]
   }
 
   //-------------------------------------------------------------------------
 
   private destroyChart() {
-    this.chart?.destroy()
+    this.mainChartOptions.series  = []
+    this.smallChartOptions.series = []
+    this.minPeriod       = undefined
+    this.maxPeriod       = undefined
+    this.serviceResponse = undefined
+  }
+
+  //-------------------------------------------------------------------------
+
+  private buildDate(value : number|null, isEnd : boolean) : string {
+    if (value == undefined) {
+      return ""
+    }
+
+    let v=value.toString()
+
+    let y= v.substring(0,4)
+    let m= v.substring(4,6)
+    let d= v.substring(6)
+
+    let suffix = isEnd ? " 23:59:59" :" 00:00:00"
+
+    return y +"-"+ m +"-"+ d +suffix
+  }
+
+  //-------------------------------------------------------------------------
+
+  private zoomedHandler = (chart: any, options?: any) => {
+    this.fromDate = this.convertDate(options.xaxis.min)
+    this.toDate = this.convertDate(options.xaxis.max)
+
+    this.reload(true)
+
+    return {
+      xaxis: {
+        min: undefined,
+        max: undefined
+      }
+    }
+  }
+
+  //-------------------------------------------------------------------------
+
+  private convertDate(value : number) : number|null {
+    let s = new Date(value).toISOString()
+
+    return Number(s.substring(0,10).replace("-", "").replace("-", ""))
+  }
+
+  //-------------------------------------------------------------------------
+  //--- Main chart
+  //-------------------------------------------------------------------------
+
+  private buildMainChartOptions() : ChartOptions {
+    return {
+      series: [{
+          data: []
+        }
+      ],
+      chart: {
+        type: "candlestick",
+        id: 'main',
+        height: 600,
+        group: 'priceSet',
+        events: {
+          beforeZoom: this.zoomedHandler
+          // zoomed: this.zoomedHandler
+        }
+      },
+      dataLabels: {},
+      plotOptions: {
+        candlestick: {
+          colors: {
+            upward: "#00B080",
+            downward: "#F03040"
+          }
+        }
+      },
+      stroke: {},
+      xaxis: {
+        type: "datetime",
+        tooltip: {
+          enabled: true,
+          formatter: this.mainTooltip
+        }
+      },
+      yaxis: {}
+    };
   }
 
   //-------------------------------------------------------------------------
 
   private buildMainDataset(dataPoints : DataPoint[]|undefined) {
-    return dataPoints?.map( (dp, index, array) => {
+    if (dataPoints == undefined) {
+      return []
+    }
+
+    return dataPoints.map( (dp, index, array) => {
       return {
         x: new Date(dp.time),
         y: [dp.open, dp.high, dp.low, dp.close ]
@@ -295,11 +359,79 @@ export class InstrumentDataChartPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
+  private mainTooltip = (value: string, opts?: any): string => {
+  let tip = ""
+
+    if (opts != undefined) {
+      let idx = opts["dataPointIndex"]
+      let dp = this.serviceResponse?.dataPoints[idx]
+
+      let date = dp?.time.substring(0, 10)
+      let time = dp?.time.substring(11,16)
+      let tz   = dp?.time.substring(19)
+
+      tip = date +"<br/>"+ time + "<br/>"+ tz
+    }
+
+    return tip
+  }
+
+  //-------------------------------------------------------------------------
+  //--- Volume chart
+  //-------------------------------------------------------------------------
+
+  private buildSmallChartOptions() : ChartOptions {
+    return {
+      series: [
+        {
+          data: []
+        }
+      ],
+      chart: {
+        type: 'bar',
+        id: 'small',
+        height: 200,
+        group: 'priceSet',
+        events: {
+          zoomed: this.zoomedHandler
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      plotOptions: {
+        bar: {
+          columnWidth: '80%',
+          colors: {
+            ranges: [{
+                from: 0,
+                color: '#FEB019'
+              }
+            ]
+          }
+        }
+      },
+      stroke: {
+        width: 0
+      },
+      xaxis: {
+        type: "datetime",
+      },
+      yaxis: {}
+    };
+  }
+
+  //-------------------------------------------------------------------------
+
   private buildSmallDataset(dataPoints : DataPoint[]|undefined) {
-    return dataPoints?.map( (dp, index, array) : {} => {
+    if (dataPoints == undefined) {
+      return []
+    }
+
+    return dataPoints.map( (dp, index, array) => {
       return {
-        x: dp.time.substring(0,10),
-        y:  [ dp.low, dp.high ]
+        x: new Date(dp.time),
+        y:  dp.volume
       }
     })
   }
