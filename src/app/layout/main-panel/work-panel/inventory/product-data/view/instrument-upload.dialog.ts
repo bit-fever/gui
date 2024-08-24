@@ -81,7 +81,7 @@ export class InstrumentUploadDialog extends AbstractPanel {
               private snackBar        : MatSnackBar,
               @Inject(MAT_DIALOG_DATA) public data: DialogData) {
 
-    super(eventBusService, labelService, router, "inventory.productData.upload", "instrumentData");
+    super(eventBusService, labelService, router, "inventory.dataProduct.upload", "dataInstrument");
 
     collectorService.getParsers().subscribe(
       result => {
@@ -114,11 +114,11 @@ export class InstrumentUploadDialog extends AbstractPanel {
     this.uploadDisabled  = true
 
     let id : number = 0
-    if (this.data.productData.id) {
-      id = this.data.productData.id
+    if (this.data.dataProduct.id) {
+      id = this.data.dataProduct.id
     }
 
-    this.collectorService.uploadInstrumentData(id, this.spec, this.files).subscribe(
+    this.collectorService.uploadDataInstrumentData(id, this.spec, this.files).subscribe(
       event => {
         if (event.isInProgress()) {
           this.progress = event.percentage

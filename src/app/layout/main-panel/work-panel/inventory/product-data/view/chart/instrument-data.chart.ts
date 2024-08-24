@@ -20,7 +20,7 @@ import {InventoryService} from "../../../../../../../service/inventory.service";
 import {CollectorService} from "../../../../../../../service/collector.service";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatSelectModule} from "@angular/material/select";
-import {DataPoint, InstrumentData, InstrumentDataResponse} from "../../../../../../../model/model";
+import {DataPoint, DataInstrument, DataInstrumentDataResponse} from "../../../../../../../model/model";
 import {FlexTableColumn, ListResponse, ListService} from "../../../../../../../model/flex-table";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {SelectTextRequired} from "../../../../../../../component/form/select-required/select-text-required";
@@ -63,7 +63,7 @@ export type ChartOptions = {
 
 //=============================================================================
 
-export class InstrumentDataChartPanel extends AbstractPanel {
+export class DataInstrumentChartPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
   //---
@@ -82,8 +82,8 @@ export class InstrumentDataChartPanel extends AbstractPanel {
   maxPeriod     : number|undefined
 
   columns         : FlexTableColumn[] = [];
-  service?        : ListService<InstrumentData>;
-  serviceResponse?: InstrumentDataResponse
+  service?        : ListService<DataInstrument>;
+  serviceResponse?: DataInstrumentDataResponse
 
   timeframes: any
   timezones : any
@@ -112,7 +112,7 @@ export class InstrumentDataChartPanel extends AbstractPanel {
               private inventoryService: InventoryService,
               private collectorService: CollectorService) {
 
-    super(eventBusService, labelService, router, "inventory.productData.chart");
+    super(eventBusService, labelService, router, "inventory.dataProduct.chart");
 
     this.mainChartOptions  = this.buildMainChartOptions()
     this.smallChartOptions = this.buildSmallChartOptions()
@@ -145,13 +145,13 @@ export class InstrumentDataChartPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  private getInstruments = (): Observable<ListResponse<InstrumentData>> => {
-    return this.collectorService.getInstrumentsByProductId(this.pdId);
+  private getInstruments = (): Observable<ListResponse<DataInstrument>> => {
+    return this.collectorService.getDataInstrumentsByProductId(this.pdId);
   }
 
   //-------------------------------------------------------------------------
 
-  onRowSelected(selection : InstrumentData[]) {
+  onRowSelected(selection : DataInstrument[]) {
     // @ts-ignore
     this.instrumentIds = selection.map( instr => instr.id);
     this.reload(true);
@@ -204,7 +204,7 @@ export class InstrumentDataChartPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   private setupColumns = () => {
-    let instr = this.labelService.getLabel("model.instrumentData");
+    let instr = this.labelService.getLabel("model.dataInstrument");
 
     this.columns = [
       new FlexTableColumn(instr, "symbol"),
@@ -221,11 +221,11 @@ export class InstrumentDataChartPanel extends AbstractPanel {
     }
 
     if (callService) {
-      this.collectorService.getInstrumentData(this.instrumentIds[0],
-                                              this.buildDate(this.fromDate, false),
-                                              this.buildDate(this.toDate, true),
-                                              this.timeframe, this.timezone,
-                                              this.reduction).subscribe(
+      this.collectorService.getDataInstrumentData(this.instrumentIds[0],
+                                                  this.buildDate(this.fromDate, false),
+                                                  this.buildDate(this.toDate, true),
+                                                  this.timeframe, this.timezone,
+                                                  this.reduction).subscribe(
         result => {
           this.serviceResponse = result;
           this.createChart()

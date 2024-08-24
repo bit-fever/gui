@@ -12,10 +12,6 @@
 //===
 //=============================================================================
 
-import _default from "chart.js/dist/plugins/plugin.tooltip";
-
-//-----------------------------------------------------------------------------
-
 export class StatusResponse {
   status? : string
 }
@@ -74,8 +70,8 @@ export class TradingSystemSpec {
   id?               : number
   name?             : string
   portfolioId?      : number
-  productDataId?    : number
-  productBrokerId?  : number
+  dataProductId?    : number
+  brokerProductId?  : number
   tradingSessionId? : number
   workspaceCode?    : string
 }
@@ -121,7 +117,7 @@ export class Connection extends ConnectionSpec {
 
 //=============================================================================
 
-export class ProductDataSpec {
+export class DataProductSpec {
   id?           : number
   connectionId? : number
   exchangeId?   : number
@@ -134,7 +130,7 @@ export class ProductDataSpec {
 
 //=============================================================================
 
-export class ProductData extends ProductDataSpec {
+export class DataProduct extends DataProductSpec {
   username?       : string
   createdAt?      : string
   updatedAt?      : string
@@ -142,9 +138,9 @@ export class ProductData extends ProductDataSpec {
 
 //=============================================================================
 
-export class InstrumentData {
+export class DataInstrument {
   id?            : number
-  productDataId? : number
+  dataProductId? : number
   symbol?        : string
   name?          : string
   expirationDate?: string
@@ -155,14 +151,22 @@ export class InstrumentData {
 
 //=============================================================================
 
-export class ProductDataExt extends ProductData {
+export class DataInstrumentFull extends DataInstrument {
+  productSymbol?  : string
+  systemCode?     : string
+  connectionCode? : string
+}
+
+//=============================================================================
+
+export class DataProductExt extends DataProduct {
   connection? : Connection
   exchange?   : Exchange
 }
 
 //=============================================================================
 
-export class ProductBrokerSpec {
+export class BrokerProductSpec {
   id?           : number
   connectionId? : number
   exchangeId?   : number
@@ -177,10 +181,13 @@ export class ProductBrokerSpec {
 
 //=============================================================================
 
-export class ProductBroker extends ProductBrokerSpec {
-  username?     : string
-  createdAt?    : string
-  updatedAt?    : string
+export class BrokerProduct extends BrokerProductSpec {
+  username?       : string
+  createdAt?      : string
+  updatedAt?      : string
+  connectionCode? : string
+  exchangeCode?   : string
+  currencyCode?   : string
 }
 
 //=============================================================================
@@ -191,7 +198,6 @@ export class ProductBroker extends ProductBrokerSpec {
 
 export class PorTradingSystem {
   id?              : number;
-  sourceId?        : number;
   username?        : string;
   workspaceCode?   : string;
   name?            : string;
@@ -201,7 +207,7 @@ export class PorTradingSystem {
   closedProfit?    : number;
   tradingDays?     : number;
   numTrades?       : number;
-  productBrokerId? : number;
+  brokerProductId? : number;
   brokerSymbol?    : string;
   pointValue?      : number;
   costPerTrade?    : number;
@@ -487,7 +493,7 @@ export class DataPoint {
 
 //=============================================================================
 
-export class InstrumentDataResponse {
+export class DataInstrumentDataResponse {
   id          : number      = 0
   symbol      : string      = ""
   from        : string      = ""
@@ -502,19 +508,29 @@ export class InstrumentDataResponse {
 
 //=============================================================================
 
-// export class LinePoint {
-//   x : Date
-//   y : number
-//
-//   constructor(time : string, value : number) {
-//     let tokens = time.substring(0, 10).split("-")
-//     let y = tokens[0]
-//     let m = tokens[1]
-//     let d = tokens[2]
-//
-//     this.x = new Date(y,m,d)
-//     this.y = value
-//   }
-// }
+export class BiasSummaryResponse {
+  result : DataPointDowList[] = []
+}
+
+//-----------------------------------------------------------------------------
+
+export class DataPointDowList {
+  slots : DataPointSlotList[] = []
+}
+
+//-----------------------------------------------------------------------------
+
+export class DataPointSlotList {
+  list : DataPointEntry[] = []
+}
+
+//-----------------------------------------------------------------------------
+
+export class DataPointEntry {
+  year : number = 0
+  month: number = 0
+  day  : number = 0
+  delta: number = 0
+}
 
 //=============================================================================

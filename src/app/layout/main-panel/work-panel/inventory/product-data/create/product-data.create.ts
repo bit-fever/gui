@@ -24,8 +24,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
 import {InputTextRequired} from "../../../../../../component/form/input-text-required/input-text-required";
 import {
-  Connection, Exchange,
-  ProductDataSpec,
+  Connection, DataProductSpec, Exchange,
 } from "../../../../../../model/model";
 import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
 import {InventoryService} from "../../../../../../service/inventory.service";
@@ -62,7 +61,7 @@ export class ProductDataCreatePanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  pd = new ProductDataSpec()
+  pd = new DataProductSpec()
   connections : Connection[] = []
   exchanges   : Exchange[]   = []
   markets     : Object = {}
@@ -96,8 +95,8 @@ export class ProductDataCreatePanel extends AbstractPanel {
               router                   : Router,
               private inventoryService : InventoryService) {
 
-    super(eventBusService, labelService, router, "inventory.productData", "productData");
-    super.subscribeToApp(AppEvent.PRODUCTDATA_CREATE_START, (e : AppEvent) => this.onStart(e));
+    super(eventBusService, labelService, router, "inventory.dataProduct", "dataProduct");
+    super.subscribeToApp(AppEvent.DATAPRODUCT_CREATE_START, (e : AppEvent) => this.onStart(e));
 
     inventoryService.getConnections().subscribe(
       result => {
@@ -129,7 +128,7 @@ export class ProductDataCreatePanel extends AbstractPanel {
   private onStart(event : AppEvent) : void {
     console.log("ProductDataCreatePanel: Starting...");
 
-    this.pd       = new ProductDataSpec()
+    this.pd       = new DataProductSpec()
     this.status   = Status.Selecting
     this.markets  = this.labelService.getLabel("map.market")
     this.products = this.labelService.getLabel("map.product")
@@ -171,11 +170,11 @@ export class ProductDataCreatePanel extends AbstractPanel {
 
   public onSave() : void {
 
-    console.log("Product for data is : \n"+ JSON.stringify(this.pd));
+    console.log("Product for tool is : \n"+ JSON.stringify(this.pd));
 
-    this.inventoryService.addProductData(this.pd).subscribe( c => {
+    this.inventoryService.addDataProduct(this.pd).subscribe( c => {
       this.onClose();
-      this.emitToApp(new AppEvent<any>(AppEvent.PRODUCTDATA_LIST_RELOAD))
+      this.emitToApp(new AppEvent<any>(AppEvent.DATAPRODUCT_LIST_RELOAD))
     })
   }
 

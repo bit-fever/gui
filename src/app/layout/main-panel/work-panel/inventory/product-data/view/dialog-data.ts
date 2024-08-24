@@ -6,12 +6,12 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {ProductDataExt} from "../../../../../../model/model";
+import {DataProductExt} from "../../../../../../model/model";
 
 //=============================================================================
 
 export interface DialogData {
-  productData: ProductDataExt
+  dataProduct: DataProductExt
 }
 
 //=============================================================================

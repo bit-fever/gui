@@ -38,7 +38,7 @@ import {IntDateAdapter} from "./int-date-adapter";
 
 //=============================================================================
 
-export class DatePicker extends AbstractSubscriber {
+export class DatePicker {
 
   //-------------------------------------------------------------------------
   //---
@@ -65,8 +65,7 @@ export class DatePicker extends AbstractSubscriber {
   //---
   //-------------------------------------------------------------------------
 
-  constructor(eventBusService : EventBusService, private labelService : LabelService) {
-    super(eventBusService)
+  constructor(private labelService : LabelService) {
     this.formControl.setValidators(this.validator)
     this.formControl.statusChanges.subscribe(this.valueChanged)
   }

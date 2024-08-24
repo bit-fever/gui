@@ -11,10 +11,10 @@ import {Observable}        from "rxjs";
 import {ListResponse}      from "../model/flex-table";
 import {
   Connection,
-  ConnectionSpec, Currency, Exchange, DatafileUploadSpec, InstrumentData, InvTradingSystem,
+  ConnectionSpec, Currency, Exchange, DatafileUploadSpec, DataInstrument, InvTradingSystem,
   InvTradingSystemFull, Portfolio, PortfolioTree,
-  ProductBroker, ProductBrokerSpec,
-  ProductData, ProductDataExt, ProductDataSpec,
+  BrokerProduct, BrokerProductSpec,
+  DataProduct, DataProductExt, DataProductSpec,
   TradingSession, TradingSystemSpec, DatafileUploadResponse
 } from "../model/model";
 import {HttpService, UploadEvent} from "./http.service";
@@ -64,55 +64,55 @@ export class InventoryService {
   }
 
   //---------------------------------------------------------------------------
-  //--- Product data
+  //--- Product tool
   //---------------------------------------------------------------------------
 
-  public getProductData = (details: boolean): Observable<ListResponse<ProductData>> => {
+  public getDataProducts = (details: boolean): Observable<ListResponse<DataProduct>> => {
     let params = new HttpParams()
     params = params.set("details", details)
-    return this.httpService.get<ListResponse<ProductData>>('/api/inventory/v1/product-data', { params: params });
+    return this.httpService.get<ListResponse<DataProduct>>('/api/inventory/v1/data-products', { params: params });
   }
 
   //---------------------------------------------------------------------------
 
-  public getProductDataById = (id:number, details: boolean): Observable<ProductDataExt> => {
+  public getDataProductById = (id:number, details: boolean): Observable<DataProductExt> => {
     let params = new HttpParams()
     params = params.set("details", details)
-    return this.httpService.get<ProductDataExt>('/api/inventory/v1/product-data/'+ id, { params: params });
+    return this.httpService.get<DataProductExt>('/api/inventory/v1/data-products/'+ id, { params: params });
   }
 
   //---------------------------------------------------------------------------
 
-  public addProductData = (pds : ProductDataSpec): Observable<ProductData> => {
-    return this.httpService.post<ProductData>('/api/inventory/v1/product-data', pds);
+  public addDataProduct = (pds : DataProductSpec): Observable<DataProduct> => {
+    return this.httpService.post<DataProduct>('/api/inventory/v1/data-products', pds);
   }
 
   //---------------------------------------------------------------------------
 
-  public updateProductData = (pds : ProductDataSpec): Observable<ProductData> => {
-    return this.httpService.put<ProductData>('/api/inventory/v1/product-data/'+pds.id, pds);
+  public updateDataProduct = (pds : DataProductSpec): Observable<DataProduct> => {
+    return this.httpService.put<DataProduct>('/api/inventory/v1/data-products/'+pds.id, pds);
   }
 
   //---------------------------------------------------------------------------
   //--- Product brokers
   //---------------------------------------------------------------------------
 
-  public getProductBrokers = (details: boolean): Observable<ListResponse<ProductBroker>> => {
+  public getBrokerProducts = (details: boolean): Observable<ListResponse<BrokerProduct>> => {
     let params = new HttpParams()
     params = params.set("details", details)
-    return this.httpService.get<ListResponse<ProductBroker>>('/api/inventory/v1/product-brokers', { params: params });
+    return this.httpService.get<ListResponse<BrokerProduct>>('/api/inventory/v1/broker-products', { params: params });
   }
 
   //---------------------------------------------------------------------------
 
-  public addProductBroker = (pbs : ProductBrokerSpec): Observable<ProductBroker> => {
-    return this.httpService.post<ProductBroker>('/api/inventory/v1/product-brokers', pbs);
+  public addBrokerProduct = (pbs : BrokerProductSpec): Observable<BrokerProduct> => {
+    return this.httpService.post<BrokerProduct>('/api/inventory/v1/broker-products', pbs);
   }
 
   //---------------------------------------------------------------------------
 
-  public updateProductBroker = (pbs : ProductBrokerSpec): Observable<ProductBroker> => {
-    return this.httpService.put<ProductBroker>('/api/inventory/v1/product-brokers/'+pbs.id, pbs);
+  public updateBrokerProduct = (pbs : BrokerProductSpec): Observable<BrokerProduct> => {
+    return this.httpService.put<BrokerProduct>('/api/inventory/v1/broker-products/'+pbs.id, pbs);
   }
 
   //---------------------------------------------------------------------------

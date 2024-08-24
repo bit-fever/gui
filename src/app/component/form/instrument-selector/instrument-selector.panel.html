@@ -1,0 +1,7 @@
+<mat-form-field class="main-panel">
+  <mat-label>{{loc("message")}}</mat-label>
+  <input matInput type="text" [(ngModel)]="value" disabled="true">
+  <button matSuffix mat-icon-button (click)="onSearch()">
+    <mat-icon>search</mat-icon>
+  </button>
+</mat-form-field>

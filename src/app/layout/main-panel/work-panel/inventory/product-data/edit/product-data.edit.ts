@@ -23,20 +23,10 @@ import {MatButtonModule} from "@angular/material/button";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
 import {InputTextRequired} from "../../../../../../component/form/input-text-required/input-text-required";
-import {SystemAdapterService} from "../../../../../../service/system-adapter.service";
-import {
-  Adapter, Connection,
-  ConnectionSpec, Exchange,
-  Portfolio,
-  ProductBroker, ProductData, ProductDataSpec,
-  TradingSession,
-  TradingSystemSpec
-} from "../../../../../../model/model";
 import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
-import {Url} from "../../../../../../model/urls";
-import {PortfolioService} from "../../../../../../service/portfolio.service";
 import {InventoryService} from "../../../../../../service/inventory.service";
 import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
+import {DataProductSpec} from "../../../../../../model/model";
 
 //=============================================================================
 
@@ -61,13 +51,13 @@ export class ProductDataEditPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  pd = new ProductDataSpec()
+  pd = new DataProductSpec()
   markets     : Object[]   = []
   products    : Object[]   = []
 
   //--- The symbol and exchanges cannot be changed because
   //---  - symbol  : is the root used to retrieve instruments from the datasource
-  //---  - exchange: its timezone is used to convert the timestamp of data
+  //---  - exchange: its timezone is used to convert the timestamp of tool
 
   @ViewChild("pdNameCtrl")     pdNameCtrl?     : InputTextRequired
   @ViewChild("pdIncremCtrl")   pdIncremCtrl?   : InputNumberRequired
@@ -85,8 +75,8 @@ export class ProductDataEditPanel extends AbstractPanel {
               router                   : Router,
               private inventoryService : InventoryService) {
 
-    super(eventBusService, labelService, router, "inventory.productData");
-    super.subscribeToApp(AppEvent.PRODUCTDATA_EDIT_START, (e : AppEvent) => this.onStart(e));
+    super(eventBusService, labelService, router, "inventory.dataProduct", "dataProduct");
+    super.subscribeToApp(AppEvent.DATAPRODUCT_EDIT_START, (e : AppEvent) => this.onStart(e));
   }
 
   //-------------------------------------------------------------------------
@@ -116,11 +106,11 @@ export class ProductDataEditPanel extends AbstractPanel {
 
   public onSave() : void {
 
-    console.log("Product for data is : \n"+ JSON.stringify(this.pd));
+    console.log("Product for tool is : \n"+ JSON.stringify(this.pd));
 
-    this.inventoryService.updateProductData(this.pd).subscribe( c => {
+    this.inventoryService.updateDataProduct(this.pd).subscribe( c => {
       this.onClose();
-      this.emitToApp(new AppEvent<any>(AppEvent.PRODUCTDATA_LIST_RELOAD))
+      this.emitToApp(new AppEvent<any>(AppEvent.DATAPRODUCT_LIST_RELOAD))
     })
   }
 

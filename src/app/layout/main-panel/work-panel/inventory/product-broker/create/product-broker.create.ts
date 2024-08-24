@@ -23,7 +23,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
 import {InputTextRequired} from "../../../../../../component/form/input-text-required/input-text-required";
-import {Connection, Exchange, ProductBrokerSpec} from "../../../../../../model/model";
+import {BrokerProductSpec, Connection, Exchange} from "../../../../../../model/model";
 import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
 import {InventoryService} from "../../../../../../service/inventory.service";
 import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
@@ -43,7 +43,7 @@ import {InputNumberRequired} from "../../../../../../component/form/input-intege
 
 //=============================================================================
 
-export class ProductBrokerCreatePanel extends AbstractPanel {
+export class BrokerProductCreatePanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
   //---
@@ -51,7 +51,7 @@ export class ProductBrokerCreatePanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  pb = new ProductBrokerSpec()
+  pb = new BrokerProductSpec()
   connections : Connection[] = []
   markets     : Object[]     = []
   products    : Object[]     = []
@@ -78,8 +78,8 @@ export class ProductBrokerCreatePanel extends AbstractPanel {
               router                   : Router,
               private inventoryService : InventoryService) {
 
-    super(eventBusService, labelService, router, "inventory.productBroker");
-    super.subscribeToApp(AppEvent.PRODUCTBROKER_CREATE_START, (e : AppEvent) => this.onStart(e));
+    super(eventBusService, labelService, router, "inventory.brokerProduct", "brokerProduct");
+    super.subscribeToApp(AppEvent.BROKERPRODUCT_CREATE_START, (e : AppEvent) => this.onStart(e));
 
     inventoryService.getConnections().subscribe(
       result => {
@@ -109,7 +109,7 @@ export class ProductBrokerCreatePanel extends AbstractPanel {
   private onStart(event : AppEvent) : void {
     console.log("ProductBrokerCreatePanel: Starting...");
 
-    this.pb       = new ProductBrokerSpec()
+    this.pb       = new BrokerProductSpec()
     this.markets  = this.labelService.getLabel("map.market")
     this.products = this.labelService.getLabel("map.product")
   }
@@ -134,9 +134,9 @@ export class ProductBrokerCreatePanel extends AbstractPanel {
 
     console.log("Product for broker is : \n"+ JSON.stringify(this.pb));
 
-    this.inventoryService.addProductBroker(this.pb).subscribe( c => {
+    this.inventoryService.addBrokerProduct(this.pb).subscribe( c => {
       this.onClose();
-      this.emitToApp(new AppEvent<any>(AppEvent.PRODUCTBROKER_LIST_RELOAD))
+      this.emitToApp(new AppEvent<any>(AppEvent.BROKERPRODUCT_LIST_RELOAD))
     })
   }
 

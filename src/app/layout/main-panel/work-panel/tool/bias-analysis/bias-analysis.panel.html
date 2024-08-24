@@ -1,0 +1,92 @@
+<div class="main-layout">
+  <div class="options-layout">
+    <instrument-selector (onInstrumentSelected)="onInstrumentSelected($event)"></instrument-selector>
+
+    <select-text-required #prBrokerCtrl keyField="id" valueField="name"
+                          [label]="loc('pointValue')"
+                          [list]="brokers"
+                          (keyChange)="onBrokerChange($event)"></select-text-required>
+
+    <div class="months-layout">
+      <mat-chip-listbox [multiple]="true" class="chips-style">
+        <mat-chip-option (selectionChange)="onMonthChange($event, 0)"  [selected]="selMonths[0]" >{{map("months", "jan")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 1)"  [selected]="selMonths[1]" >{{map("months", "feb")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 2)"  [selected]="selMonths[2]" >{{map("months", "mar")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 3)"  [selected]="selMonths[3]" >{{map("months", "apr")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 4)"  [selected]="selMonths[4]" >{{map("months", "may")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 5)"  [selected]="selMonths[5]" >{{map("months", "jun")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 6)"  [selected]="selMonths[6]" >{{map("months", "jul")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 7)"  [selected]="selMonths[7]" >{{map("months", "aug")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 8)"  [selected]="selMonths[8]" >{{map("months", "sep")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 9)"  [selected]="selMonths[9]" >{{map("months", "oct")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 10)" [selected]="selMonths[10]">{{map("months", "nov")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 11)" [selected]="selMonths[11]">{{map("months", "dec")}}</mat-chip-option>
+      </mat-chip-listbox>
+
+      <button mat-icon-button (click)="onMonthLeft()">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+
+      <button mat-icon-button (click)="onMonthToggle()">
+        <mat-icon>import_export</mat-icon>
+      </button>
+
+      <button mat-icon-button (click)="onMonthRight()">
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <div class="tools-layout">
+    <mat-form-field>
+      <mat-label>{{loc('startPeriod')}}</mat-label>
+      <input matInput type="text" [value]="startPeriod" [disabled]="true">
+      <button matSuffix mat-icon-button (click)="onSetStart()">
+        <mat-icon>first_page</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>{{loc('endPeriod')}}</mat-label>
+      <input matInput type="text" [value]="endPeriod" [disabled]="true">
+      <button matSuffix mat-icon-button (click)="onSetEnd()">
+        <mat-icon>last_page</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <chip-set-text class="chips-style"
+      [title]="loc('exclPeriods')"
+      [label]="loc('periodFormat')"
+      [validator]="validator"
+      [(items)]="excludedSet"
+      (itemsChange)="onExcludedChange($event)"></chip-set-text>
+
+    <mat-chip-listbox [multiple]="true">
+      <mat-chip-option (selectionChange)="onLabelsChange($event)" [selected]="showLabels">{{loc("labels")}}</mat-chip-option>
+    </mat-chip-listbox>
+  </div>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <div class="chart-layout">
+    <apx-chart
+      [chart]      = "options.chart"
+      [series]     = "options.series"
+      [dataLabels] = "options.dataLabels"
+      [plotOptions]= "options.plotOptions"
+      [xaxis]      = "options.xaxis"
+      [legend]     = "options.legend"
+    ></apx-chart>
+
+    <apx-chart
+      [chart]      = "barOptions.chart"
+      [series]     = "barOptions.series"
+      [dataLabels] = "barOptions.dataLabels"
+      [plotOptions]= "barOptions.plotOptions"
+      [xaxis]      = "barOptions.xaxis"
+    ></apx-chart>
+  </div>
+
+</div>

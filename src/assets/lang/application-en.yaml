@@ -21,6 +21,7 @@ button:
   upload:   UPLOAD
   chart:    CHART
   ok:       Ok
+  select:   SELECT
 
 # ==============================================================================
 # ===
@@ -34,13 +35,17 @@ menu:
     home: Home
   inventory:
     _label: Inventory
-    productData  : Product (data)
-    productBroker: Product (broker)
+    dataProduct  : Data products
+    brokerProduct: Broker products
     tradingSystem: Trading systems
   portfolio:
     _label: Portfolio
     tradingSystem: Trading systems
     monitoring   : Monitoring
+  tool:
+    _label: Tool
+    biasAnalyzer: Bias analysis
+
   admin:
     _label: Administration
     connections  : Connections
@@ -49,15 +54,15 @@ menu:
 
 # ==============================================================================
 # ===
-# === Flex table
+# === Generic components
 # ===
 # ==============================================================================
 
 flexTable:
-  noData: No data
+  noData: Empty
 
 simpleTable:
-  noData: No data
+  noData: Empty
 
 fileUpload:
   instructions: Drag and drop the file(s) here or click on "Browse Files".
@@ -91,13 +96,6 @@ model:
     filter          : Filter
     status          : Status
 
-#  instrument:
-#    id             : Id
-#    ticker         : Ticker;
-#    name           : Name;
-#    createdAt      : Created at
-#    updatedAt      : Updated at
-
   connection:
     id                   : Id
     username             : Username
@@ -122,7 +120,7 @@ model:
     avgTrade:    Average trade
     maxDrawdown: Max Drawdown
 
-  productData:
+  dataProduct:
     id             : Id
     username       : Username
     symbol         : Symbol
@@ -136,7 +134,7 @@ model:
     systemCode     : System
     exchangeCode   : Exchange
 
-  instrumentData:
+  dataInstrument:
     id: Id
     symbol         : Symbol
     name           : Name
@@ -145,8 +143,11 @@ model:
     dataFrom       : Data from
     dataTo         : Data to
     status         : Status
+    productSymbol  : Product symbol
+    connectionCode : Connection
+    systemCode     : System
 
-  productBroker:
+  brokerProduct:
     id             : Id
     username       : Username
     symbol         : Symbol
@@ -189,12 +190,12 @@ page:
       broker:        Broker symbol
       session:       Trading session
 
-    productData:
-      new:   New product for data
-      edit:  Edit product for data
+    dataProduct:
+      new:   New data product
+      edit:  Edit data product
       instruments: Instruments
       upload:
-        title   : Instrument data upload
+        title   : Data instrument upload
         success : Datafile successfully uploaded
         error   : Cannot upload datafile
         fileTimezone: File timezone
@@ -207,9 +208,9 @@ page:
         timezone : Timezone
         exchange : Exchange
 
-    productBroker:
-      new:          New product for broker
-      edit:         Edit product for broker
+    brokerProduct:
+      new:          New broker product
+      edit:         Edit broker product
       connection:   Connection
       symbol:       Symbol
       name:         Name
@@ -218,22 +219,7 @@ page:
       marginValue:  Margin value
       marketType:   Market
       productType:  Product
-      localClass:   Local class
       exchange:     Exchange
-
-  # ==============================================================================
-
-  admin:
-    config:
-      title: Configuration
-
-    # ----------------------------------------------------------------------------
-
-    connection:
-      new: New connection
-      code: Code
-      name: Name
-      system: System
 
   # ==============================================================================
 
@@ -359,6 +345,38 @@ page:
         taEquVsAvg:   Equity vs average
         taDuration:   Duration
         taGain:       Gain
+  instrumentSelector:
+    message: Data instrument
+    title  : Data instrument selector
+
+  # ==============================================================================
+
+  tool:
+    biasAnalysis:
+      labels      : Labels
+      pointValue  : Point value
+      exclPeriods : Excluded periods
+      periodFormat: Format is YEAR or YEAR-MONTH (like 2020-3)
+      startPeriod : Start period
+      endPeriod   : End period
+
+  # ==============================================================================
+
+  admin:
+    config:
+      title: Configuration
+
+    # ----------------------------------------------------------------------------
+
+    connection:
+      new: New connection
+      code: Code
+      name: Name
+      system: System
+
+  # ==============================================================================
+
+# ==============================================================================
 
 # ==============================================================================
 # ===
@@ -382,13 +400,38 @@ map:
 
   fileTimezone:
     utc: GMT/UTC
-    exc: mange
+    exc: Exchange
 
   timeframe:
     1m : 1 min
     5m : 5 min
+    10m: 10 min
     15m: 15 min
+    30m: 30 min
     60m: 1 hour
+
+  dows:
+    sun: Sunday
+    mon: Monday
+    tue: Tuesday
+    wed: Wednesday
+    thu: Thursday
+    fri: Friday
+    sat: Saturday
+
+  months:
+    jan: January
+    feb: February
+    mar: March
+    apr: April
+    may: May
+    jun: June
+    jul: July
+    aug: August
+    sep: September
+    oct: October
+    nov: November
+    dec: December
 
 # ==============================================================================
 # ===

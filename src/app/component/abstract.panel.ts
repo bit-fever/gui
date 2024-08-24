@@ -103,6 +103,12 @@ export abstract class AbstractPanel extends AbstractSubscriber implements OnInit
 
   //---------------------------------------------------------------------------
 
+  public map = (mapCode : string, code : string) : string => {
+    return this.labelService.getLabelString("map."+ mapCode +"."+ code);
+  }
+
+  //---------------------------------------------------------------------------
+
   public labelMap = (code : string) : any => {
     return this.labelService.getLabel("page."+ this.pageCode +"."+ code);
   }

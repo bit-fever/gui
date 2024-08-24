@@ -1,21 +1,19 @@
 //=============================================================================
 //===
-//=== Copyright (C) 2022 Andrea Carboni
+//=== Copyright (C) 2024 Andrea Carboni
 //===
 //=== Use of this source code is governed by an MIT-style license that can be
 //=== found in the LICENSE file
 //=============================================================================
 
-.toolbar {
-//  background-color: #FFF8F4;
-  background-color: #F4F8FF;
-//  border-bottom: solid #F37C40;
-  border-bottom: solid #505AC2;
+.main-panel {
+  width: 500px;
 }
+
 //=============================================================================
 
-.spacer {
-  flex: 1 1 auto;
+mat-form-field input {
+  color: #ff0000;
 }
 
 //=============================================================================

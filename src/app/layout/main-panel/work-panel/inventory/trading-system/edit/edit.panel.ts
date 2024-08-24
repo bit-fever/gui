@@ -25,7 +25,7 @@ import {MatDividerModule} from "@angular/material/divider";
 import {InputTextRequired} from "../../../../../../component/form/input-text-required/input-text-required";
 import {
   Portfolio,
-  ProductBroker, ProductData,
+  BrokerProduct, DataProduct,
   TradingSession,
   TradingSystemSpec
 } from "../../../../../../model/model";
@@ -57,8 +57,8 @@ export class TradingSystemEditPanel extends AbstractPanel {
 
   ts = new TradingSystemSpec()
   portfolios : Portfolio     [] = []
-  data       : ProductData   [] = []
-  brokers    : ProductBroker [] = []
+  data       : DataProduct   [] = []
+  brokers    : BrokerProduct [] = []
   sessions   : TradingSession[] = []
 
   @ViewChild("tsNameCtrl")      tsNameCtrl?      : InputTextRequired
@@ -87,12 +87,12 @@ export class TradingSystemEditPanel extends AbstractPanel {
         this.portfolios = result.result;
     })
 
-    inventoryService.getProductData(false).subscribe(
+    inventoryService.getDataProducts(false).subscribe(
       result => {
         this.data = result.result;
       })
 
-    inventoryService.getProductBrokers(false).subscribe(
+    inventoryService.getBrokerProducts(false).subscribe(
       result => {
         this.brokers = result.result;
       })

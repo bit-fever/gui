@@ -8,9 +8,9 @@
     <br/>
     <select-text-required #tsPortfolioCtrl [(key)]="ts.portfolioId"      [label]="loc('portfolio')" keyField="id" valueField="name" [list]="portfolios"></select-text-required>
     <br/>
-    <select-text-required #tsDataCtrl      [(key)]="ts.productDataId"    [label]="loc('data')"      keyField="id" valueField="name" [list]="data"></select-text-required>
+    <select-text-required #tsDataCtrl      [(key)]="ts.dataProductId"    [label]="loc('data')"      keyField="id" valueField="name" [list]="data"></select-text-required>
     <br/>
-    <select-text-required #tsBrokerCtrl    [(key)]="ts.productBrokerId"  [label]="loc('broker')"    keyField="id" valueField="name" [list]="brokers"></select-text-required>
+    <select-text-required #tsBrokerCtrl    [(key)]="ts.brokerProductId"  [label]="loc('broker')"    keyField="id" valueField="name" [list]="brokers"></select-text-required>
     <br/>
     <select-text-required #tsSessionCtrl   [(key)]="ts.tradingSessionId" [label]="loc('session')"   keyField="id" valueField="name" [list]="sessions"></select-text-required>
   </div>

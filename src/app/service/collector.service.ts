@@ -10,10 +10,15 @@ import {Injectable}        from "@angular/core";
 import {Observable}        from "rxjs";
 import {ListResponse}      from "../model/flex-table";
 import {
-  DatafileUploadSpec, InstrumentData, DatafileUploadResponse, ParserMap, DataPoint, InstrumentDataResponse
+  DatafileUploadSpec,
+  DataInstrument,
+  DatafileUploadResponse,
+  ParserMap,
+  DataPoint,
+  DataInstrumentDataResponse,
+  DataInstrumentFull, DataProductExt, BiasSummaryResponse
 } from "../model/model";
 import {HttpService, UploadEvent} from "./http.service";
-import { HttpHeaders, HttpParams, HttpParamsOptions } from "@angular/common/http";
 
 //=============================================================================
 
@@ -35,7 +40,7 @@ export class CollectorService {
   //---------------------------------------------------------------------------
 
   //---------------------------------------------------------------------------
-  //--- Product data
+  //--- Products & Instruments
   //---------------------------------------------------------------------------
 
   public getParsers = (): Observable<ParserMap> => {
@@ -44,19 +49,25 @@ export class CollectorService {
 
   //---------------------------------------------------------------------------
 
-  public getInstrumentsByProductId = (id: number): Observable<ListResponse<InstrumentData>> => {
-    return this.httpService.get<ListResponse<InstrumentData>>('/api/collector/v1/products/'+id+'/instruments');
+  public getDataInstruments = (): Observable<ListResponse<DataInstrumentFull>> => {
+    return this.httpService.get<ListResponse<DataInstrumentFull>>('/api/collector/v1/data-instruments');
   }
 
   //---------------------------------------------------------------------------
 
-  public uploadInstrumentData = (productId: number, spec: DatafileUploadSpec, files: any[]) : Observable<UploadEvent<DatafileUploadResponse>> => {
-    return this.httpService.upload<DatafileUploadResponse>('/api/collector/v1/products/'+ productId +'/instruments', spec, files)
+  public getDataInstrumentsByProductId = (id: number): Observable<ListResponse<DataInstrument>> => {
+    return this.httpService.get<ListResponse<DataInstrument>>('/api/collector/v1/data-products/'+id+'/instruments');
   }
 
   //---------------------------------------------------------------------------
 
-  public getInstrumentData = (id: number, from:string, to:string, timeframe:string, timezone:string, reduction:number): Observable<InstrumentDataResponse> => {
+  public uploadDataInstrumentData = (productId: number, spec: DatafileUploadSpec, files: any[]) : Observable<UploadEvent<DatafileUploadResponse>> => {
+    return this.httpService.upload<DatafileUploadResponse>('/api/collector/v1/data-products/'+ productId +'/instruments', spec, files)
+  }
+
+  //---------------------------------------------------------------------------
+
+  public getDataInstrumentData = (id: number, from:string, to:string, timeframe:string, timezone:string, reduction:number): Observable<DataInstrumentDataResponse> => {
     let options= {
       params: {
         from     : from,
@@ -67,7 +78,15 @@ export class CollectorService {
       },
     }
 
-    return this.httpService.get<InstrumentDataResponse>('/api/collector/v1/instruments/'+id+'/data', options);
+    return this.httpService.get<DataInstrumentDataResponse>('/api/collector/v1/data-instruments/'+id+'/data', options);
+  }
+
+  //---------------------------------------------------------------------------
+  //--- Bias analyses
+  //---------------------------------------------------------------------------
+
+  public getBiasSummary = (id:number): Observable<BiasSummaryResponse> => {
+    return this.httpService.post<BiasSummaryResponse>('/api/collector/v1/bias-analyses/'+ id+'/summary', {});
   }
 }
 

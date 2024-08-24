@@ -68,15 +68,15 @@ export class MenuService extends AbstractSubscriber {
         header: this.get('inventory._label'),
       },
       {
-        id: 'menu.inventory.product-data',
-        label: this.get('inventory.productData'),
-        route: Url.Inventory_ProductData,
+        id: 'menu.inventory.data-product',
+        label: this.get('inventory.dataProduct'),
+        route: Url.Inventory_DataProducts,
         iconClasses: 'dataset'
       },
       {
-        id: 'menu.inventory.product-broker',
-        label: this.get('inventory.productBroker'),
-        route: Url.Inventory_ProductBroker,
+        id: 'menu.inventory.broker-product',
+        label: this.get('inventory.brokerProduct'),
+        route: Url.Inventory_BrokerProducts,
         iconClasses: 'currency_exchange'
       },
       {
@@ -103,6 +103,19 @@ export class MenuService extends AbstractSubscriber {
         label: this.get('portfolio.monitoring'),
         route: Url.Portfolio_Monitoring,
         iconClasses: 'monitor_heart'
+      },
+
+      //-------------------------------------------------------------
+
+      {
+        id: 'menu.tool',
+        header: this.get('tool._label')
+      },
+      {
+        id: 'menu.tool.bias-analyzer',
+        label: this.get('tool.biasAnalyzer'),
+        route: Url.Tool_BiasAnalyzer,
+        iconClasses: 'query_stats'
       },
 
       //-------------------------------------------------------------

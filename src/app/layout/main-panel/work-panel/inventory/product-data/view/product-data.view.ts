@@ -12,7 +12,7 @@ import {MatInputModule}       from "@angular/material/input";
 import {MatCardModule}        from "@angular/material/card";
 import {MatIconModule}        from "@angular/material/icon";
 import {MatButtonModule}      from "@angular/material/button";
-import {InstrumentData, ProductData, ProductDataExt} from "../../../../../../model/model";
+import {DataInstrument, DataProduct, DataProductExt} from "../../../../../../model/model";
 import {FlexTableColumn, ListResponse, ListService} from "../../../../../../model/flex-table";
 import {AbstractPanel}        from "../../../../../../component/abstract.panel";
 import {FlexTablePanel}       from "../../../../../../component/panel/flex-table/flex-table.panel";
@@ -45,7 +45,7 @@ import {Url} from "../../../../../../model/urls";
 
 //=============================================================================
 
-export class InvProductDataViewPanel extends AbstractPanel {
+export class InvDataProductViewPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
   //---
@@ -54,15 +54,15 @@ export class InvProductDataViewPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   pdId : number         = 0
-  pd   : ProductDataExt = new ProductDataExt()
+  pd   : DataProductExt = new DataProductExt()
 
   market   : string = ""
   product  : string = ""
   columns  : FlexTableColumn[] = [];
-  service? : ListService<InstrumentData>;
+  service? : ListService<DataInstrument>;
   disChart : boolean = false;
 
-  @ViewChild("table") table : FlexTablePanel<InstrumentData>|null = null;
+  @ViewChild("table") table : FlexTablePanel<DataInstrument>|null = null;
 
   //-------------------------------------------------------------------------
   //---
@@ -78,9 +78,9 @@ export class InvProductDataViewPanel extends AbstractPanel {
               private collectorService: CollectorService,
               public  dialog          : MatDialog) {
 
-    super(eventBusService, labelService, router, "inventory.productData", "productData");
+    super(eventBusService, labelService, router, "inventory.dataProduct", "dataProduct");
 
-    eventBusService.subscribeToApp(AppEvent.INSTRUMENTDATA_LIST_RELOAD, () => {
+    eventBusService.subscribeToApp(AppEvent.DATAINSTRUMENT_LIST_RELOAD, () => {
       this.table?.reload()
     })
   }
@@ -91,8 +91,8 @@ export class InvProductDataViewPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  private getInstruments = (): Observable<ListResponse<InstrumentData>> => {
-    return this.collectorService.getInstrumentsByProductId(this.pdId);
+  private getInstruments = (): Observable<ListResponse<DataInstrument>> => {
+    return this.collectorService.getDataInstrumentsByProductId(this.pdId);
   }
 
   //-------------------------------------------------------------------------
@@ -102,7 +102,7 @@ export class InvProductDataViewPanel extends AbstractPanel {
     this.pdId    = Number(this.route.snapshot.paramMap.get("id"));
     this.service = this.getInstruments;
 
-    this.inventoryService.getProductDataById(this.pdId, true).subscribe(
+    this.inventoryService.getDataProductById(this.pdId, true).subscribe(
       result => {
         this.pd = result
         this.market   = this.labelService.getLabelString("map.market." +this.pd.marketType)
@@ -113,7 +113,7 @@ export class InvProductDataViewPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  onRowSelected(selection : ProductData[]) {
+  onRowSelected(selection : DataProduct[]) {
   }
 
   //-------------------------------------------------------------------------
@@ -122,7 +122,7 @@ export class InvProductDataViewPanel extends AbstractPanel {
     const dialogRef = this.dialog.open(InstrumentUploadDialog, {
       minWidth: "1024px",
       data: {
-        productData : this.pd
+        dataProduct : this.pd
       }
     })
 
@@ -136,7 +136,7 @@ export class InvProductDataViewPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onChartClick() {
-    this.navigateTo([ Url.Inventory_ProductData, this.pdId, Url.Sub_Chart ]);
+    this.navigateTo([ Url.Inventory_DataProducts, this.pdId, Url.Sub_Chart ]);
   }
 
   //-------------------------------------------------------------------------
@@ -146,7 +146,7 @@ export class InvProductDataViewPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   setupColumns = () => {
-    let ts = this.labelService.getLabel("model.instrumentData");
+    let ts = this.labelService.getLabel("model.dataInstrument");
 
     this.columns = [
       new FlexTableColumn(ts, "symbol"),

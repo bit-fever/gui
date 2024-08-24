@@ -76,9 +76,9 @@ export class ConfigurationPanel extends AbstractPanel {
 //
 // 		console.log("Configuration : \n"+ JSON.stringify(this.config));
 //
-// 		//--- Examples of notifications that can occur during data saving
+// 		//--- Examples of notifications that can occur during tool saving
 //
-// //		this.notificationService.showError  ("Form error",        "Missing mandatory data");
+// //		this.notificationService.showError  ("Form error",        "Missing mandatory tool");
 // //		this.notificationService.showWarn   ("Operation warning", "Some operations where skipped");
 // //		this.notificationService.showInfo   ("Info title",        "Entering out of scope area");
 // 		this.notificationService.showSuccess("Success",           "The system settings have been updated");

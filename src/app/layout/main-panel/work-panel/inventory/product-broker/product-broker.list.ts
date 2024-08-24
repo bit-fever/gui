@@ -12,7 +12,6 @@ import {MatInputModule}       from "@angular/material/input";
 import {MatCardModule}        from "@angular/material/card";
 import {MatIconModule}        from "@angular/material/icon";
 import {MatButtonModule}      from "@angular/material/button";
-import {InvTradingSystemFull, ProductBroker, ProductData} from "../../../../../model/model";
 import {FlexTableColumn, ListResponse, ListService} from "../../../../../model/flex-table";
 import {AbstractPanel}        from "../../../../../component/abstract.panel";
 import {FlexTablePanel}       from "../../../../../component/panel/flex-table/flex-table.panel";
@@ -24,6 +23,7 @@ import {AppEvent} from "../../../../../model/event";
 import {Observable} from "rxjs";
 import {InventoryService} from "../../../../../service/inventory.service";
 import {LabelTranscoder} from "../../../../../component/panel/flex-table/transcoders";
+import {BrokerProduct} from "../../../../../model/model";
 
 //=============================================================================
 
@@ -38,7 +38,7 @@ import {LabelTranscoder} from "../../../../../component/panel/flex-table/transco
 
 //=============================================================================
 
-export class InvProductBrokerPanel extends AbstractPanel {
+export class InvBrokerProductPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
   //---
@@ -47,12 +47,12 @@ export class InvProductBrokerPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   columns  : FlexTableColumn[] = [];
-  service  : ListService<ProductBroker>;
+  service  : ListService<BrokerProduct>;
   disCreate: boolean = false;
   disView  : boolean = true;
   disEdit  : boolean = true;
 
-  @ViewChild("table") table : FlexTablePanel<ProductBroker>|null = null;
+  @ViewChild("table") table : FlexTablePanel<BrokerProduct>|null = null;
 
   //-------------------------------------------------------------------------
   //---
@@ -65,11 +65,11 @@ export class InvProductBrokerPanel extends AbstractPanel {
               router                  : Router,
               private inventoryService: InventoryService) {
 
-    super(eventBusService, labelService, router, "inventory.productBroker");
+    super(eventBusService, labelService, router, "inventory.brokerProduct", "brokerProduct");
 
     this.service = this.getProductBrokers;
 
-    eventBusService.subscribeToApp(AppEvent.PRODUCTBROKER_LIST_RELOAD, () => {
+    eventBusService.subscribeToApp(AppEvent.BROKERPRODUCT_LIST_RELOAD, () => {
       this.table?.reload()
     })
   }
@@ -80,8 +80,8 @@ export class InvProductBrokerPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  private getProductBrokers = (): Observable<ListResponse<ProductBroker>> => {
-    return this.inventoryService.getProductBrokers(true);
+  private getProductBrokers = (): Observable<ListResponse<BrokerProduct>> => {
+    return this.inventoryService.getBrokerProducts(true);
   }
 
   //-------------------------------------------------------------------------
@@ -92,14 +92,14 @@ export class InvProductBrokerPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  onRowSelected(selection : ProductBroker[]) {
+  onRowSelected(selection : BrokerProduct[]) {
     this.updateButtons(selection);
   }
 
   //-------------------------------------------------------------------------
 
   onCreateClick() {
-    this.openRightPanel(Url.Inventory_ProductBroker, Url.Right_ProductBroker_Create, AppEvent.PRODUCTBROKER_CREATE_START);
+    this.openRightPanel(Url.Inventory_BrokerProducts, Url.Right_BrokerProduct_Create, AppEvent.BROKERPRODUCT_CREATE_START);
   }
 
   //-------------------------------------------------------------------------
@@ -118,7 +118,7 @@ export class InvProductBrokerPanel extends AbstractPanel {
   onEditClick() {
     // @ts-ignore
     let selection = this.table.getSelection();
-    this.openRightPanel(Url.Inventory_ProductBroker, Url.Right_ProductBroker_Edit, AppEvent.PRODUCTBROKER_EDIT_START, selection[0]);
+    this.openRightPanel(Url.Inventory_BrokerProducts, Url.Right_BrokerProduct_Edit, AppEvent.BROKERPRODUCT_EDIT_START, selection[0]);
   }
 
   //-------------------------------------------------------------------------
@@ -128,7 +128,7 @@ export class InvProductBrokerPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   setupColumns = () => {
-    let ts = this.labelService.getLabel("model.productBroker");
+    let ts = this.labelService.getLabel("model.brokerProduct");
 
     this.columns = [
       // new FlexTableColumn(ts, "username"),
@@ -148,7 +148,7 @@ export class InvProductBrokerPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  private updateButtons = (selection : ProductBroker[]) => {
+  private updateButtons = (selection : BrokerProduct[]) => {
     this.disView = (selection.length != 1)
     this.disEdit = (selection.length != 1)
   }

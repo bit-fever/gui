@@ -28,7 +28,7 @@ import {
   Adapter, Connection,
   ConnectionSpec, Currency, Exchange,
   Portfolio,
-  ProductBroker, ProductBrokerSpec, ProductData, ProductDataSpec,
+  BrokerProduct, BrokerProductSpec, DataProduct, DataProductSpec,
   TradingSession,
   TradingSystemSpec
 } from "../../../../../../model/model";
@@ -61,7 +61,7 @@ export class ProductBrokerEditPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  pb = new ProductBrokerSpec()
+  pb = new BrokerProductSpec()
   markets     : Object[]   = []
   products    : Object[]   = []
   exchanges   : Exchange[] = []
@@ -87,8 +87,8 @@ export class ProductBrokerEditPanel extends AbstractPanel {
               router                   : Router,
               private inventoryService : InventoryService) {
 
-    super(eventBusService, labelService, router, "inventory.productBroker");
-    super.subscribeToApp(AppEvent.PRODUCTBROKER_EDIT_START, (e : AppEvent) => this.onStart(e));
+    super(eventBusService, labelService, router, "inventory.brokerProduct", "brokerProduct");
+    super.subscribeToApp(AppEvent.BROKERPRODUCT_EDIT_START, (e : AppEvent) => this.onStart(e));
 
     inventoryService.getExchanges().subscribe(
       result => {
@@ -128,9 +128,9 @@ export class ProductBrokerEditPanel extends AbstractPanel {
 
     console.log("Product for broker is : \n"+ JSON.stringify(this.pb));
 
-    this.inventoryService.updateProductBroker(this.pb).subscribe( c => {
+    this.inventoryService.updateBrokerProduct(this.pb).subscribe( c => {
       this.onClose();
-      this.emitToApp(new AppEvent<any>(AppEvent.PRODUCTBROKER_LIST_RELOAD))
+      this.emitToApp(new AppEvent<any>(AppEvent.BROKERPRODUCT_LIST_RELOAD))
     })
   }
 

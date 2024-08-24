@@ -45,14 +45,14 @@ export class AppEvent<T = any>  {
   static TRADINGSYSTEM_LIST_RELOAD: string = "tradingSystem.list.reload";
   static TRADINGSYSTEM_EDIT_START : string = "tradingSystem.edit.start";
 
-  static PRODUCTDATA_LIST_RELOAD   : string = "productData.list.reload";
-  static PRODUCTDATA_CREATE_START  : string = "productData.create.start";
-  static PRODUCTDATA_EDIT_START    : string = "productData.edit.start";
-  static INSTRUMENTDATA_LIST_RELOAD: string = "instrumentData.list.reload";
+  static DATAPRODUCT_LIST_RELOAD   : string = "dataProduct.list.reload";
+  static DATAPRODUCT_CREATE_START  : string = "dataProduct.create.start";
+  static DATAPRODUCT_EDIT_START    : string = "dataProduct.edit.start";
+  static DATAINSTRUMENT_LIST_RELOAD: string = "dataInstrument.list.reload";
 
-  static PRODUCTBROKER_LIST_RELOAD : string = "productBroker.list.reload";
-  static PRODUCTBROKER_CREATE_START: string = "productBroker.create.start";
-  static PRODUCTBROKER_EDIT_START  : string = "productBroker.edit.start";
+  static BROKERPRODUCT_LIST_RELOAD : string = "brokerProduct.list.reload";
+  static BROKERPRODUCT_CREATE_START: string = "brokerProduct.create.start";
+  static BROKERPRODUCT_EDIT_START  : string = "brokerProduct.edit.start";
 }
 
 //=============================================================================

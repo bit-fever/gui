@@ -12,7 +12,7 @@ import {MatInputModule}       from "@angular/material/input";
 import {MatCardModule}        from "@angular/material/card";
 import {MatIconModule}        from "@angular/material/icon";
 import {MatButtonModule}      from "@angular/material/button";
-import {InvTradingSystemFull, ProductData} from "../../../../../model/model";
+import {InvTradingSystemFull, DataProduct} from "../../../../../model/model";
 import {FlexTableColumn, ListResponse, ListService} from "../../../../../model/flex-table";
 import {AbstractPanel}        from "../../../../../component/abstract.panel";
 import {FlexTablePanel}       from "../../../../../component/panel/flex-table/flex-table.panel";
@@ -28,7 +28,7 @@ import {LabelTranscoder} from "../../../../../component/panel/flex-table/transco
 //=============================================================================
 
 @Component({
-  selector    :     'inventory-product-data',
+  selector    :     'inventory-product-tool',
   templateUrl :   './product-data.list.html',
   styleUrls   : [ './product-data.list.scss' ],
   imports     : [ CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
@@ -38,7 +38,7 @@ import {LabelTranscoder} from "../../../../../component/panel/flex-table/transco
 
 //=============================================================================
 
-export class InvProductDataPanel extends AbstractPanel {
+export class InvDataProductPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
   //---
@@ -47,12 +47,12 @@ export class InvProductDataPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   columns  : FlexTableColumn[] = [];
-  service  : ListService<ProductData>;
+  service  : ListService<DataProduct>;
   disCreate: boolean = false;
   disView  : boolean = true;
   disEdit  : boolean = true;
 
-  @ViewChild("table") table : FlexTablePanel<ProductData>|null = null;
+  @ViewChild("table") table : FlexTablePanel<DataProduct>|null = null;
 
   //-------------------------------------------------------------------------
   //---
@@ -65,11 +65,11 @@ export class InvProductDataPanel extends AbstractPanel {
               router                  : Router,
               private inventoryService: InventoryService) {
 
-    super(eventBusService, labelService, router, "inventory.productData");
+    super(eventBusService, labelService, router, "inventory.dataProduct");
 
-    this.service = this.getProductData;
+    this.service = this.getDataProducts;
 
-    eventBusService.subscribeToApp(AppEvent.PRODUCTDATA_LIST_RELOAD, () => {
+    eventBusService.subscribeToApp(AppEvent.DATAPRODUCT_LIST_RELOAD, () => {
       this.table?.reload()
     })
   }
@@ -80,8 +80,8 @@ export class InvProductDataPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  private getProductData = (): Observable<ListResponse<ProductData>> => {
-    return this.inventoryService.getProductData(true);
+  private getDataProducts = (): Observable<ListResponse<DataProduct>> => {
+    return this.inventoryService.getDataProducts(true);
   }
 
   //-------------------------------------------------------------------------
@@ -92,14 +92,14 @@ export class InvProductDataPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  onRowSelected(selection : ProductData[]) {
+  onRowSelected(selection : DataProduct[]) {
     this.updateButtons(selection);
   }
 
   //-------------------------------------------------------------------------
 
   onCreateClick() {
-    this.openRightPanel(Url.Inventory_ProductData, Url.Right_ProductData_Create, AppEvent.PRODUCTDATA_CREATE_START);
+    this.openRightPanel(Url.Inventory_DataProducts, Url.Right_DataProduct_Create, AppEvent.DATAPRODUCT_CREATE_START);
   }
 
   //-------------------------------------------------------------------------
@@ -109,7 +109,7 @@ export class InvProductDataPanel extends AbstractPanel {
     let selection = this.table.getSelection();
 
     if (selection.length > 0) {
-      this.navigateTo([ Url.Inventory_ProductData, selection[0].id ]);
+      this.navigateTo([ Url.Inventory_DataProducts, selection[0].id ]);
     }
   }
 
@@ -118,7 +118,7 @@ export class InvProductDataPanel extends AbstractPanel {
   onEditClick() {
     // @ts-ignore
     let selection = this.table.getSelection();
-    this.openRightPanel(Url.Inventory_ProductData, Url.Right_ProductData_Edit, AppEvent.PRODUCTDATA_EDIT_START, selection[0]);
+    this.openRightPanel(Url.Inventory_DataProducts, Url.Right_DataProduct_Edit, AppEvent.DATAPRODUCT_EDIT_START, selection[0]);
   }
 
   //-------------------------------------------------------------------------
@@ -128,7 +128,7 @@ export class InvProductDataPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   setupColumns = () => {
-    let ts = this.labelService.getLabel("model.productData");
+    let ts = this.labelService.getLabel("model.dataProduct");
 
     this.columns = [
       // new FlexTableColumn(ts, "username"),
