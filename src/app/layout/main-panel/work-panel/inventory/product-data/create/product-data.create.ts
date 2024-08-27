@@ -23,12 +23,15 @@ import {MatButtonModule} from "@angular/material/button";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
 import {InputTextRequired} from "../../../../../../component/form/input-text-required/input-text-required";
-import {
-  Connection, DataProductSpec, Exchange,
-} from "../../../../../../model/model";
+import {Connection, DataProductSpec, Exchange} from "../../../../../../model/model";
 import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
 import {InventoryService} from "../../../../../../service/inventory.service";
 import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
+import {MatDialog} from "@angular/material/dialog";
+import {
+  PresetProductSelectorDialog
+} from "../../../../../../component/form/preset-product-selector/preset-product-selector.dialog";
+import {PresetProduct} from "../../../../../../service/presets.service";
 
 //=============================================================================
 
@@ -63,9 +66,9 @@ export class ProductDataCreatePanel extends AbstractPanel {
 
   pd = new DataProductSpec()
   connections : Connection[] = []
-  exchanges   : Exchange[]   = []
   markets     : Object = {}
   products    : Object = {}
+  exchanges   : Exchange[]   = []
 
   status = Status.Selecting
 
@@ -73,7 +76,6 @@ export class ProductDataCreatePanel extends AbstractPanel {
 
   @ViewChild("pdSymbolCtrl")   pdSymbolCtrl?   : InputTextRequired
   @ViewChild("pdNameCtrl")     pdNameCtrl?     : InputTextRequired
-  @ViewChild("pdIncremCtrl")   pdIncremCtrl?   : InputNumberRequired
   @ViewChild("pdMarketCtrl")   pdMarketCtrl?   : SelectTextRequired
   @ViewChild("pdProductCtrl")  pdProductCtrl?  : SelectTextRequired
   @ViewChild("pdExchangeCtrl") pdExchangeCtrl? : SelectTextRequired
@@ -93,6 +95,7 @@ export class ProductDataCreatePanel extends AbstractPanel {
   constructor(eventBusService          : EventBusService,
               labelService             : LabelService,
               router                   : Router,
+              public  dialog           : MatDialog,
               private inventoryService : InventoryService) {
 
     super(eventBusService, labelService, router, "inventory.dataProduct", "dataProduct");
@@ -137,8 +140,6 @@ export class ProductDataCreatePanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onConnectionChange(key: any) {
-    console.log("Selected: "+key)
-
     let conn = this.connMap.get(key)
 
     if (conn) {
@@ -160,7 +161,6 @@ export class ProductDataCreatePanel extends AbstractPanel {
     return  this.pdConnCtrl    ?.isValid() &&
             this.pdSymbolCtrl  ?.isValid() &&
             this.pdNameCtrl    ?.isValid() &&
-            this.pdIncremCtrl  ?.isValid() &&
             this.pdMarketCtrl  ?.isValid() &&
             this.pdProductCtrl ?.isValid() &&
             this.pdExchangeCtrl?.isValid()
@@ -170,7 +170,7 @@ export class ProductDataCreatePanel extends AbstractPanel {
 
   public onSave() : void {
 
-    console.log("Product for tool is : \n"+ JSON.stringify(this.pd));
+    console.log("Data product is : \n"+ JSON.stringify(this.pd));
 
     this.inventoryService.addDataProduct(this.pd).subscribe( c => {
       this.onClose();
@@ -180,9 +180,50 @@ export class ProductDataCreatePanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
+  public onPresets() : void {
+    const dialogRef = this.dialog.open(PresetProductSelectorDialog, {
+      minWidth: "1024px",
+      minHeight: "800px",
+      data: {
+      }
+    })
+
+    dialogRef.afterClosed().subscribe((pp : PresetProduct) => {
+      if (pp) {
+        this.pd.symbol      = pp.symbol
+        this.pd.name        = pp.name
+        this.pd.marketType  = pp.market
+        this.pd.productType = pp.product
+        this.pd.exchangeId  = this.getExchangeId(pp.exchange)
+      }
+    })
+  }
+
+  //-------------------------------------------------------------------------
+
   public onClose() : void {
     let event = new AppEvent(AppEvent.RIGHT_PANEL_CLOSE);
     super.emitToApp(event);
+  }
+
+  //-------------------------------------------------------------------------
+  //---
+  //--- Private methods
+  //---
+  //-------------------------------------------------------------------------
+
+  private getExchangeId(code : string) : number {
+  let id = 0
+
+    this.exchanges.forEach( ex => {
+      if (ex.code == code) {
+        if (ex.id) {
+          id = ex.id
+        }
+      }
+    })
+
+    return id
   }
 }
 

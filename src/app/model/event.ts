@@ -28,6 +28,7 @@ export class AppEvent<T = any>  {
 	static SUBMIT_START       : string = "submit.start";
 	static SUBMIT_END         : string = "submit.end";
   static LOCALIZATION_READY : string = "localization.ready";
+  static PRESETS_READY      : string = "presets.ready";
 	static LOGIN_SUCCESS      : string = "login.success";
 	static LOGIN_FAILED       : string = "login.failed";
 	static LOGOUT_SUCCESS     : string = "logout.success";

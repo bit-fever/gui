@@ -30,6 +30,7 @@ import {InventoryService} from "./app/service/inventory.service";
 import {PortfolioService} from "./app/service/portfolio.service";
 import {MatNativeDateModule} from "@angular/material/core";
 import {CollectorService} from "./app/service/collector.service";
+import {PresetsService} from "./app/service/presets.service";
 
 //=============================================================================
 
@@ -53,6 +54,7 @@ bootstrapApplication(AppComponent, {
     MenuService,
     NotificationService,
     PortfolioService,
+    PresetsService,
     SessionService,
     SystemAdapterService,
 	]

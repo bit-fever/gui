@@ -3,28 +3,24 @@
 
   <div class="form-layout">
     <select-text-required #pdConnCtrl keyField="id" valueField="name"
-                          [(key)]="pd.connectionId"
                           [label]="mod('connectionCode')"
+                          [(key)]="pd.connectionId"
                           [list]="connections"
                           (keyChange)="onConnectionChange($event)"></select-text-required>
     <br/>
     <div *ngIf="status == Status.Local">
-      <input-text-required   #pdSymbolCtrl   [label]="mod('symbol')"      [(value)]="pd.symbol"      [len]="16"></input-text-required><br/>
-      <input-text-required   #pdNameCtrl     [label]="mod('name')"        [(value)]="pd.name"        [len]="64"></input-text-required><br/>
-      <input-number-required #pdIncremCtrl   [label]="mod('increment')"   [(value)]="pd.increment"   [min]="0.00000001" [max]="1"></input-number-required><br/>
-      <select-text-required  #pdMarketCtrl   [label]="mod('marketType')"  [(key)]  ="pd.marketType"  [map]="markets"></select-text-required><br/>
-      <select-text-required  #pdProductCtrl  [label]="mod('productType')" [(key)]  ="pd.productType" [map]="products"></select-text-required><br/>
-      <select-text-required  #pdExchangeCtrl
-                            [(key)]="pd.exchangeId"
-                            [label]="mod('exchangeCode')"
-                            keyField="id" valueField="code"
-                            [list]="exchanges"></select-text-required>
+      <input-text-required   #pdSymbolCtrl   [label]="mod('symbol')"       [(value)]="pd.symbol"      [len]="16"></input-text-required><br/>
+      <input-text-required   #pdNameCtrl     [label]="mod('name')"         [(value)]="pd.name"        [len]="64"></input-text-required><br/>
+      <select-text-required  #pdMarketCtrl   [label]="mod('marketType')"   [(key)]  ="pd.marketType"  [map]="markets"></select-text-required><br/>
+      <select-text-required  #pdProductCtrl  [label]="mod('productType')"  [(key)]  ="pd.productType" [map]="products"></select-text-required><br/>
+      <select-text-required  #pdExchangeCtrl [label]="mod('exchangeCode')" [(key)]  ="pd.exchangeId"  keyField="id" valueField="code" [list]="exchanges"></select-text-required>
     </div>
   </div>
 
   <div class="buttons-layout">
     <mat-divider></mat-divider>
     <button mat-button (click)="onSave()" [disabled]="!saveEnabled()">{{button("save")}}</button>
+    <button mat-button (click)="onPresets()" [disabled]="status != Status.Local">{{button("presets")}}</button>
     <button mat-button (click)="onClose()">{{button("cancel")}}</button>
   </div>
 </div>

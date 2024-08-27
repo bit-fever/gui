@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>{{loc("title")}}</h2>
+
+<mat-dialog-content class="mat-typography">
+  <div>
+    <flex-table #table class="table-panel"
+                [columns]       = "columns"
+                [data]          = "products"
+                (onRowsSelected)="onRowSelected($event)"
+    ></flex-table>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [disabled]="disSelect" (click)="onSelect()">{{button("select")}}</button>
+  <button mat-button (click)="onCancel()">{{button("cancel")}}</button>
+</mat-dialog-actions>

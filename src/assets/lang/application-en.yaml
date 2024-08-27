@@ -22,6 +22,7 @@ button:
   chart:    CHART
   ok:       Ok
   select:   SELECT
+  presets:  PRESETS
 
 # ==============================================================================
 # ===
@@ -125,7 +126,6 @@ model:
     username       : Username
     symbol         : Symbol
     name           : Name
-    increment      : Increment
     marketType     : Market type
     productType    : Product type
     createdAt      : Created at
@@ -155,6 +155,7 @@ model:
     pointValue     : Point value
     costPerTrade   : Cost per trade
     marginValue    : Margin value
+    increment      : Increment
     marketType     : Market type
     productType    : Product type
     createdAt      : Created at
@@ -162,6 +163,18 @@ model:
     connectionCode : Connection
     currencyCode   : Currency
     exchangeCode   : Exchange
+
+  presetProduct:
+    symbol      : Symbol
+    name        : Name
+    increment   : Increment
+    market      : Market
+    product     : Product
+    exchange    : Exchange
+    pointValue  : Point value
+    costPerTrade: Cost per trade
+    margin      : Margin
+    microFuture : Micro
 
   exchange:
     code : Code
@@ -348,6 +361,8 @@ page:
   instrumentSelector:
     message: Data instrument
     title  : Data instrument selector
+  presetProductSelector:
+    title  : Products selector
 
   # ==============================================================================
 

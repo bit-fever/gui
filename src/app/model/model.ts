@@ -123,7 +123,6 @@ export class DataProductSpec {
   exchangeId?   : number
   symbol?       : string
   name?         : string
-  increment?    : number
   marketType?   : string
   productType?  : string
 }
@@ -175,6 +174,7 @@ export class BrokerProductSpec {
   pointValue?   : number
   costPerTrade? : number
   marginValue?  : number
+  increment?    : number
   marketType?   : string
   productType?  : string
 }

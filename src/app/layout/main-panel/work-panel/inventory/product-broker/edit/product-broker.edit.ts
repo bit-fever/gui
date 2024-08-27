@@ -72,6 +72,7 @@ export class ProductBrokerEditPanel extends AbstractPanel {
   @ViewChild("pbPointValueCtrl")   pbPointValueCtrl?   : InputNumberRequired
   @ViewChild("pbCostPerTradeCtrl") pbCostPerTradeCtrl? : InputNumberRequired
   @ViewChild("pbMarginValueCtrl")  pbMarginValueCtrl?  : InputNumberRequired
+  @ViewChild("pbIncrementCtrl")    pbIncrementCtrl?    : InputNumberRequired
   @ViewChild("pbMarketCtrl")       pbMarketCtrl?       : SelectTextRequired
   @ViewChild("pbProductCtrl")      pbProductCtrl?      : SelectTextRequired
   @ViewChild("pbExchangeCtrl")     pbExchangeCtrl?     : SelectTextRequired
@@ -117,6 +118,7 @@ export class ProductBrokerEditPanel extends AbstractPanel {
             this.pbPointValueCtrl  ?.isValid() &&
             this.pbCostPerTradeCtrl?.isValid() &&
             this.pbMarginValueCtrl ?.isValid() &&
+            this.pbIncrementCtrl   ?.isValid() &&
             this.pbMarketCtrl      ?.isValid() &&
             this.pbProductCtrl     ?.isValid() &&
             this.pbExchangeCtrl    ?.isValid()

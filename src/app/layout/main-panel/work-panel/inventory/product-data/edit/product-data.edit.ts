@@ -60,7 +60,6 @@ export class ProductDataEditPanel extends AbstractPanel {
   //---  - exchange: its timezone is used to convert the timestamp of tool
 
   @ViewChild("pdNameCtrl")     pdNameCtrl?     : InputTextRequired
-  @ViewChild("pdIncremCtrl")   pdIncremCtrl?   : InputNumberRequired
   @ViewChild("pdMarketCtrl")   pdMarketCtrl?   : SelectTextRequired
   @ViewChild("pdProductCtrl")  pdProductCtrl?  : SelectTextRequired
 
@@ -97,7 +96,6 @@ export class ProductDataEditPanel extends AbstractPanel {
 
   public saveEnabled() : boolean|undefined {
     return  this.pdNameCtrl    ?.isValid() &&
-            this.pdIncremCtrl  ?.isValid() &&
             this.pdMarketCtrl  ?.isValid() &&
             this.pdProductCtrl ?.isValid()
   }
