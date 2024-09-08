@@ -38,8 +38,14 @@ import {
 import {
   DataInstrumentChartPanel
 } from "./app/layout/main-panel/work-panel/inventory/product-data/view/chart/instrument-data.chart";
-import {BiasAnalysisPanel} from "./app/layout/main-panel/work-panel/tool/bias-analysis/bias-analysis.panel";
 import {InvDataProductPanel} from "./app/layout/main-panel/work-panel/inventory/product-data/product-data.list";
+import {BiasAnalisysListPanel} from "./app/layout/main-panel/work-panel/tool/bias-analysis/bias-analisys.list";
+import {
+  BiasAnalysisCreatePanel
+} from "./app/layout/main-panel/work-panel/tool/bias-analysis/create/bias-analysis.create";
+import {BiasAnalysisEditPanel} from "./app/layout/main-panel/work-panel/tool/bias-analysis/edit/bias-analysis.edit";
+import { BiasAnalysisPlaygroundPanel
+} from "./app/layout/main-panel/work-panel/tool/bias-analysis/analyze/bias-analysis.playground";
 
 //=============================================================================
 
@@ -54,7 +60,7 @@ export const routes: Routes = [
   { path: Url.Inventory_DataProducts_Id,          component: InvDataProductViewPanel  },
   { path: Url.Inventory_DataProducts_Id, children : [
       { path: Url.Sub_Chart, component:  DataInstrumentChartPanel }
-    ]},
+  ]},
 
   { path: Url.Right_DataProduct_Create,           component: ProductDataCreatePanel,   outlet : 'right' },
   { path: Url.Right_DataProduct_Edit,             component: ProductDataEditPanel,     outlet : 'right' },
@@ -76,7 +82,12 @@ export const routes: Routes = [
 
   //--- Tool
 
-  { path: Url.Tool_BiasAnalyzer,                  component: BiasAnalysisPanel               },
+  { path: Url.Tool_BiasAnalyses,                  component: BiasAnalisysListPanel           },
+  { path: Url.Right_BiasAnalysis_Create,          component: BiasAnalysisCreatePanel, outlet : 'right' },
+  { path: Url.Right_BiasAnalysis_Edit,            component: BiasAnalysisEditPanel,   outlet : 'right' },
+  { path: Url.Tool_BiasAnalyses_Id, children : [
+      { path: Url.Sub_Summary, component:  BiasAnalysisPlaygroundPanel }
+    ]},
 
   //--- Admin
 

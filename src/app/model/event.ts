@@ -54,6 +54,10 @@ export class AppEvent<T = any>  {
   static BROKERPRODUCT_LIST_RELOAD : string = "brokerProduct.list.reload";
   static BROKERPRODUCT_CREATE_START: string = "brokerProduct.create.start";
   static BROKERPRODUCT_EDIT_START  : string = "brokerProduct.edit.start";
+
+  static BIASANALYSIS_LIST_RELOAD  : string = "biasAnalysis.list.reload";
+  static BIASANALYSIS_CREATE_START : string = "biasAnalysis.create.start";
+  static BIASANALYSIS_EDIT_START   : string = "biasAnalysis.edit.start";
 }
 
 //=============================================================================

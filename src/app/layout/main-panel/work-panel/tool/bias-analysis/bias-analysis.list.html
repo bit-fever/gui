@@ -1,0 +1,18 @@
+<div class="main-panel">
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <div>
+    <button mat-button (click)="onCreateClick()"  [disabled]="disCreate">{{button("create")}}</button>
+    <button mat-button (click)="onViewClick()"    [disabled]="disView">{{button("view")}}</button>
+    <button mat-button (click)="onEditClick()"    [disabled]="disEdit">{{button("edit")}}</button>
+    <button mat-button (click)="onAnalyzeClick()" [disabled]="disAnal">{{button("analyze")}}</button>
+  </div>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <flex-table #table class="table-panel"
+              [columns]     = "columns"
+              [dataProvider]= "service"
+              (onRowsSelected)="onRowSelected($event)"
+  ></flex-table>
+</div>

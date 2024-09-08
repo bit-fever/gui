@@ -7,56 +7,69 @@
 //=============================================================================
 
 import {Component, ViewChild} from '@angular/core';
-import {CommonModule}         from "@angular/common";
-import {MatIcon, MatIconModule} from "@angular/material/icon";
-import {MatButton, MatButtonModule, MatFabButton, MatIconButton, MatMiniFabButton} from "@angular/material/button";
-import {
-  BiasSummaryResponse,
-  DataPointDowList,
-  DataPointEntry,
-  DataInstrumentFull,
-  BrokerProduct
-} from "../../../../../model/model";
-import {AbstractPanel}        from "../../../../../component/abstract.panel";
-import {LabelService}         from "../../../../../service/label.service";
-import {EventBusService}      from "../../../../../service/eventbus.service";
-import {Router} from "@angular/router";
-import {InventoryService} from "../../../../../service/inventory.service";
-import {InstrumentSelectorPanel} from "../../../../../component/form/instrument-selector/instrument-selector.panel";
-import {CollectorService} from "../../../../../service/collector.service";
+import {CommonModule} from "@angular/common";
+import {MatIcon} from "@angular/material/icon";
+import {MatButton, MatFabButton, MatIconButton, MatMiniFabButton} from "@angular/material/button";
+import {ActivatedRoute, Router} from "@angular/router";
 import {
   ApexAxisChartSeries,
-  ApexChart, ApexDataLabels,
-  ApexOptions,
-  ApexPlotOptions, ApexXAxis,
+  ApexChart,
+  ApexDataLabels,
+  ApexPlotOptions,
+  ApexXAxis,
   NgApexchartsModule
 } from "ng-apexcharts";
 import {
   MatChipGrid,
   MatChipInput,
   MatChipListbox,
-  MatChipOption, MatChipRemove, MatChipRow,
+  MatChipOption,
+  MatChipRemove,
+  MatChipRow,
   MatChipSelectionChange
 } from "@angular/material/chips";
-import {SelectTextRequired} from "../../../../../component/form/select-required/select-text-required";
-import {ChipSetTextComponent} from "../../../../../component/form/chip-text-set/chip-set-text";
 import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
+import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
+import {AbstractPanel} from "../../../../../../component/abstract.panel";
+import {
+  BiasConfig,
+  BiasSummaryResponse, BrokerProduct,
+  DataPointDowList,
+  DataPointEntry,
+  DataPointSlotList,
+} from "../../../../../../model/model";
+import {EventBusService} from "../../../../../../service/eventbus.service";
+import {LabelService} from "../../../../../../service/label.service";
+import {InventoryService} from "../../../../../../service/inventory.service";
+import {CollectorService} from "../../../../../../service/collector.service";
+import {ChipSetTextComponent} from "../../../../../../component/form/chip-text-set/chip-set-text";
+import {MatTab, MatTabGroup} from "@angular/material/tabs";
+import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
+import {MatTooltip} from "@angular/material/tooltip";
+import {FlexTablePanel} from "../../../../../../component/panel/flex-table/flex-table.panel";
+import {FlexTableColumn, ListResponse, ListService, Transcoder} from "../../../../../../model/flex-table";
+import {Observable} from "rxjs";
+import {ListLabelTranscoder, OperationTranscoder} from "../../../../../../component/panel/flex-table/transcoders";
+import {MatGridListModule} from "@angular/material/grid-list";
 
 //=============================================================================
 
 @Component({
   selector    :     'bias-analyzer',
-  templateUrl :   './bias-analysis.panel.html',
-  styleUrls   : [ './bias-analysis.panel.scss' ],
-  imports: [CommonModule, InstrumentSelectorPanel, MatButton, MatIcon, MatFabButton, NgApexchartsModule, MatChipListbox, MatChipOption, SelectTextRequired, MatMiniFabButton, ChipSetTextComponent, MatChipGrid, MatChipInput, MatChipRemove, MatChipRow, MatFormField, MatLabel, MatError, MatIconButton, MatInput, MatSuffix, ReactiveFormsModule],
+  templateUrl :   './bias-analysis.playground.html',
+  styleUrls   : [ './bias-analysis.playground.scss' ],
+  imports: [CommonModule, MatButton, MatIcon, MatFabButton, NgApexchartsModule, MatChipListbox, MatChipOption, SelectTextRequired,
+    MatMiniFabButton, ChipSetTextComponent, MatChipGrid, MatChipInput, MatChipRemove, MatChipRow, MatFormField, MatLabel,
+    MatError, MatIconButton, MatInput, MatSuffix, ReactiveFormsModule, MatTabGroup, MatTab, MatButtonToggle, MatButtonToggleGroup, MatTooltip, FlexTablePanel,
+    MatGridListModule],
   standalone  : true
 })
 
 //=============================================================================
 
-export class BiasAnalysisPanel extends AbstractPanel {
+export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
   //---
@@ -64,19 +77,32 @@ export class BiasAnalysisPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  currIdf   : DataInstrumentFull = {}
-  brokers   : BrokerProduct[] = []
+  baId : number = 0
+
   showLabels: boolean = false
+  showProfit: boolean = false
 
-  selBroker?: BrokerProduct
-  result    : BiasSummaryResponse = { result: [] }
+  result    : BiasSummaryResponse = new BiasSummaryResponse()
 
-  brokersMap : Map<number, BrokerProduct> = new Map()
   selMonths  : boolean[] = [ true, true, true, true, true, true, true, true, true, true, true, true ]
   excludedSet: string[] = []
 
-  startPeriod : string = ""
-  endPeriod   : string = ""
+  selSlot?   : SelectedSlot
+  startSlot? : SelectedSlot
+  endSlot?   : SelectedSlot
+
+  selRangeProfit? : Profit
+
+  dowList : string[] = []
+
+  //--- Configs -------------------------------------------
+
+  selConfigs?:BiasConfig[]
+  columns    : FlexTableColumn[] = [];
+  service    : ListService<BiasConfig>;
+
+  @ViewChild("configsTable")
+  configsTable : FlexTablePanel | undefined
 
   //-------------------------------------------------------------------------
   //---
@@ -87,30 +113,15 @@ export class BiasAnalysisPanel extends AbstractPanel {
   constructor(eventBusService         : EventBusService,
               labelService            : LabelService,
               router                  : Router,
+              private route           : ActivatedRoute,
               private inventoryService: InventoryService,
               private collectorService: CollectorService) {
 
     super(eventBusService, labelService, router, "tool.biasAnalysis");
 
-    this.inventoryService.getBrokerProducts(true).subscribe( result => {
-      this.brokers = result.result
-      this.brokersMap = new Map()
-      this.brokers.forEach( pb => {
-        if (pb.id != null) {
-          this.brokersMap.set(pb.id, pb)
-          pb.name = pb.name +" ("+pb.pointValue +" "+ pb.currencyCode +")"
-        }
-      })
-    })
+    this.dowList = this.labelService.getLabel("list.dowShort")
+    this.service = this.getBiasConfigs
   }
-
-  //-------------------------------------------------------------------------
-  //---
-  //--- Public methods
-  //---
-  //-------------------------------------------------------------------------
-
-  override init = () : void => {}
 
   //-------------------------------------------------------------------------
   //---
@@ -118,17 +129,49 @@ export class BiasAnalysisPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  onInstrumentSelected(idf : DataInstrumentFull) {
-    this.currIdf= idf
-
-    if (this.currIdf?.id) {
-      this.collectorService.getBiasSummary(this.currIdf.id).subscribe( result => {
-        this.result = result
-        this.options.series = this.setupSeries(result, this.selMonths, this.excludedSet)
-      })
-    }
+  override init = () : void => {
+    this.baId = Number(this.route.snapshot.paramMap.get("id"));
+    this.reloadBiasAnalysis()
+    this.setupColumns()
   }
 
+  //-------------------------------------------------------------------------
+
+  setupColumns = () => {
+    let ts = this.labelService.getLabel("model.biasConfig");
+
+    this.columns = [
+      new FlexTableColumn(ts, "startDay",   new ListLabelTranscoder(this.labelService, "list.dowLong")),
+      new FlexTableColumn(ts, "startSlot",  new SlotTranscoder()),
+      new FlexTableColumn(ts, "endDay",     new ListLabelTranscoder(this.labelService, "list.dowLong")),
+      new FlexTableColumn(ts, "endSlot",    new SlotTranscoder()),
+      new FlexTableColumn(ts, "months",     new MonthsTranscoder(this.labelService)),
+      new FlexTableColumn(ts, "excludes"),
+      new FlexTableColumn(ts, "operation",  new OperationTranscoder(this.labelService)),
+      new FlexTableColumn(ts, "grossProfit",new MoneyTranscoder(this)),
+      new FlexTableColumn(ts, "netProfit",  new MoneyTranscoder(this)),
+    ]
+  }
+
+  //-------------------------------------------------------------------------
+
+  private getBiasConfigs = (): Observable<ListResponse<BiasConfig>> => {
+    return this.collectorService.getBiasConfigsByAnalysisId(this.baId)
+  }
+
+  //-------------------------------------------------------------------------
+
+  private reloadBiasAnalysis() {
+    this.collectorService.getBiasSummary(this.baId).subscribe( result => {
+      this.result = result
+      this.options.series = this.setupSeries(this.result, this.selMonths, this.excludedSet)
+    })
+  }
+
+  //-------------------------------------------------------------------------
+  //---
+  //--- Event methods
+  //---
   //-------------------------------------------------------------------------
 
   onLabelsChange(e: MatChipSelectionChange) {
@@ -146,8 +189,8 @@ export class BiasAnalysisPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  onBrokerChange(key: number) {
-    this.selBroker = this.brokersMap.get(key)
+  onProfitChange(e: MatChipSelectionChange) {
+    this.showProfit = e.selected
     this.options.series = this.setupSeries(this.result, this.selMonths, this.excludedSet)
   }
 
@@ -161,12 +204,9 @@ export class BiasAnalysisPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onChartClick = (e: any, chart?: any, options?: any) => {
-    let serieIndex : number = options.seriesIndex
-    let pointIndex : number = options.dataPointIndex
+    this.selSlot = new SelectedSlot(6-options.seriesIndex, options.dataPointIndex, this.dowList[6-options.seriesIndex])
 
-    console.log("Heatmap cell clicked: serie=", serieIndex, " point=", pointIndex)
-
-    let entries = this.result.result[6-serieIndex].slots[pointIndex].list
+    let entries = this.result.result[this.selSlot.dayIndex].slots[this.selSlot.slotIndex].list
     this.buildBarChart(entries)
   }
 
@@ -213,10 +253,101 @@ export class BiasAnalysisPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onExcludedChange(excludes : string[]) {
-    console.log("EXCLUDED CHANGED: ", excludes)
     this.options.series = this.setupSeries(this.result, this.selMonths, this.excludedSet)
   }
 
+  //-------------------------------------------------------------------------
+  //---
+  //--- Strategy methods
+  //---
+  //-------------------------------------------------------------------------
+
+  onSetStart() {
+    this.startSlot = this.selSlot
+    this.updateRangeProfit()
+  }
+
+  //-------------------------------------------------------------------------
+
+  onSetEnd() {
+    this.endSlot = this.selSlot
+    this.updateRangeProfit()
+  }
+
+  //-------------------------------------------------------------------------
+
+  onCreateClick() {
+    let bc = this.createBiasConfig()
+    this.collectorService.addBiasConfig(this.baId, bc).subscribe( res => {
+      this.configsTable?.reload()
+    })
+  }
+
+  //-------------------------------------------------------------------------
+
+  onReplaceClick() {
+    let bc = this.createBiasConfig()
+
+    if (this.selConfigs != undefined) {
+      bc.id = this.selConfigs[0].id
+    }
+
+    this.collectorService.updateBiasConfig(this.baId, bc).subscribe( res => {
+      this.configsTable?.reload()
+    })
+  }
+
+  //-------------------------------------------------------------------------
+
+  onDeleteClick() {
+    if (this.selConfigs != undefined) {
+      this.selConfigs.forEach( bc => {
+        // @ts-ignore
+        this.collectorService.deleteBiasConfig(this.baId, bc.id).subscribe( res => {
+          this.configsTable?.reload()
+        })
+      })
+    }
+  }
+
+  //-------------------------------------------------------------------------
+
+  onBacktestClick() {
+    alert("Work in progress...")
+  }
+
+  //-------------------------------------------------------------------------
+
+  onConfigSelected(selection : BiasConfig[]) {
+    this.selConfigs = selection
+  }
+
+  //-------------------------------------------------------------------------
+
+  isCreateEnabled() : boolean {
+    return this.startSlot != undefined && this.endSlot != undefined
+  }
+
+  //-------------------------------------------------------------------------
+
+  isReplaceEnabled() : boolean {
+    if (this.selConfigs != undefined && this.selConfigs.length == 1) {
+      return this.isCreateEnabled()
+    }
+
+    return false
+  }
+
+  //-------------------------------------------------------------------------
+
+  isDeleteEnabled = () : boolean => {
+    return (this.selConfigs != undefined && this.selConfigs.length > 0)
+  }
+
+  //-------------------------------------------------------------------------
+  //---
+  //--- Other methods
+  //---
   //-------------------------------------------------------------------------
 
   validator(value : string) : boolean {
@@ -243,25 +374,122 @@ export class BiasAnalysisPanel extends AbstractPanel {
   }
 
   //-------------------------------------------------------------------------
-
-  onSetStart() {
-
-  }
-
-  //-------------------------------------------------------------------------
-
-  onSetEnd() {
-
-  }
-
-  //-------------------------------------------------------------------------
   //---
   //--- Private methods
   //---
   //-------------------------------------------------------------------------
 
+  private updateRangeProfit() {
+    if (this.startSlot && this.endSlot) {
+      this.selRangeProfit = this.calcRangeNetProfit()
+      this.selRangeProfit.gross = Math.abs(this.selRangeProfit.gross)
+    }
+  }
+
+  //-------------------------------------------------------------------------
+
+  private createBiasConfig() : BiasConfig {
+    let bc = new BiasConfig()
+
+    bc.startDay = this.startSlot?.dayIndex
+    bc.startSlot= this.startSlot?.slotIndex
+    bc.endDay   = this.endSlot?.dayIndex
+    bc.endSlot  = this.endSlot?.slotIndex
+    bc.months   = this.selMonths
+    bc.excludes = this.excludedSet
+
+    let profit = this.calcRangeNetProfit()
+    bc.grossProfit = profit.gross
+    bc.netProfit   = profit.net
+    bc.operation   = profit.operation
+
+    return bc
+  }
+
+  //-------------------------------------------------------------------------
+
+  private calcRangeNetProfit = () : Profit => {
+    // @ts-ignore
+    let startDay = this.startSlot.dayIndex
+    // @ts-ignore
+    let startSlot= this.startSlot.slotIndex
+    // @ts-ignore
+    let endDay   = this.endSlot.dayIndex
+    // @ts-ignore
+    let endSlot     = this.endSlot.slotIndex
+    let grossProfit = this.calcGrossProfit(startDay, startSlot)
+    let length      = this.calcLength(startDay, startSlot)
+    let count       = 1
+
+    while (startDay != endDay || startSlot != endSlot) {
+      if (++startSlot == 48) {
+        startSlot = 0
+        startDay  = (startDay +1) % 7
+      }
+
+      count++
+      grossProfit += this.calcGrossProfit(startDay, startSlot)
+    }
+
+    let profit = new Profit()
+    profit.gross = Math.trunc(grossProfit)
+
+    if (grossProfit < 0) {
+      profit.gross *= -1
+      profit.operation = 1
+    }
+
+    // @ts-ignore
+    profit.net      = Math.trunc(profit.gross - 2 * this.result.brokerProduct.costPerTrade * length)
+    profit.avgGross = Math.round(profit.gross / length * 100) / 100
+    profit.avgNet   = Math.round(profit.net   / length * 100) / 100
+
+    return profit
+  }
+
+  //-------------------------------------------------------------------------
+
+  private calcGrossProfit(dayIndex : number, slotIndex:number) : number {
+    let profit  = 0
+    let dowList = this.result.result[dayIndex]
+
+    if (dowList != null) {
+      let slotList = dowList.slots[slotIndex]
+
+      if (slotList != null) {
+        let list    = slotList.list
+        let exclSet = new ExcludedSet(this.excludedSet)
+
+        list.forEach( dpe => {
+          if (this.selMonths[dpe.month -1] && !exclSet.shouldBeExcluded(dpe)) {
+            // @ts-ignore
+            profit += dpe.delta * this.result.brokerProduct.pointValue
+          }
+        })
+      }
+    }
+
+    return profit
+  }
+
+  //-------------------------------------------------------------------------
+
+  private calcLength(dayIndex : number, slotIndex:number) : number {
+    let dowList = this.result.result[dayIndex]
+    if (dowList != null) {
+      let slotList = dowList.slots[slotIndex]
+      if (slotList != null) {
+        return slotList.list.length
+      }
+    }
+
+    return 0
+  }
+
+  //-------------------------------------------------------------------------
+
   private setupSeries(result : BiasSummaryResponse|null, months : boolean[], excludes : string[]) : any {
-    if (result == undefined || this.selBroker == undefined) {
+    if (result == undefined) {
       return []
     }
 
@@ -296,7 +524,7 @@ export class BiasAnalysisPanel extends AbstractPanel {
         if (dpsl != null) {
           dpsl.list.forEach(dpe => {
             if (months[dpe.month -1] && !exclSet.shouldBeExcluded(dpe)) { // @ts-ignore
-              delta += dpe.delta * this.selBroker?.pointValue
+              delta += this.calcDelta(dpe)
             }
           })
         }
@@ -436,30 +664,27 @@ export class BiasAnalysisPanel extends AbstractPanel {
       }
     }
     else {
+      this.selSlot           = undefined
       this.barOptions.series = []
     }
   }
 
   //-------------------------------------------------------------------------
 
-  private calcDelta(e : DataPointEntry) : number {
-    // @ts-ignore
-    return e.delta * this.selBroker?.pointValue
+  private calcDelta(dpe : DataPointEntry) : number {
+    if (this.showProfit) {
+      // @ts-ignore
+      return dpe.delta * this.result.brokerProduct.pointValue
+    }
+    else {
+      return dpe.delta
+    }
   }
 
   //-------------------------------------------------------------------------
   //---
   //--- Chart spec
   //---
-  //-------------------------------------------------------------------------
-
-  categories = [
-    "00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00", "04:30", "05:00", "05:30",
-    "06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
-    "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30",
-    "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"
-  ]
-
   //-------------------------------------------------------------------------
 
   options = {
@@ -486,7 +711,7 @@ export class BiasAnalysisPanel extends AbstractPanel {
     plotOptions: {},
 
     xaxis: {
-      categories: this.categories
+      categories: categories
     },
 
     legend: {
@@ -607,6 +832,75 @@ class ExcludedSet {
 
     return shouldExclude
   }
+}
+
+//=============================================================================
+
+class Profit {
+  gross     : number = 0
+  net       : number = 0
+  avgGross  : number = 0
+  avgNet    : number = 0
+  operation : number = 0
+}
+
+//=============================================================================
+
+class SelectedSlot {
+  dayIndex  : number = -1
+  slotIndex : number = -1
+  period    : string = ""
+
+  constructor(day : number, slot : number, dow : string) {
+    this.dayIndex  = day
+    this.slotIndex = slot
+    this.period = dow +" "+ categories[slot]
+  }
+}
+
+//=============================================================================
+
+let categories = [
+  "00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00", "04:30", "05:00", "05:30",
+  "06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
+  "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30",
+  "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"
+]
+
+//=============================================================================
+
+class SlotTranscoder implements Transcoder {
+  transcode(value: number, row?: any): string {
+    return categories[value]
+  }
+}
+
+//=============================================================================
+
+class MonthsTranscoder implements Transcoder {
+  transcode(value: boolean[], row?: any): string {
+    let res : string[] = []
+
+    for (let i=0; i<12; i++) {
+      if (value[i]) {
+        res = [...res, this.labelService.getLabel("list.monShort")[i] ]
+      }
+    }
+
+    return res.join("  -  ")
+  }
+
+  constructor(private labelService:LabelService) {}
+}
+
+//=============================================================================
+
+class MoneyTranscoder implements Transcoder {
+  transcode(value: number, row?: any): string {
+    return value +" "+ this.outer.result.brokerProduct.currencyCode
+  }
+
+  constructor(private outer:BiasAnalysisPlaygroundPanel) {}
 }
 
 //=============================================================================

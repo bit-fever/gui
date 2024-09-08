@@ -150,6 +150,11 @@ export class DataInstrument {
 
 //=============================================================================
 
+export class DataInstrumentExt extends DataInstrument {
+}
+
+//=============================================================================
+
 export class DataInstrumentFull extends DataInstrument {
   productSymbol?  : string
   systemCode?     : string
@@ -507,9 +512,52 @@ export class DataInstrumentDataResponse {
 }
 
 //=============================================================================
+//===
+//=== Bias analysis
+//===
+//=============================================================================
+
+export class BiasAnalysis {
+  id?               : number
+  username?         : string
+  dataInstrumentId? : number
+  brokerProductId?  : number
+  name?             : string
+  notes?            : string
+  createdAt?        : string
+  updatedAt?        : string
+}
+
+//=============================================================================
+
+export class BiasAnalysisFull extends BiasAnalysis {
+  dataSymbol?   : string
+  dataName?     : string
+  brokerSymbol? : string
+  brokerName?   : string
+}
+
+//=============================================================================
+
+export class BiasConfig {
+  id?         : number
+  startDay?   : number
+  startSlot?  : number
+  endDay?     : number
+  endSlot?    : number
+  months?     : boolean[]
+  excludes?   : string[]
+  operation?  : number
+  grossProfit?: number
+  netProfit?  : number
+}
+
+//=============================================================================
 
 export class BiasSummaryResponse {
-  result : DataPointDowList[] = []
+  biasAnalysis  : BiasAnalysis = {}
+  brokerProduct : BrokerProduct = {}
+  result        : DataPointDowList[] = []
 }
 
 //-----------------------------------------------------------------------------

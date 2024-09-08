@@ -1,0 +1,141 @@
+<div class="main-layout">
+  <div class="options-layout">
+      <mat-chip-listbox [multiple]="true" class="chips-style">
+        <mat-chip-option (selectionChange)="onMonthChange($event, 0)"  [selected]="selMonths[0]" >{{map("months", "jan")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 1)"  [selected]="selMonths[1]" >{{map("months", "feb")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 2)"  [selected]="selMonths[2]" >{{map("months", "mar")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 3)"  [selected]="selMonths[3]" >{{map("months", "apr")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 4)"  [selected]="selMonths[4]" >{{map("months", "may")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 5)"  [selected]="selMonths[5]" >{{map("months", "jun")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 6)"  [selected]="selMonths[6]" >{{map("months", "jul")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 7)"  [selected]="selMonths[7]" >{{map("months", "aug")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 8)"  [selected]="selMonths[8]" >{{map("months", "sep")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 9)"  [selected]="selMonths[9]" >{{map("months", "oct")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 10)" [selected]="selMonths[10]">{{map("months", "nov")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onMonthChange($event, 11)" [selected]="selMonths[11]">{{map("months", "dec")}}</mat-chip-option>
+      </mat-chip-listbox>
+
+      <button mat-icon-button (click)="onMonthLeft()">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+
+      <button mat-icon-button (click)="onMonthToggle()">
+        <mat-icon>import_export</mat-icon>
+      </button>
+
+      <button mat-icon-button (click)="onMonthRight()">
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+
+      <chip-set-text class="chipset-style"
+                     [title]="loc('exclPeriods')"
+                     [label]="loc('periodFormat')"
+                     [validator]="validator"
+                     [(items)]="excludedSet"
+                     (itemsChange)="onExcludedChange($event)"></chip-set-text>
+  </div>
+
+  <!-- ========================================================================================= -->
+
+  <div class="options-layout">
+    <mat-chip-listbox [multiple]="true">
+      <mat-chip-option (selectionChange)="onLabelsChange($event)" [selected]="showLabels">{{loc("labels")}}</mat-chip-option>
+      <mat-chip-option (selectionChange)="onProfitChange($event)" [selected]="showProfit">{{loc("profit")}}</mat-chip-option>
+    </mat-chip-listbox>
+
+    <span class="spacer-layout"></span>
+
+    <div class="selection-layout">
+      <span>{{loc('selection')}} : </span>
+      <span><b>{{selSlot?.period}}</b></span>
+    </div>
+  </div>
+
+  <!-- ========================================================================================= -->
+
+  <div class="chart-layout">
+    <apx-chart
+      [chart]      = "options.chart"
+      [series]     = "options.series"
+      [dataLabels] = "options.dataLabels"
+      [plotOptions]= "options.plotOptions"
+      [xaxis]      = "options.xaxis"
+      [legend]     = "options.legend"
+    ></apx-chart>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <mat-tab-group>
+      <mat-tab label="{{loc('tabDetails')}}">
+        <apx-chart
+          [chart]      = "barOptions.chart"
+          [series]     = "barOptions.series"
+          [dataLabels] = "barOptions.dataLabels"
+          [plotOptions]= "barOptions.plotOptions"
+          [xaxis]      = "barOptions.xaxis"
+        ></apx-chart>
+      </mat-tab>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <mat-tab label="{{loc('tabStrategy')}}">
+        <div class="strategy-layout">
+          <div class="strategy-left-layout">
+            <mat-form-field>
+              <mat-label>{{loc('startPeriod')}}</mat-label>
+              <input matInput type="text" [value]="startSlot?.period" [disabled]="true">
+              <button matSuffix mat-icon-button (click)="onSetStart()" [disabled]="!selSlot">
+                <mat-icon>first_page</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>{{loc('endPeriod')}}</mat-label>
+              <input matInput type="text" [value]="endSlot?.period" [disabled]="true">
+              <button matSuffix mat-icon-button (click)="onSetEnd()" [disabled]="!selSlot">
+                <mat-icon>last_page</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <table class="range-layout" *ngIf="selRangeProfit">
+              <tr>
+                <th></th>
+                <th class="header-style">{{loc('gross')}}</th>
+                <th class="header-style">{{loc('net')}}</th>
+                <th></th>
+              </tr>
+              <tr>
+                <td class="label-style">{{loc('profit')}}</td>
+                <td class="value-style">{{selRangeProfit.gross}}</td>
+                <td class="value-style">{{selRangeProfit.net}}</td>
+                <td class="money-style">{{result.brokerProduct.currencyCode}}</td>
+              </tr>
+              <tr>
+                <td class="label-style">{{loc('avgTrade')}}</td>
+                <td class="value-style">{{selRangeProfit.avgGross}}</td>
+                <td class="value-style">{{selRangeProfit.avgNet}}</td>
+                <td class="money-style">{{result.brokerProduct.currencyCode}}</td>
+              </tr>
+            </table>
+
+          </div>
+
+          <div class="strategy-work-layout">
+            <div>
+              <button mat-button (click)="onCreateClick()"  [disabled]="!isCreateEnabled()"  >{{button("create")}}</button>
+              <button mat-button (click)="onReplaceClick()" [disabled]="!isReplaceEnabled()" >{{button("replace")}}</button>
+              <button mat-button (click)="onDeleteClick()"  [disabled]="!isDeleteEnabled()"  >{{button("delete")}}</button>
+            </div>
+
+            <flex-table #configsTable class="table-panel"
+                        [columns]       = "columns"
+                        [dataProvider]  = "service"
+                        (onRowsSelected)="onConfigSelected($event)"
+            ></flex-table>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+</div>

@@ -57,6 +57,28 @@ export class LabelTranscoder implements Transcoder {
 }
 
 //=============================================================================
+
+export class ListLabelTranscoder implements Transcoder {
+  constructor(private labelService: LabelService, private base:string) {
+  }
+  transcode(value: number, row?: any): string {
+    return this.labelService.getLabel(this.base)[value]
+  }
+}
+
+//=============================================================================
+
+export class OperationTranscoder implements Transcoder {
+  transcode(value: number, row?: any): string {
+    return value == 0
+      ? this.labelService.getLabel("map.operation.long")
+      : this.labelService.getLabel("map.operation.short")
+  }
+
+  constructor(private labelService:LabelService) {}
+}
+
+//=============================================================================
 //===
 //=== Icon stylers
 //===

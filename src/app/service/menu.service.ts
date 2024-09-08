@@ -113,8 +113,8 @@ export class MenuService extends AbstractSubscriber {
       },
       {
         id: 'menu.tool.bias-analyzer',
-        label: this.get('tool.biasAnalyzer'),
-        route: Url.Tool_BiasAnalyzer,
+        label: this.get('tool.biasAnalyses'),
+        route: Url.Tool_BiasAnalyses,
         iconClasses: 'query_stats'
       },
 

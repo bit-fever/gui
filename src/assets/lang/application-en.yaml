@@ -8,6 +8,7 @@ button:
   create:   CREATE
   view:     VIEW
   edit:     EDIT
+  delete:   DELETE
   filter:   FILTER
   save:     SAVE
   run:      RUN
@@ -23,6 +24,9 @@ button:
   ok:       Ok
   select:   SELECT
   presets:  PRESETS
+  analyze:  ANALYZE
+  replace:  REPLACE
+  backtest: BACKTEST
 
 # ==============================================================================
 # ===
@@ -45,7 +49,7 @@ menu:
     monitoring   : Monitoring
   tool:
     _label: Tool
-    biasAnalyzer: Bias analysis
+    biasAnalyses: Bias analyses
 
   admin:
     _label: Administration
@@ -175,6 +179,27 @@ model:
     costPerTrade: Cost per trade
     margin      : Margin
     microFuture : Micro
+
+  biasAnalysis:
+    username       : Username
+    name           : Name
+    notes          : Notes
+    dataSymbol     : Data symbol
+    dataName       : Data name
+    brokerSymbol   : Broken symbol
+    brokerName     : Broker name
+    brokerProductId: Broker product
+
+  biasConfig:
+    startDay   : Start day
+    startSlot  : Start slot
+    endDay     : End day
+    endSlot    : End slot
+    months     : Months
+    excludes   : Excludes
+    operation  : Operation
+    grossProfit: Gross profit
+    netProfit  : Net profit
 
   exchange:
     code : Code
@@ -368,12 +393,22 @@ page:
 
   tool:
     biasAnalysis:
+      new:   New bias analysis
+      edit:  Edit bias analysis
+      selection   : Selection
+      delta       : Delta
       labels      : Labels
+      profit      : Profit
       pointValue  : Point value
       exclPeriods : Excluded periods
       periodFormat: Format is YEAR or YEAR-MONTH (like 2020-3)
       startPeriod : Start period
       endPeriod   : End period
+      tabDetails  : Details
+      tabStrategy : Strategy
+      gross       : Gross
+      net         : Net
+      avgTrade    : Avg trade
 
   # ==============================================================================
 
@@ -447,6 +482,17 @@ map:
     oct: October
     nov: November
     dec: December
+
+  operation:
+    long : Long
+    short: Short
+
+# ==============================================================================
+
+list:
+  dowShort: [ Sun, Mon, Tue, Wed, Thu, Fri, Sat ]
+  dowLong : [ Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday ]
+  monShort: [ Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec ]
 
 # ==============================================================================
 # ===

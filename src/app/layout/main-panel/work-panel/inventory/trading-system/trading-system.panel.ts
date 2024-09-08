@@ -70,6 +70,7 @@ export class InvTradingSystemPanel extends AbstractPanel {
 
     eventBusService.subscribeToApp(AppEvent.TRADINGSYSTEM_LIST_RELOAD, () => {
       this.table?.reload()
+      this.updateButtons([])
     })
   }
 
@@ -82,6 +83,7 @@ export class InvTradingSystemPanel extends AbstractPanel {
   private getTradingSystemsFull = (): Observable<ListResponse<InvTradingSystemFull>> => {
     return this.inventoryService.getTradingSystems(true);
   }
+
   //-------------------------------------------------------------------------
 
   override init = () : void => {

@@ -12,57 +12,29 @@
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: stretch;
-  gap: 0;
-  height  : 100%;
+  gap: 8px;
+  height   : 100%;
   overflow: hidden;
 }
 
 //=============================================================================
 
-.options-layout {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 8px;
+.form-layout {
+  flex: 1 1 auto;
+  overflow: auto;
+  padding: 0 8px 0 8px;
 }
 
 //=============================================================================
 
-.chips-style {
+.components-layout {
   width: 100%;
 }
 
 //=============================================================================
 
-.months-layout {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: stretch;
-  gap: 16px;
-  flex: 1 1 auto;
-}
-
-//=============================================================================
-
-.tools-layout {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: stretch;
-  gap: 16px;
-  flex: 1 1 auto;
-}
-
-//=============================================================================
-
-.chart-layout {
-  flex: 1 1 auto;
-  overflow: auto;
+.buttons-layout {
+  text-align: center;
 }
 
 //=============================================================================

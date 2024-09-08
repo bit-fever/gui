@@ -6,20 +6,35 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-.main-panel {
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 8px;
+  height   : 100%;
+  overflow: hidden;
+}
+
+//=============================================================================
+
+.form-layout {
+  flex: 1 1 auto;
+  overflow: auto;
+  padding: 0 8px 0 8px;
+}
+
+//=============================================================================
+
+.components-layout {
   width: 100%;
 }
 
 //=============================================================================
 
-mat-form-field input {
-  color: #ff0000;
-}
-
-//=============================================================================
-
-.input-width {
-  width: 100%;
+.buttons-layout {
+  text-align: center;
 }
 
 //=============================================================================

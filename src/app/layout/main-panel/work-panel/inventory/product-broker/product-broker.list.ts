@@ -71,6 +71,7 @@ export class InvBrokerProductPanel extends AbstractPanel {
 
     eventBusService.subscribeToApp(AppEvent.BROKERPRODUCT_LIST_RELOAD, () => {
       this.table?.reload()
+      this.updateButtons([])
     })
   }
 

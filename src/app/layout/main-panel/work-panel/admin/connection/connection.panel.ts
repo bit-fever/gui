@@ -70,6 +70,7 @@ export class ConnectionPanel extends AbstractPanel {
     this.service = inventoryService.getConnections;
     eventBusService.subscribeToApp(AppEvent.CONNECTION_LIST_RELOAD, () => {
       this.table?.reload()
+      this.updateButtons([])
     })
   }
 

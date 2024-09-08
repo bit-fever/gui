@@ -1,0 +1,132 @@
+//=============================================================================
+//===
+//=== Copyright (C) 2024 Andrea Carboni
+//===
+//=== Use of this source code is governed by an MIT-style license that can be
+//=== found in the LICENSE file
+//=============================================================================
+
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 0;
+  height  : 100%;
+  overflow: hidden;
+}
+
+//=============================================================================
+
+.options-layout {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+}
+
+//=============================================================================
+
+.selection-layout {
+  width : 200px;
+}
+
+//=============================================================================
+
+.range-layout {
+  width : 100%;
+}
+
+//=============================================================================
+
+.chips-style {
+  width: 70%;
+}
+
+//=============================================================================
+
+.chipset-style {
+  width: 30%;
+}
+
+//=============================================================================
+
+.spacer-layout {
+  flex: 1 1 auto;
+}
+
+//=============================================================================
+
+.chart-layout {
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+//=============================================================================
+//=== Strategy layouts
+//=============================================================================
+
+.strategy-layout {
+  margin: 8px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 8px;
+  overflow: hidden;
+}
+
+//=============================================================================
+
+.strategy-left-layout {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 0;
+  width: 300px;
+  overflow: hidden;
+}
+
+//=============================================================================
+
+.strategy-work-layout {
+  flex: 1 1 auto;
+  height: auto;
+  gap: 4px;
+}
+
+//=============================================================================
+
+.value-style {
+  text-align: right;
+}
+
+//=============================================================================
+
+.label-style div {
+  width: 30%;
+  text-align: left;
+}
+
+//=============================================================================
+
+.value-style {
+  width: 30%;
+  font-weight: bold;
+  text-align: right;
+}
+
+//=============================================================================
+
+.money-style {
+  width: 10%;
+  text-align: left;
+}
+
+//=============================================================================

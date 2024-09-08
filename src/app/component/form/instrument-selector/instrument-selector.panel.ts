@@ -6,7 +6,7 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CommonModule}         from "@angular/common";
 import {EventBusService} from "../../../service/eventbus.service";
 import {LabelService} from "../../../service/label.service";
@@ -19,6 +19,7 @@ import {AbstractSubscriber} from "../../../service/abstract-subscriber";
 import {MatDialog} from "@angular/material/dialog";
 import {InstrumentSelectorDialog} from "./instrument-selector.dialog";
 import {DataInstrumentFull} from "../../../model/model";
+import {CollectorService} from "../../../service/collector.service";
 
 //=============================================================================
 
@@ -40,10 +41,10 @@ export class InstrumentSelectorPanel extends AbstractSubscriber {
   //---
   //-------------------------------------------------------------------------
 
-  value           : any
-  currInstrument? : DataInstrumentFull
+  instrId : number|undefined
+  text    : any
 
-  @Output() onInstrumentSelected : EventEmitter<DataInstrumentFull> = new EventEmitter<DataInstrumentFull>();
+  @Output() valueChange : EventEmitter<number|undefined> = new EventEmitter<number|undefined>();
 
   //-------------------------------------------------------------------------
   //---
@@ -51,9 +52,10 @@ export class InstrumentSelectorPanel extends AbstractSubscriber {
   //---
   //-------------------------------------------------------------------------
 
-  constructor(eventBusService      : EventBusService,
-              private labelService : LabelService,
-              public  dialog       : MatDialog) {
+  constructor(eventBusService          : EventBusService,
+              private labelService     : LabelService,
+              private collectorService : CollectorService,
+              public  dialog           : MatDialog) {
 
     super(eventBusService);
   }
@@ -62,6 +64,25 @@ export class InstrumentSelectorPanel extends AbstractSubscriber {
   //---
   //--- Public methods
   //---
+  //-------------------------------------------------------------------------
+
+  get value() : number|undefined {
+    return this.instrId
+  }
+
+  //-------------------------------------------------------------------------
+
+  @Input()
+  set value(v : number|undefined) {
+    this.instrId = v
+
+    if (v != undefined) {
+      this.collectorService.getDataInstrumentById(v, false).subscribe( die => {
+        this.text = die.name
+      })
+    }
+  }
+
   //-------------------------------------------------------------------------
 
   public loc = (code : string) : string => {
@@ -79,10 +100,10 @@ export class InstrumentSelectorPanel extends AbstractSubscriber {
 
     dialogRef.afterClosed().subscribe((idf : DataInstrumentFull) => {
       if (idf) {
-        this.currInstrument = idf
-        this.value = idf.symbol +" : "+ idf.name
+        this.instrId = idf.id
+        this.text    = idf.name
 
-        this.onInstrumentSelected.emit(idf)
+        this.valueChange.emit(idf.id)
       }
     })
   }

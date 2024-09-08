@@ -1,6 +1,6 @@
 //=============================================================================
 //===
-//=== Copyright (C) 2023 Andrea Carboni
+//=== Copyright (C) 2024 Andrea Carboni
 //===
 //=== Use of this source code is governed by an MIT-style license that can be
 //=== found in the LICENSE file
@@ -12,7 +12,7 @@ import {MatInputModule}       from "@angular/material/input";
 import {MatCardModule}        from "@angular/material/card";
 import {MatIconModule}        from "@angular/material/icon";
 import {MatButtonModule}      from "@angular/material/button";
-import {InvTradingSystemFull, DataProduct} from "../../../../../model/model";
+import {InvTradingSystemFull, DataProduct, BiasAnalysisFull} from "../../../../../model/model";
 import {FlexTableColumn, ListResponse, ListService} from "../../../../../model/flex-table";
 import {AbstractPanel}        from "../../../../../component/abstract.panel";
 import {FlexTablePanel}       from "../../../../../component/panel/flex-table/flex-table.panel";
@@ -24,13 +24,14 @@ import {AppEvent} from "../../../../../model/event";
 import {Observable} from "rxjs";
 import {InventoryService} from "../../../../../service/inventory.service";
 import {LabelTranscoder} from "../../../../../component/panel/flex-table/transcoders";
+import {CollectorService} from "../../../../../service/collector.service";
 
 //=============================================================================
 
 @Component({
-  selector    :     'inventory-product-tool',
-  templateUrl :   './product-data.list.html',
-  styleUrls   : [ './product-data.list.scss' ],
+  selector    :     'bias-analysis',
+  templateUrl :   './bias-analysis.list.html',
+  styleUrls   : [ './bias-analysis.list.scss' ],
   imports     : [ CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
     RouterModule, FlexTablePanel],
   standalone  : true
@@ -38,7 +39,7 @@ import {LabelTranscoder} from "../../../../../component/panel/flex-table/transco
 
 //=============================================================================
 
-export class InvDataProductPanel extends AbstractPanel {
+export class BiasAnalisysListPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
   //---
@@ -47,12 +48,13 @@ export class InvDataProductPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   columns  : FlexTableColumn[] = [];
-  service  : ListService<DataProduct>;
+  service  : ListService<BiasAnalysisFull>;
   disCreate: boolean = false;
   disView  : boolean = true;
   disEdit  : boolean = true;
+  disAnal  : boolean = true;
 
-  @ViewChild("table") table : FlexTablePanel<DataProduct>|null = null;
+  @ViewChild("table") table : FlexTablePanel<BiasAnalysisFull>|null = null;
 
   //-------------------------------------------------------------------------
   //---
@@ -63,13 +65,13 @@ export class InvDataProductPanel extends AbstractPanel {
   constructor(eventBusService         : EventBusService,
               labelService            : LabelService,
               router                  : Router,
-              private inventoryService: InventoryService) {
+              private collectorService: CollectorService) {
 
-    super(eventBusService, labelService, router, "inventory.dataProduct");
+    super(eventBusService, labelService, router, "tool.biasAnalysis");
 
-    this.service = this.getDataProducts;
+    this.service = this.getBiasAnalyses;
 
-    eventBusService.subscribeToApp(AppEvent.DATAPRODUCT_LIST_RELOAD, () => {
+    eventBusService.subscribeToApp(AppEvent.BIASANALYSIS_LIST_RELOAD, () => {
       this.table?.reload()
       this.updateButtons([])
     })
@@ -81,8 +83,8 @@ export class InvDataProductPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  private getDataProducts = (): Observable<ListResponse<DataProduct>> => {
-    return this.inventoryService.getDataProducts(true);
+  private getBiasAnalyses = (): Observable<ListResponse<BiasAnalysisFull>> => {
+    return this.collectorService.getBiasAnalyses(true);
   }
 
   //-------------------------------------------------------------------------
@@ -93,14 +95,14 @@ export class InvDataProductPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  onRowSelected(selection : DataProduct[]) {
+  onRowSelected(selection : BiasAnalysisFull[]) {
     this.updateButtons(selection);
   }
 
   //-------------------------------------------------------------------------
 
   onCreateClick() {
-    this.openRightPanel(Url.Inventory_DataProducts, Url.Right_DataProduct_Create, AppEvent.DATAPRODUCT_CREATE_START);
+    this.openRightPanel(Url.Tool_BiasAnalyses, Url.Right_BiasAnalysis_Create, AppEvent.BIASANALYSIS_CREATE_START);
   }
 
   //-------------------------------------------------------------------------
@@ -110,7 +112,7 @@ export class InvDataProductPanel extends AbstractPanel {
     let selection = this.table.getSelection();
 
     if (selection.length > 0) {
-      this.navigateTo([ Url.Inventory_DataProducts, selection[0].id ]);
+      this.navigateTo([ Url.Tool_BiasAnalyses, selection[0].id ]);
     }
   }
 
@@ -119,7 +121,16 @@ export class InvDataProductPanel extends AbstractPanel {
   onEditClick() {
     // @ts-ignore
     let selection = this.table.getSelection();
-    this.openRightPanel(Url.Inventory_DataProducts, Url.Right_DataProduct_Edit, AppEvent.DATAPRODUCT_EDIT_START, selection[0]);
+    this.openRightPanel(Url.Tool_BiasAnalyses, Url.Right_BiasAnalysis_Edit, AppEvent.BIASANALYSIS_EDIT_START, selection[0]);
+  }
+
+  //-------------------------------------------------------------------------
+
+  onAnalyzeClick() {
+    // @ts-ignore
+    let selection = this.table.getSelection();
+
+    this.navigateTo([ Url.Tool_BiasAnalyses, selection[0].id, Url.Sub_Summary ]);
   }
 
   //-------------------------------------------------------------------------
@@ -129,17 +140,14 @@ export class InvDataProductPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   setupColumns = () => {
-    let ts = this.labelService.getLabel("model.dataProduct");
+    let ts = this.labelService.getLabel("model.biasAnalysis");
 
     this.columns = [
-      // new FlexTableColumn(ts, "username"),
-      new FlexTableColumn(ts, "symbol"),
       new FlexTableColumn(ts, "name"),
-      new FlexTableColumn(ts, "marketType", new LabelTranscoder(this.labelService, "map.market")),
-      // new FlexTableColumn(ts, "productType"),
-      new FlexTableColumn(ts, "exchangeCode"),
-      new FlexTableColumn(ts, "connectionCode"),
-      new FlexTableColumn(ts, "systemCode"),
+      new FlexTableColumn(ts, "dataSymbol"),
+      new FlexTableColumn(ts, "dataName"),
+      new FlexTableColumn(ts, "brokerSymbol"),
+      new FlexTableColumn(ts, "brokerName"),
     ]
   }
 
@@ -149,9 +157,10 @@ export class InvDataProductPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  private updateButtons = (selection : InvTradingSystemFull[]) => {
+  private updateButtons = (selection : BiasAnalysisFull[]) => {
     this.disView = (selection.length != 1)
     this.disEdit = (selection.length != 1)
+    this.disAnal = (selection.length != 1)
   }
 }
 

@@ -1,0 +1,28 @@
+<div class="main-layout">
+  <right-title-panel icon="query_stats" title="{{loc('new')}}" (onClose)="onClose()"></right-title-panel>
+
+  <div class="form-layout">
+    <input-text-required  [label]  = "mod('name')"
+                          [(value)]= "ba.name"
+                          [len]    = "64"></input-text-required><br/>
+
+    <instrument-selector [(value)]="ba.dataInstrumentId"></instrument-selector>
+
+    <select-text-required keyField="id" valueField="name"
+                          [label]="mod('brokerProductId')"
+                          [(key)]="ba.brokerProductId"
+                          [list] ="products"></select-text-required>
+
+    <mat-form-field class="components-layout">
+      <mat-label>{{mod("notes")}}</mat-label>
+      <textarea matInput [(ngModel)]="ba.notes" placeholder="..."></textarea>
+    </mat-form-field>
+  </div>
+
+  <div class="buttons-layout">
+    <mat-divider></mat-divider>
+    <button mat-button (click)="onSave()" [disabled]="!saveEnabled()">{{button("save")}}</button>
+    <button mat-button (click)="onClose()">{{button("cancel")}}</button>
+  </div>
+</div>
+
