@@ -12,6 +12,8 @@
 //===
 //=============================================================================
 
+import {TreeNodeProvider} from "./flex-tree";
+
 export class StatusResponse {
   status? : string
 }
@@ -579,6 +581,98 @@ export class DataPointEntry {
   month: number = 0
   day  : number = 0
   delta: number = 0
+}
+
+//=============================================================================
+
+export class BiasBacktestResponse {
+  biasAnalysis? : BiasAnalysis
+  brokerProduct?: BrokerProduct
+  backtestedConfigs: BacktestedConfig[] = []
+}
+
+//=============================================================================
+
+export class BacktestedConfig {
+  biasConfig?    : BiasConfig
+  grossProfit?   : number
+  netProfit?     : number
+  grossAvgTrade? : number
+  netAvgTrade?   : number
+  biasTrades     : BiasTrade[] = []
+  sequences      : TriggeringSequence[] = []
+}
+
+//=============================================================================
+
+export class BiasTrade {
+  entryTime?   : string
+  entryValue?  : number
+  exitTime?    : string
+  exitValue?   : number
+  operation?   : number
+  grossProfit? : number
+  netProfit?   : number
+}
+
+//=============================================================================
+
+export class TriggeringSequence {
+  dataPoints : DataPoint[] = []
+}
+
+//=============================================================================
+//===
+//=== General container for FlexTree
+//===
+//=============================================================================
+
+export class TreeNode {
+  id       : string
+  name     : string
+  children : TreeNode[] = []
+  data     : any
+
+  //---------------------------------------------------------------------------
+
+  constructor(id:string, name:string, data? : any, children?:TreeNode[]) {
+    if (children == undefined) {
+      children = []
+    }
+
+    this.id       = id
+    this.name     = name
+    this.children = children
+    this.data     = data
+  }
+
+  //---------------------------------------------------------------------------
+
+  add(node : TreeNode) {
+    this.children = [ ...this.children, node]
+  }
+}
+
+//=============================================================================
+
+export class SimpleTreeNodeProvider implements TreeNodeProvider<TreeNode> {
+  getChildren(node: TreeNode): TreeNode[] {
+    if (node.children !== undefined) {
+      return node.children;
+    }
+
+    return [];
+  }
+
+  //---------------------------------------------------------------------------
+
+  getName(node: TreeNode): string {
+    if (node.name !== undefined) {
+      return node.name;
+    }
+
+    return "";
+  }
 }
 
 //=============================================================================

@@ -7,25 +7,28 @@
 //=============================================================================
 
 export enum Url {
-  Home                        = "home",
-  Inventory_DataProducts      = "inventory/data-products",
-  Inventory_DataProducts_Id   = "inventory/data-products/:id",
-  Inventory_BrokerProducts    = "inventory/broker-products",
-  Inventory_TradingSystems    = "inventory/trading-systems",
+  Home                         = "home",
+  Inventory_DataProducts       = "inventory/data-products",
+  Inventory_DataProducts_Id    = "inventory/data-products/:id",
+  Inventory_DataInstruments    = "inventory/data-instruments",
+  Inventory_DataInstruments_Id = "inventory/data-instruments/:id",
+  Inventory_BrokerProducts     = "inventory/broker-products",
+  Inventory_TradingSystems     = "inventory/trading-systems",
 
-  Portfolio_TradingSystems    = "portfolio/trading-systems",
-  Portfolio_TradingSystems_Id = "portfolio/trading-systems/:id",
-  Portfolio_Monitoring        = "portfolio/monitoring",
+  Portfolio_TradingSystems     = "portfolio/trading-systems",
+  Portfolio_TradingSystems_Id  = "portfolio/trading-systems/:id",
+  Portfolio_Monitoring         = "portfolio/monitoring",
 
-  Tool_BiasAnalyses           = "tool/bias-analyses",
-  Tool_BiasAnalyses_Id        = "tool/bias-analyses/:id",
+  Tool_BiasAnalyses            = "tool/bias-analyses",
+  Tool_BiasAnalyses_Id         = "tool/bias-analyses/:id",
 
-  Admin_Connections           = "admin/connections",
-  Admin_Config                = "admin/config",
+  Admin_Connections            = "admin/connections",
+  Admin_Config                 = "admin/config",
 
   Sub_Filtering = "filtering",
   Sub_Chart     = "chart",
   Sub_Summary   = "summary",
+  Sub_Data      = "data",
 
   Right_Connection_Edit     = "connection-edit",
   Right_TradingSystem_Edit  = "tradingSystem-edit",

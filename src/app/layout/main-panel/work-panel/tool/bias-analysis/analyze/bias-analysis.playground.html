@@ -38,7 +38,7 @@
   <!-- ========================================================================================= -->
 
   <div class="options-layout">
-    <mat-chip-listbox [multiple]="true">
+    <mat-chip-listbox [multiple]="true" hideSingleSelectionIndicator="true">
       <mat-chip-option (selectionChange)="onLabelsChange($event)" [selected]="showLabels">{{loc("labels")}}</mat-chip-option>
       <mat-chip-option (selectionChange)="onProfitChange($event)" [selected]="showProfit">{{loc("profit")}}</mat-chip-option>
     </mat-chip-listbox>
@@ -125,6 +125,7 @@
               <button mat-button (click)="onCreateClick()"  [disabled]="!isCreateEnabled()"  >{{button("create")}}</button>
               <button mat-button (click)="onReplaceClick()" [disabled]="!isReplaceEnabled()" >{{button("replace")}}</button>
               <button mat-button (click)="onDeleteClick()"  [disabled]="!isDeleteEnabled()"  >{{button("delete")}}</button>
+              <button mat-button (click)="onRunBacktest()"                                   >{{button("backtest")}}</button>
             </div>
 
             <flex-table #configsTable class="table-panel"

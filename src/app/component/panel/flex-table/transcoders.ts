@@ -79,6 +79,24 @@ export class OperationTranscoder implements Transcoder {
 }
 
 //=============================================================================
+
+export class DataPointTimeTranscoder implements Transcoder {
+  transcode(value: number, row?: any): string {
+    let d = String(value)
+    return d.substring(0, 16).replace("T", " . . . . . ")
+  }
+}
+
+//=============================================================================
+
+export class DateTimeTranscoder implements Transcoder {
+  transcode(value: number, row?: any): string {
+    let d = String(value)
+    return d.substring(0, 16).replace("T", " ")
+  }
+}
+
+//=============================================================================
 //===
 //=== Icon stylers
 //===

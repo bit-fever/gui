@@ -61,6 +61,8 @@ export class InvDataProductViewPanel extends AbstractPanel {
   columns  : FlexTableColumn[] = [];
   service? : ListService<DataInstrument>;
   disChart : boolean = false;
+  disData  : boolean = true;
+  selInstr?: number
 
   @ViewChild("table") table : FlexTablePanel<DataInstrument>|null = null;
 
@@ -114,6 +116,14 @@ export class InvDataProductViewPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onRowSelected(selection : DataProduct[]) {
+    if (selection.length == 1) {
+      this.selInstr = selection[0].id
+      this.disData  = false
+    }
+    else {
+      this.selInstr = undefined
+      this.disData  = true
+    }
   }
 
   //-------------------------------------------------------------------------
@@ -137,6 +147,12 @@ export class InvDataProductViewPanel extends AbstractPanel {
 
   onChartClick() {
     this.navigateTo([ Url.Inventory_DataProducts, this.pdId, Url.Sub_Chart ]);
+  }
+
+  //-------------------------------------------------------------------------
+
+  onDataClick() {
+    this.navigateTo([ Url.Inventory_DataInstruments, this.selInstr, Url.Sub_Data ]);
   }
 
   //-------------------------------------------------------------------------

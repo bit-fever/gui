@@ -53,6 +53,9 @@ import {FlexTableColumn, ListResponse, ListService, Transcoder} from "../../../.
 import {Observable} from "rxjs";
 import {ListLabelTranscoder, OperationTranscoder} from "../../../../../../component/panel/flex-table/transcoders";
 import {MatGridListModule} from "@angular/material/grid-list";
+import {InstrumentUploadDialog} from "../../../inventory/product-data/view/instrument-upload.dialog";
+import {MatDialog} from "@angular/material/dialog";
+import {BiasBacktestDialog} from "./backtest-dialog/bias-backtest.dialog";
 
 //=============================================================================
 
@@ -115,7 +118,8 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
               router                  : Router,
               private route           : ActivatedRoute,
               private inventoryService: InventoryService,
-              private collectorService: CollectorService) {
+              private collectorService: CollectorService,
+              public  dialog          : MatDialog) {
 
     super(eventBusService, labelService, router, "tool.biasAnalysis");
 
@@ -320,6 +324,20 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
 
   onConfigSelected(selection : BiasConfig[]) {
     this.selConfigs = selection
+  }
+
+  //-------------------------------------------------------------------------
+
+  onRunBacktest() {
+    this.collectorService.runBacktest(this.baId).subscribe( res => {
+      const dialogRef = this.dialog.open(BiasBacktestDialog, {
+        minWidth: "1600px",
+        height: "800px",
+        data: {
+          response : res
+        }
+      })
+    })
   }
 
   //-------------------------------------------------------------------------
@@ -738,12 +756,12 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
             {
               from: -3000000,
               to: 0,
-              color: '#F00000'
+              color: '#E04040'
             },
             {
               from: 0,
               to: 3000000,
-              color: '#00F000'
+              color: '#40E040'
             }
           ]
         }
@@ -762,13 +780,21 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
 
 //=============================================================================
 
-class MinMax {
-  minVal : number =  3000000
-  maxVal : number = -300000
+export class MinMax {
+  minVal  : number  = 0
+  maxVal  : number  = 0
+  hasData : boolean = false
 
-  update(delta : number) {
-    this.minVal = Math.min(this.minVal, delta)
-    this.maxVal = Math.max(this.maxVal, delta)
+  update(value : number) {
+    if ( ! this.hasData) {
+      this.minVal = value
+      this.maxVal = value
+      this.hasData= true
+    }
+    else {
+      this.minVal = Math.min(this.minVal, value)
+      this.maxVal = Math.max(this.maxVal, value)
+    }
   }
 }
 
@@ -860,7 +886,7 @@ class SelectedSlot {
 
 //=============================================================================
 
-let categories = [
+export let categories = [
   "00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00", "04:30", "05:00", "05:30",
   "06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
   "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30",
@@ -877,7 +903,7 @@ class SlotTranscoder implements Transcoder {
 
 //=============================================================================
 
-class MonthsTranscoder implements Transcoder {
+export class MonthsTranscoder implements Transcoder {
   transcode(value: boolean[], row?: any): string {
     let res : string[] = []
 

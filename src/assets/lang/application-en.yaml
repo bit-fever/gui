@@ -27,6 +27,7 @@ button:
   analyze:  ANALYZE
   replace:  REPLACE
   backtest: BACKTEST
+  data:     DATA
 
 # ==============================================================================
 # ===
@@ -151,6 +152,14 @@ model:
     connectionCode : Connection
     systemCode     : System
 
+  dataPoint:
+    time  : Date/time
+    open  : Open
+    high  : High
+    low   : Low
+    close : Close
+    volume: Volume
+
   brokerProduct:
     id             : Id
     username       : Username
@@ -198,11 +207,20 @@ model:
     months     : Months
     excludes   : Excludes
     operation  : Operation
-    grossProfit: Gross profit
-    netProfit  : Net profit
+    grossProfit: Gross profit (estimate)
+    netProfit  : Net profit (estimate)
 
   exchange:
     code : Code
+
+  biasTrade:
+    entryTime  : Entry time
+    entryValue : Entry value
+    exitTime   : Exit time
+    exitValue  : Exit value
+    operation  : Operation
+    grossProfit: Gross profit
+    netProfit  : Net profit
 
 # ==============================================================================
 # ===
@@ -245,6 +263,13 @@ page:
         timeframe: Timeframe
         timezone : Timezone
         exchange : Exchange
+      data:
+        fromDate : From date
+        toDate   : To date
+        timeframe: Timeframe
+        timezone : Timezone
+        exchange : Exchange
+        tooManyDataPoints : Too many datapoints. Try reducing the time period or increasing the timeframe. Max 10.000 datapoints can be returned.
 
     brokerProduct:
       new:          New broker product
@@ -406,9 +431,40 @@ page:
       endPeriod   : End period
       tabDetails  : Details
       tabStrategy : Strategy
+      tabBacktest : Backtest
       gross       : Gross
       net         : Net
       avgTrade    : Avg trade
+
+      backtestDialog:
+        title           : Backtest results
+        general         : General
+        biasAnalysis    : Bias analysis
+        brokerProduct   : Broker product
+        backtestConfigs : Backtested configs
+        biasConfig      : Bias config
+        summary         : Backtest summary
+        listOfTrades    : List of trades
+        annualSummary   : Annual summary
+        profitDistrib   : Profit distribution
+        triggerSequences: Triggering sequences
+        symbol          : Symbol
+        name            : Name
+        costPerTrade    : Cost per trade
+        pointValue      : Point value (multiplier)
+        startPeriod     : Start period
+        endPeriod       : End period
+        months          : Selected months
+        excludes        : Excluded periods
+        operation       : Operation
+        gross           : Gross
+        net             : Net
+        profit          : Profit
+        avgTrade        : Average trade
+        estGrossProfit  : Gross profit (estimated)
+        estNetProfit    : Net profit (estimated)
+        profits         : Profits
+        tradeCount      : Trades count
 
   # ==============================================================================
 

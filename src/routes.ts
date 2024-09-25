@@ -46,6 +46,9 @@ import {
 import {BiasAnalysisEditPanel} from "./app/layout/main-panel/work-panel/tool/bias-analysis/edit/bias-analysis.edit";
 import { BiasAnalysisPlaygroundPanel
 } from "./app/layout/main-panel/work-panel/tool/bias-analysis/analyze/bias-analysis.playground";
+import {
+  DataInstrumentDataPanel
+} from "./app/layout/main-panel/work-panel/inventory/product-data/view/data/instrument-data.data";
 
 //=============================================================================
 
@@ -61,6 +64,10 @@ export const routes: Routes = [
   { path: Url.Inventory_DataProducts_Id, children : [
       { path: Url.Sub_Chart, component:  DataInstrumentChartPanel }
   ]},
+
+  { path: Url.Inventory_DataInstruments_Id, children : [
+      { path: Url.Sub_Data, component:  DataInstrumentDataPanel }
+    ]},
 
   { path: Url.Right_DataProduct_Create,           component: ProductDataCreatePanel,   outlet : 'right' },
   { path: Url.Right_DataProduct_Edit,             component: ProductDataEditPanel,     outlet : 'right' },

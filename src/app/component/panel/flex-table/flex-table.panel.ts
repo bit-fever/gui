@@ -173,6 +173,7 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
 
   public clearSelection() {
     this.selection = new SelectionModel<T>(true, []);
+    this.onRowsSelected.emit(this.selection.selected)
   }
 }
 

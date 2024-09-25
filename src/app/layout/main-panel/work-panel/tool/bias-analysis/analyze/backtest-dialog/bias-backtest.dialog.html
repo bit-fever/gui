@@ -1,0 +1,104 @@
+<h2 mat-dialog-title>{{loc("title")}}</h2>
+
+<mat-dialog-content class="mat-typography">
+  <div class="main-layout">
+    <div class="left-layout">
+      <flex-tree
+        [roots]         = "roots"
+        [nodeProvider]  = "nodeProvider"
+        (onNodeSelected)="onNodeSelected($event)"
+      ></flex-tree>
+    </div>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <div class="center-layout" *ngIf="nodeType=='general'">
+      <h3>{{loc('biasAnalysis')}}</h3>
+      <table class="table-style">
+        <tr><td>{{loc('name')}}</td><td><b>{{response.biasAnalysis?.name}}</b></td></tr>
+      </table>
+
+      <br/><mat-divider></mat-divider>
+
+      <h3>{{loc('brokerProduct')}}</h3>
+      <table class="table-style">
+        <tr><td>{{loc('symbol')}}</td>      <td><b>{{response.brokerProduct?.symbol}}</b></td></tr>
+        <tr><td>{{loc('name')}}</td>        <td><b>{{response.brokerProduct?.name}}</b></td></tr>
+        <tr><td>{{loc('costPerTrade')}}</td><td><b>{{response.brokerProduct?.costPerTrade}}</b> {{response.brokerProduct?.currencyCode}}</td></tr>
+        <tr><td>{{loc('pointValue')}}</td>  <td><b>{{response.brokerProduct?.pointValue}}</b> {{response.brokerProduct?.currencyCode}}</td></tr>
+      </table>
+    </div>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <div class="center-layout" *ngIf="nodeType=='config'">
+      <h3>{{loc('biasConfig')}}</h3>
+      <table class="table-style">
+        <tr><td>{{loc('startPeriod')}}</td>   <td><b>{{startString()}}</b></td></tr>
+        <tr><td>{{loc('endPeriod')}}</td>     <td><b>{{endString()}}</b></td></tr>
+        <tr><td>{{loc('months')}}</td>        <td><b>{{biasMonths()}}</b></td></tr>
+        <tr><td>{{loc('excludes')}}</td>      <td><b>{{nodeData.biasConfig.excludes}}</b></td></tr>
+        <tr><td>{{loc('operation')}}</td>     <td><b>{{operation()}}</b></td></tr>
+        <tr><td>{{loc('estGrossProfit')}}</td><td><b>{{nodeData.biasConfig.grossProfit}}</b>  {{response.brokerProduct?.currencyCode}}</td></tr>
+        <tr><td>{{loc('estNetProfit')}}</td>  <td><b>{{nodeData.biasConfig.netProfit}}</b>  {{response.brokerProduct?.currencyCode}}</td></tr>
+      </table>
+
+      <br/><mat-divider></mat-divider>
+
+      <h3>{{loc('summary')}}</h3>
+      <table class="table-style">
+        <tr>
+          <th></th>
+          <th class="money-style">{{loc('gross')}}</th>
+          <th class="money-style">{{loc('net')}}</th>
+        </tr>
+
+        <tr>
+          <td>{{loc('profit')}}</td>
+          <td class="money-style"><b>{{nodeData.grossProfit}}</b> {{response.brokerProduct?.currencyCode}}</td>
+          <td class="money-style"><b>{{nodeData.netProfit}}</b> {{response.brokerProduct?.currencyCode}}</td>
+        </tr>
+
+        <tr>
+          <td>{{loc('avgTrade')}}</td>
+          <td class="money-style"><b>{{trunc2(nodeData.grossAvgTrade)}}</b> {{response.brokerProduct?.currencyCode}}</td>
+          <td class="money-style"><b>{{trunc2(nodeData.netAvgTrade)}}</b> {{response.brokerProduct?.currencyCode}}</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <div class="center-layout" *ngIf="nodeType=='trades'">
+      <flex-table #table class="table-panel"
+                  [columns] = "tradeColumns"
+                  [data]    = "nodeData.biasTrades"
+      ></flex-table>
+    </div>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <div class="center-layout" *ngIf="nodeType=='distrib'">
+      <mat-button-toggle-group name="fontStyle" aria-label="Font Style" hideSingleSelectionIndicator="true"
+                               [(value)]="chartType"
+                                (change)="onChartTypeChange($event)">
+        <mat-button-toggle value="profits">{{loc('profits')}}</mat-button-toggle>
+        <mat-button-toggle value="trades">{{loc('tradeCount')}}</mat-button-toggle>
+      </mat-button-toggle-group>
+
+      <apx-chart
+        [chart]      = "barOptions.chart"
+        [series]     = "barOptions.series"
+        [dataLabels] = "barOptions.dataLabels"
+        [plotOptions]= "barOptions.plotOptions"
+        [xaxis]      = "barOptions.xaxis"
+      ></apx-chart>
+    </div>
+
+
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>{{button("close")}}</button>
+</mat-dialog-actions>
