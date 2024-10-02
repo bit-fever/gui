@@ -23,7 +23,7 @@ import {
   ConnectionSpec,
   Connection,
   DataProductSpec,
-  DataProduct, DataInstrumentExt, BiasConfig, BiasBacktestResponse
+  DataProduct, DataInstrumentExt, BiasConfig, BiasBacktestResponse, BiasBacktestRequest
 } from "../model/model";
 import {HttpService, UploadEvent} from "./http.service";
 import {HttpParams} from "@angular/common/http";
@@ -160,8 +160,8 @@ export class CollectorService {
 
   //---------------------------------------------------------------------------
 
-  public runBacktest = (baId: number): Observable<BiasBacktestResponse> => {
-    return this.httpService.post<BiasBacktestResponse>('/api/collector/v1/bias-analyses/'+ baId+'/backtest', {});
+  public runBacktest = (baId: number, req:BiasBacktestRequest): Observable<BiasBacktestResponse> => {
+    return this.httpService.post<BiasBacktestResponse>('/api/collector/v1/bias-analyses/'+ baId+'/backtest', req);
   }
 }
 

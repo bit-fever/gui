@@ -125,7 +125,6 @@
               <button mat-button (click)="onCreateClick()"  [disabled]="!isCreateEnabled()"  >{{button("create")}}</button>
               <button mat-button (click)="onReplaceClick()" [disabled]="!isReplaceEnabled()" >{{button("replace")}}</button>
               <button mat-button (click)="onDeleteClick()"  [disabled]="!isDeleteEnabled()"  >{{button("delete")}}</button>
-              <button mat-button (click)="onRunBacktest()"                                   >{{button("backtest")}}</button>
             </div>
 
             <flex-table #configsTable class="table-panel"
@@ -136,6 +135,20 @@
           </div>
         </div>
       </mat-tab>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <mat-tab label="{{loc('tabBacktest')}}">
+        <div class="backtest-layout">
+          <div>
+            <button mat-button (click)="onRunBacktest()">{{button("run")}}</button>
+          </div>
+          <input-number-required [(value)]="backtestReq.stopLoss"   [label]="loc('stopLoss')"   [min]="0" [max]="100000"></input-number-required>
+          <input-number-required [(value)]="backtestReq.takeProfit" [label]="loc('takeProfit')" [min]="0" [max]="100000"></input-number-required>
+          <select-text-required class="session-style" #tsSessionCtrl [(key)]="sessionId" [label]="loc('session')"   keyField="id" valueField="name" [list]="sessions"></select-text-required>
+        </div>
+      </mat-tab>
+
     </mat-tab-group>
   </div>
 

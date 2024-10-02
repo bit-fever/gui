@@ -13,6 +13,7 @@
 //=============================================================================
 
 import {TreeNodeProvider} from "./flex-tree";
+import {Time} from "@angular/common";
 
 export class StatusResponse {
   status? : string
@@ -44,17 +45,6 @@ export class Portfolio {
   username?  : string;
   parentId?  : number;
   name?      : string;
-  createdAt? : string;
-  updatedAt? : string;
-}
-
-//=============================================================================
-
-export class TradingSession {
-  id?        : number;
-  username?  : string;
-  name?      : string;
-  config?    : string;
   createdAt? : string;
   updatedAt? : string;
 }
@@ -585,6 +575,14 @@ export class DataPointEntry {
 
 //=============================================================================
 
+export class BiasBacktestRequest {
+  stopLoss   : number = 0
+  takeProfit : number = 0
+  session    : string = ""
+}
+
+//=============================================================================
+
 export class BiasBacktestResponse {
   biasAnalysis? : BiasAnalysis
   brokerProduct?: BrokerProduct
@@ -673,6 +671,50 @@ export class SimpleTreeNodeProvider implements TreeNodeProvider<TreeNode> {
 
     return "";
   }
+}
+
+//=============================================================================
+//===
+//=== TradingSession
+//===
+//=============================================================================
+
+export class CoreTime {
+  hour : number = 0
+  min  : number = 0
+}
+
+//=============================================================================
+
+export class Pause {
+  from? : CoreTime
+  to?   : CoreTime
+}
+
+//=============================================================================
+
+export class SessionDay  {
+  day?   : number
+  start? : CoreTime
+  end?   : CoreTime
+  pauses : Pause[] = []
+}
+
+//=============================================================================
+
+export class SickSession {
+  days : SessionDay[] = [];
+}
+
+//=============================================================================
+
+export class TradingSession {
+  id?        : number
+  username?  : string
+  name?      : string
+  session?   : SickSession
+  createdAt? : string
+  updatedAt? : string
 }
 
 //=============================================================================

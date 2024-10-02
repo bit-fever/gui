@@ -34,11 +34,13 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
 import {AbstractPanel} from "../../../../../../component/abstract.panel";
 import {
+  BiasBacktestRequest,
+  BiasBacktestResponse,
   BiasConfig,
   BiasSummaryResponse, BrokerProduct,
   DataPointDowList,
   DataPointEntry,
-  DataPointSlotList,
+  DataPointSlotList, SickSession, TradingSession,
 } from "../../../../../../model/model";
 import {EventBusService} from "../../../../../../service/eventbus.service";
 import {LabelService} from "../../../../../../service/label.service";
@@ -56,6 +58,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {InstrumentUploadDialog} from "../../../inventory/product-data/view/instrument-upload.dialog";
 import {MatDialog} from "@angular/material/dialog";
 import {BiasBacktestDialog} from "./backtest-dialog/bias-backtest.dialog";
+import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
 
 //=============================================================================
 
@@ -63,10 +66,10 @@ import {BiasBacktestDialog} from "./backtest-dialog/bias-backtest.dialog";
   selector    :     'bias-analyzer',
   templateUrl :   './bias-analysis.playground.html',
   styleUrls   : [ './bias-analysis.playground.scss' ],
-  imports: [CommonModule, MatButton, MatIcon, MatFabButton, NgApexchartsModule, MatChipListbox, MatChipOption, SelectTextRequired,
-    MatMiniFabButton, ChipSetTextComponent, MatChipGrid, MatChipInput, MatChipRemove, MatChipRow, MatFormField, MatLabel,
-    MatError, MatIconButton, MatInput, MatSuffix, ReactiveFormsModule, MatTabGroup, MatTab, MatButtonToggle, MatButtonToggleGroup, MatTooltip, FlexTablePanel,
-    MatGridListModule],
+    imports: [CommonModule, MatButton, MatIcon, MatFabButton, NgApexchartsModule, MatChipListbox, MatChipOption, SelectTextRequired,
+        MatMiniFabButton, ChipSetTextComponent, MatChipGrid, MatChipInput, MatChipRemove, MatChipRow, MatFormField, MatLabel,
+        MatError, MatIconButton, MatInput, MatSuffix, ReactiveFormsModule, MatTabGroup, MatTab, MatButtonToggle, MatButtonToggleGroup, MatTooltip, FlexTablePanel,
+        MatGridListModule, InputNumberRequired],
   standalone  : true
 })
 
@@ -96,7 +99,11 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
 
   selRangeProfit? : Profit
 
-  dowList : string[] = []
+  dowList : string[]         = []
+  sessions: TradingSession[] = []
+
+  backtestReq = new BiasBacktestRequest()
+  sessionId : number = 1
 
   //--- Configs -------------------------------------------
 
@@ -125,6 +132,11 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
 
     this.dowList = this.labelService.getLabel("list.dowShort")
     this.service = this.getBiasConfigs
+
+    inventoryService.getTradingSessions().subscribe(
+      result => {
+        this.sessions = result.result;
+      })
   }
 
   //-------------------------------------------------------------------------
@@ -329,7 +341,15 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onRunBacktest() {
-    this.collectorService.runBacktest(this.baId).subscribe( res => {
+    let sessionSpec = this.getSessionDef()
+    if (sessionSpec == undefined) {
+      alert("Session is undefined!")
+      return
+    }
+
+    this.backtestReq.session = sessionSpec
+
+    this.collectorService.runBacktest(this.baId, this.backtestReq).subscribe( res => {
       const dialogRef = this.dialog.open(BiasBacktestDialog, {
         minWidth: "1600px",
         height: "800px",
@@ -697,6 +717,20 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
     else {
       return dpe.delta
     }
+  }
+
+  //-------------------------------------------------------------------------
+
+  private getSessionDef() : string|undefined {
+    let res : SickSession|undefined = undefined
+
+    this.sessions.forEach( ts => {
+      if (ts.id == this.sessionId) {
+        res = ts.session
+      }
+    })
+
+    return res
   }
 
   //-------------------------------------------------------------------------

@@ -350,7 +350,7 @@ export class FilteringPanel extends AbstractPanel {
 
   private openParametersDialog() {
     const dialogRef = this.dialog.open(OptimizeParameterDialog, {
-      minWidth: "1024px",
+      minWidth: "1280px",
       data: {
         tsId  : this.tradingSystem.id,
         tsName: this.tradingSystem.name
@@ -368,6 +368,7 @@ export class FilteringPanel extends AbstractPanel {
 
   private openProgressDialog() {
     const dialogRef = this.dialog.open(OptimizeProgressDialog, {
+      minWidth: "1024px",
       data: {
         tsId  : this.tradingSystem.id,
         tsName: this.tradingSystem.name
@@ -385,6 +386,7 @@ export class FilteringPanel extends AbstractPanel {
 
   private openResultDialog() {
     const dialogRef = this.dialog.open(OptimizeResultDialog, {
+      minWidth: "1024px",
       data: {
         tsId  : this.tradingSystem.id,
         tsName: this.tradingSystem.name

@@ -31,6 +31,7 @@ import {PortfolioService} from "./app/service/portfolio.service";
 import {MatNativeDateModule} from "@angular/material/core";
 import {CollectorService} from "./app/service/collector.service";
 import {PresetsService} from "./app/service/presets.service";
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 
 //=============================================================================
 
@@ -40,6 +41,7 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
 	providers: [
+//    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
 		importProvidersFrom(BrowserAnimationsModule),
     importProvidersFrom(MatNativeDateModule),
     provideHttpClient(withInterceptorsFromDi()),
