@@ -52,7 +52,7 @@ export class BiasAnalisysListPanel extends AbstractPanel {
   disCreate: boolean = false;
   disView  : boolean = true;
   disEdit  : boolean = true;
-  disAnal  : boolean = true;
+  disPlay  : boolean = true;
 
   @ViewChild("table") table : FlexTablePanel<BiasAnalysisFull>|null = null;
 
@@ -126,11 +126,11 @@ export class BiasAnalisysListPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  onAnalyzeClick() {
+  onPlaygroundClick() {
     // @ts-ignore
     let selection = this.table.getSelection();
 
-    this.navigateTo([ Url.Tool_BiasAnalyses, selection[0].id, Url.Sub_Summary ]);
+    this.navigateTo([ Url.Tool_BiasAnalyses, selection[0].id, Url.Sub_Playground ]);
   }
 
   //-------------------------------------------------------------------------
@@ -160,7 +160,7 @@ export class BiasAnalisysListPanel extends AbstractPanel {
   private updateButtons = (selection : BiasAnalysisFull[]) => {
     this.disView = (selection.length != 1)
     this.disEdit = (selection.length != 1)
-    this.disAnal = (selection.length != 1)
+    this.disPlay = (selection.length != 1)
   }
 }
 

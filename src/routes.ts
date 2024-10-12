@@ -45,10 +45,13 @@ import {
 } from "./app/layout/main-panel/work-panel/tool/bias-analysis/create/bias-analysis.create";
 import {BiasAnalysisEditPanel} from "./app/layout/main-panel/work-panel/tool/bias-analysis/edit/bias-analysis.edit";
 import { BiasAnalysisPlaygroundPanel
-} from "./app/layout/main-panel/work-panel/tool/bias-analysis/analyze/bias-analysis.playground";
+} from "./app/layout/main-panel/work-panel/tool/bias-analysis/playground/bias-analysis.playground";
 import {
   DataInstrumentDataPanel
 } from "./app/layout/main-panel/work-panel/inventory/product-data/view/data/instrument-data.data";
+import {
+  BiasAnalysisBacktestPanel
+} from "./app/layout/main-panel/work-panel/tool/bias-analysis/backtest/bias-analysis.backtest";
 
 //=============================================================================
 
@@ -93,7 +96,8 @@ export const routes: Routes = [
   { path: Url.Right_BiasAnalysis_Create,          component: BiasAnalysisCreatePanel, outlet : 'right' },
   { path: Url.Right_BiasAnalysis_Edit,            component: BiasAnalysisEditPanel,   outlet : 'right' },
   { path: Url.Tool_BiasAnalyses_Id, children : [
-      { path: Url.Sub_Summary, component:  BiasAnalysisPlaygroundPanel }
+      { path: Url.Sub_Playground, component:  BiasAnalysisPlaygroundPanel },
+      { path: Url.Sub_Backtest,   component:  BiasAnalysisBacktestPanel   }
     ]},
 
   //--- Admin

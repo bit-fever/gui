@@ -27,7 +27,8 @@ export enum Url {
 
   Sub_Filtering = "filtering",
   Sub_Chart     = "chart",
-  Sub_Summary   = "summary",
+  Sub_Playground= "playground",
+  Sub_Backtest  = "backtest",
   Sub_Data      = "data",
 
   Right_Connection_Edit     = "connection-edit",

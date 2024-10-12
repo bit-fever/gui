@@ -49,6 +49,7 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
   //-------------------------------------------------------------------------
 
   rawData         : T[] = [];
+  rowCount        : number = 0
   tableColumns    : FlexTableColumn[] = [];
   displayedColumns: string[] = [];
   tableData = new MatTableDataSource<T>();
@@ -90,8 +91,9 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
 
   @Input()
   set data(value: T[]) {
-    this.rawData        = value;
-    this.tableData.data = value;
+    this.rawData        = value
+    this.tableData.data = value
+    this.rowCount       = value.length
   }
 
   //-------------------------------------------------------------------------
@@ -112,12 +114,14 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
       this.dataProvider().subscribe(
         result => {
           this.tableData.data = result.result;
+          this.rowCount       = result.result.length
           this.clearSelection();
         }
       )
     }
     else if (this.data != undefined) {
       this.tableData.data = this.data;
+      this.rowCount       = this.data.length
       this.clearSelection();
     }
   }
@@ -161,6 +165,7 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.tableData.filter = filterValue.trim().toLowerCase();
+    this.rowCount         = this.tableData.filteredData.length
   }
 
   //-------------------------------------------------------------------------

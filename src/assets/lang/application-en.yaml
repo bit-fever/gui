@@ -5,29 +5,29 @@
 # ==============================================================================
 
 button:
-  create:   CREATE
-  view:     VIEW
-  edit:     EDIT
-  delete:   DELETE
-  filter:   FILTER
-  save:     SAVE
-  run:      RUN
-  optimize: OPTIMIZE
-  reload:   RELOAD
-  cancel:   CANCEL
-  abort:    ABORT
-  close:    CLOSE
-  use:      USE
-  restart:  RESTART
-  upload:   UPLOAD
-  chart:    CHART
-  ok:       Ok
-  select:   SELECT
-  presets:  PRESETS
-  analyze:  ANALYZE
-  replace:  REPLACE
-  backtest: BACKTEST
-  data:     DATA
+  create    : CREATE
+  view      : VIEW
+  edit      : EDIT
+  delete    : DELETE
+  filter    : FILTER
+  save      : SAVE
+  run       : RUN
+  optimize  : OPTIMIZE
+  reload    : RELOAD
+  cancel    : CANCEL
+  abort     : ABORT
+  close     : CLOSE
+  use       : USE
+  restart   : RESTART
+  upload    : UPLOAD
+  chart     : CHART
+  ok        : Ok
+  select    : SELECT
+  presets   : PRESETS
+  playground: PLAYGROUND
+  replace   : REPLACE
+  backtest  : BACKTEST
+  data      : DATA
 
 # ==============================================================================
 # ===
@@ -420,26 +420,27 @@ page:
     biasAnalysis:
       new:   New bias analysis
       edit:  Edit bias analysis
-      selection   : Selection
       delta       : Delta
+      pointValue  : Point value
+
+    biasPlayground:
       labels      : Labels
       profit      : Profit
-      pointValue  : Point value
-      exclPeriods : Excluded periods
-      periodFormat: Format is YEAR or YEAR-MONTH (like 2020-3)
-      startPeriod : Start period
-      endPeriod   : End period
+      selection   : Selection
       tabDetails  : Details
       tabStrategy : Strategy
-      tabBacktest : Backtest
+      startPeriod : Start period
+      endPeriod   : End period
+      exclPeriods : Excluded periods
+      periodFormat: Format is YEAR or YEAR-MONTH (like 2020-3)
       gross       : Gross
       net         : Net
       avgTrade    : Avg trade
-      stopLoss    : Stop loss
-      takeProfit  : Take profit
-      session     : Session
 
-      backtestDialog:
+    biasBacktest:
+        stopLoss        : Stop loss
+        takeProfit      : Take profit
+        session         : Session
         title           : Backtest results
         general         : General
         biasAnalysis    : Bias analysis
@@ -447,6 +448,7 @@ page:
         backtestConfigs : Backtested configs
         biasConfig      : Bias config
         summary         : Backtest summary
+        equity          : Equity
         listOfTrades    : List of trades
         annualSummary   : Annual summary
         profitDistrib   : Profit distribution
@@ -466,8 +468,9 @@ page:
         avgTrade        : Average trade
         estGrossProfit  : Gross profit (estimated)
         estNetProfit    : Net profit (estimated)
-        profits         : Profits
-        tradeCount      : Trades count
+        netProfit       : Net profit
+        grossProfit     : Gross profit
+        numTrades       : Number of trades
 
   # ==============================================================================
 
@@ -565,3 +568,5 @@ errors:
     tooLong: Value is too long
     minValue: Min value is
     maxValue: Max value is
+
+# ==============================================================================

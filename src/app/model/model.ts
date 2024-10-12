@@ -604,13 +604,13 @@ export class BacktestedConfig {
 //=============================================================================
 
 export class BiasTrade {
-  entryTime?   : string
-  entryValue?  : number
-  exitTime?    : string
-  exitValue?   : number
-  operation?   : number
-  grossProfit? : number
-  netProfit?   : number
+  entryTime   : string = ""
+  entryValue  : number = 0
+  exitTime    : string = ""
+  exitValue   : number = 0
+  operation   : number = 0
+  grossProfit : number = 0
+  netProfit   : number = 0
 }
 
 //=============================================================================

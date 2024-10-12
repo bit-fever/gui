@@ -35,16 +35,13 @@ import {SelectTextRequired} from "../../../../../../component/form/select-requir
 import {AbstractPanel} from "../../../../../../component/abstract.panel";
 import {
   BiasBacktestRequest,
-  BiasBacktestResponse,
   BiasConfig,
-  BiasSummaryResponse, BrokerProduct,
+  BiasSummaryResponse,
   DataPointDowList,
   DataPointEntry,
-  DataPointSlotList, SickSession, TradingSession,
 } from "../../../../../../model/model";
 import {EventBusService} from "../../../../../../service/eventbus.service";
 import {LabelService} from "../../../../../../service/label.service";
-import {InventoryService} from "../../../../../../service/inventory.service";
 import {CollectorService} from "../../../../../../service/collector.service";
 import {ChipSetTextComponent} from "../../../../../../component/form/chip-text-set/chip-set-text";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
@@ -55,15 +52,14 @@ import {FlexTableColumn, ListResponse, ListService, Transcoder} from "../../../.
 import {Observable} from "rxjs";
 import {ListLabelTranscoder, OperationTranscoder} from "../../../../../../component/panel/flex-table/transcoders";
 import {MatGridListModule} from "@angular/material/grid-list";
-import {InstrumentUploadDialog} from "../../../inventory/product-data/view/instrument-upload.dialog";
 import {MatDialog} from "@angular/material/dialog";
-import {BiasBacktestDialog} from "./backtest-dialog/bias-backtest.dialog";
 import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
+import {Url} from "../../../../../../model/urls";
 
 //=============================================================================
 
 @Component({
-  selector    :     'bias-analyzer',
+  selector    :     'bias-analysis-playground',
   templateUrl :   './bias-analysis.playground.html',
   styleUrls   : [ './bias-analysis.playground.scss' ],
     imports: [CommonModule, MatButton, MatIcon, MatFabButton, NgApexchartsModule, MatChipListbox, MatChipOption, SelectTextRequired,
@@ -99,11 +95,7 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
 
   selRangeProfit? : Profit
 
-  dowList : string[]         = []
-  sessions: TradingSession[] = []
-
-  backtestReq = new BiasBacktestRequest()
-  sessionId : number = 1
+  dowList : string[] = []
 
   //--- Configs -------------------------------------------
 
@@ -124,19 +116,13 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
               labelService            : LabelService,
               router                  : Router,
               private route           : ActivatedRoute,
-              private inventoryService: InventoryService,
               private collectorService: CollectorService,
               public  dialog          : MatDialog) {
 
-    super(eventBusService, labelService, router, "tool.biasAnalysis");
+    super(eventBusService, labelService, router, "tool.biasPlayground");
 
     this.dowList = this.labelService.getLabel("list.dowShort")
     this.service = this.getBiasConfigs
-
-    inventoryService.getTradingSessions().subscribe(
-      result => {
-        this.sessions = result.result;
-      })
   }
 
   //-------------------------------------------------------------------------
@@ -329,35 +315,13 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onBacktestClick() {
-    alert("Work in progress...")
+    this.navigateTo([ Url.Tool_BiasAnalyses, this.baId, Url.Sub_Backtest ]);
   }
 
   //-------------------------------------------------------------------------
 
   onConfigSelected(selection : BiasConfig[]) {
     this.selConfigs = selection
-  }
-
-  //-------------------------------------------------------------------------
-
-  onRunBacktest() {
-    let sessionSpec = this.getSessionDef()
-    if (sessionSpec == undefined) {
-      alert("Session is undefined!")
-      return
-    }
-
-    this.backtestReq.session = sessionSpec
-
-    this.collectorService.runBacktest(this.baId, this.backtestReq).subscribe( res => {
-      const dialogRef = this.dialog.open(BiasBacktestDialog, {
-        minWidth: "1600px",
-        height: "800px",
-        data: {
-          response : res
-        }
-      })
-    })
   }
 
   //-------------------------------------------------------------------------
@@ -717,20 +681,6 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
     else {
       return dpe.delta
     }
-  }
-
-  //-------------------------------------------------------------------------
-
-  private getSessionDef() : string|undefined {
-    let res : SickSession|undefined = undefined
-
-    this.sessions.forEach( ts => {
-      if (ts.id == this.sessionId) {
-        res = ts.session
-      }
-    })
-
-    return res
   }
 
   //-------------------------------------------------------------------------

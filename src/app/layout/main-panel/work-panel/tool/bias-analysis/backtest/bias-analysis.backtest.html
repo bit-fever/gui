@@ -1,0 +1,126 @@
+<div class="main-layout">
+  <div class="params-layout">
+    <div>
+      <button mat-button (click)="onRun()">{{button("run")}}</button>
+    </div>
+    <input-number-required [(value)]="backtestReq.stopLoss"   [label]="loc('stopLoss')"   [min]="0" [max]="100000"></input-number-required>
+    <input-number-required [(value)]="backtestReq.takeProfit" [label]="loc('takeProfit')" [min]="0" [max]="100000"></input-number-required>
+    <select-text-required class="session-style" [(key)]="sessionId" [label]="loc('session')"   keyField="id" valueField="name" [list]="sessions"></select-text-required>
+  </div>
+
+  <div class="result-layout" *ngIf="response">
+    <div class="left-layout">
+      <flex-tree
+        [roots]         = "roots"
+        [nodeProvider]  = "nodeProvider"
+        (onNodeSelected)="onNodeSelected($event)"
+      ></flex-tree>
+    </div>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <div class="center-layout" *ngIf="nodeType=='general'">
+      <h3>{{loc('biasAnalysis')}}</h3>
+      <table class="table-style">
+        <tr><td>{{loc('name')}}</td><td><b>{{response?.biasAnalysis?.name}}</b></td></tr>
+      </table>
+
+      <br/><mat-divider></mat-divider>
+
+      <h3>{{loc('brokerProduct')}}</h3>
+      <table class="table-style">
+        <tr><td>{{loc('symbol')}}</td>      <td><b>{{response?.brokerProduct?.symbol}}</b></td></tr>
+        <tr><td>{{loc('name')}}</td>        <td><b>{{response?.brokerProduct?.name}}</b></td></tr>
+        <tr><td>{{loc('costPerTrade')}}</td><td><b>{{response?.brokerProduct?.costPerTrade}}</b> {{response?.brokerProduct?.currencyCode}}</td></tr>
+        <tr><td>{{loc('pointValue')}}</td>  <td><b>{{response?.brokerProduct?.pointValue}}</b> {{response?.brokerProduct?.currencyCode}}</td></tr>
+      </table>
+    </div>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <div class="center-layout" *ngIf="nodeType=='config'">
+      <h3>{{loc('biasConfig')}}</h3>
+      <table class="table-style">
+        <tr><td>{{loc('startPeriod')}}</td>   <td><b>{{startString()}}</b></td></tr>
+        <tr><td>{{loc('endPeriod')}}</td>     <td><b>{{endString()}}</b></td></tr>
+        <tr><td>{{loc('months')}}</td>        <td><b>{{biasMonths()}}</b></td></tr>
+        <tr><td>{{loc('excludes')}}</td>      <td><b>{{nodeData.biasConfig.excludes}}</b></td></tr>
+        <tr><td>{{loc('operation')}}</td>     <td><b>{{operation()}}</b></td></tr>
+        <tr><td>{{loc('estGrossProfit')}}</td><td><b>{{nodeData.biasConfig.grossProfit}}</b>  {{response?.brokerProduct?.currencyCode}}</td></tr>
+        <tr><td>{{loc('estNetProfit')}}</td>  <td><b>{{nodeData.biasConfig.netProfit}}</b>  {{response?.brokerProduct?.currencyCode}}</td></tr>
+      </table>
+
+      <br/><mat-divider></mat-divider>
+
+      <h3>{{loc('summary')}}</h3>
+      <table class="table-style">
+        <tr>
+          <th></th>
+          <th class="money-style">{{loc('gross')}}</th>
+          <th class="money-style">{{loc('net')}}</th>
+        </tr>
+
+        <tr>
+          <td>{{loc('profit')}}</td>
+          <td class="money-style"><b>{{nodeData.grossProfit}}</b> {{response?.brokerProduct?.currencyCode}}</td>
+          <td class="money-style"><b>{{nodeData.netProfit}}</b> {{response?.brokerProduct?.currencyCode}}</td>
+        </tr>
+
+        <tr>
+          <td>{{loc('avgTrade')}}</td>
+          <td class="money-style"><b>{{nodeData.grossAvgTrade}}</b> {{response?.brokerProduct?.currencyCode}}</td>
+          <td class="money-style"><b>{{nodeData.netAvgTrade}}</b> {{response?.brokerProduct?.currencyCode}}</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <div class="center-layout" *ngIf="nodeType=='equity'">
+      <apx-chart
+        [chart]      = "equityChartOptions.chart"
+        [series]     = "equityChartOptions.series"
+        [dataLabels] = "equityChartOptions.dataLabels"
+        [plotOptions]= "equityChartOptions.plotOptions"
+        [xaxis]      = "equityChartOptions.xaxis"
+      ></apx-chart>
+    </div>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <div class="center-layout" *ngIf="nodeType=='trades'">
+      <flex-table #table class="table-panel"
+                  [columns] = "tradeColumns"
+                  [data]    = "nodeData.biasTrades"
+      ></flex-table>
+    </div>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <div class="center-layout" *ngIf="nodeType=='distrib'">
+      <apx-chart
+        [chart]      = "profitChartOptions.chart"
+        [series]     = "profitChartOptions.series"
+        [dataLabels] = "profitChartOptions.dataLabels"
+        [plotOptions]= "profitChartOptions.plotOptions"
+        [xaxis]      = "profitChartOptions.xaxis"
+      ></apx-chart>
+
+      <apx-chart
+        [chart]      = "numTradesChartOptions.chart"
+        [series]     = "numTradesChartOptions.series"
+        [dataLabels] = "numTradesChartOptions.dataLabels"
+        [plotOptions]= "numTradesChartOptions.plotOptions"
+        [xaxis]      = "numTradesChartOptions.xaxis"
+      ></apx-chart>
+
+      <apx-chart
+        [chart]      = "avgTradeChartOptions.chart"
+        [series]     = "avgTradeChartOptions.series"
+        [dataLabels] = "avgTradeChartOptions.dataLabels"
+        [plotOptions]= "avgTradeChartOptions.plotOptions"
+        [xaxis]      = "avgTradeChartOptions.xaxis"
+      ></apx-chart>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,9 @@
     <mat-label>Filter</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="...">
   </mat-form-field>
+
+  <button mat-stroked-button [disabled]="true">{{rowCount}}</button>
+
   <button mat-icon-button (click)="reload()">
     <mat-icon>refresh</mat-icon>
   </button>

@@ -8,6 +8,31 @@
 
 .main-layout {
   display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 16px;
+  height  : 100%;
+  overflow: hidden;
+}
+
+//=============================================================================
+
+.session-style {
+  width: 350px;
+}
+
+//=============================================================================
+
+div input-number-required {
+  margin-right: 4px;
+}
+
+//=============================================================================
+
+.result-layout {
+  display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: flex-start;
@@ -15,7 +40,7 @@
   gap: 16px;
   height  : 100%;
   overflow: hidden;
-  //padding: 0 8px 0 8px;
+  margin: 8px;
 }
 
 //=============================================================================
