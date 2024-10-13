@@ -34,11 +34,6 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
 import {AbstractPanel} from "../../../../../../component/abstract.panel";
 import {
-  BiasBacktestRequest,
-  BiasConfig,
-  BiasSummaryResponse,
-  DataPointDowList,
-  DataPointEntry,
 } from "../../../../../../model/model";
 import {EventBusService} from "../../../../../../service/eventbus.service";
 import {LabelService} from "../../../../../../service/label.service";
@@ -55,6 +50,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatDialog} from "@angular/material/dialog";
 import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
 import {Url} from "../../../../../../model/urls";
+import {BiasConfig, BiasSummaryResponse, DataPointDowList, DataPointEntry} from "../model";
 
 //=============================================================================
 

@@ -13,8 +13,7 @@ import {NgIf} from "@angular/common";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatIconModule} from "@angular/material/icon";
 import {
-  BacktestedConfig, BiasBacktestRequest,
-  BiasBacktestResponse, BiasTrade, SickSession,
+  SickSession,
   SimpleTreeNodeProvider, TradingSession,
   TreeNode
 } from "../../../../../../model/model";
@@ -28,13 +27,23 @@ import {DateTimeTranscoder, OperationTranscoder} from "../../../../../../compone
 import {FlexTablePanel} from "../../../../../../component/panel/flex-table/flex-table.panel";
 import {FlexTableColumn} from "../../../../../../model/flex-table";
 import {ApexAxisChartSeries, ChartComponent} from "ng-apexcharts";
-import {MatButtonToggleChange, MatButtonToggleModule} from "@angular/material/button-toggle";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {InventoryService} from "../../../../../../service/inventory.service";
 import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
 import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
 import {CollectorService} from "../../../../../../service/collector.service";
 import "./charts-config"
-import {avgTradeChartOptions, equityChartOptions, numTradesChartOptions, profitChartOptions} from "./charts-config";
+import {
+  buildAvgTradeChartOptions, buildEquityChartOptions, buildNumTradesChartOptions,
+  buildProfitChartOptions,
+} from "./charts-config";
+import {
+  BacktestedConfig,
+  BiasBacktestRequest,
+  BiasBacktestResponse,
+  Equity,
+  ProfitDistribution
+} from "../model";
 
 //=============================================================================
 
@@ -43,7 +52,7 @@ const BacktestConfigs = "backtest"
 const BacktestConfig  = "config"
 const ListOfTrades    = "trades"
 const ProfitDistrib   = "distrib"
-const Equity          = "equity"
+const EquityChart     = "equity"
 
 //=============================================================================
 
@@ -70,8 +79,7 @@ export class BiasAnalysisBacktestPanel extends AbstractPanel {
   backtestReq = new BiasBacktestRequest()
 
   sessionId : number = 1
-
-  sessions : TradingSession[] = []
+  sessions  : TradingSession[] = []
 
   //-------------------------------------------------------------------------
 
@@ -83,19 +91,13 @@ export class BiasAnalysisBacktestPanel extends AbstractPanel {
   nodeData : any
 
   tradeColumns : FlexTableColumn[] = []
-  tradeList    : BiasTrade[]       = []
 
   //--- Chart distribution stuff
 
-  chartType  : string = "profits"
-  threshold  : number[] = []
-
-  distribNetProfits : number[] = []
-  distribNumTrades  : number[] = []
-  distribAvgTrades  : number[] = []
-
-  equiGrossProfit : number[] = []
-  equiNetProfit   : number[] = []
+  profitChartOptions    :any
+  numTradesChartOptions : any
+  avgTradeChartOptions  : any
+  equityChartOptions    : any
 
   //-------------------------------------------------------------------------
   //---
@@ -128,6 +130,11 @@ export class BiasAnalysisBacktestPanel extends AbstractPanel {
   override init = () : void => {
     this.baId = Number(this.route.snapshot.paramMap.get("id"));
     this.setupTradeColumns()
+
+    this.profitChartOptions    = buildProfitChartOptions   (this.loc("titDistrProfit"))
+    this.numTradesChartOptions = buildNumTradesChartOptions(this.loc("titDistribTrades"))
+    this.avgTradeChartOptions  = buildAvgTradeChartOptions (this.loc("titDistribAvgTrd"))
+    this.equityChartOptions    = buildEquityChartOptions   (this.loc("titEquityProfit"))
   }
 
   //-------------------------------------------------------------------------
@@ -156,11 +163,9 @@ export class BiasAnalysisBacktestPanel extends AbstractPanel {
     this.nodeData = node.data
 
     if (this.nodeType == ProfitDistrib) {
-      this.buildProfitDistribution()
       this.setupProfitCharts()
     }
-    else if (this.nodeData == Equity) {
-      this.buildEquity()
+    else if (this.nodeType == EquityChart) {
       this.setupEquityChart()
     }
   }
@@ -179,7 +184,6 @@ export class BiasAnalysisBacktestPanel extends AbstractPanel {
     this.collectorService.runBacktest(this.baId, this.backtestReq).subscribe( res => {
       this.response  = res
       this.roots     = this.createTree(res)
-      this.threshold = this.buildThreshold()
     })
   }
 
@@ -267,7 +271,7 @@ export class BiasAnalysisBacktestPanel extends AbstractPanel {
     let name = this.getLabelForSlot(bc?.startDay, bc?.startSlot) +" --> "+ this.getLabelForSlot(bc?.endDay, bc?.endSlot)
     let node = new TreeNode(BacktestConfig, name, btc)
 
-    node.add(new TreeNode(Equity,        this.loc("equity"),           btc))
+    node.add(new TreeNode(EquityChart,   this.loc("equity"),           btc))
     node.add(new TreeNode(ListOfTrades,  this.loc("listOfTrades"),     btc))
     node.add(new TreeNode("",            this.loc("annualSummary"),    btc))
     node.add(new TreeNode(ProfitDistrib, this.loc("profitDistrib"),    btc))
@@ -292,134 +296,51 @@ export class BiasAnalysisBacktestPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  private buildEquity() {
-    let grossEquity : any[] = []
-    let netEquity   : any[] = []
-    let index = 0
-
-    this.nodeData.biasTrades.forEach( (bt : BiasTrade) => {
-      let date = new Date(bt.exitTime)
-
-      if (index == 0) {
-        grossEquity = [ [date, bt.grossProfit] ]
-        netEquity   = [ [date, bt.netProfit  ] ]
-      }
-      else {
-        grossEquity.push([date, grossEquity[index -1] + bt.grossProfit])
-        netEquity  .push([date, netEquity  [index -1] + bt.netProfit  ])
-      }
-
-      index++
-    })
-
-    this.equiGrossProfit = grossEquity
-    this.equiNetProfit   = netEquity
-  }
-
-  //-------------------------------------------------------------------------
-
-  private buildProfitDistribution() {
-    let profits   : number[] = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
-    let numTrades : number[] = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
-    let avgTrades : number[] = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
-
-    this.nodeData.biasTrades.forEach( (bt : BiasTrade) => {
-      if (bt.netProfit) {
-        let found = false
-
-        for (let i=0; i<15; i++) {
-          if (bt.netProfit < this.threshold[i]) {
-            profits[i] += bt.netProfit
-            numTrades[i] += 1
-            found = true
-            break
-          }
-        }
-
-        if ( !found) {
-          profits  [15] += bt.netProfit
-          numTrades[15] += 1
-        }
-      }
-    })
-
-    for (let i=0; i<16; i++) {
-      if (numTrades[i] != 0) {
-        avgTrades[i] = Math.round((profits[i] / numTrades[i]) * 100) / 100
-      }
-
-      profits[i] = Math.round(profits[i])
-    }
-
-    this.distribNetProfits = profits
-    this.distribNumTrades  = numTrades
-    this.distribAvgTrades  = avgTrades
-  }
-
-  //-------------------------------------------------------------------------
-
   private setupProfitCharts() {
+    let profDistrib : ProfitDistribution = this.nodeData.profitDistrib
+
     this.profitChartOptions.series = <ApexAxisChartSeries>[
       {
         name: this.loc("netProfits"),
-        data: this.distribNetProfits
+        data: profDistrib.netProfits
       }]
 
     this.numTradesChartOptions.series = <ApexAxisChartSeries>[
       {
         name: this.loc("numTrades"),
-        data: this.distribNumTrades
+        data: profDistrib.numTrades
       }]
 
     this.avgTradeChartOptions.series = <ApexAxisChartSeries>[
       {
         name: this.loc("avgTrade"),
-        data: this.distribAvgTrades
+        data: profDistrib.avgTrades
       }]
   }
 
   //-------------------------------------------------------------------------
 
   private setupEquityChart() {
+    let equity : Equity = this.nodeData.equity
+
+    let grossProfit : any[] = equity.gross.map( (e, i) => {
+      return { x:equity.time[i] , y:e }
+    })
+
+    let netProfit : any[] = equity.net.map( (e, i) => {
+      return { x:equity.time[i] , y:e }
+    })
+
     this.equityChartOptions.series = <ApexAxisChartSeries>[
       {
         name: this.loc("grossProfit"),
-        data: this.equiGrossProfit
+        data: grossProfit
       },
       {
         name: this.loc("netProfit"),
-          data: this.equiNetProfit
+        data: netProfit
       }]
   }
-
-  //-------------------------------------------------------------------------
-
-  private buildThreshold() : number[] {
-    let threshold : number[] = []
-    let costPerTrade = this.response?.brokerProduct?.costPerTrade
-    if (costPerTrade == undefined) {
-      costPerTrade = 0
-    }
-
-    for (let i=6; i>=0; i--) {
-      threshold = [ ...threshold, -Math.pow(2,i)*costPerTrade]
-    }
-
-    threshold = [ ...threshold, 0 ]
-
-    for (let i=0; i<=6; i++) {
-      threshold = [ ...threshold, Math.pow(2,i)*costPerTrade]
-    }
-
-    return threshold
-  }
-
-  //-------------------------------------------------------------------------
-
-  protected readonly profitChartOptions = profitChartOptions;
-  protected readonly numTradesChartOptions = numTradesChartOptions;
-  protected readonly avgTradeChartOptions = avgTradeChartOptions;
-  protected readonly equityChartOptions = equityChartOptions;
 }
 
 //=============================================================================

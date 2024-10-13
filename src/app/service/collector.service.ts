@@ -18,15 +18,19 @@ import {
   DataInstrumentDataResponse,
   DataInstrumentFull,
   DataProductExt,
-  BiasSummaryResponse,
-  BiasAnalysis,
   ConnectionSpec,
   Connection,
   DataProductSpec,
-  DataProduct, DataInstrumentExt, BiasConfig, BiasBacktestResponse, BiasBacktestRequest
+  DataProduct, DataInstrumentExt
 } from "../model/model";
 import {HttpService, UploadEvent} from "./http.service";
 import {HttpParams} from "@angular/common/http";
+import {
+  BiasAnalysis, BiasBacktestRequest,
+  BiasBacktestResponse,
+  BiasConfig,
+  BiasSummaryResponse
+} from "../layout/main-panel/work-panel/tool/bias-analysis/model";
 
 //=============================================================================
 

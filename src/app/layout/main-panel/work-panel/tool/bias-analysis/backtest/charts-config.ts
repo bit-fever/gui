@@ -6,7 +6,7 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {ApexAxisChartSeries, ApexChart, ApexXAxis, ChartComponent} from "ng-apexcharts";
+import {ApexAxisChartSeries, ApexChart, ApexStroke, ApexTitleSubtitle, ApexXAxis} from "ng-apexcharts";
 
 //=============================================================================
 //===
@@ -23,48 +23,52 @@ var categories= [
 //=== Profits chart
 //=============================================================================
 
-export var profitChartOptions = {
-  chart: <ApexChart>{
-    type: "bar",
-    height: 400,
-    toolbar: {
-      show: false
+export function buildProfitChartOptions(title : string) : {} {
+  return {
+    chart: <ApexChart>{
+      type: "bar",
+      height: 400,
+      toolbar: {},
     },
-  },
-  series: <ApexAxisChartSeries>[],
+    series: <ApexAxisChartSeries>[],
 
-  plotOptions: {
-    bar: {
-      colors: {
-        ranges:[
-          {
-            from: -3000000,
-            to: 0,
-            color: '#E04040'
-          },
-          {
-            from: 0,
-            to: 3000000,
-            color: '#40E040'
-          }
-        ]
+    plotOptions: {
+      bar: {
+        colors: {
+          ranges: [
+            {
+              from: -3000000,
+              to: 0,
+              color: '#E04040'
+            },
+            {
+              from: 0,
+              to: 3000000,
+              color: '#40E040'
+            }
+          ]
+        }
       }
-    }
-  },
-
-  dataLabels: {
-    enabled: true,
-    style: {
-      colors: ['#e0e0e0']
     },
-    background: {
-      enabled: true,
-      foreColor: '#000000'
-    }
-  },
 
-  xaxis: <ApexXAxis>{
-    categories: categories
+    dataLabels: {
+      enabled: true,
+      style: {
+        colors: ['#e0e0e0']
+      },
+      background: {
+        enabled: true,
+        foreColor: '#000000'
+      }
+    },
+
+    title: <ApexTitleSubtitle>{
+      text: title
+    },
+
+    xaxis: <ApexXAxis>{
+      categories: categories
+    }
   }
 }
 
@@ -72,34 +76,37 @@ export var profitChartOptions = {
 //=== Num trades chart
 //=============================================================================
 
-export var numTradesChartOptions = {
-  chart: <ApexChart>{
-    type: "bar",
-    height: 300,
-    toolbar: {
-      show: false
+export function buildNumTradesChartOptions(title : string) : {} {
+  return {
+    chart: <ApexChart>{
+      type: "bar",
+      height: 300,
+      toolbar: {},
     },
-  },
-  series: <ApexAxisChartSeries>[],
+    series: <ApexAxisChartSeries>[],
 
-  plotOptions: {
-    bar: {
-    }
-  },
-
-  dataLabels: {
-    enabled: true,
-    style: {
-      colors: ['#e0e0e0']
+    plotOptions: {
+      bar: {}
     },
-    background: {
+
+    dataLabels: {
       enabled: true,
-      foreColor: '#000000'
-    }
-  },
+      style: {
+        colors: ['#e0e0e0']
+      },
+      background: {
+        enabled: true,
+        foreColor: '#000000'
+      }
+    },
 
-  xaxis: <ApexXAxis>{
-    categories: categories
+    title: <ApexTitleSubtitle>{
+      text: title
+    },
+
+    xaxis: <ApexXAxis>{
+      categories: categories
+    }
   }
 }
 
@@ -107,48 +114,52 @@ export var numTradesChartOptions = {
 //=== Avg trade chart
 //=============================================================================
 
-export var avgTradeChartOptions = {
-  chart: <ApexChart>{
-    type: "bar",
-    height: 300,
-    toolbar: {
-      show: false
+export function buildAvgTradeChartOptions(title : string) : {} {
+  return {
+    chart: <ApexChart>{
+      type: "bar",
+      height: 300,
+      toolbar: {},
     },
-  },
-  series: <ApexAxisChartSeries>[],
+    series: <ApexAxisChartSeries>[],
 
-  plotOptions: {
-    bar: {
-      colors: {
-        ranges:[
-          {
-            from: -3000000,
-            to: 0,
-            color: '#E04040'
-          },
-          {
-            from: 0,
-            to: 3000000,
-            color: '#40E040'
-          }
-        ]
+    plotOptions: {
+      bar: {
+        colors: {
+          ranges: [
+            {
+              from: -3000000,
+              to: 0,
+              color: '#E04040'
+            },
+            {
+              from: 0,
+              to: 3000000,
+              color: '#40E040'
+            }
+          ]
+        }
       }
-    }
-  },
-
-  dataLabels: {
-    enabled: true,
-    style: {
-      colors: ['#e0e0e0']
     },
-    background: {
-      enabled: true,
-      foreColor: '#000000'
-    }
-  },
 
-  xaxis: <ApexXAxis>{
-    categories: categories
+    dataLabels: {
+      enabled: true,
+      style: {
+        colors: ['#e0e0e0']
+      },
+      background: {
+        enabled: true,
+        foreColor: '#000000'
+      }
+    },
+
+    title: <ApexTitleSubtitle>{
+      text: title
+    },
+
+    xaxis: <ApexXAxis>{
+      categories: categories
+    }
   }
 }
 
@@ -156,34 +167,33 @@ export var avgTradeChartOptions = {
 //=== Equity
 //=============================================================================
 
-export var equityChartOptions = {
-  chart: <ApexChart>{
-    type: "line",
-    height: 500,
-    // toolbar: {
-    //   show: false
-    // },
-  },
+export function buildEquityChartOptions(title : string) : {} {
+  return {
+    chart: <ApexChart>{
+      type: "line",
+      height: 700,
+    },
 
-  series: <ApexAxisChartSeries>[],
+    series: <ApexAxisChartSeries>[],
 
-  plotOptions: {
-  },
+    plotOptions: {},
 
-  dataLabels: {
-    // enabled: true,
-    // style: {
-    //   colors: ['#e0e0e0']
-    // },
-    // background: {
-    //   enabled: true,
-    //   foreColor: '#000000'
-    // }
-  },
+    stroke: <ApexStroke>{
+      curve: "straight",
+      width: 1
+    },
 
-  xaxis: <ApexXAxis>{
-    type: "datetime"
-    // categories: categories
+    dataLabels: {
+      // enabled: true,
+    },
+
+    title: <ApexTitleSubtitle>{
+      text: title
+    },
+
+    xaxis: <ApexXAxis>{
+      type: "datetime"
+    }
   }
 }
 

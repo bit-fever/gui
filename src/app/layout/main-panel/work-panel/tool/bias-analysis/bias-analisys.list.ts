@@ -12,7 +12,6 @@ import {MatInputModule}       from "@angular/material/input";
 import {MatCardModule}        from "@angular/material/card";
 import {MatIconModule}        from "@angular/material/icon";
 import {MatButtonModule}      from "@angular/material/button";
-import {InvTradingSystemFull, DataProduct, BiasAnalysisFull} from "../../../../../model/model";
 import {FlexTableColumn, ListResponse, ListService} from "../../../../../model/flex-table";
 import {AbstractPanel}        from "../../../../../component/abstract.panel";
 import {FlexTablePanel}       from "../../../../../component/panel/flex-table/flex-table.panel";
@@ -22,9 +21,8 @@ import {Router, RouterModule} from "@angular/router";
 import {Url} from "../../../../../model/urls";
 import {AppEvent} from "../../../../../model/event";
 import {Observable} from "rxjs";
-import {InventoryService} from "../../../../../service/inventory.service";
-import {LabelTranscoder} from "../../../../../component/panel/flex-table/transcoders";
 import {CollectorService} from "../../../../../service/collector.service";
+import {BiasAnalysisFull} from "./model";
 
 //=============================================================================
 

@@ -24,7 +24,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
 import {InputTextRequired} from "../../../../../../component/form/input-text-required/input-text-required";
 import {
-  BiasAnalysis, BrokerProduct,
+  BrokerProduct,
 } from "../../../../../../model/model";
 import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
 import {InventoryService} from "../../../../../../service/inventory.service";
@@ -32,6 +32,7 @@ import {InputNumberRequired} from "../../../../../../component/form/input-intege
 import {MatDialog} from "@angular/material/dialog";
 import {CollectorService} from "../../../../../../service/collector.service";
 import {InstrumentSelectorPanel} from "../../../../../../component/form/instrument-selector/instrument-selector.panel";
+import {BiasAnalysis} from "../model";
 
 //=============================================================================
 

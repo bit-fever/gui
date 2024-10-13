@@ -26,9 +26,10 @@ import {InputTextRequired} from "../../../../../../component/form/input-text-req
 import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
 import {InventoryService} from "../../../../../../service/inventory.service";
 import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
-import {BiasAnalysis, BrokerProduct} from "../../../../../../model/model";
+import {BrokerProduct} from "../../../../../../model/model";
 import {InstrumentSelectorPanel} from "../../../../../../component/form/instrument-selector/instrument-selector.panel";
 import {CollectorService} from "../../../../../../service/collector.service";
+import {BiasAnalysis} from "../model";
 
 //=============================================================================
 

@@ -22,17 +22,17 @@
     <div class="center-layout" *ngIf="nodeType=='general'">
       <h3>{{loc('biasAnalysis')}}</h3>
       <table class="table-style">
-        <tr><td>{{loc('name')}}</td><td><b>{{response?.biasAnalysis?.name}}</b></td></tr>
+        <tr><td>{{loc('name')}}</td><td><b>{{response.biasAnalysis?.name}}</b></td></tr>
       </table>
 
       <br/><mat-divider></mat-divider>
 
       <h3>{{loc('brokerProduct')}}</h3>
       <table class="table-style">
-        <tr><td>{{loc('symbol')}}</td>      <td><b>{{response?.brokerProduct?.symbol}}</b></td></tr>
-        <tr><td>{{loc('name')}}</td>        <td><b>{{response?.brokerProduct?.name}}</b></td></tr>
-        <tr><td>{{loc('costPerTrade')}}</td><td><b>{{response?.brokerProduct?.costPerTrade}}</b> {{response?.brokerProduct?.currencyCode}}</td></tr>
-        <tr><td>{{loc('pointValue')}}</td>  <td><b>{{response?.brokerProduct?.pointValue}}</b> {{response?.brokerProduct?.currencyCode}}</td></tr>
+        <tr><td>{{loc('symbol')}}</td>      <td><b>{{response.brokerProduct?.symbol}}</b></td></tr>
+        <tr><td>{{loc('name')}}</td>        <td><b>{{response.brokerProduct?.name}}</b></td></tr>
+        <tr><td>{{loc('costPerTrade')}}</td><td><b>{{response.brokerProduct?.costPerTrade}}</b> {{response.brokerProduct?.currencyCode}}</td></tr>
+        <tr><td>{{loc('pointValue')}}</td>  <td><b>{{response.brokerProduct?.pointValue}}</b> {{response.brokerProduct?.currencyCode}}</td></tr>
       </table>
     </div>
 
@@ -46,8 +46,8 @@
         <tr><td>{{loc('months')}}</td>        <td><b>{{biasMonths()}}</b></td></tr>
         <tr><td>{{loc('excludes')}}</td>      <td><b>{{nodeData.biasConfig.excludes}}</b></td></tr>
         <tr><td>{{loc('operation')}}</td>     <td><b>{{operation()}}</b></td></tr>
-        <tr><td>{{loc('estGrossProfit')}}</td><td><b>{{nodeData.biasConfig.grossProfit}}</b>  {{response?.brokerProduct?.currencyCode}}</td></tr>
-        <tr><td>{{loc('estNetProfit')}}</td>  <td><b>{{nodeData.biasConfig.netProfit}}</b>  {{response?.brokerProduct?.currencyCode}}</td></tr>
+        <tr><td>{{loc('estGrossProfit')}}</td><td><b>{{nodeData.biasConfig.grossProfit}}</b>  {{response.brokerProduct?.currencyCode}}</td></tr>
+        <tr><td>{{loc('estNetProfit')}}</td>  <td><b>{{nodeData.biasConfig.netProfit}}</b>  {{response.brokerProduct?.currencyCode}}</td></tr>
       </table>
 
       <br/><mat-divider></mat-divider>
@@ -62,14 +62,14 @@
 
         <tr>
           <td>{{loc('profit')}}</td>
-          <td class="money-style"><b>{{nodeData.grossProfit}}</b> {{response?.brokerProduct?.currencyCode}}</td>
-          <td class="money-style"><b>{{nodeData.netProfit}}</b> {{response?.brokerProduct?.currencyCode}}</td>
+          <td class="money-style"><b>{{nodeData.grossProfit}}</b> {{response.brokerProduct?.currencyCode}}</td>
+          <td class="money-style"><b>{{nodeData.netProfit}}</b> {{response.brokerProduct?.currencyCode}}</td>
         </tr>
 
         <tr>
           <td>{{loc('avgTrade')}}</td>
-          <td class="money-style"><b>{{nodeData.grossAvgTrade}}</b> {{response?.brokerProduct?.currencyCode}}</td>
-          <td class="money-style"><b>{{nodeData.netAvgTrade}}</b> {{response?.brokerProduct?.currencyCode}}</td>
+          <td class="money-style"><b>{{nodeData.grossAvgTrade}}</b> {{response.brokerProduct?.currencyCode}}</td>
+          <td class="money-style"><b>{{nodeData.netAvgTrade}}</b> {{response.brokerProduct?.currencyCode}}</td>
         </tr>
       </table>
     </div>
@@ -78,10 +78,12 @@
 
     <div class="center-layout" *ngIf="nodeType=='equity'">
       <apx-chart
+        [title]      = "equityChartOptions.title"
         [chart]      = "equityChartOptions.chart"
         [series]     = "equityChartOptions.series"
         [dataLabels] = "equityChartOptions.dataLabels"
         [plotOptions]= "equityChartOptions.plotOptions"
+        [stroke]     = "equityChartOptions.stroke"
         [xaxis]      = "equityChartOptions.xaxis"
       ></apx-chart>
     </div>
@@ -99,6 +101,7 @@
 
     <div class="center-layout" *ngIf="nodeType=='distrib'">
       <apx-chart
+        [title]      = "profitChartOptions.title"
         [chart]      = "profitChartOptions.chart"
         [series]     = "profitChartOptions.series"
         [dataLabels] = "profitChartOptions.dataLabels"
@@ -107,6 +110,7 @@
       ></apx-chart>
 
       <apx-chart
+        [title]      = "numTradesChartOptions.title"
         [chart]      = "numTradesChartOptions.chart"
         [series]     = "numTradesChartOptions.series"
         [dataLabels] = "numTradesChartOptions.dataLabels"
@@ -115,6 +119,7 @@
       ></apx-chart>
 
       <apx-chart
+        [title]      = "avgTradeChartOptions.title"
         [chart]      = "avgTradeChartOptions.chart"
         [series]     = "avgTradeChartOptions.series"
         [dataLabels] = "avgTradeChartOptions.dataLabels"

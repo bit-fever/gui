@@ -471,6 +471,10 @@ page:
         netProfit       : Net profit
         grossProfit     : Gross profit
         numTrades       : Number of trades
+        titDistrProfit  : Net profit vs cost per trade
+        titDistribTrades: Num of trades vs cost per trade
+        titDistribAvgTrd: Average trade vs cost per trade
+        titEquityProfit : Equity (gross vs net profit)
 
   # ==============================================================================
 
