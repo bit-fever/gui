@@ -26,8 +26,7 @@ export function buildEquityChartOptions(title : string) : {} {
 
     stroke: <ApexStroke>{
       curve: "straight",
-      width: 1,
-      dashArray: [ 0, 0, 0, 0, 4]
+      width: 2,
     },
 
     dataLabels: {
@@ -53,8 +52,8 @@ export function createChart(options : ChartOptions, result : PortfolioMonitoring
     datasets = [...datasets,
       Lib.chart.buildDataset(options.labelTotGrossProfit, result.time, result.grossProfit),
       Lib.chart.buildDataset(options.labelTotNetProfit,   result.time, result.netProfit),
-      Lib.chart.buildDataset(options.labelTotGrossDrawdown, result.time, result.grossDrawdown),
-      Lib.chart.buildDataset(options.labelTotNetDrawdown, result.time, result.netDrawdown),
+      Lib.chart.buildDataset(options.labelTotGrossDrawdown, result.time, result.grossDrawdown, true),
+      Lib.chart.buildDataset(options.labelTotNetDrawdown, result.time, result.netDrawdown, true),
     ]
   }
 
@@ -84,11 +83,11 @@ function buildTSMDataSet(options : ChartOptions, tsa : TradingSystemMonitoring) 
   }
 
   if (options.showGrossDrawdown) {
-    res = [...res, Lib.chart.buildDataset(tsa.name + " (Raw DD)", tsa.time, tsa.grossDrawdown)];
+    res = [...res, Lib.chart.buildDataset(tsa.name + " (Raw DD)", tsa.time, tsa.grossDrawdown, true)];
   }
 
   if (options.showNetDrawdown) {
-    res = [...res, Lib.chart.buildDataset(tsa.name + " (Net DD)", tsa.time, tsa.netDrawdown)];
+    res = [...res, Lib.chart.buildDataset(tsa.name + " (Net DD)", tsa.time, tsa.netDrawdown, true)];
   }
 
   return res

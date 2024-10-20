@@ -19,6 +19,8 @@ export function buildEquityChartOptions(title : string) : {} {
     chart: <ApexChart>{
       type: "line",
       height: 500,
+      id: "base",
+      group: "equity",
     },
 
     series: <ApexAxisChartSeries>[],
@@ -27,7 +29,7 @@ export function buildEquityChartOptions(title : string) : {} {
 
     stroke: <ApexStroke>{
       curve: "stepline",
-      width: 1,
+      width: 2,
       dashArray: [ 0, 0, 0, 0, 4]
     },
 
@@ -38,6 +40,8 @@ export function buildEquityChartOptions(title : string) : {} {
     title: <ApexTitleSubtitle>{
       text: title
     },
+
+//    colors: [ '#008FFB', '#00E396', '#FF0000', '#800000' ],
 
     xaxis: <ApexXAxis>{
       type: "datetime"
@@ -56,6 +60,8 @@ export function buildActivationChartOptions(title : string) : {} {
     chart: <ApexChart>{
       type: "line",
       height: 300,
+      id: "activ",
+      group: "equity",
     },
 
     series: <ApexAxisChartSeries>[],
@@ -64,7 +70,7 @@ export function buildActivationChartOptions(title : string) : {} {
 
     stroke: <ApexStroke>{
       curve: "stepline",
-      width: 1
+      width: 2
     },
 
     dataLabels: {

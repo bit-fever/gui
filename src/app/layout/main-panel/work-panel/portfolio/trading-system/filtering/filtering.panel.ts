@@ -228,8 +228,8 @@ export class FilteringPanel extends AbstractPanel {
       let datasets = [
         Lib.chart.buildDataset(this.loc("chart.unfEquity"),   e.time, e.unfilteredEquity),
         Lib.chart.buildDataset(this.loc("chart.filEquity"),   e.time, e.filteredEquity),
-        Lib.chart.buildDataset(this.loc("chart.unfDrawdown"), e.time, e.unfilteredDrawdown),
-        Lib.chart.buildDataset(this.loc("chart.filDrawdown"), e.time, e.filteredDrawdown),
+        Lib.chart.buildDataset(this.loc("chart.unfDrawdown"), e.time, e.unfilteredDrawdown, true),
+        Lib.chart.buildDataset(this.loc("chart.filDrawdown"), e.time, e.filteredDrawdown, true),
       ]
 
       //--- Moving average

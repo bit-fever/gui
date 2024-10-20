@@ -120,10 +120,10 @@ export class MonitoringPanel extends AbstractPanel {
     this.setupColumns();
     this.periods = this.labelMap("periods");
 
-    this.options.labelTotGrossProfit   = this.loc("totalRawProfit")
-    this.options.labelTotNetProfit   = this.loc("totalNetProfit")
-    this.options.labelTotGrossDrawdown = this.loc("totalRawDrawdown")
-    this.options.labelTotNetDrawdown = this.loc("totalNetDrawdown")
+    this.options.labelTotGrossProfit   = this.loc("totalGrossProfit")
+    this.options.labelTotNetProfit     = this.loc("totalNetProfit")
+    this.options.labelTotGrossDrawdown = this.loc("totalGrossDrawdown")
+    this.options.labelTotNetDrawdown   = this.loc("totalNetDrawdown")
 
     this.inventoryService.getPortfolioTree().subscribe(
       result => {

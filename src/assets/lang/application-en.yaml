@@ -313,12 +313,12 @@ page:
           name: Last year
         - id: 730
           name: Last 2 years
-      showTotals       : Totals
-      showGrossProfit  : Gross profits
-      showNetProfit    : Net profits
-      showGrossDrawdown: Gross drawdowns
-      showNetDrawdown  : Net drawdowns
-
+      showTotals        : Totals
+      showGrossProfit   : Gross profits
+      showNetProfit     : Net profits
+      showGrossDrawdown : Gross drawdowns
+      showNetDrawdown   : Net drawdowns
+      equities          : Equities
       totalGrossProfit  : Total gross profit
       totalNetProfit    : Total net profit
       totalGrossDrawdown: Total gross drawdown
