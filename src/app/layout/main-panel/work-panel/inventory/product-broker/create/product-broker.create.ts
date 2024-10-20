@@ -77,7 +77,7 @@ export class BrokerProductCreatePanel extends AbstractPanel {
   @ViewChild("pbSymbolCtrl")       pbSymbolCtrl?       : InputTextRequired
   @ViewChild("pbNameCtrl")         pbNameCtrl?         : InputTextRequired
   @ViewChild("pbPointValueCtrl")   pbPointValueCtrl?   : InputNumberRequired
-  @ViewChild("pbCostPerTradeCtrl") pbCostPerTradeCtrl? : InputNumberRequired
+  @ViewChild("pbCostPerOperCtrl")  pbCostPerOperCtrl?  : InputNumberRequired
   @ViewChild("pbMarginValueCtrl")  pbMarginValueCtrl?  : InputNumberRequired
   @ViewChild("pbIncrementCtrl")    pdIncrementCtrl?    : InputNumberRequired
   @ViewChild("pbMarketCtrl")       pbMarketCtrl?       : SelectTextRequired
@@ -167,7 +167,7 @@ export class BrokerProductCreatePanel extends AbstractPanel {
             this.pbSymbolCtrl      ?.isValid() &&
             this.pbNameCtrl        ?.isValid() &&
             this.pbPointValueCtrl  ?.isValid() &&
-            this.pbCostPerTradeCtrl?.isValid() &&
+            this.pbCostPerOperCtrl ?.isValid() &&
             this.pbMarginValueCtrl ?.isValid() &&
             this.pdIncrementCtrl   ?.isValid() &&
             this.pbMarketCtrl      ?.isValid() &&
@@ -187,15 +187,15 @@ export class BrokerProductCreatePanel extends AbstractPanel {
 
     dialogRef.afterClosed().subscribe((pp : PresetProduct) => {
       if (pp) {
-        this.pb.symbol      = pp.symbol
-        this.pb.name        = pp.name
-        this.pb.increment   = pp.increment
-        this.pb.marketType  = pp.market
-        this.pb.productType = pp.product
-        this.pb.exchangeId  = this.getExchangeId(pp.exchange)
-        this.pb.pointValue  = pp.pointValue
-        this.pb.costPerTrade= pp.costPerTrade
-        this.pb.marginValue = pp.margin
+        this.pb.symbol          = pp.symbol
+        this.pb.name            = pp.name
+        this.pb.increment       = pp.increment
+        this.pb.marketType      = pp.market
+        this.pb.productType     = pp.product
+        this.pb.exchangeId      = this.getExchangeId(pp.exchange)
+        this.pb.pointValue      = pp.pointValue
+        this.pb.costPerOperation= pp.costPerOperation
+        this.pb.marginValue     = pp.margin
       }
     })
   }

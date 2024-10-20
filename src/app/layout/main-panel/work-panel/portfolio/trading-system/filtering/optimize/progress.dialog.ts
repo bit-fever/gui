@@ -72,6 +72,7 @@ export class OptimizeProgressDialog extends AbstractPanel {
   //--- Init methods
   //---
   //-------------------------------------------------------------------------
+
   protected override destroy = (): void => {
     this.poller.unsubscribe()
   }

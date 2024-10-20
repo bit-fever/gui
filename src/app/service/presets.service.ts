@@ -88,15 +88,15 @@ export class PresetsService {
 //=============================================================================
 
 export class PresetProduct {
-  symbol      : string = ""
-  name        : string = ""
-  increment   : number = 0
-  market      : string = ""
-  product     : string = ""
-  exchange    : string = ""
-  pointValue  : number = 0
-  costPerTrade: number = 0
-  margin      : number = 0
+  symbol          : string = ""
+  name            : string = ""
+  increment       : number = 0
+  market          : string = ""
+  product         : string = ""
+  exchange        : string = ""
+  pointValue      : number = 0
+  costPerOperation: number = 0
+  margin          : number = 0
 }
 
 //=============================================================================

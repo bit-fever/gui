@@ -6,8 +6,7 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {ChartConfiguration} from "chart.js";
-import {Plot} from "../model/model";
+import {Serie} from "../model/model";
 
 export class ChartLib {
 
@@ -17,59 +16,15 @@ export class ChartLib {
   //---
   //-------------------------------------------------------------------------
 
-  public lineConfig(unit? : string) : ChartConfiguration {
-    return {
-      type: 'line',
+  public formatActivation(plot : Serie) : Serie {
+    let res = new Serie();
 
-      data: {
-        labels: [],
-        datasets: []
-      },
-
-      options: {
-        elements: {
-          point: {
-            radius: 1
-          },
-          line: {
-            borderWidth: 1
-          }
-        },
-        aspectRatio:2,
-        scales: {
-          y: {
-            ticks: {
-              callback: value => unit ? `${value} `+unit : `${value}`
-            }
-          }
-        }
-      }
-    }
-  }
-
-  //-------------------------------------------------------------------------
-
-  public formatDays(days : number[]) : string[] {
-    let res : string[] = [];
-
-    for (let i=0; i<days.length; i++) {
-      res = [...res, this.formatDay(days[i])]
-    }
-
-    return res;
-  }
-
-  //-------------------------------------------------------------------------
-
-  public formatActivation(plot : Plot) : Plot {
-    let res = new Plot();
-
-    for (let i=0; i<plot.days.length; i++) {
-      let day = plot.days[i]
+    for (let i=0; i<plot.time.length; i++) {
+      let day = plot.time[i]
       let val = plot.values[i]
 
       if (val != 0) {
-        res.days   = [...res.days  , day]
+        res.time   = [...res.time  , day]
         res.values = [...res.values, val]
       }
     }
@@ -79,27 +34,23 @@ export class ChartLib {
 
   //-------------------------------------------------------------------------
 
-  public formatDay(day : number) : string {
-    let sDay = String(day);
-    return sDay.substring(0, 4) +"-"+ sDay.substring(4,6) +"-"+ sDay.substring(6,8)
-  }
+  // public formatDay(day : number) : string {
+  //   let sDay = String(day);
+  //   return sDay.substring(0, 4) +"-"+ sDay.substring(4,6) +"-"+ sDay.substring(6,8)
+  // }
 
   //-------------------------------------------------------------------------
 
-  public buildDataSet(name : string, days : string[], serie : number[]) : any {
-
-    let data : any[] = []
-
-    for (let i=0; i<days.length; i++) {
-      let elem = {
-        x: days[i],
-        y: serie[i]
+  public buildDataset(name: string, times : any[], values : number[]) : any {
+    let data : any[] = values.map( (e, i) => {
+      return {
+        x : times[i] ,
+        y : e
       }
-      data = [...data, elem]
-    }
+    })
 
     return {
-      label: name,
+      name: name,
       data: data
     }
   }

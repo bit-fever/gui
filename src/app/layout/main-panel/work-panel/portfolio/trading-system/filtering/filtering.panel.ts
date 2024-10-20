@@ -21,12 +21,11 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatSlideToggleChange, MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {
   FilterAnalysisRequest,
-  FilterAnalysisResponse, FilterRun, Plot, Summary,
+  FilterAnalysisResponse, FilterRun, Serie, Summary,
   TradingFilters, TradingSystemSmall,
 } from "../../../../../../model/model";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatButtonModule} from "@angular/material/button";
-import {Chart} from "chart.js/auto";
 import {Lib} from "../../../../../../lib/lib";
 import {FormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
@@ -41,6 +40,8 @@ import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {OptimizeProgressDialog} from "./optimize/progress.dialog";
 import {OptimizeResultDialog} from "./optimize/result.dialog";
 import {OptimizeParameterDialog} from "./optimize/parameter.dialog";
+import {ChartComponent} from "ng-apexcharts";
+import {buildActivationChartOptions, buildEquityChartOptions} from "./charts-config";
 
 //=============================================================================
 
@@ -50,7 +51,7 @@ import {OptimizeParameterDialog} from "./optimize/parameter.dialog";
   styleUrls   : [ './filtering.panel.scss' ],
   imports: [CommonModule, RouterModule, MatExpansionModule, MatIconModule, MatFormFieldModule, FormsModule,
     MatInputModule, MatOptionModule, MatSelectModule, MatSlideToggleModule, MatTabsModule, MatButtonModule,
-    MatDividerModule, SelectTextRequired, MatGridListModule, SimpleTablePanel, MatDialogModule],
+    MatDividerModule, SelectTextRequired, MatGridListModule, SimpleTablePanel, MatDialogModule, ChartComponent],
   standalone  : true
 })
 
@@ -66,10 +67,10 @@ export class FilteringPanel extends AbstractPanel {
 
   filters           = new TradingFilters()
   tradingSystem= new TradingSystemSmall()
-  summary               = new Summary()
+  summary              = new Summary()
 
-  equityChart     : any;
-  activationChart : any;
+  equityChartOptions : any
+  activChartOptions  : any
 
   summaryColumns: FlexTableColumn[] = [];
   summaryData   : SummaryRow[]      = []
@@ -104,6 +105,9 @@ export class FilteringPanel extends AbstractPanel {
       new FlexTableColumn(ts, "unfiltered"),
       new FlexTableColumn(ts, "filtered")
     ]
+
+    this.equityChartOptions = buildEquityChartOptions(this.loc("equities"))
+    this.activChartOptions  = buildActivationChartOptions(this.loc("activation"))
   }
 
   //-------------------------------------------------------------------------
@@ -192,18 +196,15 @@ export class FilteringPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   private callService(req : FilterAnalysisRequest) {
-    this.destroyCharts();
-
     this.portfolioService.runFilterAnalysis(this.tsId, req).subscribe(
       result => {
         this.analysis       = result;
         this.filters        = result.filters;
         this.tradingSystem  = result.tradingSystem;
         this.summary        = result.summary;
-        this.equityChart    = this.createEquityChart(result);
-        this.activationChart= this.createActivationChart(result);
-
-        this.summaryData = this.buildSummary(this.summary)
+        this.summaryData    = this.buildSummary(this.summary)
+        this.createEquityChart(result);
+        this.createActivationChart(result);
       }
     )
   }
@@ -221,56 +222,29 @@ export class FilteringPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  private createEquityChart(res: FilterAnalysisResponse): Chart {
-      let config = Lib.chart.lineConfig("$")
-      let days = Lib.chart.formatDays(res.equities.days);
+  private createEquityChart(res: FilterAnalysisResponse) {
+    let e = res.equities
 
-      let datasets: any[] = [
-        Lib.chart.buildDataSet(this.loc("chart.unfEquity"), days, res.equities.unfilteredEquity),
-        Lib.chart.buildDataSet(this.loc("chart.filEquity"), days, res.equities.filteredEquity),
-      ];
-
-      //--- Unfiltered drawdown
-
-      let ds = Lib.chart.buildDataSet(this.loc("chart.unfDrawdown"), days, res.equities.unfilteredDrawdown);
-      ds.fill = {
-        target: {value: 0},
-        below: "#E0808080"
-      };
-
-      datasets = [...datasets, ds];
-
-      //--- Filtered drawdown
-
-      ds = Lib.chart.buildDataSet(this.loc("chart.filDrawdown"), days, res.equities.filteredDrawdown);
-      ds.fill = {
-        target: {value: 0},
-        below: "#C0808080"
-      };
-
-      datasets = [...datasets, ds];
+      let datasets = [
+        Lib.chart.buildDataset(this.loc("chart.unfEquity"),   e.time, e.unfilteredEquity),
+        Lib.chart.buildDataset(this.loc("chart.filEquity"),   e.time, e.filteredEquity),
+        Lib.chart.buildDataset(this.loc("chart.unfDrawdown"), e.time, e.unfilteredDrawdown),
+        Lib.chart.buildDataset(this.loc("chart.filDrawdown"), e.time, e.filteredDrawdown),
+      ]
 
       //--- Moving average
 
       if (res.equities.average) {
         let avg = res.equities.average
-        ds = Lib.chart.buildDataSet(this.loc("chart.average"), Lib.chart.formatDays(avg.days), avg.values);
-        ds.type="scatter"
-        datasets = [...datasets, ds];
+        datasets = [...datasets, Lib.chart.buildDataset(this.loc("chart.average"), e.time, avg.values) ]
       }
 
-      config.data.datasets = datasets;
-      config.data.labels   = days;
-
-      return new Chart("equityChart", config);
+      this.equityChartOptions.series = datasets
   }
 
   //-------------------------------------------------------------------------
 
-  private createActivationChart(res: FilterAnalysisResponse): Chart {
-    let config = Lib.chart.lineConfig("")
-    let days = Lib.chart.formatDays(res.equities.days);
-
+  private createActivationChart(res: FilterAnalysisResponse) {
     let datasets: any[] = [
     ];
 
@@ -302,48 +276,28 @@ export class FilteringPanel extends AbstractPanel {
       factor += 2
     }
 
-    let ds = this.addActivationDatasetBase(res.equities.days, res.equities.filterActivation, "chart.filterActivation", factor)
+    let ds = this.addActivationDatasetBase(res.equities.time, res.equities.filterActivation, "chart.filterActivation", factor)
     datasets = [...datasets, ds];
 
-    config.data.datasets = datasets;
-    config.data.labels   = days;
-
-    return new Chart("activationChart", config);
+    this.activChartOptions.series = datasets;
   }
 
   //-------------------------------------------------------------------------
 
-  private addActivationDataset(plot : Plot, label : string, factor : number) : any {
-    return this.addActivationDatasetBase(plot.days, plot.values, label, factor)
+  private addActivationDataset(serie : Serie, label : string, factor : number) : any {
+    return this.addActivationDatasetBase(serie.time, serie.values, label, factor)
   }
 
   //-------------------------------------------------------------------------
 
-  private addActivationDatasetBase(days:number[], values:number[], label : string, factor : number) : any {
+  private addActivationDatasetBase(time:Date[], values:number[], label : string, factor : number) : any {
     for (let i=0; i<values.length; i++) {
       values[i] += factor
     }
 
-    let ds = Lib.chart.buildDataSet(this.loc(label), Lib.chart.formatDays(days), values);
-
-    ds.step    = true
-    ds.stepped = "before"
+    let ds = Lib.chart.buildDataset(this.loc(label), time, values);
 
     return ds
-  }
-
-  //-------------------------------------------------------------------------
-
-  private destroyCharts() {
-    if (this.equityChart != undefined) {
-      this.equityChart.destroy();
-      this.equityChart = undefined;
-    }
-
-    if (this.activationChart != undefined) {
-      this.activationChart.destroy();
-      this.activationChart = undefined;
-    }
   }
 
   //-------------------------------------------------------------------------
@@ -415,25 +369,25 @@ export class FilteringPanel extends AbstractPanel {
 
     if (run.filterType == "posProfit") {
       f.posProEnabled = true
-      f.posProDays    = run.days
+      f.posProLen     = run.length
     }
 
     else if (run.filterType == "oldVsNew") {
       f.oldNewEnabled = true
-      f.oldNewOldDays = run.days
-      f.oldNewNewDays = run.newDays
+      f.oldNewOldLen  = run.length
+      f.oldNewNewLen  = run.newLength
       f.oldNewOldPerc = run.percentage
     }
 
     else if (run.filterType == "winPerc") {
       f.winPerEnabled = true
-      f.winPerDays    = run.days
+      f.winPerLen     = run.length
       f.winPerValue   = run.percentage
     }
 
     else if (run.filterType == "equVsAvg") {
       f.equAvgEnabled = true
-      f.equAvgDays    = run.days
+      f.equAvgLen     = run.length
     }
 
     else {

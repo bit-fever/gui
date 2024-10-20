@@ -7,87 +7,62 @@
 //=============================================================================
 
 import {PortfolioMonitoringResponse, TradingSystemMonitoring} from "../../../../../model/model";
-import {ChartConfiguration} from "chart.js";
-import {Chart} from "chart.js/auto";
-import {ChartOptions, ChartType} from "./model";
+import {ChartOptions} from "./model";
 import {Lib} from "../../../../../lib/lib";
+import {ApexAxisChartSeries, ApexChart, ApexStroke, ApexTitleSubtitle, ApexXAxis} from "ng-apexcharts";
 
 //=============================================================================
 
-export function createChart(options : ChartOptions, result : PortfolioMonitoringResponse) : Chart {
-  switch (options.chartType) {
-    case ChartType.Equities:
-      return createEquityChart(options, result);
-    case ChartType.Trades:
-      return createTradesChart(options, result);
-  }
+export function buildEquityChartOptions(title : string) : {} {
+  return {
+    chart: <ApexChart>{
+      type: "line",
+      height: 500,
+    },
 
-  throw new Error("Unknown chartType : "+ options.chartType)
+    series: <ApexAxisChartSeries>[],
+
+    plotOptions: {},
+
+    stroke: <ApexStroke>{
+      curve: "straight",
+      width: 1,
+      dashArray: [ 0, 0, 0, 0, 4]
+    },
+
+    dataLabels: {
+      // enabled: true,
+    },
+
+    title: <ApexTitleSubtitle>{
+      text: title
+    },
+
+    xaxis: <ApexXAxis>{
+      type: "datetime"
+    }
+  }
 }
 
 //=============================================================================
 
-export function createEquityChart(options : ChartOptions, result : PortfolioMonitoringResponse) : Chart {
-  let config = Lib.chart.lineConfig("$")
-  let days = Lib.chart.formatDays(result.days);
-
+export function createChart(options : ChartOptions, result : PortfolioMonitoringResponse) : any[] {
   let datasets : any[] = [];
 
   if (options.showTotals) {
     datasets = [...datasets,
-      Lib.chart.buildDataSet(options.labelTotRawProfit, days, result.rawProfit),
-      Lib.chart.buildDataSet(options.labelTotNetProfit, days, result.netProfit),
+      Lib.chart.buildDataset(options.labelTotGrossProfit, result.time, result.grossProfit),
+      Lib.chart.buildDataset(options.labelTotNetProfit,   result.time, result.netProfit),
+      Lib.chart.buildDataset(options.labelTotGrossDrawdown, result.time, result.grossDrawdown),
+      Lib.chart.buildDataset(options.labelTotNetDrawdown, result.time, result.netDrawdown),
     ]
-
-    let ds = Lib.chart.buildDataSet(options.labelTotRawDrawdown, days, result.rawDrawdown);
-    ds.fill = {
-      target: { value: 0 },
-      below: "#E0808080"
-    };
-
-    datasets = [...datasets, ds];
-
-    ds = Lib.chart.buildDataSet(options.labelTotNetDrawdown, days, result.netDrawdown);
-    ds.fill = {
-      target: { value: 0 },
-      below: "#C0808080"
-    };
-
-    datasets = [...datasets, ds];
   }
 
   result.tradingSystems.forEach(function (tsm) {
     datasets = [...datasets, ...buildTSMDataSet(options, tsm)];
   });
 
-  config.data.datasets = datasets;
-  config.data.labels = Lib.chart.formatDays(result.days);
-
-  return new Chart("equityChart", config);
-}
-
-//=============================================================================
-
-export function createTradesChart(options : ChartOptions, result : PortfolioMonitoringResponse) : Chart {
-  let config = Lib.chart.lineConfig()
-  let days = Lib.chart.formatDays(result.days);
-
-  let datasets : any[] = [];
-
-  if (options.showTotals) {
-    let ds = Lib.chart.buildDataSet(options.labelTotTrades, days, result.numTrades);
-    datasets = [...datasets, ds];
-  }
-
-  result.tradingSystems.forEach(function (tsm) {
-    let ds = Lib.chart.buildDataSet(tsm.name, days, tsm.numTrades);
-    datasets = [...datasets, ds];
-  });
-
-  config.data.datasets = datasets;
-  config.data.labels = Lib.chart.formatDays(result.days);
-
-  return new Chart("equityChart", config);
+  return datasets;
 }
 
 //=============================================================================
@@ -99,32 +74,21 @@ export function createTradesChart(options : ChartOptions, result : PortfolioMoni
 function buildTSMDataSet(options : ChartOptions, tsa : TradingSystemMonitoring) : any {
 
   let res : any[]    = []
-  let days: string[] = Lib.chart.formatDays(tsa.days);
 
-  if (options.showRawProfit) {
-    res = [...res, Lib.chart.buildDataSet(tsa.name +" (Raw Profit)", days, tsa.rawProfit)];
+  if (options.showGrossProfit) {
+    res = [...res, Lib.chart.buildDataset(tsa.name +" (Raw Profit)", tsa.time, tsa.grossProfit)];
   }
 
   if (options.showNetProfit) {
-    res = [...res, Lib.chart.buildDataSet(tsa.name +" (Net Profit)", days, tsa.netProfit)];
+    res = [...res, Lib.chart.buildDataset(tsa.name +" (Net Profit)", tsa.time, tsa.netProfit)];
   }
 
-  if (options.showRawDrawdown) {
-    let ds = Lib.chart.buildDataSet(tsa.name + " (Raw DD)", days, tsa.rawDrawdown);
-    ds.fill = {
-      target: { value: 0 },
-      below: "#FF808080"
-    };
-    res = [...res, ds];
+  if (options.showGrossDrawdown) {
+    res = [...res, Lib.chart.buildDataset(tsa.name + " (Raw DD)", tsa.time, tsa.grossDrawdown)];
   }
 
   if (options.showNetDrawdown) {
-    let ds = Lib.chart.buildDataSet(tsa.name + " (Net DD)", days, tsa.netDrawdown);
-    ds.fill = {
-      target: { value: 0 },
-      below: "#FF808080"
-    };
-    res = [...res, ds];
+    res = [...res, Lib.chart.buildDataset(tsa.name + " (Net DD)", tsa.time, tsa.netDrawdown)];
   }
 
   return res

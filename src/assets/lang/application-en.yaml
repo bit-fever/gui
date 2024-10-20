@@ -118,12 +118,12 @@ model:
     updatedAt            : Updated at
 
   filterOptimiz:
-    filterType:  Filter
-    days:        (Old) Days
-    newDays:     New days
-    percentage:  Percentage
-    netProfit:   Net profit
-    avgTrade:    Average trade
+    filterType : Filter
+    length     : (Old) Length
+    newLength  : New length
+    percentage : Percentage
+    netProfit  : Net profit
+    avgTrade   : Average trade
     maxDrawdown: Max Drawdown
 
   dataProduct:
@@ -153,41 +153,42 @@ model:
     systemCode     : System
 
   dataPoint:
-    time  : Date/time
-    open  : Open
-    high  : High
-    low   : Low
-    close : Close
-    volume: Volume
+    time      : Date/time
+    open      : Open
+    high      : High
+    low       : Low
+    close     : Close
+    upVolume  : Up volume
+    downVolume: Down volume
 
   brokerProduct:
-    id             : Id
-    username       : Username
-    symbol         : Symbol
-    name           : Name
-    pointValue     : Point value
-    costPerTrade   : Cost per trade
-    marginValue    : Margin value
-    increment      : Increment
-    marketType     : Market type
-    productType    : Product type
-    createdAt      : Created at
-    updatedAt      : Updated at
-    connectionCode : Connection
-    currencyCode   : Currency
-    exchangeCode   : Exchange
+    id              : Id
+    username        : Username
+    symbol          : Symbol
+    name            : Name
+    pointValue      : Point value
+    costPerOperation: Cost per operation
+    marginValue     : Margin value
+    increment       : Increment
+    marketType      : Market type
+    productType     : Product type
+    createdAt       : Created at
+    updatedAt       : Updated at
+    connectionCode  : Connection
+    currencyCode    : Currency
+    exchangeCode    : Exchange
 
   presetProduct:
-    symbol      : Symbol
-    name        : Name
-    increment   : Increment
-    market      : Market
-    product     : Product
-    exchange    : Exchange
-    pointValue  : Point value
-    costPerTrade: Cost per trade
-    margin      : Margin
-    microFuture : Micro
+    symbol          : Symbol
+    name            : Name
+    increment       : Increment
+    market          : Market
+    product         : Product
+    exchange        : Exchange
+    pointValue      : Point value
+    costPerOperation: Cost per operation
+    margin          : Margin
+    microFuture     : Micro
 
   biasAnalysis:
     username       : Username
@@ -272,17 +273,17 @@ page:
         tooManyDataPoints : Too many datapoints. Try reducing the time period or increasing the timeframe. Max 10.000 datapoints can be returned.
 
     brokerProduct:
-      new:          New broker product
-      edit:         Edit broker product
-      connection:   Connection
-      symbol:       Symbol
-      name:         Name
-      pointValue:   Point value
-      costPerTrade: Cost per trade
-      marginValue:  Margin value
-      marketType:   Market
-      productType:  Product
-      exchange:     Exchange
+      new:              New broker product
+      edit:             Edit broker product
+      connection:       Connection
+      symbol:           Symbol
+      name:             Name
+      pointValue:       Point value
+      costPerOperation: Cost per operation
+      marginValue:      Margin value
+      marketType:       Market
+      productType:      Product
+      exchange:         Exchange
 
   # ==============================================================================
 
@@ -295,7 +296,7 @@ page:
     # ----------------------------------------------------------------------------
 
     monitoring:
-      portfolios: Portfolios
+      portfolios    : Portfolios
       tradingSystems: Trading systems
       options: Options
       period: Period
@@ -312,37 +313,32 @@ page:
           name: Last year
         - id: 730
           name: Last 2 years
-      chartType: Chart type
-      chartTypes:
-        - id: equities
-          name: Equities
-        - id: trades
-          name: Trades
-      showTotals:   Totals
-      showRawProfit:   Raw profits
-      showNetProfit:   Net profits
-      showRawDrawdown: Raw drawdowns
-      showNetDrawdown: Net drawdowns
+      showTotals       : Totals
+      showGrossProfit  : Gross profits
+      showNetProfit    : Net profits
+      showGrossDrawdown: Gross drawdowns
+      showNetDrawdown  : Net drawdowns
 
-      totalRawProfit:   Total raw profit
-      totalNetProfit:   Total net profit
-      totalRawDrawdown: Total raw drawdown
-      totalNetDrawdown: Total net drawdown
-      totalTrades:      Total trades
+      totalGrossProfit  : Total gross profit
+      totalNetProfit    : Total net profit
+      totalGrossDrawdown: Total gross drawdown
+      totalNetDrawdown  : Total net drawdown
 
     # ----------------------------------------------------------------------------
 
     filtering:
-      days:              Trading days
+      equities:          Equities and drawdowns
+      activation:        Activation
+      length:            Trades length
       positiveProfit:    Positive profit
-      oldVsNew:          Old period vs new period
-      oldDays:           Old period (trading days)
-      newDays:           New period (trading days)
+      oldVsNew:          Old vs new period
+      oldLen:            Old period (length)
+      newLen:            New period (length)
       oldPercentage:     Old period %
       winningPercentage: Winning % > value
       winningPercValue:  Value (%)
       equityAverage:     Equity over its average
-      equityDays:        Average length (trading days)
+      equityLen:         Average trades length
       filterSaved:       Filter saved
       summary: Summary
       analysis: Analysis
@@ -380,9 +376,9 @@ page:
         filter:    Filter
         parameter: Parameter
         options:   Options
-        days:      Days
-        oldDays:   Old days
-        newDays:   New days
+        length:    Length
+        oldLen:   Old length
+        newLen:   New length
         oldPerc:   Old %
         percentage: Win %
         curValue : Current value
@@ -455,7 +451,7 @@ page:
         triggerSequences: Triggering sequences
         symbol          : Symbol
         name            : Name
-        costPerTrade    : Cost per trade
+        costPerOperation: Cost per operation
         pointValue      : Point value (multiplier)
         startPeriod     : Start period
         endPeriod       : End period
@@ -471,9 +467,9 @@ page:
         netProfit       : Net profit
         grossProfit     : Gross profit
         numTrades       : Number of trades
-        titDistrProfit  : Net profit vs cost per trade
-        titDistribTrades: Num of trades vs cost per trade
-        titDistribAvgTrd: Average trade vs cost per trade
+        titDistrProfit  : Net profit vs cost per operation
+        titDistribTrades: Num of trades vs cost per operation
+        titDistribAvgTrd: Average trade vs cost per operation
         titEquityProfit : Equity (gross vs net profit)
 
   # ==============================================================================

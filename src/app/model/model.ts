@@ -162,17 +162,17 @@ export class DataProductExt extends DataProduct {
 //=============================================================================
 
 export class BrokerProductSpec {
-  id?           : number
-  connectionId? : number
-  exchangeId?   : number
-  symbol?       : string
-  name?         : string
-  pointValue?   : number
-  costPerTrade? : number
-  marginValue?  : number
-  increment?    : number
-  marketType?   : string
-  productType?  : string
+  id?               : number
+  connectionId?     : number
+  exchangeId?       : number
+  symbol?           : string
+  name?             : string
+  pointValue?       : number
+  costPerOperation? : number
+  marginValue?      : number
+  increment?        : number
+  marketType?       : string
+  productType?      : string
 }
 
 //=============================================================================
@@ -206,7 +206,7 @@ export class PorTradingSystem {
   brokerProductId? : number;
   brokerSymbol?    : string;
   pointValue?      : number;
-  costPerTrade?    : number;
+  costPerOperation?: number;
   marginValue?     : number;
   currencyId?      : number;
   currencyCode?    : string;
@@ -244,12 +244,11 @@ export class Adapter {
 //=============================================================================
 
 class BaseMonitoring {
-  days       : number[] = [];
-  rawProfit  : number[] = [];
-  netProfit  : number[] = [];
-  rawDrawdown: number[] = [];
-  netDrawdown: number[] = [];
-  numTrades  : number[] = [];
+  time         : Date  [] = [];
+  grossProfit  : number[] = [];
+  netProfit    : number[] = [];
+  grossDrawdown: number[] = [];
+  netDrawdown  : number[] = [];
 }
 
 //-----------------------------------------------------------------------------
@@ -272,20 +271,20 @@ export class PortfolioMonitoringResponse extends BaseMonitoring {
 //=============================================================================
 
 export class TradingFilters {
-  equAvgEnabled  : boolean = false
-  equAvgDays     : number  = 0
+  equAvgEnabled : boolean = false
+  equAvgLen     : number  = 0
 
-  posProEnabled  : boolean = false
-  posProDays     : number  = 0
+  posProEnabled : boolean = false
+  posProLen     : number  = 0
 
-  winPerEnabled  : boolean = false
-  winPerDays     : number  = 0
-  winPerValue    : number  = 0
+  winPerEnabled : boolean = false
+  winPerLen     : number  = 0
+  winPerValue   : number  = 0
 
-  oldNewEnabled  : boolean = false
-  oldNewOldDays  : number  = 0
-  oldNewOldPerc  : number  = 0
-  oldNewNewDays  : number  = 0
+  oldNewEnabled : boolean = false
+  oldNewOldLen  : number  = 0
+  oldNewOldPerc : number  = 0
+  oldNewNewLen  : number  = 0
 }
 
 //=============================================================================
@@ -320,30 +319,30 @@ export class Summary {
 
 //-----------------------------------------------------------------------------
 
-export class Plot {
-  days   : number[] = []
+export class Serie {
+  time   : Date  [] = []
   values : number[] = []
 }
 
 //-----------------------------------------------------------------------------
 
 export class Equities {
-  days               : number[] = []
+  time               : Date  [] = []
   unfilteredEquity   : number[] = []
   filteredEquity     : number[] = []
   unfilteredDrawdown : number[] = []
   filteredDrawdown   : number[] = []
   filterActivation   : number[] = []
-  average            : Plot = new Plot()
+  average            : Serie = new Serie()
 }
 
 //-----------------------------------------------------------------------------
 
 export class Activations {
-  equityVsAverage?   : Plot
-  positiveProfit?    : Plot
-  winningPercentage? : Plot
-  oldVsNew?          : Plot
+  equityVsAverage?   : Serie
+  positiveProfit?    : Serie
+  winningPercentage? : Serie
+  oldVsNew?          : Serie
 }
 
 //-----------------------------------------------------------------------------
@@ -395,13 +394,13 @@ export class FilterOptimizationRequest {
   enableWinPerc   : boolean = true
   enableEquAvg    : boolean = true
 
-  posProDays    : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 2)
-  oldNewOldDays : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 2)
-  oldNewNewDays : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 2)
+  posProLen     : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 2)
+  oldNewOldLen  : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 2)
+  oldNewNewLen  : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 2)
   oldNewOldPerc : FieldOptimization = new FieldOptimization(true, 90, 5, 150, 5)
-  winPercDays   : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 2)
+  winPercLen    : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 2)
   winPercPerc   : FieldOptimization = new FieldOptimization(true, 50, 5, 100, 5)
-  equAvgDays    : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 2)
+  equAvgLen     : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 2)
 }
 
 //=============================================================================
@@ -428,8 +427,8 @@ export class FilterOptimizationResponse {
 
 export class FilterRun {
   filterType  : string = ""
-  days        : number = 0
-  newDays     : number = 0
+  length      : number = 0
+  newLength   : number = 0
   percentage  : number = 0
   netProfit   : number = 0
   avgTrade    : number = 0
@@ -479,12 +478,13 @@ export type ParserMap = {
 //=============================================================================
 
 export class DataPoint {
-  time   : string = ""
-  open   : number = 0
-  high   : number = 0
-  low    : number = 0
-  close  : number = 0
-  volume : number = 0
+  time       : string = ""
+  open       : number = 0
+  high       : number = 0
+  low        : number = 0
+  close      : number = 0
+  upVolume   : number = 0
+  downVolume : number = 0
 }
 
 //=============================================================================

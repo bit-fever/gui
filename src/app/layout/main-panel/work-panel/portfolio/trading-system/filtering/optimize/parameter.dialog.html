@@ -19,18 +19,18 @@
     <tr *ngIf="options.enablePosProfit">
       <td>
         <mat-checkbox (click)="$event.stopPropagation()"
-                      (change)="$event ? options.posProDays.toggle() : null"
-                      [checked]="options.posProDays.enabled">
+                      (change)="$event ? options.posProLen.toggle() : null"
+                      [checked]="options.posProLen.enabled">
         </mat-checkbox>
       </td>
       <td>{{loc("positiveProfit")}}</td>
-      <td>{{loc("days")}}</td>
+      <td>{{loc("length")}}</td>
       <td>
-        <input-number-required *ngIf="!options.posProDays.enabled" [(value)]="options.posProDays.curValue" [label]="loc('curValue')" [min]="1" [max]="300"></input-number-required>
+        <input-number-required *ngIf="!options.posProLen.enabled" [(value)]="options.posProLen.curValue" [label]="loc('curValue')" [min]="1" [max]="300"></input-number-required>
 
-        <input-number-required class ="value-style" *ngIf="options.posProDays.enabled" [(value)]="options.posProDays.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-number-required>
-        <input-number-required class ="value-style" *ngIf="options.posProDays.enabled" [(value)]="options.posProDays.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-number-required>
-        <input-number-required class ="value-style" *ngIf="options.posProDays.enabled" [(value)]="options.posProDays.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-number-required>
+        <input-number-required class ="value-style" *ngIf="options.posProLen.enabled" [(value)]="options.posProLen.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-number-required>
+        <input-number-required class ="value-style" *ngIf="options.posProLen.enabled" [(value)]="options.posProLen.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-number-required>
+        <input-number-required class ="value-style" *ngIf="options.posProLen.enabled" [(value)]="options.posProLen.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-number-required>
       </td>
     </tr>
 
@@ -39,18 +39,18 @@
     <tr *ngIf="options.enableOldNew">
       <td>
         <mat-checkbox (click)="$event.stopPropagation()"
-                      (change)="$event ? options.oldNewOldDays.toggle() : null"
-                      [checked]="options.oldNewOldDays.enabled">
+                      (change)="$event ? options.oldNewOldLen.toggle() : null"
+                      [checked]="options.oldNewOldLen.enabled">
         </mat-checkbox>
       </td>
       <td>{{loc("oldVsNewPeriod")}}</td>
-      <td>{{loc("oldDays")}}</td>
+      <td>{{loc("oldLen")}}</td>
       <td>
-        <input-number-required *ngIf="!options.oldNewOldDays.enabled" [(value)]="options.oldNewOldDays.curValue" [label]="loc('curValue')" [min]="1" [max]="600"></input-number-required>
+        <input-number-required *ngIf="!options.oldNewOldLen.enabled" [(value)]="options.oldNewOldLen.curValue" [label]="loc('curValue')" [min]="1" [max]="600"></input-number-required>
 
-        <input-number-required class ="value-style" *ngIf="options.oldNewOldDays.enabled" [(value)]="options.oldNewOldDays.minValue" [label]="loc('minValue')" [min]="1" [max]="600"></input-number-required>
-        <input-number-required class ="value-style" *ngIf="options.oldNewOldDays.enabled" [(value)]="options.oldNewOldDays.maxValue" [label]="loc('maxValue')" [min]="1" [max]="600"></input-number-required>
-        <input-number-required class ="value-style" *ngIf="options.oldNewOldDays.enabled" [(value)]="options.oldNewOldDays.step"     [label]="loc('step')"     [min]="1" [max]="600"></input-number-required>
+        <input-number-required class ="value-style" *ngIf="options.oldNewOldLen.enabled" [(value)]="options.oldNewOldLen.minValue" [label]="loc('minValue')" [min]="1" [max]="600"></input-number-required>
+        <input-number-required class ="value-style" *ngIf="options.oldNewOldLen.enabled" [(value)]="options.oldNewOldLen.maxValue" [label]="loc('maxValue')" [min]="1" [max]="600"></input-number-required>
+        <input-number-required class ="value-style" *ngIf="options.oldNewOldLen.enabled" [(value)]="options.oldNewOldLen.step"     [label]="loc('step')"     [min]="1" [max]="600"></input-number-required>
       </td>
     </tr>
 
@@ -59,18 +59,18 @@
     <tr *ngIf="options.enableOldNew">
       <td>
         <mat-checkbox (click)="$event.stopPropagation()"
-                      (change)="$event ? options.oldNewNewDays.toggle() : null"
-                      [checked]="options.oldNewNewDays.enabled">
+                      (change)="$event ? options.oldNewNewLen.toggle() : null"
+                      [checked]="options.oldNewNewLen.enabled">
         </mat-checkbox>
       </td>
       <td>{{loc("oldVsNewPeriod")}}</td>
-      <td>{{loc("newDays")}}</td>
+      <td>{{loc("newLen")}}</td>
       <td>
-        <input-number-required *ngIf="!options.oldNewNewDays.enabled" [(value)]="options.oldNewNewDays.curValue" [label]="loc('curValue')" [min]="1" [max]="300"></input-number-required>
+        <input-number-required *ngIf="!options.oldNewNewLen.enabled" [(value)]="options.oldNewNewLen.curValue" [label]="loc('curValue')" [min]="1" [max]="300"></input-number-required>
 
-        <input-number-required class ="value-style" *ngIf="options.oldNewNewDays.enabled" [(value)]="options.oldNewNewDays.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-number-required>
-        <input-number-required class ="value-style" *ngIf="options.oldNewNewDays.enabled" [(value)]="options.oldNewNewDays.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-number-required>
-        <input-number-required class ="value-style" *ngIf="options.oldNewNewDays.enabled" [(value)]="options.oldNewNewDays.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-number-required>
+        <input-number-required class ="value-style" *ngIf="options.oldNewNewLen.enabled" [(value)]="options.oldNewNewLen.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-number-required>
+        <input-number-required class ="value-style" *ngIf="options.oldNewNewLen.enabled" [(value)]="options.oldNewNewLen.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-number-required>
+        <input-number-required class ="value-style" *ngIf="options.oldNewNewLen.enabled" [(value)]="options.oldNewNewLen.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-number-required>
       </td>
     </tr>
 
@@ -99,18 +99,18 @@
     <tr *ngIf="options.enableWinPerc">
       <td>
         <mat-checkbox (click)="$event.stopPropagation()"
-                      (change)="$event ? options.winPercDays.toggle() : null"
-                      [checked]="options.winPercDays.enabled">
+                      (change)="$event ? options.winPercLen.toggle() : null"
+                      [checked]="options.winPercLen.enabled">
         </mat-checkbox>
       </td>
       <td>{{loc("winningPerc")}}</td>
-      <td>{{loc("days")}}</td>
+      <td>{{loc("length")}}</td>
       <td>
-        <input-number-required *ngIf="!options.winPercDays.enabled" [(value)]="options.winPercDays.curValue" [label]="loc('curValue')" [min]="1" [max]="300"></input-number-required>
+        <input-number-required *ngIf="!options.winPercLen.enabled" [(value)]="options.winPercLen.curValue" [label]="loc('curValue')" [min]="1" [max]="300"></input-number-required>
 
-        <input-number-required class ="value-style" *ngIf="options.winPercDays.enabled" [(value)]="options.winPercDays.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-number-required>
-        <input-number-required class ="value-style" *ngIf="options.winPercDays.enabled" [(value)]="options.winPercDays.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-number-required>
-        <input-number-required class ="value-style" *ngIf="options.winPercDays.enabled" [(value)]="options.winPercDays.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-number-required>
+        <input-number-required class ="value-style" *ngIf="options.winPercLen.enabled" [(value)]="options.winPercLen.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-number-required>
+        <input-number-required class ="value-style" *ngIf="options.winPercLen.enabled" [(value)]="options.winPercLen.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-number-required>
+        <input-number-required class ="value-style" *ngIf="options.winPercLen.enabled" [(value)]="options.winPercLen.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-number-required>
       </td>
     </tr>
 
@@ -139,18 +139,18 @@
     <tr *ngIf="options.enableEquAvg">
       <td>
         <mat-checkbox (click)="$event.stopPropagation()"
-                      (change)="$event ? options.equAvgDays.toggle() : null"
-                      [checked]="options.equAvgDays.enabled">
+                      (change)="$event ? options.equAvgLen.toggle() : null"
+                      [checked]="options.equAvgLen.enabled">
         </mat-checkbox>
       </td>
       <td>{{loc("equityVsAverage")}}</td>
-      <td>{{loc("days")}}</td>
+      <td>{{loc("length")}}</td>
       <td>
-        <input-number-required *ngIf="!options.equAvgDays.enabled" [(value)]="options.equAvgDays.curValue" [label]="loc('curValue')" [min]="1" [max]="300"></input-number-required>
+        <input-number-required *ngIf="!options.equAvgLen.enabled" [(value)]="options.equAvgLen.curValue" [label]="loc('curValue')" [min]="1" [max]="300"></input-number-required>
 
-        <input-number-required class ="value-style" *ngIf="options.equAvgDays.enabled" [(value)]="options.equAvgDays.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-number-required>
-        <input-number-required class ="value-style" *ngIf="options.equAvgDays.enabled" [(value)]="options.equAvgDays.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-number-required>
-        <input-number-required class ="value-style" *ngIf="options.equAvgDays.enabled" [(value)]="options.equAvgDays.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-number-required>
+        <input-number-required class ="value-style" *ngIf="options.equAvgLen.enabled" [(value)]="options.equAvgLen.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-number-required>
+        <input-number-required class ="value-style" *ngIf="options.equAvgLen.enabled" [(value)]="options.equAvgLen.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-number-required>
+        <input-number-required class ="value-style" *ngIf="options.equAvgLen.enabled" [(value)]="options.equAvgLen.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-number-required>
       </td>
     </tr>
 

@@ -160,7 +160,8 @@ export class DataInstrumentDataPanel extends AbstractPanel {
       new FlexTableColumn(instr, "high"),
       new FlexTableColumn(instr, "low"),
       new FlexTableColumn(instr, "close"),
-      new FlexTableColumn(instr, "volume"),
+      new FlexTableColumn(instr, "upVolume"),
+      new FlexTableColumn(instr, "downVolume"),
     ]
   }
 

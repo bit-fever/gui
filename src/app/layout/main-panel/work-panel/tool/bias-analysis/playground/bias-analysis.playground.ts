@@ -438,7 +438,7 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
     }
 
     // @ts-ignore
-    profit.net      = Math.trunc(profit.gross - 2 * this.result.brokerProduct.costPerTrade * length)
+    profit.net      = Math.trunc(profit.gross - 2 * this.result.brokerProduct.costPerOperation * length)
     profit.avgGross = Math.round(profit.gross / length * 100) / 100
     profit.avgNet   = Math.round(profit.net   / length * 100) / 100
 

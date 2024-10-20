@@ -34,28 +34,25 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>{{loc("chartType")}}</mat-label>
-        <mat-select [value]="selectedChartType" (selectionChange)="onChartTypeChange($event)">
-          <mat-option *ngFor="let p of chartTypes" [value]="p.id">
-            {{p.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
       <span class="spacer"></span>
 
       <mat-chip-listbox [multiple]="true" class="chip-style">
         <mat-chip-option (selectionChange)="onTotalsChange     ($event)" [selected]="options.showTotals"     >{{loc("showTotals")}}</mat-chip-option>
-        <mat-chip-option (selectionChange)="onRawProfitChange  ($event)" [selected]="options.showRawProfit"  >{{loc("showRawProfit")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onGrossProfitChange  ($event)" [selected]="options.showGrossProfit"  >{{loc("showGrossProfit")}}</mat-chip-option>
         <mat-chip-option (selectionChange)="onNetProfitChange  ($event)" [selected]="options.showNetProfit"  >{{loc("showNetProfit")}}</mat-chip-option>
-        <mat-chip-option (selectionChange)="onRawDrawdownChange($event)" [selected]="options.showRawDrawdown">{{loc("showRawDrawdown")}}</mat-chip-option>
+        <mat-chip-option (selectionChange)="onGrossDrawdownChange($event)" [selected]="options.showGrossDrawdown">{{loc("showGrossDrawdown")}}</mat-chip-option>
         <mat-chip-option (selectionChange)="onNetDrawdownChange($event)" [selected]="options.showNetDrawdown">{{loc("showNetDrawdown")}}</mat-chip-option>
       </mat-chip-listbox>
     </div>
 
-    <div class="chart-layout">
-      <canvas  id="equityChart" >{{ chart }}</canvas>
-    </div>
+    <apx-chart
+      [title]      = "equityChartOptions.title"
+      [chart]      = "equityChartOptions.chart"
+      [series]     = "equityChartOptions.series"
+      [dataLabels] = "equityChartOptions.dataLabels"
+      [plotOptions]= "equityChartOptions.plotOptions"
+      [stroke]     = "equityChartOptions.stroke"
+      [xaxis]      = "equityChartOptions.xaxis"
+    ></apx-chart>
   </div>
 </div>

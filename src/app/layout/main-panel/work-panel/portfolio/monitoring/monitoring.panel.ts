@@ -26,12 +26,13 @@ import {FlexTablePanel} from "../../../../../component/panel/flex-table/flex-tab
 import {FlexTableColumn} from "../../../../../model/flex-table";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectChange, MatSelectModule} from "@angular/material/select";
-import {MatSlideToggleChange, MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {createChart} from "./chart-management";
-import {ChartOptions, ChartType} from "./model";
+import { MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {buildEquityChartOptions, createChart} from "./chart-management";
+import {ChartOptions} from "./model";
 import {Router, RouterModule} from "@angular/router";
-import {MatChipEvent, MatChipSelectionChange, MatChipsModule} from "@angular/material/chips";
+import { MatChipSelectionChange, MatChipsModule} from "@angular/material/chips";
 import {InventoryService} from "../../../../../service/inventory.service";
+import {ChartComponent} from "ng-apexcharts";
 
 //=============================================================================
 
@@ -60,9 +61,9 @@ class PorfolioNodeProvider implements TreeNodeProvider<PortfolioTree> {
   selector    :     'portfolio-monitoring',
   templateUrl :   './monitoring.panel.html',
   styleUrls   : [ './monitoring.panel.scss' ],
-  imports     : [CommonModule, MatButtonModule, MatIconModule, MatDividerModule, MatFormFieldModule,
-                 MatSelectModule, MatSlideToggleModule, RouterModule, MatChipsModule,
-                 FlexTreePanel, FlexTablePanel],
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatDividerModule, MatFormFieldModule,
+    MatSelectModule, MatSlideToggleModule, RouterModule, MatChipsModule,
+    FlexTreePanel, FlexTablePanel, ChartComponent],
   standalone  : true
 })
 
@@ -81,14 +82,11 @@ export class MonitoringPanel extends AbstractPanel {
   tradingSystems: InvTradingSystemFull[] = [];
   columns       : FlexTableColumn[] = [];
 
-  chart     : any;
-  periods   : any;
-  chartTypes: any;
+  periods : any;
 
-  options = new ChartOptions();
-
+  equityChartOptions : any
+  options = new ChartOptions()
   selectedPeriod   : number   = 30;
-  selectedChartType: string   = ChartType.Equities;
   selectedIds      : number[] = [];
   serviceResponse  : PortfolioMonitoringResponse|null = null;
 
@@ -108,6 +106,8 @@ export class MonitoringPanel extends AbstractPanel {
               private portfolioService : PortfolioService) {
 
     super(eventBusService, labelService, router, "portfolio.monitoring");
+
+    this.equityChartOptions = buildEquityChartOptions(this.loc("equities"))
   }
 
   //-------------------------------------------------------------------------
@@ -118,14 +118,12 @@ export class MonitoringPanel extends AbstractPanel {
 
   override init = () : void => {
     this.setupColumns();
-    this.periods    = this.labelMap("periods");
-    this.chartTypes = this.labelMap("chartTypes");
+    this.periods = this.labelMap("periods");
 
-    this.options.labelTotRawProfit   = this.loc("totalRawProfit")
+    this.options.labelTotGrossProfit   = this.loc("totalRawProfit")
     this.options.labelTotNetProfit   = this.loc("totalNetProfit")
-    this.options.labelTotRawDrawdown = this.loc("totalRawDrawdown")
+    this.options.labelTotGrossDrawdown = this.loc("totalRawDrawdown")
     this.options.labelTotNetDrawdown = this.loc("totalNetDrawdown")
-    this.options.labelTotTrades      = this.loc("totalTrades")
 
     this.inventoryService.getPortfolioTree().subscribe(
       result => {
@@ -172,13 +170,6 @@ export class MonitoringPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  onChartTypeChange(e : MatSelectChange) {
-    this.options.chartType = e.value;
-    this.reload(false);
-  }
-
-  //-------------------------------------------------------------------------
-
   onTotalsChange(e: MatChipSelectionChange) {
     this.options.showTotals = e.selected;
     this.reload(false);
@@ -186,8 +177,8 @@ export class MonitoringPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  onRawProfitChange(e : MatChipSelectionChange) {
-    this.options.showRawProfit = e.selected;
+  onGrossProfitChange(e : MatChipSelectionChange) {
+    this.options.showGrossProfit = e.selected;
     this.reload(false);
   }
 
@@ -200,8 +191,8 @@ export class MonitoringPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  onRawDrawdownChange(e : MatChipSelectionChange) {
-    this.options.showRawDrawdown = e.selected;
+  onGrossDrawdownChange(e : MatChipSelectionChange) {
+    this.options.showGrossDrawdown = e.selected;
     this.reload(false);
   }
 
@@ -229,12 +220,12 @@ export class MonitoringPanel extends AbstractPanel {
       this.portfolioService.getPortfolioMonitoring(this.selectedIds, this.selectedPeriod).subscribe(
         result => {
           this.serviceResponse = result;
-          this.chart = createChart(this.options, result);
+          this.equityChartOptions.series = createChart(this.options, result);
         }
       )
     }
     else if (this.serviceResponse != null) {
-      this.chart = createChart(this.options, this.serviceResponse);
+      this.equityChartOptions.series = createChart(this.options, this.serviceResponse);
     }
   }
 
@@ -264,10 +255,7 @@ export class MonitoringPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   private destroyChart() {
-    if (this.chart != undefined) {
-      this.chart.destroy();
-      this.chart = undefined;
-    }
+    this.equityChartOptions.series = []
   }
 }
 

@@ -24,6 +24,7 @@ import {DialogData} from "./dialog-data";
 import {FlexTablePanel} from "../../../../../../../component/panel/flex-table/flex-table.panel";
 import {FlexTableColumn} from "../../../../../../../model/flex-table";
 import {MatIconModule} from "@angular/material/icon";
+import {PositiveTranscoder} from "../../../../../../../component/panel/flex-table/transcoders";
 
 //=============================================================================
 
@@ -123,9 +124,9 @@ export class OptimizeResultDialog extends AbstractPanel {
 
     this.columns = [
       new FlexTableColumn(ts, "filterType"),
-      new FlexTableColumn(ts, "days", ),
-      new FlexTableColumn(ts, "newDays"),
-      new FlexTableColumn(ts, "percentage"),
+      new FlexTableColumn(ts, "length", ),
+      new FlexTableColumn(ts, "newLength",  new PositiveTranscoder()),
+      new FlexTableColumn(ts, "percentage", new PositiveTranscoder()),
       new FlexTableColumn(ts, "netProfit"),
       new FlexTableColumn(ts, "avgTrade"),
       new FlexTableColumn(ts, "maxDrawdown"),

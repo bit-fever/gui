@@ -25,7 +25,7 @@ import {FlexTableColumn, ListResponse, ListService} from "../../../../../../../m
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {SelectTextRequired} from "../../../../../../../component/form/select-required/select-text-required";
 import {DatePicker} from "../../../../../../../component/form/date-picker/date-picker";
-import {Observable, timer} from "rxjs";
+import {Observable} from "rxjs";
 import {
   NgApexchartsModule,
   ApexAxisChartSeries,
@@ -243,8 +243,12 @@ export class DataInstrumentChartPanel extends AbstractPanel {
     }]
 
     this.smallChartOptions.series = [{
-        name: 'volume',
-        data: this.buildSmallDataset(this.serviceResponse?.dataPoints)
+        name: 'Up volume',
+        data: this.buildSmallDatasetUp(this.serviceResponse?.dataPoints)
+      },
+      {
+        name: 'Down volume',
+        data: this.buildSmallDatasetDown(this.serviceResponse?.dataPoints)
       }
     ]
   }
@@ -392,6 +396,7 @@ export class DataInstrumentChartPanel extends AbstractPanel {
         id: 'small',
         height: 200,
         group: 'priceSet',
+        stacked: true,
         events: {
           zoomed: this.zoomedHandler
         }
@@ -423,7 +428,7 @@ export class DataInstrumentChartPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  private buildSmallDataset(dataPoints : DataPoint[]|undefined) {
+  private buildSmallDatasetUp(dataPoints : DataPoint[]|undefined) {
     if (dataPoints == undefined) {
       return []
     }
@@ -431,7 +436,22 @@ export class DataInstrumentChartPanel extends AbstractPanel {
     return dataPoints.map( (dp, index, array) => {
       return {
         x: new Date(dp.time),
-        y:  dp.volume
+        y:  dp.upVolume
+      }
+    })
+  }
+
+  //-------------------------------------------------------------------------
+
+  private buildSmallDatasetDown(dataPoints : DataPoint[]|undefined) {
+    if (dataPoints == undefined) {
+      return []
+    }
+
+    return dataPoints.map( (dp, index, array) => {
+      return {
+        x: new Date(dp.time),
+        y:  -dp.downVolume
       }
     })
   }

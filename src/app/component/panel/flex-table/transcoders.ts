@@ -97,6 +97,14 @@ export class DateTimeTranscoder implements Transcoder {
 }
 
 //=============================================================================
+
+export class PositiveTranscoder implements Transcoder {
+  transcode(value: number, row?: any): string {
+    return (value >= 0) ? String(value) : ""
+  }
+}
+
+//=============================================================================
 //===
 //=== Icon stylers
 //===

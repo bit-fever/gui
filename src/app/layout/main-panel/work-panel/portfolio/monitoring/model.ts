@@ -7,25 +7,16 @@
 //=============================================================================
 
 export class ChartOptions {
-  chartType      : string  = ChartType.Equities;
-  showTotals     : boolean = true;
-  showRawProfit  : boolean = true;
-  showNetProfit  : boolean = true;
-  showRawDrawdown: boolean = true;
-  showNetDrawdown: boolean = true;
+  showTotals       : boolean = true;
+  showGrossProfit  : boolean = true;
+  showNetProfit    : boolean = true;
+  showGrossDrawdown: boolean = true;
+  showNetDrawdown  : boolean = true;
 
-  labelTotRawProfit   : string = "";
-  labelTotNetProfit   : string = "";
-  labelTotRawDrawdown : string = "";
-  labelTotNetDrawdown : string = "";
-  labelTotTrades      : string = "";
-}
-
-//=============================================================================
-
-export enum ChartType {
-  Equities = "equities",
-  Trades   = "trades"
+  labelTotGrossProfit   : string = "";
+  labelTotNetProfit     : string = "";
+  labelTotGrossDrawdown : string = "";
+  labelTotNetDrawdown   : string = "";
 }
 
 //=============================================================================

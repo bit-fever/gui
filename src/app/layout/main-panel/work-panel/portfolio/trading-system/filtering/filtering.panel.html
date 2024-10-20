@@ -11,8 +11,8 @@
       </mat-expansion-panel-header>
 
       <mat-form-field>
-        <mat-label>{{loc("days")}}</mat-label>
-        <input matInput type="number" min="1" max="300" required [(ngModel)]="filters.posProDays">
+        <mat-label>{{loc("length")}}</mat-label>
+        <input matInput type="number" min="1" max="300" required [(ngModel)]="filters.posProLen">
       </mat-form-field>
     </mat-expansion-panel>
 
@@ -28,13 +28,13 @@
       </mat-expansion-panel-header>
 
       <mat-form-field>
-        <mat-label>{{loc("oldDays")}}</mat-label>
-        <input matInput type="number" min="1" max="600" required  [(ngModel)]="filters.oldNewOldDays">
+        <mat-label>{{loc("oldLen")}}</mat-label>
+        <input matInput type="number" min="1" max="600" required  [(ngModel)]="filters.oldNewOldLen">
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>{{loc("newDays")}}</mat-label>
-        <input matInput type="number" min="1" max="300" required [(ngModel)]="filters.oldNewNewDays">
+        <mat-label>{{loc("newLen")}}</mat-label>
+        <input matInput type="number" min="1" max="300" required [(ngModel)]="filters.oldNewNewLen">
       </mat-form-field>
 
       <mat-form-field>
@@ -55,8 +55,8 @@
       </mat-expansion-panel-header>
 
       <mat-form-field>
-        <mat-label>{{loc("days")}}</mat-label>
-        <input matInput type="number" min="1" max="300" required [(ngModel)]="filters.winPerDays">
+        <mat-label>{{loc("length")}}</mat-label>
+        <input matInput type="number" min="1" max="300" required [(ngModel)]="filters.winPerLen">
       </mat-form-field>
 
       <mat-form-field>
@@ -77,8 +77,8 @@
       </mat-expansion-panel-header>
 
       <mat-form-field>
-        <mat-label>{{loc("equityDays")}}</mat-label>
-        <input matInput type="number" min="1" max="300" required [(ngModel)]="filters.equAvgDays">
+        <mat-label>{{loc("equityLen")}}</mat-label>
+        <input matInput type="number" min="1" max="300" required [(ngModel)]="filters.equAvgLen">
       </mat-form-field>
     </mat-expansion-panel>
 
@@ -105,8 +105,24 @@
         </mat-tab>
       </mat-tab-group>
 
-      <canvas  id="equityChart"    >{{ equityChart }}</canvas>
-      <canvas  id="activationChart">{{ activationChart }}</canvas>
+      <apx-chart
+        [title]      = "equityChartOptions.title"
+        [chart]      = "equityChartOptions.chart"
+        [series]     = "equityChartOptions.series"
+        [dataLabels] = "equityChartOptions.dataLabels"
+        [plotOptions]= "equityChartOptions.plotOptions"
+        [stroke]     = "equityChartOptions.stroke"
+        [xaxis]      = "equityChartOptions.xaxis"
+      ></apx-chart>
+      <apx-chart
+        [title]      = "activChartOptions.title"
+        [chart]      = "activChartOptions.chart"
+        [series]     = "activChartOptions.series"
+        [dataLabels] = "activChartOptions.dataLabels"
+        [plotOptions]= "activChartOptions.plotOptions"
+        [stroke]     = "activChartOptions.stroke"
+        [xaxis]      = "activChartOptions.xaxis"
+      ></apx-chart>
     </div>
 
   </div>
