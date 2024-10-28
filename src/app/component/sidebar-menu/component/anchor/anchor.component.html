@@ -18,17 +18,15 @@
 </ng-container>
 
 <ng-template #innerItem>
-  <mat-icon class="asm-menu-anchor__icon" >
-    {{menuItemClass(menuItem)}}</mat-icon>
+  <mat-icon class="asm-menu-anchor__icon" >{{menuItemClass(menuItem)}}</mat-icon>
   <span class="asm-menu-anchor__label">{{ menuItem.label }}</span>
-  <span
-    *ngIf="menuItem.badges || menuItem.children"
-    class="asm-menu-anchor__pull"
-    [ngClass]="{ 'asm-badges': menuItem.badges, 'asm-toggle': menuItem.children }"
-  >
+  <span *ngIf="menuItem.badges || menuItem.children" class="asm-menu-anchor__pull"
+    [ngClass]="{ 'asm-badges': menuItem.badges, 'asm-toggle': menuItem.children }">
         <span *ngFor="let badge of menuItem.badges" [class]="badge.classes" class="asm-badges__badge">{{
           badge.label
           }}</span>
         <span class="asm-toggle__icon"><ng-content select="[toggleIcon]"></ng-content></span>
       </span>
 </ng-template>
+
+

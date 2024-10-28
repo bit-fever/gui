@@ -11,7 +11,7 @@ import {Observable}      from "rxjs";
 import {
   FilterAnalysisRequest, FilterAnalysisResponse, FilterOptimizationResponse, FilterOptimizationRequest,
   PortfolioMonitoringResponse,
-  PorTradingSystem, StatusResponse, TradingFilters,
+  PorTradingSystem, StatusResponse, TradingFilter, TradingSystemPropertyResponse,
 } from "../model/model";
 import {HttpService}     from "./http.service";
 import {ListResponse} from "../model/flex-table";
@@ -44,16 +44,27 @@ export class PortfolioService {
   }
 
   //---------------------------------------------------------------------------
+
+  public setTradingSystemProperty = (tsId : number, property : string, value : string): Observable<TradingSystemPropertyResponse> => {
+    let req = {
+      property: property,
+      value   : value
+    }
+
+    return this.httpService.post<TradingSystemPropertyResponse>('/api/portfolio/v1/trading-systems/'+ tsId +'/properties', req);
+  }
+
+  //---------------------------------------------------------------------------
   //--- Filtering
   //---------------------------------------------------------------------------
 
-  public getTradingFilters = (tsId : number): Observable<TradingFilters> => {
-    return this.httpService.get<TradingFilters>('/api/portfolio/v1/trading-systems/'+ tsId +'/filters');
+  public getTradingFilters = (tsId : number): Observable<TradingFilter> => {
+    return this.httpService.get<TradingFilter>('/api/portfolio/v1/trading-systems/'+ tsId +'/filters');
   }
 
   //---------------------------------------------------------------------------
 
-  public setTradingFilters = (tsId : number, filters : TradingFilters): Observable<string> => {
+  public setTradingFilters = (tsId : number, filters : TradingFilter): Observable<string> => {
     return this.httpService.post<string>('/api/portfolio/v1/trading-systems/'+ tsId +'/filters', filters);
   }
 

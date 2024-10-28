@@ -192,24 +192,40 @@ export class BrokerProduct extends BrokerProductSpec {
 //===
 //=============================================================================
 
+export enum TsActivation {
+  Manual, Auto
+}
+
+//-----------------------------------------------------------------------------
+
+export enum TsStatus {
+  Off, Waiting, Running, Idle, Broken
+}
+
+//-----------------------------------------------------------------------------
+
 export class PorTradingSystem {
-  id?              : number;
-  username?        : string;
-  workspaceCode?   : string;
-  name?            : string;
-  status?          : string;
-  firstUpdate?     : number;
-  lastUpdate?      : number;
-  closedProfit?    : number;
-  tradingDays?     : number;
-  numTrades?       : number;
-  brokerProductId? : number;
-  brokerSymbol?    : string;
-  pointValue?      : number;
-  costPerOperation?: number;
-  marginValue?     : number;
-  currencyId?      : number;
-  currencyCode?    : string;
+  id?              : number
+  username?        : string
+  workspaceCode?   : string
+  name?            : string
+  firstTrade?      : string
+  lastTrade?       : string
+  lmNetProfit?     : number
+  lmNetAvgTrade?   : number
+  lmNumTrades?     : number
+  brokerProductId? : number
+  brokerSymbol?    : string
+  pointValue?      : number
+  costPerOperation?: number
+  marginValue?     : number
+  increment?       : number
+  currencyId?      : number
+  currencyCode?    : string
+  running?         : boolean
+  activation?      : number
+  active?          : boolean
+  status?          : number
 }
 
 //=============================================================================
@@ -270,7 +286,7 @@ export class PortfolioMonitoringResponse extends BaseMonitoring {
 //===
 //=============================================================================
 
-export class TradingFilters {
+export class TradingFilter {
   equAvgEnabled : boolean = false
   equAvgLen     : number  = 0
 
@@ -290,10 +306,10 @@ export class TradingFilters {
 //=============================================================================
 
 export class FilterAnalysisRequest {
-  filters? : TradingFilters
+  filter? : TradingFilter
 
-  constructor(filters? : TradingFilters) {
-    this.filters = filters
+  constructor(filter? : TradingFilter) {
+    this.filter = filter
   }
 }
 
@@ -351,8 +367,27 @@ export class FilterAnalysisResponse {
   tradingSystem : TradingSystemSmall = new TradingSystemSmall()
   summary       : Summary            = new Summary()
   equities      : Equities           = new Equities()
-  filters       : TradingFilters     = new TradingFilters()
+  filter        : TradingFilter      = new TradingFilter()
   activations   : Activations        = new Activations()
+}
+
+//-----------------------------------------------------------------------------
+
+export class TradingSystemProperty {
+  static RUNNING    = "running"
+  static ACTIVATION = "activation"
+  static ACTIVE     = "active"
+}
+
+export class TspResponseStatus {
+  static OK      = "ok"
+  static SKIPPED = "skipped"
+  static ERROR   = "error"
+}
+
+export class TradingSystemPropertyResponse {
+  status   : string = ""
+  message? : string
 }
 
 //=============================================================================
@@ -394,13 +429,13 @@ export class FilterOptimizationRequest {
   enableWinPerc   : boolean = true
   enableEquAvg    : boolean = true
 
-  posProLen     : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 2)
-  oldNewOldLen  : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 2)
-  oldNewNewLen  : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 2)
+  posProLen     : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 1)
+  oldNewOldLen  : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 1)
+  oldNewNewLen  : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 1)
   oldNewOldPerc : FieldOptimization = new FieldOptimization(true, 90, 5, 150, 5)
-  winPercLen    : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 2)
+  winPercLen    : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 1)
   winPercPerc   : FieldOptimization = new FieldOptimization(true, 50, 5, 100, 5)
-  equAvgLen     : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 2)
+  equAvgLen     : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 1)
 }
 
 //=============================================================================

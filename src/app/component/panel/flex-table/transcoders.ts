@@ -8,6 +8,7 @@
 
 import {IconStyle, IconStyler, Transcoder} from "../../../model/flex-table";
 import {LabelService} from "../../../service/label.service";
+import {TsActivation, TsStatus} from "../../../model/model";
 
 //=============================================================================
 //===
@@ -16,12 +17,11 @@ import {LabelService} from "../../../service/label.service";
 //=============================================================================
 
 export class MapTranscoder implements Transcoder {
-	constructor() {
+	constructor(private labelService : LabelService, private code : string) {
 	}
 	transcode(value: any, row?: any): string {
-		return "";
+    return this.labelService.getLabelString("map."+ this.code +"."+ value)
 	}
-
 }
 
 //=============================================================================
@@ -152,17 +152,61 @@ export class ConnectionStyler implements IconStyler {
 
 //=============================================================================
 
-export class TradingSystemStatusStyler implements IconStyler {
+export class TradingSystemRunningStyler implements IconStyler {
 
-  getStyle(value : string, row? : any) : IconStyle {
-    if (value == 'en') return TS_STATUS_ENABLED;
-
-    return TS_STATUS_DISABLED;
+  getStyle(value : boolean, row? : any) : IconStyle {
+    return value ? TS_MODE_ON : TS_MODE_OFF;
   }
 }
 
-var TS_STATUS_DISABLED= new IconStyle("radio_button_unchecked", "#A0A0A0");
-var TS_STATUS_ENABLED = new IconStyle("radio_button_checked",   "#00A000");
+var TS_MODE_OFF  = new IconStyle("mode_off_on", "#A0A0A0");
+var TS_MODE_ON   = new IconStyle("mode_off_on", "#00A000");
+
+//=============================================================================
+
+export class TradingSystemActivationStyler implements IconStyler {
+
+  getStyle(value : number, row? : any) : IconStyle {
+    return (value == TsActivation.Manual) ? TS_ACTIVATION_MANUAL : TS_ACTIVATION_AUTO;
+  }
+}
+
+var TS_ACTIVATION_MANUAL = new IconStyle("airline_seat_recline_normal", "#A00080");
+var TS_ACTIVATION_AUTO   = new IconStyle("time_auto",                   "#0080C0");
+
+//=============================================================================
+
+export class TradingSystemActiveStyler implements IconStyler {
+
+  getStyle(value : boolean, row? : any) : IconStyle {
+    return (value) ? TS_ACTIVE_ON : TS_ACTIVE_OFF;
+  }
+}
+
+var TS_ACTIVE_OFF = new IconStyle("toggle_off", "#A0A0A0");
+var TS_ACTIVE_ON  = new IconStyle("toggle_on",  "#00A000");
+
+//=============================================================================
+
+export class TradingSystemStatusStyler implements IconStyler {
+
+  getStyle(value : number, row? : any) : IconStyle {
+    switch (value) {
+      case TsStatus.Off    : return TS_STATUS_OFF
+      case TsStatus.Waiting: return TS_STATUS_WAITING
+      case TsStatus.Running: return TS_STATUS_RUNNING
+      case TsStatus.Idle   : return TS_STATUS_IDLE
+
+      default: return TS_STATUS_BROKEN
+    }
+  }
+}
+
+var TS_STATUS_OFF    = new IconStyle("radio_button_unchecked", "#A0A0A0");
+var TS_STATUS_WAITING= new IconStyle("mode_standby",           "#0080C0");
+var TS_STATUS_RUNNING= new IconStyle("run_circle",             "#00A000");
+var TS_STATUS_IDLE   = new IconStyle("schedule",               "#C0C000");
+var TS_STATUS_BROKEN = new IconStyle("heart_broken",           "#E03000");
 
 //=============================================================================
 

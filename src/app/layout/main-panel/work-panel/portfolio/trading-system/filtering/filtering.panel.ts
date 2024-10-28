@@ -22,7 +22,7 @@ import {MatSlideToggleChange, MatSlideToggleModule} from "@angular/material/slid
 import {
   FilterAnalysisRequest,
   FilterAnalysisResponse, FilterRun, Serie, Summary,
-  TradingFilters, TradingSystemSmall,
+  TradingFilter, TradingSystemSmall,
 } from "../../../../../../model/model";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatButtonModule} from "@angular/material/button";
@@ -65,7 +65,7 @@ export class FilteringPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  filters           = new TradingFilters()
+  filter             = new TradingFilter()
   tradingSystem= new TradingSystemSmall()
   summary              = new Summary()
 
@@ -128,31 +128,31 @@ export class FilteringPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onPositiveProfitChange(e : MatSlideToggleChange) {
-    this.filters.posProEnabled = e.checked;
+    this.filter.posProEnabled = e.checked;
   }
 
   //-------------------------------------------------------------------------
 
   onOldVsNewChange(e : MatSlideToggleChange) {
-    this.filters.oldNewEnabled = e.checked;
+    this.filter.oldNewEnabled = e.checked;
   }
 
   //-------------------------------------------------------------------------
 
   onWinningPercentageChange(e : MatSlideToggleChange) {
-    this.filters.winPerEnabled = e.checked;
+    this.filter.winPerEnabled = e.checked;
   }
 
   //-------------------------------------------------------------------------
 
   onEquityAverageChange(e : MatSlideToggleChange) {
-    this.filters.equAvgEnabled = e.checked;
+    this.filter.equAvgEnabled = e.checked;
   }
 
   //-------------------------------------------------------------------------
 
   onRunClick() {
-    this.callService(new FilterAnalysisRequest(this.filters))
+    this.callService(new FilterAnalysisRequest(this.filter))
   }
 
   //-------------------------------------------------------------------------
@@ -176,7 +176,7 @@ export class FilteringPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onSaveClick() {
-    this.portfolioService.setTradingFilters(this.tsId, this.filters).subscribe(
+    this.portfolioService.setTradingFilters(this.tsId, this.filter).subscribe(
       result => {
         this.snackBar.open(this.loc("filterSaved"), undefined, { duration: 3000 })
       }
@@ -199,7 +199,7 @@ export class FilteringPanel extends AbstractPanel {
     this.portfolioService.runFilterAnalysis(this.tsId, req).subscribe(
       result => {
         this.analysis       = result;
-        this.filters        = result.filters;
+        this.filter         = result.filter;
         this.tradingSystem  = result.tradingSystem;
         this.summary        = result.summary;
         this.summaryData    = this.buildSummary(this.summary)
@@ -352,7 +352,7 @@ export class FilteringPanel extends AbstractPanel {
         let run : FilterRun = result["run"]
         if (run != null) {
           console.log("Got run to use: ")
-          this.filters = this.convertRun(run)
+          this.filter = this.convertRun(run)
           this.onRunClick()
         }
         else {
@@ -364,8 +364,8 @@ export class FilteringPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  private convertRun(run : FilterRun) : TradingFilters {
-    let f = new TradingFilters()
+  private convertRun(run : FilterRun) : TradingFilter {
+    let f = new TradingFilter()
 
     if (run.filterType == "posProfit") {
       f.posProEnabled = true

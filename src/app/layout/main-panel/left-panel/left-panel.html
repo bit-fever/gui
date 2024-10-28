@@ -7,18 +7,13 @@
     [mode]  = "currentSidebarMode"
     [unAuthorizedVisibility]="visibility"
     toggleIconClasses="expand_more"
-    iconClasses="fiber_manual_record"
-  >
+    iconClasses="fiber_manual_record">
     <div class="input-search" [ngClass]="{ 'input-search--focus': inputSearchFocus }">
-      <input
-        matInput
-        placeholder="Search..."
-        type="text"
+      <input matInput placeholder="Search..." type="text"
         (keyup)   = "currentSearch = $any($event.target).value"
         (focusin) = "inputSearchFocus = true"
-        (focusout)= "inputSearchFocus = false"
-      />
-      <mat-icon>search</mat-icon>
+        (focusout)= "inputSearchFocus = false"/>
+      <span class="material-symbols-outlined">search</span>
     </div>
   </asm-angular-sidebar-menu>
 </nav>

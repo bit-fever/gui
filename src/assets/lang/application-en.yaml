@@ -28,6 +28,12 @@ button:
   replace   : REPLACE
   backtest  : BACKTEST
   data      : DATA
+  start     : START
+  stop      : STOP
+  manual    : MANUAL
+  auto      : AUTO
+  enable    : ENABLE
+  disable   : DISABLE
 
 # ==============================================================================
 # ===
@@ -93,14 +99,18 @@ model:
     tradingSession  : Session
 
     code            : Code
-    firstUpdate     : First update
-    lastUpdate      : Last update
-    closedProfit    : Closed profit
-    tradingDays     : Trading days
-    numTrades       : Num. of trades
+    firstTrade      : First trade
+    lastTrade       : Last trade
+    lmNetProfit     : Net profit
+    lmNetAvgTrade   : Net avg trade
+    lmNumTrades     : Num. of trades
     filterType      : Filter type
     filter          : Filter
     status          : Status
+    running         : Running
+    activation      : Activation
+    active          : Active
+    suggestedAction : Suggested action
 
   connection:
     id                   : Id
@@ -289,9 +299,10 @@ page:
 
   portfolio:
     tradingSystem:
-      status:
-        en: Enabled
-        di: Disabled
+      message:
+        runningError    : An error occured while starting/stopping the trading system
+        activationError : An error occured while changing the activation of the trading system
+        activeError     : An error occured while activating/deactivating the trading system
 
     # ----------------------------------------------------------------------------
 
@@ -548,6 +559,15 @@ map:
   operation:
     long : Long
     short: Short
+
+  suggestedAction:
+    0: None
+    1: Turn OFF
+    2: Turn ON
+    3: Check
+    4: Turn OFF & check
+    5: None (turned off)
+    6: None (turned on)
 
 # ==============================================================================
 

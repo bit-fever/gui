@@ -1,84 +1,84 @@
 <div class="main-layout">
 
   <mat-accordion class="left-layout" multi>
-    <mat-expansion-panel [expanded]="filters.posProEnabled" hideToggle>
+    <mat-expansion-panel [expanded]="filter.posProEnabled" hideToggle>
       <mat-expansion-panel-header>
         <mat-panel-title>{{loc("positiveProfit")}}
           <span class="filler"></span>
           <mat-icon>functions</mat-icon>
-          <mat-slide-toggle (change)="onPositiveProfitChange($event)" [checked]="filters.posProEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
+          <mat-slide-toggle (change)="onPositiveProfitChange($event)" [checked]="filter.posProEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
         </mat-panel-title>
       </mat-expansion-panel-header>
 
       <mat-form-field>
         <mat-label>{{loc("length")}}</mat-label>
-        <input matInput type="number" min="1" max="300" required [(ngModel)]="filters.posProLen">
+        <input matInput type="number" min="1" max="300" required [(ngModel)]="filter.posProLen">
       </mat-form-field>
     </mat-expansion-panel>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <mat-expansion-panel [expanded]="filters.oldNewEnabled" hideToggle>
+    <mat-expansion-panel [expanded]="filter.oldNewEnabled" hideToggle>
       <mat-expansion-panel-header>
         <mat-panel-title>{{loc("oldVsNew")}}
           <span class="filler"></span>
           <mat-icon>date_range</mat-icon>
-          <mat-slide-toggle (change)="onOldVsNewChange($event)" [checked]="filters.oldNewEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
+          <mat-slide-toggle (change)="onOldVsNewChange($event)" [checked]="filter.oldNewEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
         </mat-panel-title>
       </mat-expansion-panel-header>
 
       <mat-form-field>
         <mat-label>{{loc("oldLen")}}</mat-label>
-        <input matInput type="number" min="1" max="600" required  [(ngModel)]="filters.oldNewOldLen">
+        <input matInput type="number" min="1" max="600" required  [(ngModel)]="filter.oldNewOldLen">
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>{{loc("newLen")}}</mat-label>
-        <input matInput type="number" min="1" max="300" required [(ngModel)]="filters.oldNewNewLen">
+        <input matInput type="number" min="1" max="300" required [(ngModel)]="filter.oldNewNewLen">
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>{{loc("oldPercentage")}}</mat-label>
-        <input matInput type="number" min="1" max="150" required [(ngModel)]="filters.oldNewOldPerc">
+        <input matInput type="number" min="1" max="150" required [(ngModel)]="filter.oldNewOldPerc">
       </mat-form-field>
     </mat-expansion-panel>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <mat-expansion-panel [expanded]="filters.winPerEnabled" hideToggle>
+    <mat-expansion-panel [expanded]="filter.winPerEnabled" hideToggle>
       <mat-expansion-panel-header>
         <mat-panel-title>{{loc("winningPercentage")}}
           <span class="filler"></span>
           <mat-icon>percent</mat-icon>
-          <mat-slide-toggle (change)="onWinningPercentageChange($event)" [checked]="filters.winPerEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
+          <mat-slide-toggle (change)="onWinningPercentageChange($event)" [checked]="filter.winPerEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
         </mat-panel-title>
       </mat-expansion-panel-header>
 
       <mat-form-field>
         <mat-label>{{loc("length")}}</mat-label>
-        <input matInput type="number" min="1" max="300" required [(ngModel)]="filters.winPerLen">
+        <input matInput type="number" min="1" max="300" required [(ngModel)]="filter.winPerLen">
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>{{loc("winningPercValue")}}</mat-label>
-        <input matInput type="number" min="1" max="100" required [(ngModel)]="filters.winPerValue">
+        <input matInput type="number" min="1" max="100" required [(ngModel)]="filter.winPerValue">
       </mat-form-field>
     </mat-expansion-panel>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <mat-expansion-panel [expanded]="filters.equAvgEnabled" hideToggle>
+    <mat-expansion-panel [expanded]="filter.equAvgEnabled" hideToggle>
       <mat-expansion-panel-header>
         <mat-panel-title>{{loc("equityAverage")}}
           <span class="filler"></span>
           <mat-icon>ssid_chart</mat-icon>
-          <mat-slide-toggle (change)="onEquityAverageChange($event)" [checked]="filters.equAvgEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
+          <mat-slide-toggle (change)="onEquityAverageChange($event)" [checked]="filter.equAvgEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
         </mat-panel-title>
       </mat-expansion-panel-header>
 
       <mat-form-field>
         <mat-label>{{loc("equityLen")}}</mat-label>
-        <input matInput type="number" min="1" max="300" required [(ngModel)]="filters.equAvgLen">
+        <input matInput type="number" min="1" max="300" required [(ngModel)]="filter.equAvgLen">
       </mat-form-field>
     </mat-expansion-panel>
 

@@ -12,7 +12,7 @@ import {MatInputModule}       from "@angular/material/input";
 import {MatCardModule}        from "@angular/material/card";
 import {MatIconModule}        from "@angular/material/icon";
 import {MatButtonModule}      from "@angular/material/button";
-import {PorTradingSystem}     from "../../../../../model/model";
+import {PorTradingSystem, TradingSystemProperty, TsActivation, TspResponseStatus} from "../../../../../model/model";
 import {FlexTableColumn, ListService} from "../../../../../model/flex-table";
 import {AbstractPanel}        from "../../../../../component/abstract.panel";
 import {FlexTablePanel}       from "../../../../../component/panel/flex-table/flex-table.panel";
@@ -20,12 +20,13 @@ import {LabelService}         from "../../../../../service/label.service";
 import {EventBusService}      from "../../../../../service/eventbus.service";
 import {
   IntDateTranscoder, IsoDateTranscoder,
-  LabelTranscoder,
+  LabelTranscoder, MapTranscoder, TradingSystemActivationStyler, TradingSystemActiveStyler, TradingSystemRunningStyler,
   TradingSystemStatusStyler
 } from "../../../../../component/panel/flex-table/transcoders";
 import {Router, RouterModule} from "@angular/router";
 import {Url} from "../../../../../model/urls";
 import {PortfolioService} from "../../../../../service/portfolio.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 //=============================================================================
 
@@ -52,6 +53,7 @@ export class PorTradingSystemPanel extends AbstractPanel {
 	service  : ListService<PorTradingSystem>;
   disView  : boolean = true;
   disFilter: boolean = true;
+  disAction: boolean = true;
 
   @ViewChild("table") table : FlexTablePanel<PorTradingSystem>|null = null;
 
@@ -64,7 +66,8 @@ export class PorTradingSystemPanel extends AbstractPanel {
 	constructor(eventBusService : EventBusService,
 	            labelService    : LabelService,
               router          : Router,
-      			  portfolioService: PortfolioService) {
+              private snackBar        : MatSnackBar,
+      			  private portfolioService: PortfolioService) {
 
 		super(eventBusService, labelService, router, "portfolio.tradingSystem");
 		this.service = portfolioService.getTradingSystems;
@@ -108,6 +111,42 @@ export class PorTradingSystemPanel extends AbstractPanel {
     }
   }
 
+  //-------------------------------------------------------------------------
+
+  onStartClick() {
+    this.setProperty(TradingSystemProperty.RUNNING, "true")
+  }
+
+  //-------------------------------------------------------------------------
+
+  onStopClick() {
+    this.setProperty(TradingSystemProperty.RUNNING, "false")
+  }
+
+  //-------------------------------------------------------------------------
+
+  onActivateClick() {
+    this.setProperty(TradingSystemProperty.ACTIVE, "true")
+  }
+
+  //-------------------------------------------------------------------------
+
+  onDeactivateClick() {
+    this.setProperty(TradingSystemProperty.ACTIVE, "false")
+  }
+
+  //-------------------------------------------------------------------------
+
+  onManualClick() {
+    this.setProperty(TradingSystemProperty.ACTIVATION, TsActivation.Manual +"")
+  }
+
+  //-------------------------------------------------------------------------
+
+  onAutoClick() {
+    this.setProperty(TradingSystemProperty.ACTIVATION, TsActivation.Auto +"")
+  }
+
 	//-------------------------------------------------------------------------
 	//---
 	//--- Init methods
@@ -119,11 +158,15 @@ export class PorTradingSystemPanel extends AbstractPanel {
 
 		this.columns = [
 			new FlexTableColumn(ts, "name"),
-			new FlexTableColumn(ts, "status", undefined, new TradingSystemStatusStyler()),
-			new FlexTableColumn(ts, "closedProfit"),
-			new FlexTableColumn(ts, "tradingDays"),
-			new FlexTableColumn(ts, "numTrades"),
-			new FlexTableColumn(ts, "lastUpdate", new IntDateTranscoder()),
+      new FlexTableColumn(ts, "running",         undefined, new TradingSystemRunningStyler()),
+      new FlexTableColumn(ts, "activation",      undefined, new TradingSystemActivationStyler()),
+      new FlexTableColumn(ts, "active",          undefined, new TradingSystemActiveStyler()),
+			new FlexTableColumn(ts, "status",          undefined, new TradingSystemStatusStyler()),
+      new FlexTableColumn(ts, "suggestedAction", new MapTranscoder(this.labelService, "suggestedAction")),
+			new FlexTableColumn(ts, "lmNetProfit"),
+			new FlexTableColumn(ts, "lmNetAvgTrade"),
+			new FlexTableColumn(ts, "lmNumTrades"),
+			new FlexTableColumn(ts, "lastTrade",       new IsoDateTranscoder()),
 		]
 	}
 
@@ -134,8 +177,26 @@ export class PorTradingSystemPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   private updateButtons = (selection : PorTradingSystem[]) => {
-    this.disView = (selection.length != 1)
+    this.disView  = (selection.length != 1)
     this.disFilter= this.disView
+    this.disAction= (selection.length != 1)
+  }
+
+  //-------------------------------------------------------------------------
+
+  private setProperty(name:string, value:string) {
+    // @ts-ignore
+    let selection = this.table.getSelection();
+    let id = selection[0].id
+    // @ts-ignore
+    this.portfolioService.setTradingSystemProperty(id, name, value).subscribe( res => {
+      this.table?.reload()
+
+      if (res.status == TspResponseStatus.ERROR) {
+        let message = this.loc("message."+ name +"Error")+" : "+ res.message
+        this.snackBar.open(message, this.button("ok"))
+      }
+    })
   }
 }
 

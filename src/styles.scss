@@ -60,7 +60,7 @@ mat-nested-tree-node .mat-mdc-icon-button.mat-mdc-button-base {
 
 //=============================================================================
 
-button:not([disabled]) span {
+button:not([disabled]) span:not([class]) {
   color: #505AF8;
 //  color: #F37C40;
 }

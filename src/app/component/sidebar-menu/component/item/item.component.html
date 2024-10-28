@@ -13,9 +13,9 @@
       [ngClass]="{ 'asm-menu-anchor--open': node.isOpen }"
       [menuItem]="menuItem"
       (clickAnchor)="node.onNodeToggleClick()"
-      [isActive]="node.isActiveChild"
-    ><mat-icon toggleIcon [@rotate]="node.isOpen">{{node.nodeService.toggleIconClasses}}</mat-icon
-    ></asm-menu-anchor>
+      [isActive]="node.isActiveChild">
+      <mat-icon toggleIcon [@rotate]="node.isOpen">{{node.nodeService.toggleIconClasses}}</mat-icon>
+    </asm-menu-anchor>
     <asm-menu-node
       #node
       class="asm-menu-node"
