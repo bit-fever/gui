@@ -303,6 +303,9 @@ page:
         runningError    : An error occured while starting/stopping the trading system
         activationError : An error occured while changing the activation of the trading system
         activeError     : An error occured while activating/deactivating the trading system
+        runningOk       : Running status updated
+        activationOk    : Activation updated
+        activeOk        : Active flag updated
 
     # ----------------------------------------------------------------------------
 
@@ -561,7 +564,7 @@ map:
     short: Short
 
   suggestedAction:
-    0: None
+    0: ""
     1: Turn OFF
     2: Turn ON
     3: Check

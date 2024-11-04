@@ -18,6 +18,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {LabelService} from "../../../service/label.service";
 import {FlexTableColumn, ListService} from "../../../model/flex-table";
 import {MatButtonModule} from "@angular/material/button";
+import {MatTooltip} from "@angular/material/tooltip";
 
 //=============================================================================
 
@@ -25,7 +26,7 @@ import {MatButtonModule} from "@angular/material/button";
   selector    :     'flex-table',
   templateUrl :   './flex-table.panel.html',
   styleUrls   : [ './flex-table.panel.scss' ],
-  imports: [CommonModule, MatTableModule, MatSortModule, MatIconModule, MatFormFieldModule, MatInputModule, MatCheckboxModule, MatButtonModule],
+  imports: [CommonModule, MatTableModule, MatSortModule, MatIconModule, MatFormFieldModule, MatInputModule, MatCheckboxModule, MatButtonModule, MatTooltip],
   standalone  : true
 })
 

@@ -52,12 +52,14 @@ export interface IconStyler {
 //=============================================================================
 
 export class IconStyle {
-  icon?  : string;
-  color? : string;
+  icon?   : string
+  color?  : string
+  tooltip?: string
 
-  constructor(icon : string, color? : string) {
-    this.icon = icon;
-    this.color= color;
+  constructor(icon : string, color? : string, tooltip? : string) {
+    this.icon    = icon
+    this.color   = color
+    this.tooltip = tooltip
   }
 }
 

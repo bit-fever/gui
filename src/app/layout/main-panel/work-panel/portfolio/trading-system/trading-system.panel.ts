@@ -192,7 +192,11 @@ export class PorTradingSystemPanel extends AbstractPanel {
     this.portfolioService.setTradingSystemProperty(id, name, value).subscribe( res => {
       this.table?.reload()
 
-      if (res.status == TspResponseStatus.ERROR) {
+      if (res.status == TspResponseStatus.OK) {
+        let message = this.loc("message."+ name +"Ok")
+        this.snackBar.open(message, undefined, { duration:2000 })
+      }
+      else if (res.status == TspResponseStatus.ERROR) {
         let message = this.loc("message."+ name +"Error")+" : "+ res.message
         this.snackBar.open(message, this.button("ok"))
       }

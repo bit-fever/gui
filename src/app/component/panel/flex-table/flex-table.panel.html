@@ -39,7 +39,10 @@
 <!--                fontIcon="{{column.iconStyler.getStyle(element[column.column], element).icon}}"-->
 <!--                style="color:{{column.iconStyler.getStyle(element[column.column], element).color}}"-->
 <!--      ></mat-icon>-->
-      <span *ngIf="column.iconStyler" class="material-symbols-outlined" style="color:{{column.iconStyler.getStyle(element[column.column], element).color}}">
+      <span *ngIf="column.iconStyler" matTooltip="{{column.iconStyler.getStyle(element[column.column], element).tooltip}}"
+            class="material-symbols-outlined"
+            matTooltipPosition="after"
+            style="color:{{column.iconStyler.getStyle(element[column.column], element).color}}">
         {{column.iconStyler.getStyle(element[column.column], element).icon}}
       </span>
       <span *ngIf="column.transcoder">{{column.transcoder.transcode(element[column.column], element)}}</span>
