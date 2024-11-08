@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>{{loc("title_params")}}</h2>
 <mat-dialog-content class="mat-typography">
-  <select-text-required [(key)]="options.fieldToOptimize" [label]="loc('optimizeFor')" keyField="id" valueField="name" [list]="labelMap('fieldOptions')"></select-text-required>
+  <select-text-required [(key)]="options.fieldToOptimize" [label]="loc('optimizeFor')" keyField="id" valueField="name" [list]="labelMap('fieldOptions')" class="field-to-optimize"></select-text-required>
   <mat-chip-option (selectionChange)="onPosProfitChange($event)" [selected]="options.enablePosProfit">{{loc("positiveProfit")}}</mat-chip-option>
   <mat-chip-option (selectionChange)="onOldVsNewChange ($event)" [selected]="options.enableOldNew"   >{{loc("oldVsNewPeriod")}}</mat-chip-option>
   <mat-chip-option (selectionChange)="onWinPercChange  ($event)" [selected]="options.enableWinPerc"  >{{loc("winningPerc")}}</mat-chip-option>

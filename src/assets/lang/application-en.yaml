@@ -406,6 +406,8 @@ page:
             name: Drawdown
           - id: avg-trade
             name: Average trade
+          - id: net-profit*avg-trade
+            name: Net profit * Average trade
         taCurrStep:   Current step
         taTotalSteps: Total steps
         taPercentage: Percentage

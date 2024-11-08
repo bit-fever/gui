@@ -53,7 +53,7 @@ export class OptimizeResultDialog extends AbstractPanel {
 
   steps?    : number
   duration? : number
-  field?    : string
+  field     : string = ""
 
   //-------------------------------------------------------------------------
   //---
@@ -75,7 +75,8 @@ export class OptimizeResultDialog extends AbstractPanel {
         if (result.runs) {
           this.steps    = result.maxSteps
           this.duration = result.duration
-          this.field    = result.fieldToOptimize
+          // @ts-ignore
+          this.field    = this.fieldToOptimize(result.fieldToOptimize)
           this.runs     = result.runs
         }
       }
@@ -115,10 +116,25 @@ export class OptimizeResultDialog extends AbstractPanel {
   }
 
   //-------------------------------------------------------------------------
+
+  fieldToOptimize = (field : string) : string => {
+    let list : { id:string, name:string }[] = this.labelService.getLabel("page.portfolio.filtering.optimize.fieldOptions")
+
+    for (let i=0; i<list.length; i++) {
+      if (list[i].id==field) {
+        return list[i].name
+      }
+    }
+
+    return "???"
+  }
+
+  //-------------------------------------------------------------------------
   //---
   //--- Private methods
   //---
   //-------------------------------------------------------------------------
+
   setupColumns = () => {
     let ts = this.labelService.getLabel("model.filterOptimiz");
 

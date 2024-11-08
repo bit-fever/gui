@@ -89,6 +89,25 @@ export class OptimizeProgressDialog extends AbstractPanel {
   }
 
   //-------------------------------------------------------------------------
+
+  fieldToOptimize = () : string => {
+    let field = ""
+
+    if (this.response?.fieldToOptimize != undefined) {
+      field = this.response.fieldToOptimize
+    }
+
+    let list : { id:string, name:string }[] = this.labelService.getLabel("page.portfolio.filtering.optimize.fieldOptions")
+    for (let i=0; i<list.length; i++) {
+      if (list[i].id==field) {
+        return list[i].name
+      }
+    }
+
+    return ""
+  }
+
+  //-------------------------------------------------------------------------
   //---
   //--- Private methods
   //---
