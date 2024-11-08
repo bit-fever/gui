@@ -193,7 +193,7 @@ export class TradingSystemStatusStyler implements IconStyler {
   getStyle(value : number, row? : any) : IconStyle {
     switch (value) {
       case TsStatus.Off    : return TS_STATUS_OFF
-      case TsStatus.Waiting: return TS_STATUS_WAITING
+      case TsStatus.Paused : return TS_STATUS_PAUSED
       case TsStatus.Running: return TS_STATUS_RUNNING
       case TsStatus.Idle   : return TS_STATUS_IDLE
 
@@ -203,7 +203,7 @@ export class TradingSystemStatusStyler implements IconStyler {
 }
 
 var TS_STATUS_OFF    = new IconStyle("radio_button_unchecked", "#A0A0A0", "Off");
-var TS_STATUS_WAITING= new IconStyle("mode_standby",           "#0080C0", "Waiting");
+var TS_STATUS_PAUSED = new IconStyle("pause_circle",           "#0080C0", "Paused");
 var TS_STATUS_RUNNING= new IconStyle("run_circle",             "#00A000", "Running");
 var TS_STATUS_IDLE   = new IconStyle("schedule",               "#C0C000", "Idle");
 var TS_STATUS_BROKEN = new IconStyle("heart_broken",           "#E03000", "Broken");

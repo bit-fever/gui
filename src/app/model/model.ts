@@ -199,7 +199,7 @@ export enum TsActivation {
 //-----------------------------------------------------------------------------
 
 export enum TsStatus {
-  Off, Waiting, Running, Idle, Broken
+  Off, Paused, Running, Idle, Broken
 }
 
 //-----------------------------------------------------------------------------
@@ -423,7 +423,7 @@ export class FieldOptimization {
 //=============================================================================
 
 export class FilterOptimizationRequest {
-  fieldToOptimize : string  = "net-profit"
+  fieldToOptimize : string  = "net-profit*avg-trade"
   enablePosProfit : boolean = true
   enableOldNew    : boolean = true
   enableWinPerc   : boolean = true
