@@ -67,7 +67,7 @@ button:not([disabled]) span:not([class]) {
 
 //=============================================================================
 
-button span {
+button[mat-button] span {
   font-size: smaller;
 }
 

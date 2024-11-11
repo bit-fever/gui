@@ -22,6 +22,10 @@ import {MatTooltip} from "@angular/material/tooltip";
 
 //=============================================================================
 
+type FlexTableFilter<T> = (row: T, filter: string) => boolean;
+
+//=============================================================================
+
 @Component({
   selector    :     'flex-table',
   templateUrl :   './flex-table.panel.html',
@@ -43,6 +47,10 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
   @Input() dataProvider? : ListService<T>;
   @Input() searchPanel    = true
 
+  @Input() filter: FlexTableFilter<T> = (row : T, filter : string) => {
+    return true
+  }
+
   @Output() onRowsSelected : EventEmitter<T[]> = new EventEmitter<T[]>();
 
   @ViewChild(MatSort) sort : MatSort |null = null;
@@ -56,13 +64,19 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
   tableData = new MatTableDataSource<T>();
   selection = new SelectionModel<T>(true, []);
 
+  oldFilter?: (data: T, filter: string) => boolean;
+  textToFilter : string = ""
+
   //-------------------------------------------------------------------------
   //---
   //--- Constructor
   //---
   //-------------------------------------------------------------------------
 
-  constructor(private labelService : LabelService) {}
+  constructor(private labelService : LabelService) {
+    this.oldFilter = this.tableData.filterPredicate
+    this.tableData.filterPredicate = this.filterPredicate
+  }
 
   //-------------------------------------------------------------------------
   //---
@@ -157,16 +171,17 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
       return;
     }
 
-    this.selection.select(...this.tableData.data);
+    this.selection.select(...this.tableData.filteredData);
     this.onRowsSelected.emit(this.selection.selected)
   }
 
   //-------------------------------------------------------------------------
 
-  applyFilter(event: Event) {
+  updateFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.tableData.filter = filterValue.trim().toLowerCase();
-    this.rowCount         = this.tableData.filteredData.length
+    this.textToFilter = filterValue.trim().toLowerCase()
+    this.applyFilter()
+    this.rowCount = this.tableData.filteredData.length
   }
 
   //-------------------------------------------------------------------------
@@ -180,6 +195,24 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
   public clearSelection() {
     this.selection = new SelectionModel<T>(true, []);
     this.onRowsSelected.emit(this.selection.selected)
+  }
+
+  //-------------------------------------------------------------------------
+
+  public applyFilter() {
+    this.tableData.filter = new Date().toString()
+    this.rowCount = this.tableData.filteredData.length
+  }
+
+  //-------------------------------------------------------------------------
+  //---
+  //--- Private methods
+  //---
+  //-------------------------------------------------------------------------
+
+  private filterPredicate = (row: T, filter: string) : boolean => {
+    // @ts-ignore
+    return this.filter(row, this.textToFilter)
   }
 }
 

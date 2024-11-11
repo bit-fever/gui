@@ -21,6 +21,10 @@ export function buildEquityChartOptions(title : string) : {} {
       height: 500,
       id: "base",
       group: "equity",
+      zoom: {
+        enabled: true,
+        allowMouseWheelZoom: false
+      }
     },
 
     series: <ApexAxisChartSeries>[],
@@ -62,6 +66,10 @@ export function buildActivationChartOptions(title : string) : {} {
       height: 300,
       id: "activ",
       group: "equity",
+      zoom: {
+        enabled: true,
+        allowMouseWheelZoom: false
+      }
     },
 
     series: <ApexAxisChartSeries>[],

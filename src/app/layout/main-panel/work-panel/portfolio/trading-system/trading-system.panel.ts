@@ -7,26 +7,33 @@
 //=============================================================================
 
 import {Component, ViewChild} from '@angular/core';
-import {CommonModule}         from "@angular/common";
-import {MatInputModule}       from "@angular/material/input";
-import {MatCardModule}        from "@angular/material/card";
-import {MatIconModule}        from "@angular/material/icon";
-import {MatButtonModule}      from "@angular/material/button";
+import {CommonModule} from "@angular/common";
+import {MatInputModule} from "@angular/material/input";
+import {MatCardModule} from "@angular/material/card";
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
 import {PorTradingSystem, TradingSystemProperty, TsActivation, TspResponseStatus} from "../../../../../model/model";
 import {FlexTableColumn, ListService} from "../../../../../model/flex-table";
-import {AbstractPanel}        from "../../../../../component/abstract.panel";
-import {FlexTablePanel}       from "../../../../../component/panel/flex-table/flex-table.panel";
-import {LabelService}         from "../../../../../service/label.service";
-import {EventBusService}      from "../../../../../service/eventbus.service";
+import {AbstractPanel} from "../../../../../component/abstract.panel";
+import {FlexTablePanel} from "../../../../../component/panel/flex-table/flex-table.panel";
+import {LabelService} from "../../../../../service/label.service";
+import {EventBusService} from "../../../../../service/eventbus.service";
 import {
-  IntDateTranscoder, IsoDateTranscoder,
-  LabelTranscoder, MapTranscoder, TradingSystemActivationStyler, TradingSystemActiveStyler, TradingSystemRunningStyler,
+  IsoDateTranscoder,
+  MapTranscoder,
+  TradingSystemActivationStyler,
+  TradingSystemActiveStyler,
+  TradingSystemRunningStyler,
   TradingSystemStatusStyler
 } from "../../../../../component/panel/flex-table/transcoders";
 import {Router, RouterModule} from "@angular/router";
 import {Url} from "../../../../../model/urls";
 import {PortfolioService} from "../../../../../service/portfolio.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatButtonToggle, MatButtonToggleChange, MatButtonToggleGroup} from "@angular/material/button-toggle";
+import {MatChip, MatChipListbox, MatChipOption, MatChipSet} from "@angular/material/chips";
+import {MatTooltip} from "@angular/material/tooltip";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 
 //=============================================================================
 
@@ -34,8 +41,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 	selector    :     'portfolio-trading-system',
 	templateUrl :   './trading-system.panel.html',
 	styleUrls   : [ './trading-system.panel.scss' ],
-	imports     : [CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
-                 RouterModule, FlexTablePanel],
+  imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
+    RouterModule, FlexTablePanel, MatButtonToggleGroup, MatButtonToggle, MatChipSet, MatChip, MatTooltip, MatChipListbox, MatChipOption, ReactiveFormsModule],
 	standalone  : true
 })
 
@@ -54,6 +61,10 @@ export class PorTradingSystemPanel extends AbstractPanel {
   disView  : boolean = true;
   disFilter: boolean = true;
   disAction: boolean = true;
+
+  selRunning   = new FormControl("*")
+  selActive    = new FormControl("*")
+  selActivation= new FormControl("*")
 
   @ViewChild("table") table : FlexTablePanel<PorTradingSystem>|null = null;
 
@@ -147,6 +158,35 @@ export class PorTradingSystemPanel extends AbstractPanel {
     this.setProperty(TradingSystemProperty.ACTIVATION, TsActivation.Auto +"")
   }
 
+  //-------------------------------------------------------------------------
+  //--- Table filtering
+  //-------------------------------------------------------------------------
+
+  onFlagRunningChange() {
+    this.table?.applyFilter()
+  }
+
+  //-------------------------------------------------------------------------
+
+  onFlagActiveChange() {
+    this.table?.applyFilter()
+  }
+
+  //-------------------------------------------------------------------------
+
+  onFlagActivationChange() {
+    this.table?.applyFilter()
+  }
+
+  //-------------------------------------------------------------------------
+
+  tableFilter = (row : PorTradingSystem, filter : string) : boolean => {
+    return  this.filterText(row, filter)    &&
+            this.filterRunning(row.running) &&
+            this.filterActive(row.active)   &&
+            this.filterActivation(row.activation)
+  }
+
 	//-------------------------------------------------------------------------
 	//---
 	//--- Init methods
@@ -201,6 +241,64 @@ export class PorTradingSystemPanel extends AbstractPanel {
         this.snackBar.open(message, this.button("ok"))
       }
     })
+  }
+
+  //-------------------------------------------------------------------------
+  //--- Table filtering
+  //-------------------------------------------------------------------------
+
+  private filterText(row : PorTradingSystem, filter : string) : boolean {
+    let name = row.name?.trim().toLowerCase()
+    if (name?.length == 0) {
+      return true
+    }
+
+    return name?.indexOf(filter) != -1
+  }
+
+  //-------------------------------------------------------------------------
+
+  private filterRunning(running? : boolean) : boolean {
+    let value = this.selRunning.value
+
+    if (running != undefined) {
+      if (value == "*") {
+        return true
+      }
+      return (value == "r" && running) || (value == "s" && !running)
+    }
+
+    return false
+  }
+
+  //-------------------------------------------------------------------------
+
+  private filterActive(active? : boolean) : boolean {
+    let value = this.selActive.value
+
+    if (active != undefined) {
+      if (value == "*") {
+        return true
+      }
+      return (value == "a" && active) || (value == "i" && !active)
+    }
+
+    return false
+  }
+
+  //-------------------------------------------------------------------------
+
+  private filterActivation(activation? : TsActivation) : boolean {
+    let value = this.selActivation.value
+
+    if (activation != undefined) {
+      if (value == "*") {
+        return true
+      }
+      return (value == "m" && activation == TsActivation.Manual) || (value == "a" && activation == TsActivation.Auto)
+    }
+
+    return false
   }
 }
 

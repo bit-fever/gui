@@ -299,6 +299,15 @@ page:
 
   portfolio:
     tradingSystem:
+      filters:
+        all     : All
+        running : Running
+        stopped : Stopped
+        active  : Active
+        inactive: Inactive
+        manual  : Manual
+        auto    : Auto
+
       message:
         runningError    : An error occured while starting/stopping the trading system
         activationError : An error occured while changing the activation of the trading system

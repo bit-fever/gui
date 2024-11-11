@@ -423,7 +423,7 @@ export class FieldOptimization {
 //=============================================================================
 
 export class FilterOptimizationRequest {
-  fieldToOptimize : string  = "net-profit*avg-trade"
+  fieldToOptimize : string  = "net-profit"
   enablePosProfit : boolean = true
   enableOldNew    : boolean = true
   enableWinPerc   : boolean = true
