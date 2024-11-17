@@ -82,6 +82,27 @@
       </mat-form-field>
     </mat-expansion-panel>
 
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <mat-expansion-panel [expanded]="filter.trendlineEnabled" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{loc("trendline")}}
+          <span class="filler"></span>
+          <mat-icon>trending_up</mat-icon>
+          <mat-slide-toggle (change)="onTrendlineChange($event)" [checked]="filter.trendlineEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <mat-form-field>
+        <mat-label>{{loc("length")}}</mat-label>
+        <input matInput type="number" min="1" max="300" required [(ngModel)]="filter.trendlineLen">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>{{loc("trendlineValue")}}</mat-label>
+        <input matInput type="number" min="1" max="200" required [(ngModel)]="filter.trendlineValue">
+      </mat-form-field>
+    </mat-expansion-panel>
   </mat-accordion>
 
   <!-- ====================================================================== -->

@@ -1,10 +1,11 @@
 <h2 mat-dialog-title>{{loc("title_params")}}</h2>
 <mat-dialog-content class="mat-typography">
   <select-text-required [(key)]="options.fieldToOptimize" [label]="loc('optimizeFor')" keyField="id" valueField="name" [list]="labelMap('fieldOptions')" class="field-to-optimize"></select-text-required>
-  <mat-chip-option (selectionChange)="onPosProfitChange($event)" [selected]="options.enablePosProfit">{{loc("positiveProfit")}}</mat-chip-option>
-  <mat-chip-option (selectionChange)="onOldVsNewChange ($event)" [selected]="options.enableOldNew"   >{{loc("oldVsNewPeriod")}}</mat-chip-option>
-  <mat-chip-option (selectionChange)="onWinPercChange  ($event)" [selected]="options.enableWinPerc"  >{{loc("winningPerc")}}</mat-chip-option>
-  <mat-chip-option (selectionChange)="onEquVsAvgChange ($event)" [selected]="options.enableEquAvg"   >{{loc("equityVsAverage")}}</mat-chip-option>
+  <mat-chip-option (selectionChange)="onPosProfitChange ($event)" [selected]="options.enablePosProfit">{{loc("positiveProfit")}}</mat-chip-option>
+  <mat-chip-option (selectionChange)="onOldVsNewChange  ($event)" [selected]="options.enableOldNew"   >{{loc("oldVsNewPeriod")}}</mat-chip-option>
+  <mat-chip-option (selectionChange)="onWinPercChange   ($event)" [selected]="options.enableWinPerc"  >{{loc("winningPerc")}}</mat-chip-option>
+  <mat-chip-option (selectionChange)="onEquVsAvgChange  ($event)" [selected]="options.enableEquAvg"   >{{loc("equityVsAverage")}}</mat-chip-option>
+  <mat-chip-option (selectionChange)="onTrendlineChange ($event)" [selected]="options.enableTrendline">{{loc("trendline")}}</mat-chip-option>
 
   <table>
     <tr>
@@ -34,7 +35,7 @@
       </td>
     </tr>
 
-    <!-- Old vs new period: old days - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!-- Old vs new period: old len - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <tr *ngIf="options.enableOldNew">
       <td>
@@ -54,7 +55,7 @@
       </td>
     </tr>
 
-    <!-- Old vs new period: new days - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!-- Old vs new period: new len - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <tr *ngIf="options.enableOldNew">
       <td>
@@ -94,7 +95,7 @@
       </td>
     </tr>
 
-    <!-- Winning percentage: days - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!-- Winning percentage: len - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <tr *ngIf="options.enableWinPerc">
       <td>
@@ -134,7 +135,7 @@
       </td>
     </tr>
 
-    <!-- Equity vs average: days - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!-- Equity vs average: len - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <tr *ngIf="options.enableEquAvg">
       <td>
@@ -154,6 +155,45 @@
       </td>
     </tr>
 
+    <!-- Trendline: len - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <tr *ngIf="options.enableTrendline">
+      <td>
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? options.trendlineLen.toggle() : null"
+                      [checked]="options.trendlineLen.enabled">
+        </mat-checkbox>
+      </td>
+      <td>{{loc("trendline")}}</td>
+      <td>{{loc("length")}}</td>
+      <td>
+        <input-number-required *ngIf="!options.trendlineLen.enabled" [(value)]="options.trendlineLen.curValue" [label]="loc('curValue')" [min]="1" [max]="300"></input-number-required>
+
+        <input-number-required class ="value-style" *ngIf="options.trendlineLen.enabled" [(value)]="options.trendlineLen.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-number-required>
+        <input-number-required class ="value-style" *ngIf="options.trendlineLen.enabled" [(value)]="options.trendlineLen.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-number-required>
+        <input-number-required class ="value-style" *ngIf="options.trendlineLen.enabled" [(value)]="options.trendlineLen.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-number-required>
+      </td>
+    </tr>
+
+    <!-- Trendline: value - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <tr *ngIf="options.enableTrendline">
+      <td>
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? options.trendlineValue.toggle() : null"
+                      [checked]="options.trendlineValue.enabled">
+        </mat-checkbox>
+      </td>
+      <td>{{loc("trendline")}}</td>
+      <td>{{loc("value")}}</td>
+      <td>
+        <input-number-required *ngIf="!options.trendlineValue.enabled" [(value)]="options.trendlineValue.curValue" [label]="loc('curValue')" [min]="1" [max]="300"></input-number-required>
+
+        <input-number-required class ="value-style" *ngIf="options.trendlineValue.enabled" [(value)]="options.trendlineValue.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-number-required>
+        <input-number-required class ="value-style" *ngIf="options.trendlineValue.enabled" [(value)]="options.trendlineValue.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-number-required>
+        <input-number-required class ="value-style" *ngIf="options.trendlineValue.enabled" [(value)]="options.trendlineValue.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-number-required>
+      </td>
+    </tr>
   </table>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

@@ -301,6 +301,10 @@ export class TradingFilter {
   oldNewOldLen  : number  = 0
   oldNewOldPerc : number  = 0
   oldNewNewLen  : number  = 0
+
+  trendlineEnabled : boolean = false
+  trendlineLen     : number  = 0
+  trendlineValue   : number  = 0
 }
 
 //=============================================================================
@@ -359,6 +363,7 @@ export class Activations {
   positiveProfit?    : Serie
   winningPercentage? : Serie
   oldVsNew?          : Serie
+  trendline?         : Serie
 }
 
 //-----------------------------------------------------------------------------
@@ -428,6 +433,7 @@ export class FilterOptimizationRequest {
   enableOldNew    : boolean = true
   enableWinPerc   : boolean = true
   enableEquAvg    : boolean = true
+  enableTrendline : boolean = true
 
   posProLen     : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 1)
   oldNewOldLen  : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 1)
@@ -436,6 +442,8 @@ export class FilterOptimizationRequest {
   winPercLen    : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 1)
   winPercPerc   : FieldOptimization = new FieldOptimization(true, 50, 5, 100, 5)
   equAvgLen     : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 1)
+  trendlineLen  : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 1)
+  trendlineValue: FieldOptimization = new FieldOptimization(true, 10, 1, 100, 1)
 }
 
 //=============================================================================
@@ -477,6 +485,7 @@ export class SelectedFilters {
   oldVsNew?  : boolean
   winPerc?   : boolean
   equVsAvg?  : boolean
+  trendline? : boolean
 }
 
 //=============================================================================

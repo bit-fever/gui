@@ -151,6 +151,12 @@ export class FilteringPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
+  onTrendlineChange(e : MatSlideToggleChange) {
+    this.filter.trendlineEnabled = e.checked;
+  }
+
+  //-------------------------------------------------------------------------
+
   onRunClick() {
     this.callService(new FilterAnalysisRequest(this.filter))
   }
@@ -276,6 +282,12 @@ export class FilteringPanel extends AbstractPanel {
       factor += 2
     }
 
+    if (res.activations.trendline) {
+      let ds = this.addActivationDataset(res.activations.trendline, "chart.trendline", factor)
+      datasets = [...datasets, ds];
+      factor += 2
+    }
+
     let ds = this.addActivationDatasetBase(res.equities.time, res.equities.filterActivation, "chart.filterActivation", factor)
     datasets = [...datasets, ds];
 
@@ -388,6 +400,12 @@ export class FilteringPanel extends AbstractPanel {
     else if (run.filterType == "equVsAvg") {
       f.equAvgEnabled = true
       f.equAvgLen     = run.length
+    }
+
+    else if (run.filterType == "trendline") {
+      f.trendlineEnabled = true
+      f.trendlineLen     = run.length
+      f.trendlineValue   = run.percentage
     }
 
     else {

@@ -94,6 +94,13 @@ export class OptimizeParameterDialog extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
+  onTrendlineChange(e: MatChipSelectionChange) {
+    this.options.enableTrendline = e.selected;
+    this.updateFields();
+  }
+
+  //-------------------------------------------------------------------------
+
   onRun() {
     this.portfolioService.startFilterOptimization(this.data.tsId, this.options).subscribe(
       result => {
