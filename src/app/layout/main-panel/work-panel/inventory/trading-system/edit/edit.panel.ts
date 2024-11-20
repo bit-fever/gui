@@ -112,10 +112,11 @@ export class TradingSystemEditPanel extends AbstractPanel {
   private onStart(event : AppEvent) : void {
     console.log("TradingSystemEditPanel: Starting...");
 
-    this.ts = event.params
-
-    if (this.ts == undefined) {
+    if (event.params == undefined) {
       this.ts = new TradingSystemSpec()
+    }
+    else {
+      this.ts = Object.assign(new TradingSystemSpec(), event.params)
     }
   }
 

@@ -106,7 +106,7 @@ export class ProductBrokerEditPanel extends AbstractPanel {
   private onStart(event : AppEvent) : void {
     console.log("ProductBrokerEditPanel: Starting...");
 
-    this.pb       = event.params
+    this.pb       = Object.assign(new BrokerProductSpec(), event.params)
     this.markets  = this.labelService.getLabel("map.market")
     this.products = this.labelService.getLabel("map.product")
   }

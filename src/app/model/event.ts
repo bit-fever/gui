@@ -40,8 +40,9 @@ export class AppEvent<T = any>  {
   static RIGHT_PANEL_OPEN   : string = "right.panel.open";
 	static RIGHT_PANEL_CLOSE  : string = "right.panel.close";
 
-  static CONNECTION_LIST_RELOAD: string = "connection.list.reload";
-  static CONNECTION_EDIT_START : string = "connection.edit.start";
+  static CONNECTION_LIST_RELOAD  : string = "connection.list.reload";
+  static CONNECTION_CREATE_START : string = "connection.create.start";
+  static CONNECTION_EDIT_START   : string = "connection.edit.start";
 
   static TRADINGSYSTEM_LIST_RELOAD: string = "tradingSystem.list.reload";
   static TRADINGSYSTEM_EDIT_START : string = "tradingSystem.edit.start";

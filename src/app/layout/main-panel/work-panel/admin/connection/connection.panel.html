@@ -4,6 +4,10 @@
   <div>
     <button mat-button (click)="onCreateClick()" [disabled]="disCreate">{{button("create")}}</button>
     <button mat-button (click)="onViewClick()"   [disabled]="disView">{{button("view")}}</button>
+    <button mat-button (click)="onEditClick()"   [disabled]="disEdit">{{button("edit")}}</button>
+    |
+    <button mat-button (click)="onConnectClick()"    [disabled]="disConnect">{{button("connect")}}</button>
+    <button mat-button (click)="onDisconnectClick()" [disabled]="disDisconn">{{button("disconnect")}}</button>
   </div>
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

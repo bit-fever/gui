@@ -85,19 +85,19 @@ export class InvTradingSystemFull extends InvTradingSystem {
 //=============================================================================
 
 export class ConnectionSpec {
-  code?         : string
-  name?         : string
-  systemCode?   : string
-  systemConfig? : string
+  id?          : number
+  code         : string = ""
+  name         : string = ""
+  systemCode   : string = ""
+  systemConfig : string = ""
 }
 
 //=============================================================================
 
 export class Connection extends ConnectionSpec {
-  id?                    : number
   username?              : string
   systemName?            : string
-  connectionCode?        : string
+  instanceCode?          : string
   supportsData?          : boolean
   supportsBroker?        : boolean
   supportsMultipleFeeds? : boolean
@@ -235,14 +235,16 @@ export class PorTradingSystem {
 //=============================================================================
 
 export class AdapterParam {
-  name?      : string
-  type?      : string
-  label?     : string
-  nullable?  : boolean
-  minValue?  : number
-  maxValue?  : number
-  tooltip?   : string
-  groupName? : string
+  name      : string  = ""
+  type      : string  = ""
+  defValue  : string  = ""
+  nullable  : boolean = false
+  minValue  : number  = 0
+  maxValue  : number  = 0
+  groupName : string  = ""
+  valueStr  : string  = ""
+  valueBool : boolean = false
+  valueInt  : number  = 0
 }
 
 //=============================================================================
@@ -250,7 +252,7 @@ export class AdapterParam {
 export class Adapter {
   code?                  : string
   name?                  : string
-  params?                : AdapterParam[]
+  params                 : AdapterParam[] = []
   supportsFeed?          : boolean
   supportsBroker?        : boolean
   supportsMultipleFeeds? : boolean

@@ -2,9 +2,10 @@
   <right-title-panel icon="cable" title="{{loc('new')}}" (onClose)="onClose()"></right-title-panel>
 
   <div class="form-layout">
-    <input-text-required [(value)]="conn.code" [label]="loc('code')" [len]="8" [disabled]="true"></input-text-required>
+    <input-text-required #connCodeCtrl [(value)]="conn.code" [label]="loc('code')" [len]="8" ></input-text-required>
     <input-text-required #connNameCtrl [(value)]="conn.name" [label]="loc('name')" [len]="32"></input-text-required>
-    <select-text-required [(key)]="conn.systemCode" [label]="loc('system')" [disabled]="true"
+    <select-text-required #connSystemCodeCtrl [(key)]="conn.systemCode" [label]="loc('system')"
+                          (keyChange)="onAdapterChange($event)"
                           keyField="code" valueField="name" [list]="adapters"></select-text-required>
 
     <ng-container *ngFor="let param of params">
@@ -20,4 +21,3 @@
     <button mat-button (click)="onClose()">{{button("cancel")}}</button>
   </div>
 </div>
-

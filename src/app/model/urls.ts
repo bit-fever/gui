@@ -31,6 +31,7 @@ export enum Url {
   Sub_Backtest  = "backtest",
   Sub_Data      = "data",
 
+  Right_Connection_Create   = "connection-create",
   Right_Connection_Edit     = "connection-edit",
   Right_TradingSystem_Edit  = "tradingSystem-edit",
   Right_DataProduct_Create  = "dataProduct-create",

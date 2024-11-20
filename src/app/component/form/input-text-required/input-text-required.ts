@@ -48,7 +48,8 @@ export class InputTextRequired extends AbstractSubscriber {
   //---
   //-------------------------------------------------------------------------
 
-  @Input() label? : string
+  @Input() label : string = ""
+  @Input() type  : string = "text"
 
   @Output() valueChange = new EventEmitter<any>();
 

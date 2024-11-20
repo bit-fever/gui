@@ -50,7 +50,7 @@ export class SelectTextRequired extends AbstractSubscriber {
 	@Input() label     : string = ""
 	@Input() keyField  : string = ""
 	@Input() valueField: string = ""
-	@Input() list      : any[]  = []
+  @Input() list      : any[]  = []
   @Input() map       : Object = {}
 
   @Output() keyChange = new EventEmitter<any>();
@@ -88,6 +88,24 @@ export class SelectTextRequired extends AbstractSubscriber {
   @Input()
   set key(v : any) {
     this.formControl.setValue(v)
+  }
+
+  //-------------------------------------------------------------------------
+
+  get disabled() : boolean {
+    return this.formControl.disabled
+  }
+
+  //-------------------------------------------------------------------------
+
+  @Input()
+  set disabled(v : boolean) {
+    if (v) {
+      this.formControl.disable()
+    }
+    else {
+      this.formControl.enable()
+    }
   }
 
   //-------------------------------------------------------------------------

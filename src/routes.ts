@@ -52,6 +52,7 @@ import {
 import {
   BiasAnalysisBacktestPanel
 } from "./app/layout/main-panel/work-panel/tool/bias-analysis/backtest/bias-analysis.backtest";
+import {ConnectionCreatePanel} from "./app/layout/main-panel/work-panel/admin/connection/create/create.panel";
 
 //=============================================================================
 
@@ -104,7 +105,8 @@ export const routes: Routes = [
 
   { path: Url.Admin_Config,                       component: ConfigurationPanel              },
   { path: Url.Admin_Connections,                  component: ConnectionPanel                 },
-  { path: Url.Right_Connection_Edit,              component: ConnectionEditPanel, outlet : 'right' },
+  { path: Url.Right_Connection_Create,            component: ConnectionCreatePanel, outlet : 'right' },
+  { path: Url.Right_Connection_Edit,              component: ConnectionEditPanel,   outlet : 'right' },
 
   { path:'**',                                    component: UnknownPanel },
 ];

@@ -87,7 +87,7 @@ export class BiasAnalysisEditPanel extends AbstractPanel {
 
   private onStart(event : AppEvent) : void {
     console.log("BiasAnalysisEditPanel: Starting...");
-    this.ba = event.params
+    this.ba = Object.assign(new BiasAnalysis(), event.params)
   }
 
   //-------------------------------------------------------------------------

@@ -64,6 +64,12 @@ export class InventoryService {
   }
 
   //---------------------------------------------------------------------------
+
+  public updateConnection = (cs : ConnectionSpec): Observable<Connection> => {
+    return this.httpService.put<Connection>('/api/inventory/v1/connections/'+cs.id, cs);
+  }
+
+  //---------------------------------------------------------------------------
   //--- Product tool
   //---------------------------------------------------------------------------
 

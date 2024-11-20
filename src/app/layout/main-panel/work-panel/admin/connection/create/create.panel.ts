@@ -32,9 +32,9 @@ import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
 //=============================================================================
 
 @Component({
-  selector    :     'connection-edit',
-  templateUrl :   './edit.panel.html',
-  styleUrls   : [ './edit.panel.scss' ],
+  selector    :     'connection-create',
+  templateUrl :   './create.panel.html',
+  styleUrls   : [ './create.panel.scss' ],
   imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
     MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
     MatDividerModule, InputTextRequired, SelectTextRequired, MatCheckbox
@@ -44,7 +44,7 @@ import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
 
 //=============================================================================
 
-export class ConnectionEditPanel extends AbstractPanel {
+export class ConnectionCreatePanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
   //---
@@ -56,7 +56,9 @@ export class ConnectionEditPanel extends AbstractPanel {
   adapters : Adapter     [] = []
   params   : AdapterParam[] = []
 
-  @ViewChild("connNameCtrl") connNameCtrl? : InputTextRequired
+  @ViewChild("connCodeCtrl")       connCodeCtrl?       : InputTextRequired
+  @ViewChild("connNameCtrl")       connNameCtrl?       : InputTextRequired
+  @ViewChild("connSystemCodeCtrl") connSystemCodeCtrl? : SelectTextRequired
 
   //-------------------------------------------------------------------------
   //---
@@ -71,7 +73,7 @@ export class ConnectionEditPanel extends AbstractPanel {
               private inventoryService : InventoryService) {
 
   	super(eventBusService, labelService, router, "admin.connection");
-  	super.subscribeToApp(AppEvent.CONNECTION_EDIT_START, (e : AppEvent) => this.onStart(e));
+  	super.subscribeToApp(AppEvent.CONNECTION_CREATE_START, (e : AppEvent) => this.onStart(e));
 
 	  systemAdapterService.getAdapters().subscribe(
 		  result => {
@@ -82,27 +84,27 @@ export class ConnectionEditPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   private onStart(event : AppEvent) : void {
-  	console.log("ConnectionEditPanel: Starting...");
-
-  	let conn : Connection = event.params;
-
-    this.conn = Object.assign(new Connection(), conn)
-
-    let adapter = this.findAdapter(conn.systemCode)
-    if (adapter != undefined) {
-      let map = this.createMap(conn.systemConfig)
-      this.params = this.updateParameters(adapter.params, map)
-      console.log("Connection parameters have been initialized")
-    }
-    else {
-      console.log("Adapter not found !!!!!! --> "+ conn.systemCode)
-    }
+  	console.log("ConnectionCreatePanel: Starting...");
+    this.conn   = new ConnectionSpec()
+    this.params = []
   }
 
   //-------------------------------------------------------------------------
   //---
   //--- Events
   //---
+  //-------------------------------------------------------------------------
+
+  onAdapterChange(e : string) {
+    console.log("Adapter change : "+ e)
+
+    this.adapters.forEach( a => {
+      if (a.code == e) {
+        this.params = this.initParameters(a.params)
+      }
+    })
+  }
+
   //-------------------------------------------------------------------------
 
   onCheckChange(e : MatCheckboxChange, p : AdapterParam) {
@@ -118,20 +120,18 @@ export class ConnectionEditPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   public saveEnabled() : boolean|undefined {
-    return  this.areAdapterParamsValid() && this.connNameCtrl?.isValid()
+    return  this.areAdapterParamsValid() &&
+            this.connCodeCtrl?.isValid() &&
+            this.connNameCtrl?.isValid() &&
+            this.connSystemCodeCtrl?.isValid()
   }
 
   //-------------------------------------------------------------------------
 
   public onSave() : void {
-    let conn = new ConnectionSpec()
-    conn.id           = this.conn.id
-    conn.code         = this.conn.code
-    conn.name         = this.conn.name
-    conn.systemCode   = this.conn.systemCode
-    conn.systemConfig = this.createConfig()
+    this.conn.systemConfig = this.createConfig()
 
-    this.inventoryService.updateConnection(conn).subscribe( c => {
+    this.inventoryService.addConnection(this.conn).subscribe( c => {
       this.onClose();
       this.emitToApp(new AppEvent<any>(AppEvent.CONNECTION_LIST_RELOAD))
     })
@@ -150,16 +150,29 @@ export class ConnectionEditPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  private findAdapter(code : string) : Adapter|undefined {
-    let adapter = undefined
+  private initParameters(list : AdapterParam[]) : AdapterParam[] {
+    if (list == null) {
+      return []
+    }
 
-    this.adapters.forEach( a => {
-      if (a.code == code) {
-        adapter = a
+    list.forEach(p => {
+      switch (p.type) {
+        case "string":
+          p.valueStr = p.defValue
+          break;
+        case "password":
+          p.valueStr = ""
+          break;
+        case "int":
+          p.valueInt = Number(p.defValue)
+          break;
+        case "bool":
+          p.valueBool = p.defValue == "true"
+          break;
       }
     })
 
-    return adapter
+    return list
   }
 
   //-------------------------------------------------------------------------
@@ -213,40 +226,6 @@ export class ConnectionEditPanel extends AbstractPanel {
     }
 
     return config
-  }
-
-  //-------------------------------------------------------------------------
-
-  private createMap(config : string ) : any {
-    return JSON.parse(config)
-  }
-
-  //-------------------------------------------------------------------------
-
-  private updateParameters(list : AdapterParam[], map : any) : AdapterParam[] {
-    if (list == null) {
-      return []
-    }
-
-    let newList : AdapterParam[] = []
-
-    list.forEach(p => {
-      newList = [ ...newList, p ]
-      switch (p.type) {
-        case "string":
-        case "password":
-          p.valueStr = map[p.name]
-          break;
-        case "int":
-          p.valueInt = map[p.name]
-          break;
-        case "bool":
-          p.valueBool = map[p.name]
-          break;
-      }
-    })
-
-    return newList
   }
 }
 

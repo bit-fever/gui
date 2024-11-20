@@ -12,7 +12,7 @@ import {MatInputModule}       from "@angular/material/input";
 import {MatCardModule}        from "@angular/material/card";
 import {MatIconModule}        from "@angular/material/icon";
 import {MatButtonModule}      from "@angular/material/button";
-import {Connection}           from "../../../../../model/model";
+import {AdapterParam, Connection} from "../../../../../model/model";
 import {FlexTableColumn, ListService} from "../../../../../model/flex-table";
 import {AbstractPanel}        from "../../../../../component/abstract.panel";
 import {FlexTablePanel}       from "../../../../../component/panel/flex-table/flex-table.panel";
@@ -47,11 +47,13 @@ export class ConnectionPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  columns  : FlexTableColumn[] = [];
-  service  : ListService<Connection>;
-  disCreate: boolean = false;
-  disView  : boolean = true;
-  disFilter: boolean = true;
+  columns   : FlexTableColumn[] = [];
+  service   : ListService<Connection>;
+  disCreate : boolean = false;
+  disView   : boolean = true
+  disEdit   : boolean = true
+  disConnect: boolean = true
+  disDisconn: boolean = true
 
   @ViewChild("table") table : FlexTablePanel<Connection>|null = null;
 
@@ -75,15 +77,15 @@ export class ConnectionPanel extends AbstractPanel {
   }
 
   //-------------------------------------------------------------------------
-  //---
-  //--- Public methods
-  //---
-  //-------------------------------------------------------------------------
 
   override init = () : void => {
     this.setupColumns();
   }
 
+  //-------------------------------------------------------------------------
+  //---
+  //--- Events
+  //---
   //-------------------------------------------------------------------------
 
   onRowSelected(selection : Connection[]) {
@@ -93,7 +95,7 @@ export class ConnectionPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onCreateClick() {
-    this.openRightPanel(Url.Admin_Connections, Url.Right_Connection_Edit, AppEvent.CONNECTION_EDIT_START);
+    this.openRightPanel(Url.Admin_Connections, Url.Right_Connection_Create, AppEvent.CONNECTION_CREATE_START);
   }
 
   //-------------------------------------------------------------------------
@@ -105,6 +107,29 @@ export class ConnectionPanel extends AbstractPanel {
     if (selection.length > 0) {
       console.log(JSON.stringify(selection))
     }
+  }
+
+  //-------------------------------------------------------------------------
+
+  onEditClick() {
+    // @ts-ignore
+    let selection = this.table.getSelection();
+
+    if (selection.length > 0) {
+      this.openRightPanel(Url.Admin_Connections, Url.Right_Connection_Edit, AppEvent.CONNECTION_EDIT_START, selection[0]);
+    }
+  }
+
+  //-------------------------------------------------------------------------
+
+  onConnectClick() {
+
+  }
+
+  //-------------------------------------------------------------------------
+
+  onDisconnectClick() {
+
   }
 
   //-------------------------------------------------------------------------
@@ -134,8 +159,18 @@ export class ConnectionPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   private updateButtons = (selection : Connection[]) => {
-    this.disView = (selection.length != 1)
-    this.disFilter= this.disView
+    this.disView    = (selection.length != 1)
+    this.disEdit    = this.disView
+    this.disConnect = this.disView
+    this.disDisconn = this.disView
+
+    if ( selection.length == 1) {
+      let conn = selection[0]
+      let isConnected = (conn.instanceCode != "")
+      this.disEdit    = isConnected
+      this.disConnect = isConnected
+      this.disDisconn = !isConnected
+    }
   }
 }
 
