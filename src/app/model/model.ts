@@ -108,6 +108,23 @@ export class Connection extends ConnectionSpec {
 
 //=============================================================================
 
+export class ConnectionRequest {
+  systemCode? : string
+  config      : any
+}
+
+//=============================================================================
+
+export const ConnectionResultStatusOpenUrl = "open-url"
+
+export class ConnectionResult {
+  instanceCode : string = ""
+  status       : string = ""
+  message      : string = ""
+}
+
+//=============================================================================
+
 export class DataProductSpec {
   id?           : number
   connectionId? : number

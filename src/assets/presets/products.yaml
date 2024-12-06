@@ -299,6 +299,17 @@
   costPerOperation: 0
   margin          : 0
 
+- symbol          : ZW
+  name            : Wheat Futures
+  increment       : 0.0025
+  market          : GR
+  product         : FU
+  exchange        : CBOT
+  pointValue      : 5000
+  costPerOperation: 0
+  margin          : 2800
+  notes           : Verify pointValue & increment
+
 #--- Softs --------------------------------
 
 - symbol          : KC
@@ -324,7 +335,7 @@
 #--- Bonds --------------------------------
 
 - symbol          : ZN
-  name            : 10-Year T-Note
+  name            : 10 Yr U.S. Treasury Notes
   increment       : 0.015625
   market          : BO
   product         : FU
