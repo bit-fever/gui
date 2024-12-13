@@ -6,11 +6,12 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {FilterRun} from "../../../../../../../model/model";
+import {TradingFilter} from "../../../../../../../model/model";
 
 export interface DialogData {
-  tsId:   number;
-  tsName: string;
+  tsId  : number
+  tsName: string
+  filter: TradingFilter
 }
 
 //=============================================================================

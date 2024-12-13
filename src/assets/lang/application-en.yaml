@@ -36,6 +36,7 @@ button:
   disable   : DISABLE
   connect   : CONNECT
   disconnect: DISCONNECT
+  reset     : RESET
 
 # ==============================================================================
 # ===
@@ -392,13 +393,16 @@ page:
         filterActivation: Filter activation
 
       optimize:
-        title_params:   Filter optimization - Parameters
+        title_params  : Filter optimization - Parameters
         title_progress: Filter optimization - Progress
-        title_result:   Filter optimization - Result
-        optimizeFor: Optimize for
-        positiveProfit:  Positive profit
-        oldVsNewPeriod:  Old vs new
-        winningPerc:     Winning %
+        title_result  : Filter optimization - Result
+        tabFilter     : Filter
+        tabAlgorithm  : Algorithm
+        optimizeFor   : Optimize for
+        algorithm     : Algorithm
+        positiveProfit: Positive profit
+        oldVsNewPeriod: Old vs new
+        winningPerc   : Winning %
         equityVsAverage: Equity vs average
         trendline:       Trendline
         value:           Value
@@ -424,6 +428,11 @@ page:
             name: Average trade
           - id: net-profit*avg-trade
             name: Net profit * Average trade
+        algorOptions:
+          - id: simple
+            name: Simple (fast, conditions are not combined)
+          - id: genetic
+            name: Genetic (slow and deep optimization)
         taCurrStep:   Current step
         taTotalSteps: Total steps
         taPercentage: Percentage

@@ -9,22 +9,22 @@
 import {MatButtonModule} from "@angular/material/button";
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {Component, Inject} from "@angular/core";
-import {AbstractPanel} from "../../../../../../../component/abstract.panel";
-import {EventBusService} from "../../../../../../../service/eventbus.service";
-import {LabelService} from "../../../../../../../service/label.service";
+import {AbstractPanel} from "../../../../../../../../component/abstract.panel";
+import {EventBusService} from "../../../../../../../../service/eventbus.service";
+import {LabelService} from "../../../../../../../../service/label.service";
 import {Router} from "@angular/router";
-import {SelectTextRequired} from "../../../../../../../component/form/select-required/select-text-required";
+import {SelectTextRequired} from "../../../../../../../../component/form/select-required/select-text-required";
 import {MatChipsModule} from "@angular/material/chips";
-import {FilterRun} from "../../../../../../../model/model";
+import {FilterRun} from "../../../../../../../../model/model";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {NgIf} from "@angular/common";
-import {InputNumberRequired} from "../../../../../../../component/form/input-integer-required/input-number-required";
-import {PortfolioService} from "../../../../../../../service/portfolio.service";
-import {DialogData} from "./dialog-data";
-import {FlexTablePanel} from "../../../../../../../component/panel/flex-table/flex-table.panel";
-import {FlexTableColumn} from "../../../../../../../model/flex-table";
+import {InputNumberRequired} from "../../../../../../../../component/form/input-integer-required/input-number-required";
+import {PortfolioService} from "../../../../../../../../service/portfolio.service";
+import {DialogData} from "../dialog-data";
+import {FlexTablePanel} from "../../../../../../../../component/panel/flex-table/flex-table.panel";
+import {FlexTableColumn} from "../../../../../../../../model/flex-table";
 import {MatIconModule} from "@angular/material/icon";
-import {PositiveTranscoder} from "../../../../../../../component/panel/flex-table/transcoders";
+import {PositiveTranscoder} from "../../../../../../../../component/panel/flex-table/transcoders";
 
 //=============================================================================
 

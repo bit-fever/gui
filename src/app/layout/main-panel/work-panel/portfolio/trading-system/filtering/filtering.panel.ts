@@ -37,9 +37,9 @@ import {FlexTableColumn} from "../../../../../../model/flex-table";
 import {SimpleTablePanel} from "../../../../../../component/panel/simple-table/simple-table.panel";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
-import {OptimizeProgressDialog} from "./optimize/progress.dialog";
-import {OptimizeResultDialog} from "./optimize/result.dialog";
-import {OptimizeParameterDialog} from "./optimize/parameter.dialog";
+import {OptimizeProgressDialog} from "./optimize/progress/progress.dialog";
+import {OptimizeResultDialog} from "./optimize/result/result.dialog";
+import {OptimizeParameterDialog} from "./optimize/parameter/parameter.dialog";
 import {ChartComponent} from "ng-apexcharts";
 import {buildActivationChartOptions, buildEquityChartOptions} from "./charts-config";
 
@@ -316,10 +316,11 @@ export class FilteringPanel extends AbstractPanel {
 
   private openParametersDialog() {
     const dialogRef = this.dialog.open(OptimizeParameterDialog, {
-      minWidth: "1280px",
+      minWidth : "1280px",
       data: {
         tsId  : this.tradingSystem.id,
-        tsName: this.tradingSystem.name
+        tsName: this.tradingSystem.name,
+        filter: this.filter
       }
     })
 

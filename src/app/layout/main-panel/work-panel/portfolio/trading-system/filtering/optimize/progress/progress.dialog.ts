@@ -9,17 +9,17 @@
 import {MatButtonModule} from "@angular/material/button";
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {Component, Inject} from "@angular/core";
-import {AbstractPanel} from "../../../../../../../component/abstract.panel";
-import {EventBusService} from "../../../../../../../service/eventbus.service";
-import {LabelService} from "../../../../../../../service/label.service";
+import {AbstractPanel} from "../../../../../../../../component/abstract.panel";
+import {EventBusService} from "../../../../../../../../service/eventbus.service";
+import {LabelService} from "../../../../../../../../service/label.service";
 import {Router} from "@angular/router";
 import {NgIf} from "@angular/common";
-import {PortfolioService} from "../../../../../../../service/portfolio.service";
-import {DialogData} from "./dialog-data";
+import {PortfolioService} from "../../../../../../../../service/portfolio.service";
+import {DialogData} from "../dialog-data";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {Subscription, timer} from "rxjs";
-import {FilterOptimizationResponse} from "../../../../../../../model/model";
+import {FilterOptimizationResponse} from "../../../../../../../../model/model";
 import {MatIconModule} from "@angular/material/icon";
 
 //=============================================================================

@@ -453,6 +453,7 @@ export class FilterOptimizationRequest {
   enableWinPerc   : boolean = true
   enableEquAvg    : boolean = true
   enableTrendline : boolean = true
+  algorithm       : string = "simple"
 
   posProLen     : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 1)
   oldNewOldLen  : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 1)

@@ -1,0 +1,215 @@
+<h2 mat-dialog-title>{{loc("title_params")}}</h2>
+<mat-dialog-content class="dialog-style">
+  <mat-tab-group>
+    <mat-tab label="{{loc('tabFilter')}}">
+      <br/>
+      <mat-chip-option (selectionChange)="onPosProfitChange ($event)" [selected]="options.enablePosProfit">{{loc("positiveProfit")}}</mat-chip-option>
+      <mat-chip-option (selectionChange)="onOldVsNewChange  ($event)" [selected]="options.enableOldNew"   >{{loc("oldVsNewPeriod")}}</mat-chip-option>
+      <mat-chip-option (selectionChange)="onWinPercChange   ($event)" [selected]="options.enableWinPerc"  >{{loc("winningPerc")}}</mat-chip-option>
+      <mat-chip-option (selectionChange)="onEquVsAvgChange  ($event)" [selected]="options.enableEquAvg"   >{{loc("equityVsAverage")}}</mat-chip-option>
+      <mat-chip-option (selectionChange)="onTrendlineChange ($event)" [selected]="options.enableTrendline">{{loc("trendline")}}</mat-chip-option>
+
+      <table>
+        <tr>
+          <th>{{loc("selected")}}</th>
+          <th>{{loc("filter")}}</th>
+          <th>{{loc("parameter")}}</th>
+          <th>{{loc("options")}}</th>
+        </tr>
+
+        <!-- Prositive profit: days - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <tr *ngIf="options.enablePosProfit">
+          <td>
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? options.posProLen.toggle() : null"
+                          [checked]="options.posProLen.enabled">
+            </mat-checkbox>
+          </td>
+          <td>{{loc("positiveProfit")}}</td>
+          <td>{{loc("length")}}</td>
+          <td>
+            <input-number-required *ngIf="!options.posProLen.enabled" [(value)]="options.posProLen.curValue" [label]="loc('curValue')" [min]="1" [max]="300"></input-number-required>
+
+            <input-number-required class ="value-style" *ngIf="options.posProLen.enabled" [(value)]="options.posProLen.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.posProLen.enabled" [(value)]="options.posProLen.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.posProLen.enabled" [(value)]="options.posProLen.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-number-required>
+          </td>
+        </tr>
+
+        <!-- Old vs new period: old len - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <tr *ngIf="options.enableOldNew">
+          <td>
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? options.oldNewOldLen.toggle() : null"
+                          [checked]="options.oldNewOldLen.enabled">
+            </mat-checkbox>
+          </td>
+          <td>{{loc("oldVsNewPeriod")}}</td>
+          <td>{{loc("oldLen")}}</td>
+          <td>
+            <input-number-required *ngIf="!options.oldNewOldLen.enabled" [(value)]="options.oldNewOldLen.curValue" [label]="loc('curValue')" [min]="1" [max]="600"></input-number-required>
+
+            <input-number-required class ="value-style" *ngIf="options.oldNewOldLen.enabled" [(value)]="options.oldNewOldLen.minValue" [label]="loc('minValue')" [min]="1" [max]="600"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.oldNewOldLen.enabled" [(value)]="options.oldNewOldLen.maxValue" [label]="loc('maxValue')" [min]="1" [max]="600"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.oldNewOldLen.enabled" [(value)]="options.oldNewOldLen.step"     [label]="loc('step')"     [min]="1" [max]="600"></input-number-required>
+          </td>
+        </tr>
+
+        <!-- Old vs new period: new len - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <tr *ngIf="options.enableOldNew">
+          <td>
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? options.oldNewNewLen.toggle() : null"
+                          [checked]="options.oldNewNewLen.enabled">
+            </mat-checkbox>
+          </td>
+          <td>{{loc("oldVsNewPeriod")}}</td>
+          <td>{{loc("newLen")}}</td>
+          <td>
+            <input-number-required *ngIf="!options.oldNewNewLen.enabled" [(value)]="options.oldNewNewLen.curValue" [label]="loc('curValue')" [min]="1" [max]="300"></input-number-required>
+
+            <input-number-required class ="value-style" *ngIf="options.oldNewNewLen.enabled" [(value)]="options.oldNewNewLen.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.oldNewNewLen.enabled" [(value)]="options.oldNewNewLen.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.oldNewNewLen.enabled" [(value)]="options.oldNewNewLen.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-number-required>
+          </td>
+        </tr>
+
+        <!-- Old vs new period: old percentage - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <tr *ngIf="options.enableOldNew">
+          <td>
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? options.oldNewOldPerc.toggle() : null"
+                          [checked]="options.oldNewOldPerc.enabled">
+            </mat-checkbox>
+          </td>
+          <td>{{loc("oldVsNewPeriod")}}</td>
+          <td>{{loc("oldPerc")}}</td>
+          <td>
+            <input-number-required *ngIf="!options.oldNewOldPerc.enabled" [(value)]="options.oldNewOldPerc.curValue" [label]="loc('curValue')" [min]="1" [max]="150"></input-number-required>
+
+            <input-number-required class ="value-style" *ngIf="options.oldNewOldPerc.enabled" [(value)]="options.oldNewOldPerc.minValue" [label]="loc('minValue')" [min]="1" [max]="150"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.oldNewOldPerc.enabled" [(value)]="options.oldNewOldPerc.maxValue" [label]="loc('maxValue')" [min]="1" [max]="150"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.oldNewOldPerc.enabled" [(value)]="options.oldNewOldPerc.step"     [label]="loc('step')"     [min]="1" [max]="150"></input-number-required>
+          </td>
+        </tr>
+
+        <!-- Winning percentage: len - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <tr *ngIf="options.enableWinPerc">
+          <td>
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? options.winPercLen.toggle() : null"
+                          [checked]="options.winPercLen.enabled">
+            </mat-checkbox>
+          </td>
+          <td>{{loc("winningPerc")}}</td>
+          <td>{{loc("length")}}</td>
+          <td>
+            <input-number-required *ngIf="!options.winPercLen.enabled" [(value)]="options.winPercLen.curValue" [label]="loc('curValue')" [min]="1" [max]="300"></input-number-required>
+
+            <input-number-required class ="value-style" *ngIf="options.winPercLen.enabled" [(value)]="options.winPercLen.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.winPercLen.enabled" [(value)]="options.winPercLen.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.winPercLen.enabled" [(value)]="options.winPercLen.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-number-required>
+          </td>
+        </tr>
+
+        <!-- Winning percentage: percentage - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <tr *ngIf="options.enableWinPerc">
+          <td>
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? options.winPercPerc.toggle() : null"
+                          [checked]="options.winPercPerc.enabled">
+            </mat-checkbox>
+          </td>
+          <td>{{loc("winningPerc")}}</td>
+          <td>{{loc("percentage")}}</td>
+          <td>
+            <input-number-required *ngIf="!options.winPercPerc.enabled" [(value)]="options.winPercPerc.curValue" [label]="loc('curValue')" [min]="1" [max]="100"></input-number-required>
+
+            <input-number-required class ="value-style" *ngIf="options.winPercPerc.enabled" [(value)]="options.winPercPerc.minValue" [label]="loc('minValue')" [min]="1" [max]="100"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.winPercPerc.enabled" [(value)]="options.winPercPerc.maxValue" [label]="loc('maxValue')" [min]="1" [max]="100"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.winPercPerc.enabled" [(value)]="options.winPercPerc.step"     [label]="loc('step')"     [min]="1" [max]="100"></input-number-required>
+          </td>
+        </tr>
+
+        <!-- Equity vs average: len - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <tr *ngIf="options.enableEquAvg">
+          <td>
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? options.equAvgLen.toggle() : null"
+                          [checked]="options.equAvgLen.enabled">
+            </mat-checkbox>
+          </td>
+          <td>{{loc("equityVsAverage")}}</td>
+          <td>{{loc("length")}}</td>
+          <td>
+            <input-number-required *ngIf="!options.equAvgLen.enabled" [(value)]="options.equAvgLen.curValue" [label]="loc('curValue')" [min]="1" [max]="300"></input-number-required>
+
+            <input-number-required class ="value-style" *ngIf="options.equAvgLen.enabled" [(value)]="options.equAvgLen.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.equAvgLen.enabled" [(value)]="options.equAvgLen.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.equAvgLen.enabled" [(value)]="options.equAvgLen.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-number-required>
+          </td>
+        </tr>
+
+        <!-- Trendline: len - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <tr *ngIf="options.enableTrendline">
+          <td>
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? options.trendlineLen.toggle() : null"
+                          [checked]="options.trendlineLen.enabled">
+            </mat-checkbox>
+          </td>
+          <td>{{loc("trendline")}}</td>
+          <td>{{loc("length")}}</td>
+          <td>
+            <input-number-required *ngIf="!options.trendlineLen.enabled" [(value)]="options.trendlineLen.curValue" [label]="loc('curValue')" [min]="1" [max]="300"></input-number-required>
+
+            <input-number-required class ="value-style" *ngIf="options.trendlineLen.enabled" [(value)]="options.trendlineLen.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.trendlineLen.enabled" [(value)]="options.trendlineLen.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.trendlineLen.enabled" [(value)]="options.trendlineLen.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-number-required>
+          </td>
+        </tr>
+
+        <!-- Trendline: value - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <tr *ngIf="options.enableTrendline">
+          <td>
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? options.trendlineValue.toggle() : null"
+                          [checked]="options.trendlineValue.enabled">
+            </mat-checkbox>
+          </td>
+          <td>{{loc("trendline")}}</td>
+          <td>{{loc("value")}}</td>
+          <td>
+            <input-number-required *ngIf="!options.trendlineValue.enabled" [(value)]="options.trendlineValue.curValue" [label]="loc('curValue')" [min]="1" [max]="300"></input-number-required>
+
+            <input-number-required class ="value-style" *ngIf="options.trendlineValue.enabled" [(value)]="options.trendlineValue.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.trendlineValue.enabled" [(value)]="options.trendlineValue.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.trendlineValue.enabled" [(value)]="options.trendlineValue.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-number-required>
+          </td>
+        </tr>
+      </table>
+    </mat-tab>
+
+    <mat-tab label="{{loc('tabAlgorithm')}}">
+      <br/>
+      <select-text-required [(key)]="options.fieldToOptimize" [label]="loc('optimizeFor')" keyField="id" valueField="name" [list]="labelMap('fieldOptions')" class="field-to-optimize"></select-text-required>
+      <select-text-required [(key)]="options.algorithm"       [label]="loc('algorithm')"   keyField="id" valueField="name" [list]="labelMap('algorOptions')" class="field-to-optimize"></select-text-required>
+
+    </mat-tab>
+  </mat-tab-group>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onReset()">{{button("reset")}}</button>
+  <button mat-button (click)="onRun()">{{button("run")}}</button>
+  <button mat-button mat-dialog-close>{{button("cancel")}}</button>
+</mat-dialog-actions>
