@@ -446,14 +446,12 @@ export class FieldOptimization {
 
 //=============================================================================
 
-export class FilterOptimizationRequest {
-  fieldToOptimize : string  = "net-profit"
+export class FilterConfig {
   enablePosProfit : boolean = true
   enableOldNew    : boolean = true
   enableWinPerc   : boolean = true
   enableEquAvg    : boolean = true
   enableTrendline : boolean = true
-  algorithm       : string = "simple"
 
   posProLen     : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 1)
   oldNewOldLen  : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 1)
@@ -464,6 +462,22 @@ export class FilterOptimizationRequest {
   equAvgLen     : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 1)
   trendlineLen  : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 1)
   trendlineValue: FieldOptimization = new FieldOptimization(true, 10, 1, 100, 1)
+}
+
+//=============================================================================
+
+export class AlgorithmSpec {
+  type       : string              = "simple"
+  params     : Map<string, string> = new Map()
+}
+
+//=============================================================================
+
+export class FilterOptimizationRequest {
+  fieldToOptimize : string  = "netProfit"
+  filterConfig    : FilterConfig  = new FilterConfig()
+  algorithm       : AlgorithmSpec = new AlgorithmSpec()
+  baseline        : TradingFilter = new TradingFilter()
 }
 
 //=============================================================================
@@ -483,19 +497,22 @@ export class FilterOptimizationResponse {
   bestValue?       : number
   fieldToOptimize? : string
   duration?        : number
-  filters?         : SelectedFilters
+  filter?          : SelectedFilters
 }
 
 //=============================================================================
 
 export class FilterRun {
-  filterType  : string = ""
-  length      : number = 0
-  newLength   : number = 0
-  percentage  : number = 0
+  fitnessValue: number = 0
   netProfit   : number = 0
   avgTrade    : number = 0
   maxDrawdown : number = 0
+  filter      : TradingFilter = new TradingFilter()
+  posProfitDes: string = ""
+  equityAvgDes: string = ""
+  oldVsNewDes : string = ""
+  winPercDes  : string = ""
+  trendlineDes: string = ""
 }
 
 //=============================================================================

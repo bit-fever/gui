@@ -8,10 +8,12 @@
 
 import {TradingFilter} from "../../../../../../../model/model";
 
+//=============================================================================
+
 export interface DialogData {
-  tsId  : number
-  tsName: string
-  filter: TradingFilter
+  tsId    : number
+  tsName  : string
+  baseline: TradingFilter
 }
 
 //=============================================================================

@@ -42,6 +42,7 @@ import {OptimizeResultDialog} from "./optimize/result/result.dialog";
 import {OptimizeParameterDialog} from "./optimize/parameter/parameter.dialog";
 import {ChartComponent} from "ng-apexcharts";
 import {buildActivationChartOptions, buildEquityChartOptions} from "./charts-config";
+import {DialogData} from "./optimize/dialog-data";
 
 //=============================================================================
 
@@ -317,10 +318,10 @@ export class FilteringPanel extends AbstractPanel {
   private openParametersDialog() {
     const dialogRef = this.dialog.open(OptimizeParameterDialog, {
       minWidth : "1280px",
-      data: {
-        tsId  : this.tradingSystem.id,
-        tsName: this.tradingSystem.name,
-        filter: this.filter
+      data: <DialogData>{
+        tsId    : this.tradingSystem.id,
+        tsName  : this.tradingSystem.name,
+        baseline: this.filter
       }
     })
 
@@ -353,10 +354,11 @@ export class FilteringPanel extends AbstractPanel {
 
   private openResultDialog() {
     const dialogRef = this.dialog.open(OptimizeResultDialog, {
-      minWidth: "1024px",
+      minWidth: "1400px",
       data: {
-        tsId  : this.tradingSystem.id,
-        tsName: this.tradingSystem.name
+        tsId    : this.tradingSystem.id,
+        tsName  : this.tradingSystem.name,
+        baseline: this.filter
       }
     })
 
@@ -365,7 +367,7 @@ export class FilteringPanel extends AbstractPanel {
         let run : FilterRun = result["run"]
         if (run != null) {
           console.log("Got run to use: ")
-          this.filter = this.convertRun(run)
+          this.filter = run.filter
           this.onRunClick()
         }
         else {
@@ -373,47 +375,6 @@ export class FilteringPanel extends AbstractPanel {
         }
       }
     })
-  }
-
-  //-------------------------------------------------------------------------
-
-  private convertRun(run : FilterRun) : TradingFilter {
-    let f = new TradingFilter()
-
-    if (run.filterType == "posProfit") {
-      f.posProEnabled = true
-      f.posProLen     = run.length
-    }
-
-    else if (run.filterType == "oldVsNew") {
-      f.oldNewEnabled = true
-      f.oldNewOldLen  = run.length
-      f.oldNewNewLen  = run.newLength
-      f.oldNewOldPerc = run.percentage
-    }
-
-    else if (run.filterType == "winPerc") {
-      f.winPerEnabled = true
-      f.winPerLen     = run.length
-      f.winPerValue   = run.percentage
-    }
-
-    else if (run.filterType == "equVsAvg") {
-      f.equAvgEnabled = true
-      f.equAvgLen     = run.length
-    }
-
-    else if (run.filterType == "trendline") {
-      f.trendlineEnabled = true
-      f.trendlineLen     = run.length
-      f.trendlineValue   = run.percentage
-    }
-
-    else {
-      console.log("Unknown filter type: "+ run.filterType)
-    }
-
-    return f
   }
 }
 

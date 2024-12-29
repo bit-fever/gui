@@ -14,8 +14,8 @@
         <td class="separator-layout"></td>
         <td>{{loc("taPosProfit")}}</td>
         <td>
-          <mat-icon *ngIf="response?.filters?.posProfit"  fontIcon="done"></mat-icon>
-          <mat-icon *ngIf="!response?.filters?.posProfit" fontIcon="close"></mat-icon>
+          <mat-icon *ngIf="response?.filter?.posProfit"  fontIcon="done"></mat-icon>
+          <mat-icon *ngIf="!response?.filter?.posProfit" fontIcon="close"></mat-icon>
         </td>
       </tr>
       <tr>
@@ -27,8 +27,8 @@
         <td></td>
         <td>{{loc("taOldVsNew")}}</td>
         <td>
-          <mat-icon *ngIf="response?.filters?.oldVsNew"  fontIcon="done"></mat-icon>
-          <mat-icon *ngIf="!response?.filters?.oldVsNew" fontIcon="close"></mat-icon>
+          <mat-icon *ngIf="response?.filter?.oldVsNew"  fontIcon="done"></mat-icon>
+          <mat-icon *ngIf="!response?.filter?.oldVsNew" fontIcon="close"></mat-icon>
         </td>
       </tr>
       <tr>
@@ -40,8 +40,8 @@
         <td></td>
         <td>{{loc("taWinPerc")}}</td>
         <td>
-          <mat-icon *ngIf="response?.filters?.winPerc"  fontIcon="done"></mat-icon>
-          <mat-icon *ngIf="!response?.filters?.winPerc" fontIcon="close"></mat-icon>
+          <mat-icon *ngIf="response?.filter?.winPerc"  fontIcon="done"></mat-icon>
+          <mat-icon *ngIf="!response?.filter?.winPerc" fontIcon="close"></mat-icon>
         </td>
       </tr>
       <tr>
@@ -53,8 +53,21 @@
         <td></td>
         <td>{{loc("taEquVsAvg")}}</td>
         <td>
-          <mat-icon *ngIf="response?.filters?.equVsAvg"  fontIcon="done"></mat-icon>
-          <mat-icon *ngIf="!response?.filters?.equVsAvg" fontIcon="close"></mat-icon>
+          <mat-icon *ngIf="response?.filter?.equVsAvg"  fontIcon="done"></mat-icon>
+          <mat-icon *ngIf="!response?.filter?.equVsAvg" fontIcon="close"></mat-icon>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td class="data-style"></td>
+        <td></td>
+        <td></td>
+        <td class="data-style"></td>
+        <td></td>
+        <td>{{loc("taTrendline")}}</td>
+        <td>
+          <mat-icon *ngIf="response?.filter?.trendline"  fontIcon="done"></mat-icon>
+          <mat-icon *ngIf="!response?.filter?.trendline" fontIcon="close"></mat-icon>
         </td>
       </tr>
     </table>

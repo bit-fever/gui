@@ -78,6 +78,9 @@ export class OptimizeResultDialog extends AbstractPanel {
           // @ts-ignore
           this.field    = this.fieldToOptimize(result.fieldToOptimize)
           this.runs     = result.runs
+          this.runs.forEach(run => {
+            this.calcDescription(run)
+          })
         }
       }
     )
@@ -139,15 +142,18 @@ export class OptimizeResultDialog extends AbstractPanel {
     let ts = this.labelService.getLabel("model.filterOptimiz");
 
     this.columns = [
-      new FlexTableColumn(ts, "filterType"),
-      new FlexTableColumn(ts, "length", ),
-      new FlexTableColumn(ts, "newLength",  new PositiveTranscoder()),
-      new FlexTableColumn(ts, "percentage", new PositiveTranscoder()),
+      new FlexTableColumn(ts, "fitnessValue"),
       new FlexTableColumn(ts, "netProfit"),
       new FlexTableColumn(ts, "avgTrade"),
       new FlexTableColumn(ts, "maxDrawdown"),
+      new FlexTableColumn(ts, "posProfitDes"),
+      new FlexTableColumn(ts, "equityAvgDes"),
+      new FlexTableColumn(ts, "oldVsNewDes"),
+      new FlexTableColumn(ts, "winPercDes"),
+      new FlexTableColumn(ts, "trendlineDes"),
     ]
   }
+
   //-------------------------------------------------------------------------
 
   private updateButtons = (selection : FilterRun[]) => {
@@ -155,6 +161,32 @@ export class OptimizeResultDialog extends AbstractPanel {
 
     if (selection.length == 1) {
       this.selRun = selection[0]
+    }
+  }
+
+  //-------------------------------------------------------------------------
+
+  private calcDescription(run : FilterRun) {
+    let f = run.filter
+
+    if (f.posProEnabled) {
+      run.posProfitDes = "Len:"+ f.posProLen
+    }
+
+    if (f.equAvgEnabled) {
+      run.equityAvgDes = "Len:"+ f.equAvgLen
+    }
+
+    if (f.winPerEnabled) {
+      run.winPercDes = "Len:"+ f.winPerLen +", Val:"+ f.winPerValue
+    }
+
+    if (f.oldNewEnabled) {
+      run.oldVsNewDes = "OLen:"+ f.oldNewOldLen +", OPer:"+ f.oldNewOldPerc +", NLen:"+ f.oldNewNewLen
+    }
+
+    if (f.trendlineEnabled) {
+      run.trendlineDes = "Len:"+ f.trendlineLen +", Val:"+ f.trendlineValue
     }
   }
 }

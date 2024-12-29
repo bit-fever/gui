@@ -69,35 +69,35 @@ export class OptimizeParameterDialog extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onPosProfitChange(e: MatChipSelectionChange) {
-    this.options.enablePosProfit = e.selected;
+    this.options.filterConfig.enablePosProfit = e.selected;
     this.updateFields();
   }
 
   //-------------------------------------------------------------------------
 
   onOldVsNewChange(e: MatChipSelectionChange) {
-    this.options.enableOldNew = e.selected;
+    this.options.filterConfig.enableOldNew = e.selected;
     this.updateFields();
   }
 
   //-------------------------------------------------------------------------
 
   onWinPercChange(e: MatChipSelectionChange) {
-    this.options.enableWinPerc = e.selected;
+    this.options.filterConfig.enableWinPerc = e.selected;
     this.updateFields();
   }
 
   //-------------------------------------------------------------------------
 
   onEquVsAvgChange(e: MatChipSelectionChange) {
-    this.options.enableEquAvg = e.selected;
+    this.options.filterConfig.enableEquAvg = e.selected;
     this.updateFields();
   }
 
   //-------------------------------------------------------------------------
 
   onTrendlineChange(e: MatChipSelectionChange) {
-    this.options.enableTrendline = e.selected;
+    this.options.filterConfig.enableTrendline = e.selected;
     this.updateFields();
   }
 
@@ -124,36 +124,25 @@ export class OptimizeParameterDialog extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   private resetOptions() {
-    let f = this.data.filter
+    let f = this.data.baseline
     let o = new FilterOptimizationRequest()
 
-    o.enableEquAvg           = !f.equAvgEnabled
-    o.equAvgLen.enabled      = !f.equAvgEnabled
-    o.equAvgLen.curValue     =  f.equAvgLen
+    o.filterConfig.enableEquAvg           = !f.equAvgEnabled
+    o.filterConfig.equAvgLen.enabled      = !f.equAvgEnabled
+    o.filterConfig.enablePosProfit        = !f.posProEnabled
+    o.filterConfig.posProLen.enabled      = !f.posProEnabled
+    o.filterConfig.enableWinPerc          = !f.winPerEnabled
+    o.filterConfig.winPercLen.enabled     = !f.winPerEnabled
+    o.filterConfig.winPercPerc.enabled    = !f.winPerEnabled
+    o.filterConfig.enableOldNew           = !f.oldNewEnabled
+    o.filterConfig.oldNewOldLen.enabled   = !f.oldNewEnabled
+    o.filterConfig.oldNewNewLen.enabled   = !f.oldNewEnabled
+    o.filterConfig.oldNewOldPerc.enabled  = !f.oldNewEnabled
+    o.filterConfig.enableTrendline        = !f.trendlineEnabled
+    o.filterConfig.trendlineLen.enabled   = !f.trendlineEnabled
+    o.filterConfig.trendlineValue.enabled = !f.trendlineEnabled
 
-    o.enablePosProfit        = !f.posProEnabled
-    o.posProLen.enabled      = !f.posProEnabled
-    o.posProLen.curValue     =  f.posProLen
-
-    o.enableWinPerc          = !f.winPerEnabled
-    o.winPercLen.enabled     = !f.winPerEnabled
-    o.winPercPerc.enabled    = !f.winPerEnabled
-    o.winPercLen.curValue    =  f.winPerLen
-    o.winPercPerc.curValue   =  f.winPerValue
-
-    o.enableOldNew           = !f.oldNewEnabled
-    o.oldNewOldLen.enabled   = !f.oldNewEnabled
-    o.oldNewNewLen.enabled   = !f.oldNewEnabled
-    o.oldNewOldPerc.enabled  = !f.oldNewEnabled
-    o.oldNewOldLen.curValue  =  f.oldNewOldLen
-    o.oldNewNewLen.curValue  =  f.oldNewNewLen
-    o.oldNewOldPerc.curValue =  f.oldNewOldPerc
-
-    o.enableTrendline        = !f.trendlineEnabled
-    o.trendlineLen.enabled   = !f.trendlineEnabled
-    o.trendlineValue.enabled = !f.trendlineEnabled
-    o.trendlineLen.curValue  =  f.trendlineLen
-    o.trendlineValue.curValue=  f.trendlineValue
+    o.baseline = f
 
     this.options = o
   }

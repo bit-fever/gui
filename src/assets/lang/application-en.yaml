@@ -131,13 +131,15 @@ model:
     updatedAt            : Updated at
 
   filterOptimiz:
-    filterType : Filter
-    length     : (Old) Length
-    newLength  : New length
-    percentage : Percentage
-    netProfit  : Net profit
-    avgTrade   : Average trade
-    maxDrawdown: Max Drawdown
+    fitnessValue: Fitness value
+    netProfit   : Net profit
+    avgTrade    : Average trade
+    maxDrawdown : Max Drawdown
+    posProfitDes: Positive profit
+    equityAvgDes: Equity vs avg
+    oldVsNewDes : Old vs new
+    winPercDes  : Winning %
+    trendlineDes: Trendline
 
   dataProduct:
     id             : Id
@@ -420,14 +422,16 @@ page:
         maxValue : Max value
         step     : Step
         fieldOptions:
-          - id: net-profit
+          - id: netProfit
             name: Net profit
-          - id: drawdrown
-            name: Drawdown
-          - id: avg-trade
+          - id: maxDD
+            name: Max drawdown
+          - id: avgTrade
             name: Average trade
-          - id: net-profit*avg-trade
+          - id: netProfit*avgTrade
             name: Net profit * Average trade
+          - id: netProfit*avgTrade/maxDD
+            name: Net profit * Average trade / MaxDD
         algorOptions:
           - id: simple
             name: Simple (fast, conditions are not combined)
@@ -443,6 +447,7 @@ page:
         taOldVsNew:   Old vs new periods
         taWinPerc:    Winning percentage
         taEquVsAvg:   Equity vs average
+        taTrendline:  Trendline
         taDuration:   Duration
         taGain:       Gain
   instrumentSelector:
