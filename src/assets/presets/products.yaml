@@ -31,7 +31,7 @@
   exchange        : CME
   pointValue      : 20
   costPerOperation: 40
-  margin          : 0
+  margin          : 36070
 
 - symbol          : MNQ
   name            : Micro E-mini Nasdaq 100
@@ -41,7 +41,7 @@
   exchange        : CME
   pointValue      : 2
   costPerOperation: 5
-  margin          : 2280
+  margin          : 3607
 
 - symbol          : YM
   name            : Mini Dow Jones 30
@@ -51,7 +51,7 @@
   exchange        : CME
   pointValue      : 5
   costPerOperation: 0
-  margin          : 0
+  margin          : 12800
 
 - symbol          : MYM
   name            : Micro Dow Jones 30
@@ -106,7 +106,7 @@
   exchange        : COMEX
   pointValue      : 100
   costPerOperation: 20
-  margin          : 0
+  margin          : 16034
   strategies      : bias
 
 - symbol          : MGC
@@ -117,7 +117,7 @@
   exchange        : COMEX
   pointValue      : 10
   costPerOperation: 4
-  margin          : 1040
+  margin          : 1604
   strategies      : bias
 
 - symbol          : PL
@@ -257,15 +257,26 @@
   margin          : 0
 
 - symbol          : 6E
-  name            : EuroFX
+  name            : Euro FX
   increment       : 0.00005
   market          : FX
   product         : FU
   exchange        : CME
   pointValue      : 125000
-  costPerOperation: 0
-  margin          : 0
+  costPerOperation: 8
+  margin          : 3685
   strategies      : bias, 5min
+
+- symbol          : E7
+  name            : E-Mini Euro FX
+  increment       : 0.0001
+  market          : FX
+  product         : FU
+  exchange        : CME
+  pointValue      : 62500
+  costPerOperation: 8
+  margin          : 1842
+  strategies      : bias, reversal 1h, 5min
 
 - symbol          : 6J
   name            : Japanese Yen

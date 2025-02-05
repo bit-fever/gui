@@ -34,6 +34,8 @@ import {MatButtonToggle, MatButtonToggleChange, MatButtonToggleGroup} from "@ang
 import {MatChip, MatChipListbox, MatChipOption, MatChipSet} from "@angular/material/chips";
 import {MatTooltip} from "@angular/material/tooltip";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
+import {StorageService} from "../../../../../service/storage.service";
+import {Setting} from "../../../../../model/setting";
 
 //=============================================================================
 
@@ -78,7 +80,8 @@ export class PorTradingSystemPanel extends AbstractPanel {
 	            labelService    : LabelService,
               router          : Router,
               private snackBar        : MatSnackBar,
-      			  private portfolioService: PortfolioService) {
+      			  private portfolioService: PortfolioService,
+              private storageService  : StorageService) {
 
 		super(eventBusService, labelService, router, "portfolio.tradingSystem");
 		this.service = portfolioService.getTradingSystems;
@@ -91,7 +94,8 @@ export class PorTradingSystemPanel extends AbstractPanel {
 	//-------------------------------------------------------------------------
 
 	override init = () : void => {
-    this.setupColumns();
+    this.setupColumns()
+    this.setupSettings()
   }
 
 	//-------------------------------------------------------------------------
@@ -211,6 +215,14 @@ export class PorTradingSystemPanel extends AbstractPanel {
 	}
 
   //-------------------------------------------------------------------------
+
+  setupSettings = () => {
+    this.selRunning   .setValue(this.storageService.getItemWithDefault(Setting.Portfolio_TradSys_Running   , "*"))
+    this.selActive    .setValue(this.storageService.getItemWithDefault(Setting.Portfolio_TradSys_Active    , "*"))
+    this.selActivation.setValue(this.storageService.getItemWithDefault(Setting.Portfolio_TradSys_Activation, "*"))
+  }
+
+  //-------------------------------------------------------------------------
   //---
   //--- Private methods
   //---
@@ -260,6 +272,7 @@ export class PorTradingSystemPanel extends AbstractPanel {
 
   private filterRunning(running? : boolean) : boolean {
     let value = this.selRunning.value
+    this.storageService.setItem(Setting.Portfolio_TradSys_Running, value)
 
     if (running != undefined) {
       if (value == "*") {
@@ -275,6 +288,7 @@ export class PorTradingSystemPanel extends AbstractPanel {
 
   private filterActive(active? : boolean) : boolean {
     let value = this.selActive.value
+    this.storageService.setItem(Setting.Portfolio_TradSys_Active, value)
 
     if (active != undefined) {
       if (value == "*") {
@@ -290,6 +304,7 @@ export class PorTradingSystemPanel extends AbstractPanel {
 
   private filterActivation(activation? : TsActivation) : boolean {
     let value = this.selActivation.value
+    this.storageService.setItem(Setting.Portfolio_TradSys_Activation, value)
 
     if (activation != undefined) {
       if (value == "*") {

@@ -41,6 +41,9 @@ export class IntDateTranscoder implements Transcoder {
 
 export class IsoDateTranscoder implements Transcoder {
   transcode(value: number, row?: any): string {
+  if (value == null) {
+    return ""
+  }
     let d = String(value)
     return d.substring(0, 10)
   }

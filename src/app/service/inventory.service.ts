@@ -152,6 +152,12 @@ export class InventoryService {
   }
 
   //---------------------------------------------------------------------------
+
+  public deleteTradingSystem = (id: number): Observable<InvTradingSystem> => {
+    return this.httpService.delete<InvTradingSystem>('/api/inventory/v1/trading-systems/'+ id);
+  }
+
+  //---------------------------------------------------------------------------
   //--- Portfolios
   //---------------------------------------------------------------------------
 

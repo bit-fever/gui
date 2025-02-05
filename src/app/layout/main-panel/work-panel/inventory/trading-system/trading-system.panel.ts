@@ -50,6 +50,7 @@ export class InvTradingSystemPanel extends AbstractPanel {
   disCreate: boolean = false;
   disView  : boolean = true;
   disEdit  : boolean = true;
+  disDelete: boolean = true;
 
   @ViewChild("table") table : FlexTablePanel<InvTradingSystemFull>|null = null;
 
@@ -123,6 +124,21 @@ export class InvTradingSystemPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
+  onDeleteClick() {
+    // @ts-ignore
+    let selection = this.table.getSelection();
+
+    for (let i=0; i<selection.length; i++) {
+      let id = selection[i].id
+      // @ts-ignore
+      this.inventoryService.deleteTradingSystem(id).subscribe( res => {
+        this.table?.reload()
+      })
+    }
+  }
+
+  //-------------------------------------------------------------------------
+
   onFilterClick() {
     // @ts-ignore
     let selection = this.table.getSelection();
@@ -157,8 +173,9 @@ export class InvTradingSystemPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   private updateButtons = (selection : InvTradingSystemFull[]) => {
-    this.disView = (selection.length != 1)
-    this.disEdit = (selection.length != 1)
+    this.disView  = (selection.length != 1)
+    this.disEdit  = (selection.length != 1)
+    this.disDelete= (selection.length == 0)
   }
 }
 

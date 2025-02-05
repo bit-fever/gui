@@ -48,7 +48,27 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
   @Input() searchPanel    = true
 
   @Input() filter: FlexTableFilter<T> = (row : T, filter : string) => {
-    return true
+    if (filter.length == 0) {
+      return true
+    }
+
+    for (let fc of this.tableColumns) {
+      // @ts-ignore
+      let value = row[fc.column]
+      if (fc.transcoder != undefined) {
+        value = fc.transcoder.transcode(value, row)
+      }
+
+      if (value != null) {
+        value = value.trim().toLowerCase()
+
+        if (value.indexOf(filter) != -1) {
+          return true
+        }
+      }
+    }
+
+    return false
   }
 
   @Output() onRowsSelected : EventEmitter<T[]> = new EventEmitter<T[]>();
@@ -64,7 +84,7 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
   tableData = new MatTableDataSource<T>();
   selection = new SelectionModel<T>(true, []);
 
-  oldFilter?: (data: T, filter: string) => boolean;
+  oldFilter: (data: T, filter: string) => boolean;
   textToFilter : string = ""
 
   //-------------------------------------------------------------------------
@@ -109,6 +129,7 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
     this.rawData        = value
     this.tableData.data = value
     this.rowCount       = value.length
+    this.applyFilter()
   }
 
   //-------------------------------------------------------------------------
@@ -131,6 +152,7 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
           this.tableData.data = result.result;
           this.rowCount       = result.result.length
           this.clearSelection();
+          this.applyFilter()
         }
       )
     }
@@ -138,6 +160,7 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
       this.tableData.data = this.data;
       this.rowCount       = this.data.length
       this.clearSelection();
+      this.applyFilter()
     }
   }
 
@@ -181,7 +204,6 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.textToFilter = filterValue.trim().toLowerCase()
     this.applyFilter()
-    this.rowCount = this.tableData.filteredData.length
   }
 
   //-------------------------------------------------------------------------
