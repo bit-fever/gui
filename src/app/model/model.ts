@@ -65,6 +65,8 @@ export class TradingSystemSpec {
   brokerProductId?  : number
   tradingSessionId? : number
   workspaceCode?    : string
+  timeframe?        : number
+  scope?            : string
 }
 
 //=============================================================================
@@ -243,6 +245,8 @@ export class PorTradingSystem {
   activation?      : number
   active?          : boolean
   status?          : number
+  sector?          : number
+  scope?           : number
 }
 
 //=============================================================================

@@ -1,0 +1,54 @@
+//=============================================================================
+//===
+//=== Copyright (C) 2025 Andrea Carboni
+//===
+//=== Use of this source code is governed by an MIT-style license that can be
+//=== found in the LICENSE file
+//=============================================================================
+
+.main-panel {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 0;
+  height  : 100%;
+  overflow: hidden;
+}
+
+//=============================================================================
+
+.tabs-layout {
+  height: 100%;
+}
+
+//=============================================================================
+
+.ts-layout {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap     : 0;
+  height  : 100%;
+  overflow: auto;
+  background-color: #EEECFF;
+}
+
+//=============================================================================
+
+.ts-card {
+  margin-top:  8px;
+  margin-left: 8px;
+  width:       620px;
+}
+
+//=============================================================================
+
+.chart-layout {
+  width:  400px;
+  height: 200px;
+}
+
+//=============================================================================

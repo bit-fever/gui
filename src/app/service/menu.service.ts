@@ -99,6 +99,12 @@ export class MenuService extends AbstractSubscriber {
         iconClasses: 'inventory'
       },
       {
+        id: 'menu.portfolio.trading-system-db',
+        label: this.get('portfolio.tradingSystem'),
+        route: Url.Portfolio_TradingSystemsDb,
+        iconClasses: 'inventory'
+      },
+      {
         id: 'menu.portfolio.monitoring',
         label: this.get('portfolio.monitoring'),
         route: Url.Portfolio_Monitoring,

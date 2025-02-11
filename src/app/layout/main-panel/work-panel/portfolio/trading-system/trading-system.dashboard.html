@@ -1,0 +1,51 @@
+<div class="main-panel">
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <mat-tab-group class="tabs-layout">
+    <mat-tab label="{{scope('3')}}">
+      <div class="ts-layout">
+        <mat-card *ngFor="let ts of tradingSystems" class="ts-card" appearance="outlined">
+          <mat-card-header>
+            <div mat-card-avatar>
+              <mat-icon *ngIf="ts.sector==1">balance</mat-icon>
+            </div>
+            <mat-card-title>{{ts.name}}</mat-card-title>
+            <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <img class="chart-layout" ngSrc="https://material.angular.io/assets/img/examples/shiba2.jpg">
+            <p>
+              The Shiba Inu is the smallest of the six original
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button>LIKE</button>
+            <button mat-button>SHARE</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </mat-tab>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <mat-tab label="{{scope('1')}}">
+
+    </mat-tab>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <mat-tab label="{{scope('2')}}">
+
+    </mat-tab>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <mat-tab label="{{scope('4')}}">
+
+    </mat-tab>
+  </mat-tab-group>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+</div>

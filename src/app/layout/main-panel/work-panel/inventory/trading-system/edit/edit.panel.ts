@@ -31,6 +31,7 @@ import {
 } from "../../../../../../model/model";
 import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
 import {InventoryService} from "../../../../../../service/inventory.service";
+import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
 
 //=============================================================================
 
@@ -39,8 +40,8 @@ import {InventoryService} from "../../../../../../service/inventory.service";
   templateUrl :   './edit.panel.html',
   styleUrls   : [ './edit.panel.scss' ],
   imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
-            MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
-            MatDividerModule, InputTextRequired, SelectTextRequired
+    MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
+    MatDividerModule, InputTextRequired, SelectTextRequired, InputNumberRequired
   ],
   standalone  : true
 })
@@ -60,6 +61,7 @@ export class TradingSystemEditPanel extends AbstractPanel {
   data       : DataProduct   [] = []
   brokers    : BrokerProduct [] = []
   sessions   : TradingSession[] = []
+  scopes     : Object        [] = []
 
   @ViewChild("tsNameCtrl")      tsNameCtrl?      : InputTextRequired
   @ViewChild("tsStrategyCtrl")  tsStrategyCtrl?  : InputTextRequired
@@ -67,6 +69,8 @@ export class TradingSystemEditPanel extends AbstractPanel {
   @ViewChild("tsDataCtrl")      tsDataCtrl?      : SelectTextRequired
   @ViewChild("tsBrokerCtrl")    tsBrokerCtrl?    : SelectTextRequired
   @ViewChild("tsSessionCtrl")   tsSessionCtrl?   : SelectTextRequired
+  @ViewChild("tsTimeframeCtrl") tsTimeframeCtrl? : InputNumberRequired
+  @ViewChild("tsScopeCtrl")     tsScopeCtrl?     : SelectTextRequired
 
   //-------------------------------------------------------------------------
   //---
@@ -79,7 +83,7 @@ export class TradingSystemEditPanel extends AbstractPanel {
               router                   : Router,
               private inventoryService : InventoryService) {
 
-    super(eventBusService, labelService, router, "inventory.tradingSystem");
+    super(eventBusService, labelService, router, "inventory.tradingSystem", "tradingSystem");
     super.subscribeToApp(AppEvent.TRADINGSYSTEM_EDIT_START, (e : AppEvent) => this.onStart(e));
 
     inventoryService.getPortfolios().subscribe(
@@ -112,6 +116,8 @@ export class TradingSystemEditPanel extends AbstractPanel {
   private onStart(event : AppEvent) : void {
     console.log("TradingSystemEditPanel: Starting...");
 
+    this.scopes = this.labelService.getLabel("map.scope")
+
     if (event.params == undefined) {
       this.ts = new TradingSystemSpec()
     }
@@ -128,7 +134,9 @@ export class TradingSystemEditPanel extends AbstractPanel {
             this.tsPortfolioCtrl?.isValid() &&
             this.tsDataCtrl     ?.isValid() &&
             this.tsBrokerCtrl   ?.isValid() &&
-            this.tsSessionCtrl  ?.isValid()
+            this.tsSessionCtrl  ?.isValid() &&
+            this.tsTimeframeCtrl?.isValid() &&
+            this.tsScopeCtrl    ?.isValid()
   }
 
   //-------------------------------------------------------------------------

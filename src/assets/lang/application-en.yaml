@@ -100,7 +100,9 @@ model:
     dataSymbol      : Data symbol
     brokerSymbol    : Broker symbol
     tradingSession  : Session
-
+    workspaceCode   : Workspace
+    timeframe       : Timeframe (min)
+    scope           : Scope
     code            : Code
     firstTrade      : First trade
     lastTrade       : Last trade
@@ -255,12 +257,6 @@ page:
   inventory:
     tradingSystem:
       new:           New trading system
-      name:          Name
-      workspaceCode: Workspace
-      portfolio:     Portfolio
-      data:          Data symbol
-      broker:        Broker symbol
-      session:       Trading session
 
     dataProduct:
       new:   New data product
@@ -615,6 +611,12 @@ map:
     4: Turn OFF & check
     5: None (turned off)
     6: None (turned on)
+
+  scope:
+    DV: Development
+    RD: Ready
+    LV: Live
+    RV: Review
 
 # ==============================================================================
 

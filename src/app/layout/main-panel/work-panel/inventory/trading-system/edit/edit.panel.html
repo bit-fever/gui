@@ -2,17 +2,21 @@
   <right-title-panel icon="inventory" title="{{loc('new')}}" (onClose)="onClose()"></right-title-panel>
 
   <div class="form-layout">
-    <input-text-required #tsNameCtrl       [(value)]="ts.name"           [label]="loc('name')" [len]="64"></input-text-required>
+    <input-text-required #tsNameCtrl        [(value)]="ts.name"           [label]="mod('name')" [len]="64"></input-text-required>
     <br/>
-    <input-text-required #tsStrategyCtrl   [(value)]="ts.workspaceCode"   [label]="loc('workspaceCode')" [len]="36"></input-text-required>
+    <input-text-required #tsStrategyCtrl    [(value)]="ts.workspaceCode"  [label]="mod('workspaceCode')" [len]="36"></input-text-required>
     <br/>
-    <select-text-required #tsPortfolioCtrl [(key)]="ts.portfolioId"      [label]="loc('portfolio')" keyField="id" valueField="name" [list]="portfolios"></select-text-required>
+    <select-text-required #tsPortfolioCtrl  [(key)]="ts.portfolioId"      [label]="mod('portfolioName')" keyField="id" valueField="name" [list]="portfolios"></select-text-required>
     <br/>
-    <select-text-required #tsDataCtrl      [(key)]="ts.dataProductId"    [label]="loc('data')"      keyField="id" valueField="name" [list]="data"></select-text-required>
+    <select-text-required #tsDataCtrl       [(key)]="ts.dataProductId"    [label]="mod('dataSymbol')"      keyField="id" valueField="name" [list]="data"></select-text-required>
     <br/>
-    <select-text-required #tsBrokerCtrl    [(key)]="ts.brokerProductId"  [label]="loc('broker')"    keyField="id" valueField="name" [list]="brokers"></select-text-required>
+    <select-text-required #tsBrokerCtrl     [(key)]="ts.brokerProductId"  [label]="mod('brokerSymbol')"    keyField="id" valueField="name" [list]="brokers"></select-text-required>
     <br/>
-    <select-text-required #tsSessionCtrl   [(key)]="ts.tradingSessionId" [label]="loc('session')"   keyField="id" valueField="name" [list]="sessions"></select-text-required>
+    <select-text-required #tsSessionCtrl    [(key)]="ts.tradingSessionId" [label]="mod('tradingSession')"   keyField="id" valueField="name" [list]="sessions"></select-text-required>
+    <br/>
+    <input-number-required #tsTimeframeCtrl [(value)]="ts.timeframe"      [label]="mod('timeframe')" [min]="1" [max]="1440"></input-number-required>
+    <br/>
+    <select-text-required #tsScopeCtrl      [(key)]="ts.scope"            [label]="mod('scope')"   [map]="scopes"></select-text-required>
   </div>
 
   <div class="buttons-layout">

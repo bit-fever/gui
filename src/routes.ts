@@ -53,6 +53,9 @@ import {
   BiasAnalysisBacktestPanel
 } from "./app/layout/main-panel/work-panel/tool/bias-analysis/backtest/bias-analysis.backtest";
 import {ConnectionCreatePanel} from "./app/layout/main-panel/work-panel/admin/connection/create/create.panel";
+import {
+  TradingSystemDashboard
+} from "./app/layout/main-panel/work-panel/portfolio/trading-system/trading-system.dashboard";
 
 //=============================================================================
 
@@ -84,6 +87,7 @@ export const routes: Routes = [
   //--- Portfolio
 
   { path: Url.Portfolio_TradingSystems,           component: PorTradingSystemPanel           },
+  { path: Url.Portfolio_TradingSystemsDb,         component: TradingSystemDashboard          },
 
   { path: Url.Portfolio_TradingSystems_Id, children : [
       { path: Url.Sub_Filtering, component:  FilteringPanel }
