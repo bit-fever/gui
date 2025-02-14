@@ -86,8 +86,8 @@ export const routes: Routes = [
 
   //--- Portfolio
 
-  { path: Url.Portfolio_TradingSystems,           component: PorTradingSystemPanel           },
-  { path: Url.Portfolio_TradingSystemsDb,         component: TradingSystemDashboard          },
+  { path: Url.Portfolio_TradingSystems,           component: TradingSystemDashboard          },
+  { path: Url.Portfolio_TradingSystemsOld,        component: PorTradingSystemPanel           },
 
   { path: Url.Portfolio_TradingSystems_Id, children : [
       { path: Url.Sub_Filtering, component:  FilteringPanel }

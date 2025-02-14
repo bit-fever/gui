@@ -2,26 +2,57 @@
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
   <mat-tab-group class="tabs-layout">
-    <mat-tab label="{{scope('3')}}">
+    <mat-tab label="{{scope('TR')}}">
       <div class="ts-layout">
         <mat-card *ngFor="let ts of tradingSystems" class="ts-card" appearance="outlined">
           <mat-card-header>
             <div mat-card-avatar>
-              <mat-icon *ngIf="ts.sector==1">balance</mat-icon>
+              <mat-icon class="marketType" fontIcon="{{marketTypeIcon(ts)}}"></mat-icon>
             </div>
-            <mat-card-title>{{ts.name}}</mat-card-title>
-            <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+            <mat-card-title-group>
+              <mat-card-title>{{ts.name}}</mat-card-title>
+              <mat-card-subtitle style="font-size: smaller">{{ts.dataSymbol}}->{{ts.brokerSymbol}} - {{ts.timeframe}} min - {{ts.sessionName}}</mat-card-subtitle>
+            </mat-card-title-group>
+            <div class="buttons-layout">
+              <mat-icon class="status" style="color:{{statusColor(ts.status)}}">{{statusIcon(ts.status)}}</mat-icon>
+              <button mat-icon-button>
+                <mat-icon>more_vert</mat-icon>
+              </button>
+            </div>
           </mat-card-header>
 
-          <mat-card-content>
-            <img class="chart-layout" ngSrc="https://material.angular.io/assets/img/examples/shiba2.jpg">
-            <p>
-              The Shiba Inu is the smallest of the six original
-            </p>
+          <mat-card-content style="padding: 0px 8px 0px 8px">
+            <div class="info-layout">
+              <img class="chart-layout" src="https://material.angular.io/assets/img/examples/shiba2.jpg2">
+              <table class="table-layout">
+                <tr>
+                  <td>{{loc('lastNetProfit')}}</td>
+                  <td class="value-style" style="color:{{valueColor(ts.lastNetProfit)}}">{{ts.lastNetProfit}}</td>
+                </tr>
+                <tr>
+                  <td>{{loc('lastNetAvgTrade')}}</td>
+                  <td class="value-style" style="color:{{valueColor(ts.lastNetAvgTrade)}}">{{ts.lastNetAvgTrade}}</td>
+                </tr>
+                <tr>
+                  <td>{{loc('lastNumTrades')}}</td>
+                  <td class="value-style">{{ts.lastNumTrades}}</td>
+                </tr>
+                <tr>
+                  <td>{{loc('lastTrade')}}</td>
+                  <td class="value-style">{{ts.lastTrade?.substring(0,10)}}</td>
+                </tr>
+                <tr>
+                  <td>{{loc('currency')}}</td>
+                  <td class="value-style">{{ts.currencyCode}}</td>
+                </tr>
+              </table>
+            </div>
           </mat-card-content>
           <mat-card-actions>
-            <button mat-button>LIKE</button>
-            <button mat-button>SHARE</button>
+            <check-button [status]="ts.running"        [config]="powerConfig" (valueChange)="onPowerClick(ts)"></check-button>
+            <check-button [status]="ts.autoActivation" [config]="activConfig" (valueChange)="onActivationClick(ts)"></check-button>
+            <check-button [status]="ts.active"         [config]="enablConfig" (valueChange)="onActiveClick(ts)"></check-button>
+            <p>{{suggAction(ts.suggestedAction)}}</p>
           </mat-card-actions>
         </mat-card>
       </div>
@@ -29,19 +60,19 @@
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <mat-tab label="{{scope('1')}}">
+    <mat-tab label="{{scope('DV')}}">
 
     </mat-tab>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <mat-tab label="{{scope('2')}}">
+    <mat-tab label="{{scope('RD')}}">
 
     </mat-tab>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <mat-tab label="{{scope('4')}}">
+    <mat-tab label="{{scope('RV')}}">
 
     </mat-tab>
   </mat-tab-group>

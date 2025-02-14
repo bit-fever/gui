@@ -16,7 +16,7 @@ export enum Url {
   Inventory_TradingSystems     = "inventory/trading-systems",
 
   Portfolio_TradingSystems     = "portfolio/trading-systems",
-  Portfolio_TradingSystemsDb   = "portfolio/trading-systems-db",
+  Portfolio_TradingSystemsOld  = "portfolio/trading-systems-old",
   Portfolio_TradingSystems_Id  = "portfolio/trading-systems/:id",
   Portfolio_Monitoring         = "portfolio/monitoring",
 

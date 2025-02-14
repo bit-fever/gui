@@ -300,6 +300,19 @@ page:
 
   portfolio:
     tradingSystem:
+      lastNetProfit  : Net profit
+      lastNetAvgTrade: Net avg trade
+      lastNumTrades  : Num of trades
+      lastTrade      : Last trade
+      currency       : Currency
+      buttons:
+        on      : On
+        off     : Off
+        manual  : Manual
+        auto    : Auto
+        active  : Active
+        inactive: Inactive
+
       filters:
         all     : All
         running : Running
@@ -558,7 +571,6 @@ map:
     GR: Grain
     BO: Bond
     MT: Meat
-    SO: Soft
     FX: Currency
 
   product:
@@ -615,7 +627,7 @@ map:
   scope:
     DV: Development
     RD: Ready
-    LV: Live
+    TR: Trading
     RV: Review
 
 # ==============================================================================

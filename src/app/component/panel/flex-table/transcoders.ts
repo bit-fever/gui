@@ -8,7 +8,7 @@
 
 import {IconStyle, IconStyler, Transcoder} from "../../../model/flex-table";
 import {LabelService} from "../../../service/label.service";
-import {TsActivation, TsStatus} from "../../../model/model";
+import {TsStatus} from "../../../model/model";
 
 //=============================================================================
 //===
@@ -170,7 +170,7 @@ var TS_RUNNING_ON   = new IconStyle("mode_off_on", "#00A000", "Running");
 export class TradingSystemActivationStyler implements IconStyler {
 
   getStyle(value : number, row? : any) : IconStyle {
-    return (value == TsActivation.Manual) ? TS_ACTIVATION_MANUAL : TS_ACTIVATION_AUTO;
+    return value ? TS_ACTIVATION_AUTO : TS_ACTIVATION_MANUAL;
   }
 }
 

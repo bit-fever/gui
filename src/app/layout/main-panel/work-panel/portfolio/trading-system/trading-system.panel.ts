@@ -12,7 +12,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
-import {PorTradingSystem, TradingSystemProperty, TsActivation, TspResponseStatus} from "../../../../../model/model";
+import {PorTradingSystem } from "../../../../../model/model";
 import {FlexTableColumn, ListService} from "../../../../../model/flex-table";
 import {AbstractPanel} from "../../../../../component/abstract.panel";
 import {FlexTablePanel} from "../../../../../component/panel/flex-table/flex-table.panel";
@@ -127,42 +127,6 @@ export class PorTradingSystemPanel extends AbstractPanel {
   }
 
   //-------------------------------------------------------------------------
-
-  onStartClick() {
-    this.setProperty(TradingSystemProperty.RUNNING, "true")
-  }
-
-  //-------------------------------------------------------------------------
-
-  onStopClick() {
-    this.setProperty(TradingSystemProperty.RUNNING, "false")
-  }
-
-  //-------------------------------------------------------------------------
-
-  onActivateClick() {
-    this.setProperty(TradingSystemProperty.ACTIVE, "true")
-  }
-
-  //-------------------------------------------------------------------------
-
-  onDeactivateClick() {
-    this.setProperty(TradingSystemProperty.ACTIVE, "false")
-  }
-
-  //-------------------------------------------------------------------------
-
-  onManualClick() {
-    this.setProperty(TradingSystemProperty.ACTIVATION, TsActivation.Manual +"")
-  }
-
-  //-------------------------------------------------------------------------
-
-  onAutoClick() {
-    this.setProperty(TradingSystemProperty.ACTIVATION, TsActivation.Auto +"")
-  }
-
-  //-------------------------------------------------------------------------
   //--- Table filtering
   //-------------------------------------------------------------------------
 
@@ -188,7 +152,7 @@ export class PorTradingSystemPanel extends AbstractPanel {
     return  this.filterText(row, filter)    &&
             this.filterRunning(row.running) &&
             this.filterActive(row.active)   &&
-            this.filterActivation(row.activation)
+            this.filterActivation(row.autoActivation)
   }
 
 	//-------------------------------------------------------------------------
@@ -232,27 +196,6 @@ export class PorTradingSystemPanel extends AbstractPanel {
     this.disView  = (selection.length != 1)
     this.disFilter= this.disView
     this.disAction= (selection.length != 1)
-  }
-
-  //-------------------------------------------------------------------------
-
-  private setProperty(name:string, value:string) {
-    // @ts-ignore
-    let selection = this.table.getSelection();
-    let id = selection[0].id
-    // @ts-ignore
-    this.portfolioService.setTradingSystemProperty(id, name, value).subscribe( res => {
-      this.table?.reload()
-
-      if (res.status == TspResponseStatus.OK) {
-        let message = this.loc("message."+ name +"Ok")
-        this.snackBar.open(message, undefined, { duration:2000 })
-      }
-      else if (res.status == TspResponseStatus.ERROR) {
-        let message = this.loc("message."+ name +"Error")+" : "+ res.message
-        this.snackBar.open(message, this.button("ok"))
-      }
-    })
   }
 
   //-------------------------------------------------------------------------
@@ -302,7 +245,7 @@ export class PorTradingSystemPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  private filterActivation(activation? : TsActivation) : boolean {
+  private filterActivation(activation? : boolean) : boolean {
     let value = this.selActivation.value
     this.storageService.setItem(Setting.Portfolio_TradSys_Activation, value)
 
@@ -310,7 +253,7 @@ export class PorTradingSystemPanel extends AbstractPanel {
       if (value == "*") {
         return true
       }
-      return (value == "m" && activation == TsActivation.Manual) || (value == "a" && activation == TsActivation.Auto)
+      return (value == "m" && !activation) || (value == "a" && activation)
     }
 
     return false

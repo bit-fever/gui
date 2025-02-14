@@ -211,12 +211,6 @@ export class BrokerProduct extends BrokerProductSpec {
 //===
 //=============================================================================
 
-export enum TsActivation {
-  Manual, Auto
-}
-
-//-----------------------------------------------------------------------------
-
 export enum TsStatus {
   Off, Paused, Running, Idle, Broken
 }
@@ -224,29 +218,37 @@ export enum TsStatus {
 //-----------------------------------------------------------------------------
 
 export class PorTradingSystem {
-  id?              : number
+  id               : number = 0
   username?        : string
   workspaceCode?   : string
   name?            : string
-  firstTrade?      : string
-  lastTrade?       : string
-  lmNetProfit?     : number
-  lmNetAvgTrade?   : number
-  lmNumTrades?     : number
+  scope?           : string
+  timeframe?       : number
+  dataProductId?   : number
+  dataSymbol?      : string
   brokerProductId? : number
   brokerSymbol?    : string
   pointValue?      : number
   costPerOperation?: number
   marginValue?     : number
   increment?       : number
+  marketType?      : string
   currencyId?      : number
   currencyCode?    : string
-  running?         : boolean
-  activation?      : number
-  active?          : boolean
+  tradingSessionId?: number
+  sessionName?     : string
+  sessionConfig?   : string
+  running          : boolean = false
+  autoActivation   : boolean = false
+  active           : boolean = false
   status?          : number
-  sector?          : number
-  scope?           : number
+  suggestedAction? : number
+  firstTrade?      : string
+  lastTrade?       : string
+  lastUpdate?      : string
+  lastNetProfit?   : number
+  lastNetAvgTrade? : number
+  lastNumTrades?   : number
 }
 
 //=============================================================================
