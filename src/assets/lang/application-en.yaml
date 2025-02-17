@@ -9,7 +9,6 @@ button:
   view      : VIEW
   edit      : EDIT
   delete    : DELETE
-  filter    : FILTER
   save      : SAVE
   run       : RUN
   optimize  : OPTIMIZE
@@ -28,15 +27,12 @@ button:
   replace   : REPLACE
   backtest  : BACKTEST
   data      : DATA
-  start     : START
-  stop      : STOP
-  manual    : MANUAL
-  auto      : AUTO
-  enable    : ENABLE
-  disable   : DISABLE
   connect   : CONNECT
   disconnect: DISCONNECT
   reset     : RESET
+
+menu-button:
+  filter    : Filter
 
 # ==============================================================================
 # ===
@@ -300,19 +296,27 @@ page:
 
   portfolio:
     tradingSystem:
-      lastNetProfit  : Net profit
-      lastNetAvgTrade: Net avg trade
-      lastNumTrades  : Num of trades
-      lastTrade      : Last trade
-      currency       : Currency
-      buttons:
-        on      : On
-        off     : Off
-        manual  : Manual
-        auto    : Auto
-        active  : Active
-        inactive: Inactive
-
+      filter: Filter...
+      trading:
+        lastNetProfit  : Net profit
+        lastNetAvgTrade: Net avg trade
+        lastNumTrades  : Num of trades
+        lastTrade      : Last trade
+        currency       : Currency
+        buttons:
+          on      : On
+          off     : Off
+          manual  : Manual
+          auto    : Auto
+          active  : Active
+          inactive: Inactive
+        message:
+          runningError    : An error occured while starting/stopping the trading system
+          activationError : An error occured while changing the activation of the trading system
+          activeError     : An error occured while activating/deactivating the trading system
+          runningOk       : Running status updated
+          activationOk    : Activation updated
+          activeOk        : Active flag updated
       filters:
         all     : All
         running : Running
@@ -322,13 +326,6 @@ page:
         manual  : Manual
         auto    : Auto
 
-      message:
-        runningError    : An error occured while starting/stopping the trading system
-        activationError : An error occured while changing the activation of the trading system
-        activeError     : An error occured while activating/deactivating the trading system
-        runningOk       : Running status updated
-        activationOk    : Activation updated
-        activeOk        : Active flag updated
 
     # ----------------------------------------------------------------------------
 

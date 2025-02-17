@@ -10,9 +10,6 @@ import {Routes}             from "@angular/router";
 
 import {Url}                from "./app/model/urls";
 import {HomePanel}          from "./app/layout/main-panel/work-panel/home/home.panel";
-import {
-  PorTradingSystemPanel,
-} from "./app/layout/main-panel/work-panel/portfolio/trading-system/trading-system.panel";
 import {ConfigurationPanel} from "./app/layout/main-panel/work-panel/admin/configuration/configuration.panel";
 import {UnknownPanel}       from "./app/layout/main-panel/work-panel/unknown/unknown.panel";
 import {MonitoringPanel}    from "./app/layout/main-panel/work-panel/portfolio/monitoring/monitoring.panel";
@@ -87,7 +84,6 @@ export const routes: Routes = [
   //--- Portfolio
 
   { path: Url.Portfolio_TradingSystems,           component: TradingSystemDashboard          },
-  { path: Url.Portfolio_TradingSystemsOld,        component: PorTradingSystemPanel           },
 
   { path: Url.Portfolio_TradingSystems_Id, children : [
       { path: Url.Sub_Filtering, component:  FilteringPanel }

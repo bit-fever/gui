@@ -1,82 +1,70 @@
 <div class="main-panel">
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-  <mat-tab-group class="tabs-layout">
-    <mat-tab label="{{scope('TR')}}">
-      <div class="ts-layout">
-        <mat-card *ngFor="let ts of tradingSystems" class="ts-card" appearance="outlined">
-          <mat-card-header>
-            <div mat-card-avatar>
-              <mat-icon class="marketType" fontIcon="{{marketTypeIcon(ts)}}"></mat-icon>
-            </div>
-            <mat-card-title-group>
-              <mat-card-title>{{ts.name}}</mat-card-title>
-              <mat-card-subtitle style="font-size: smaller">{{ts.dataSymbol}}->{{ts.brokerSymbol}} - {{ts.timeframe}} min - {{ts.sessionName}}</mat-card-subtitle>
-            </mat-card-title-group>
-            <div class="buttons-layout">
-              <mat-icon class="status" style="color:{{statusColor(ts.status)}}">{{statusIcon(ts.status)}}</mat-icon>
-              <button mat-icon-button>
-                <mat-icon>more_vert</mat-icon>
-              </button>
-            </div>
-          </mat-card-header>
+  <div class="filters">
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="selScope">
+<!--      <mat-button-toggle value="DV" (change)="onScopeSet('DV')">{{ scope("DV") }}</mat-button-toggle>-->
+      <mat-button-toggle value="RD" (change)="onScopeSet()">{{ scope("RD") }}</mat-button-toggle>
+      <mat-button-toggle value="TR" (change)="onScopeSet()">{{ scope("TR") }}</mat-button-toggle>
+      <mat-button-toggle value="RV" (change)="onScopeSet()">{{ scope("RV") }}</mat-button-toggle>
+    </mat-button-toggle-group>
 
-          <mat-card-content style="padding: 0px 8px 0px 8px">
-            <div class="info-layout">
-              <img class="chart-layout" src="https://material.angular.io/assets/img/examples/shiba2.jpg2">
-              <table class="table-layout">
-                <tr>
-                  <td>{{loc('lastNetProfit')}}</td>
-                  <td class="value-style" style="color:{{valueColor(ts.lastNetProfit)}}">{{ts.lastNetProfit}}</td>
-                </tr>
-                <tr>
-                  <td>{{loc('lastNetAvgTrade')}}</td>
-                  <td class="value-style" style="color:{{valueColor(ts.lastNetAvgTrade)}}">{{ts.lastNetAvgTrade}}</td>
-                </tr>
-                <tr>
-                  <td>{{loc('lastNumTrades')}}</td>
-                  <td class="value-style">{{ts.lastNumTrades}}</td>
-                </tr>
-                <tr>
-                  <td>{{loc('lastTrade')}}</td>
-                  <td class="value-style">{{ts.lastTrade?.substring(0,10)}}</td>
-                </tr>
-                <tr>
-                  <td>{{loc('currency')}}</td>
-                  <td class="value-style">{{ts.currencyCode}}</td>
-                </tr>
-              </table>
-            </div>
-          </mat-card-content>
-          <mat-card-actions>
-            <check-button [status]="ts.running"        [config]="powerConfig" (valueChange)="onPowerClick(ts)"></check-button>
-            <check-button [status]="ts.autoActivation" [config]="activConfig" (valueChange)="onActivationClick(ts)"></check-button>
-            <check-button [status]="ts.active"         [config]="enablConfig" (valueChange)="onActiveClick(ts)"></check-button>
-            <p>{{suggAction(ts.suggestedAction)}}</p>
-          </mat-card-actions>
-        </mat-card>
-      </div>
-    </mat-tab>
+    <mat-form-field>
+      <mat-label>{{loc("filter")}}</mat-label>
+      <input matInput type="text" [(ngModel)]="filter">
+      @if (filter) {
+        <button matSuffix mat-icon-button (click)="filter=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </mat-form-field>
 
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <div *ngIf="selScope.value=='TR'">
+      <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="selRunning">
+        <mat-button-toggle value="*" (change)="onFlagRunningChange()">{{ loc("filters.all") }}</mat-button-toggle>
+        <mat-button-toggle value="r" (change)="onFlagRunningChange()">{{ loc("filters.running") }}</mat-button-toggle>
+        <mat-button-toggle value="s" (change)="onFlagRunningChange()">{{ loc("filters.stopped") }}</mat-button-toggle>
+      </mat-button-toggle-group>
 
-    <mat-tab label="{{scope('DV')}}">
+      <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="selActive">
+        <mat-button-toggle value="*" (change)="onFlagActiveChange()">{{ loc("filters.all") }}</mat-button-toggle>
+        <mat-button-toggle value="a" (change)="onFlagActiveChange()">{{ loc("filters.active") }}</mat-button-toggle>
+        <mat-button-toggle value="i" (change)="onFlagActiveChange()">{{ loc("filters.inactive") }}</mat-button-toggle>
+      </mat-button-toggle-group>
 
-    </mat-tab>
+      <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="selActivation">
+        <mat-button-toggle value="*" (change)="onFlagActivationChange()">{{ loc("filters.all") }}</mat-button-toggle>
+        <mat-button-toggle value="m" (change)="onFlagActivationChange()">{{ loc("filters.manual") }}</mat-button-toggle>
+        <mat-button-toggle value="a" (change)="onFlagActivationChange()">{{ loc("filters.auto") }}</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <span style="flex:1 0 auto"></span>
 
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-    <mat-tab label="{{scope('RD')}}">
-
-    </mat-tab>
-
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-    <mat-tab label="{{scope('RV')}}">
-
-    </mat-tab>
-  </mat-tab-group>
+    <button mat-stroked-button [disabled]="true">{{tradingSystems.length}}</button>
+    <div>
+      <button mat-icon-button (click)="reload()">
+        <span class="material-symbols-outlined">refresh</span>
+      </button>
+    </div>
+<!--    <button mat-button (click)="onCreateClick()">{{button("create")}}</button>-->
+  </div>
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <div class="ts-layout" *ngIf="selScope.value=='RD'">
+    <trading-card *ngFor="let ts of tradingSystems" [tradingSystem]="ts"></trading-card>
+  </div>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <div class="ts-layout" *ngIf="selScope.value=='TR'">
+    <trading-card *ngFor="let ts of tradingSystems" [tradingSystem]="ts"></trading-card>
+  </div>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <div class="ts-layout" *ngIf="selScope.value=='RV'">
+    <trading-card *ngFor="let ts of tradingSystems" [tradingSystem]="ts"></trading-card>
+  </div>
 
 </div>

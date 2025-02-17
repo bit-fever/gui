@@ -19,8 +19,22 @@
 
 //=============================================================================
 
-.tabs-layout {
-  height: 100%;
+.filters {
+  width: 100%;
+  padding-top: 4px;
+  display: flex;
+  align-items: baseline;
+
+  mat-form-field {
+    margin-left: 8px;
+  }
+  mat-button-toggle-group {
+    margin-left: 8px;
+  }
+
+  button {
+    vertical-align: middle;
+  }
 }
 
 //=============================================================================
@@ -33,82 +47,6 @@
   gap     : 0;
   height  : 100%;
   overflow: auto;
-  background-color: #EEECFF;
-}
-
-//=============================================================================
-
-.ts-card {
-  margin-top:  8px;
-  margin-left: 8px;
-  width:       620px;
-}
-
-//=============================================================================
-
-.buttons-layout {
-  display        : flex;
-  flex-direction : row;
-  justify-content: flex-start;
-  gap            : 8px;
-  align-items    : baseline;
-}
-
-//=============================================================================
-
-.chart-layout {
-  width:  400px;
-  height: 200px;
-}
-
-//=============================================================================
-
-.info-layout {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  gap     : 8px;
-  overflow: hidden;
-}
-
-//=============================================================================
-
-.table-layout {
-  font-size: smaller;
-  flex: 1 1 auto;
-}
-
-//=============================================================================
-
-.value-style {
-  text-align: right;
-  font-weight: bold;
-}
-
-//=============================================================================
-
-mat-card-actions check-button {
-  margin-right: 8px;
-}
-
-//=============================================================================
-
-.status {
-  width:     28px;
-  height:    28px;
-  font-size: 28px;
-}
-
-//=============================================================================
-//=== Icons for market types
-//=============================================================================
-
-.marketType {
-  width:     64px;
-  height:    40px;
-  font-size: 40px;
-  color:     #808080;
 }
 
 //=============================================================================
