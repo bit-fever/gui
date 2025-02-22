@@ -26,7 +26,7 @@ import {InputTextRequired} from "../../../../../../component/form/input-text-req
 import {
   BrokerProduct,
 } from "../../../../../../model/model";
-import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
+import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
 import {InventoryService} from "../../../../../../service/inventory.service";
 import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
 import {MatDialog} from "@angular/material/dialog";
@@ -42,7 +42,7 @@ import {BiasAnalysis} from "../model";
   styleUrls   : [ './bias-analysis.create.scss' ],
   imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
     MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
-    MatDividerModule, InputTextRequired, SelectTextRequired, InputNumberRequired, InstrumentSelectorPanel
+    MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired, InstrumentSelectorPanel
   ],
   standalone  : true
 })

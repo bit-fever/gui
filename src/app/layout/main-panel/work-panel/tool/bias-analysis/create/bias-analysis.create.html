@@ -8,10 +8,10 @@
 
     <instrument-selector [(value)]="ba.dataInstrumentId"></instrument-selector>
 
-    <select-text-required keyField="id" valueField="name"
+    <select-required keyField="id" valueField="name"
                           [label]="mod('brokerProductId')"
                           [(key)]="ba.brokerProductId"
-                          [list] ="products"></select-text-required>
+                          [list] ="products"></select-required>
 
     <mat-form-field class="components-layout">
       <mat-label>{{mod("notes")}}</mat-label>

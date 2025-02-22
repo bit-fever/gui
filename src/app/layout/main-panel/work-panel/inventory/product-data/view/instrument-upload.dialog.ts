@@ -26,7 +26,7 @@ import {DatafileUploadSpec, ParserMap} from "../../../../../../model/model";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CollectorService} from "../../../../../../service/collector.service";
-import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
+import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
 import {MatChipSelectionChange, MatChipsModule} from "@angular/material/chips";
 
 //=============================================================================
@@ -36,7 +36,7 @@ import {MatChipSelectionChange, MatChipsModule} from "@angular/material/chips";
   templateUrl : 'instrument-upload.dialog.html',
   styleUrls   : [ 'instrument-upload.dialog.scss' ],
   imports: [MatDialogModule, MatButtonModule, NgIf, MatProgressSpinnerModule, MatGridListModule,
-    MatIconModule, InputTextRequired, DatePicker, FileUploader, MatProgressBarModule, SelectTextRequired, MatChipsModule],
+    MatIconModule, InputTextRequired, DatePicker, FileUploader, MatProgressBarModule, SelectRequired, MatChipsModule],
   standalone  : true,
 })
 
@@ -64,8 +64,8 @@ export class InstrumentUploadDialog extends AbstractPanel {
   @ViewChild("iuSymbolCtrl")     symbolCtrl?       : InputTextRequired
   @ViewChild("iuNameCtrl")       nameCtrl?         : InputTextRequired
   @ViewChild("fileUpload")       fileUploader?     : FileUploader
-  @ViewChild("fileTimezoneCtrl") fileTimezoneCtrl? : SelectTextRequired
-  @ViewChild("parserCtrl")       parserCtrl?       : SelectTextRequired
+  @ViewChild("fileTimezoneCtrl") fileTimezoneCtrl? : SelectRequired
+  @ViewChild("parserCtrl")       parserCtrl?       : SelectRequired
 
   //-------------------------------------------------------------------------
   //---

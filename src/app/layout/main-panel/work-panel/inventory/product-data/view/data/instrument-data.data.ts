@@ -23,7 +23,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {DataPoint, DataInstrumentDataResponse} from "../../../../../../../model/model";
 import {FlexTableColumn} from "../../../../../../../model/flex-table";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {SelectTextRequired} from "../../../../../../../component/form/select-required/select-text-required";
+import {SelectRequired} from "../../../../../../../component/form/select-required/select-required";
 import {DatePicker} from "../../../../../../../component/form/date-picker/date-picker";
 import {DataPointTimeTranscoder} from "../../../../../../../component/panel/flex-table/transcoders";
 
@@ -34,7 +34,7 @@ import {DataPointTimeTranscoder} from "../../../../../../../component/panel/flex
   templateUrl :   './instrument-data.data.html',
   styleUrls   : [ './instrument-data.data.scss' ],
   imports: [CommonModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule,
-            RouterModule, FlexTablePanel, MatChipsModule, MatSelectModule, SelectTextRequired,
+            RouterModule, FlexTablePanel, MatChipsModule, MatSelectModule, SelectRequired,
             DatePicker],
   standalone  : true
 })

@@ -4,25 +4,30 @@
   <div class="form-layout">
     <input-text-required #tsNameCtrl        [(value)]="ts.name"           [label]="mod('name')" [len]="64"></input-text-required>
     <br/>
-    <input-text-required #tsStrategyCtrl    [(value)]="ts.workspaceCode"  [label]="mod('workspaceCode')" [len]="36"></input-text-required>
+    <select-required #tsDataCtrl       [(key)]="ts.dataProductId"    [label]="mod('dataSymbol')"      keyField="id" valueField="name" [list]="data"></select-required>
     <br/>
-    <select-text-required #tsPortfolioCtrl  [(key)]="ts.portfolioId"      [label]="mod('portfolioName')" keyField="id" valueField="name" [list]="portfolios"></select-text-required>
+    <select-required #tsBrokerCtrl     [(key)]="ts.brokerProductId"  [label]="mod('brokerSymbol')"    keyField="id" valueField="name" [list]="brokers"></select-required>
     <br/>
-    <select-text-required #tsDataCtrl       [(key)]="ts.dataProductId"    [label]="mod('dataSymbol')"      keyField="id" valueField="name" [list]="data"></select-text-required>
-    <br/>
-    <select-text-required #tsBrokerCtrl     [(key)]="ts.brokerProductId"  [label]="mod('brokerSymbol')"    keyField="id" valueField="name" [list]="brokers"></select-text-required>
-    <br/>
-    <select-text-required #tsSessionCtrl    [(key)]="ts.tradingSessionId" [label]="mod('tradingSession')"   keyField="id" valueField="name" [list]="sessions"></select-text-required>
+    <select-required #tsSessionCtrl    [(key)]="ts.tradingSessionId" [label]="mod('tradingSession')"  keyField="id" valueField="name" [list]="sessions"></select-required>
     <br/>
     <input-number-required #tsTimeframeCtrl [(value)]="ts.timeframe"      [label]="mod('timeframe')" [min]="1" [max]="1440"></input-number-required>
     <br/>
-    <select-text-required #tsScopeCtrl      [(key)]="ts.scope"            [label]="mod('scope')"   [map]="scopes"></select-text-required>
+    <select-required #tsStratTypeCtrl  [(key)]="ts.strategyType"     [label]="mod('strategyType')"   [map]="strategyTypes"></select-required>
+    <br/>
+    <chip-set-text [title]="mod('tags')" [(items)]="tagSet"></chip-set-text>
+    <br/>
+    <select-optional #tsProfileCtrl  [(key)]="ts.agentProfileId"      [label]="mod('agentProfile')" keyField="id" valueField="name" [list]="profiles"></select-optional>
+    <br/>
+    <input-text-optional #tsExternRefCtrl [(value)]="ts.externalRef"  [label]="mod('externalRef')" [len]="64"></input-text-optional>
   </div>
 
-  <div class="buttons-layout">
+  <div class="input-layout">
     <mat-divider></mat-divider>
     <button mat-button (click)="onSave()" [disabled]="!saveEnabled()">{{button("save")}}</button>
     <button mat-button (click)="onClose()">{{button("cancel")}}</button>
   </div>
 </div>
 
+<!--overnight?        : boolean-->
+<!--agentProfileId?   : number-->
+<!--externalRef?      : string-->

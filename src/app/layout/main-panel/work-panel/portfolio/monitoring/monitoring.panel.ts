@@ -125,7 +125,7 @@ export class MonitoringPanel extends AbstractPanel {
     this.options.labelTotGrossDrawdown = this.loc("totalGrossDrawdown")
     this.options.labelTotNetDrawdown   = this.loc("totalNetDrawdown")
 
-    this.inventoryService.getPortfolioTree().subscribe(
+    this.portfolioService.getPortfolioTree().subscribe(
       result => {
         this.roots = result;
       }

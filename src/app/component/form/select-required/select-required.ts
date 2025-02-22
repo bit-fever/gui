@@ -9,10 +9,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {ErrorStateMatcher, MatOptionModule} from "@angular/material/core";
-import {NgForOf, NgIf}      from "@angular/common";
-import {MatInputModule}     from "@angular/material/input";
+import {KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {MatIconModule}      from "@angular/material/icon";
-import {MatButtonModule}    from "@angular/material/button";
 import {
   FormControl,
   FormControlStatus,
@@ -25,52 +23,55 @@ import {
 import {AbstractSubscriber} from "../../../service/abstract-subscriber";
 import {EventBusService}    from "../../../service/eventbus.service";
 import {LabelService}       from "../../../service/label.service";
+import {MatSelectModule} from "@angular/material/select";
 import {BfErrorStateMatcher} from "../error-state-matcher";
 
 //=============================================================================
 
 @Component({
-  selector    :     'input-text-required',
-  templateUrl :   './input-text-required.html',
-  styleUrls   : [ './input-text-required.scss' ],
-  imports     : [ MatFormFieldModule, MatOptionModule, NgForOf, MatInputModule, MatIconModule,
-                  MatButtonModule, NgIf, FormsModule, ReactiveFormsModule],
-  standalone  : true
+	selector    :     'select-required',
+	templateUrl :   './select-required.html',
+	styleUrls   : [ './select-required.scss' ],
+  imports: [MatFormFieldModule, MatOptionModule, MatSelectModule, MatIconModule,
+    NgIf, FormsModule, ReactiveFormsModule, NgForOf],
+	standalone  : true
 })
 
 //=============================================================================
 
-export class InputTextRequired extends AbstractSubscriber {
+export class SelectRequired extends AbstractSubscriber {
+
+	//-------------------------------------------------------------------------
+	//---
+	//--- Variables
+	//---
+	//-------------------------------------------------------------------------
+
+	@Input() label     : string = ""
+	@Input() keyField  : string = ""
+	@Input() valueField: string = ""
+  @Input() list      : any[]  = []
+  @Input() map       : Object = {}
+
+  @Output() keyChange = new EventEmitter<any>();
 
   //-------------------------------------------------------------------------
-  //---
-  //--- Variables
-  //---
-  //-------------------------------------------------------------------------
 
-  @Input() label : string = ""
-  @Input() type  : string = "text"
+	formControl = new FormControl<any>('', [Validators.required])
+	matcher = new BfErrorStateMatcher();
 
-  @Output() valueChange = new EventEmitter<any>();
+  private _valid : boolean= false
 
-  //-------------------------------------------------------------------------
+	//-------------------------------------------------------------------------
+	//---
+	//--- Constructor
+	//---
+	//-------------------------------------------------------------------------
 
-  formControl = new FormControl('', [Validators.required])
-  matcher = new BfErrorStateMatcher();
-
-  private _len   : number  = 1
-  private _valid : boolean = false
-
-  //-------------------------------------------------------------------------
-  //---
-  //--- Constructor
-  //---
-  //-------------------------------------------------------------------------
-
-  constructor(eventBusService : EventBusService, private labelService : LabelService) {
-    super(eventBusService)
+	constructor(eventBusService : EventBusService, private labelService : LabelService) {
+		super(eventBusService)
     this.formControl.statusChanges.subscribe(this.valueChanged)
-  }
+	}
 
   //-------------------------------------------------------------------------
   //---
@@ -78,30 +79,15 @@ export class InputTextRequired extends AbstractSubscriber {
   //---
   //-------------------------------------------------------------------------
 
-  get value() : any {
+  get key() : any {
     return this.formControl.value
   }
 
   //-------------------------------------------------------------------------
 
   @Input()
-  set value(v : any) {
+  set key(v : any) {
     this.formControl.setValue(v)
-  }
-
-  //-------------------------------------------------------------------------
-
-  get len() : number {
-    return this._len
-  }
-
-  //-------------------------------------------------------------------------
-
-  @Input()
-  set len(l:number) {
-    this._len = l
-    this.formControl.setValidators([ Validators.required, Validators.maxLength(l) ])
-    this.formControl.updateValueAndValidity()
   }
 
   //-------------------------------------------------------------------------
@@ -123,25 +109,32 @@ export class InputTextRequired extends AbstractSubscriber {
   }
 
   //-------------------------------------------------------------------------
-  //---
-  //--- Public methods
-  //---
-  //-------------------------------------------------------------------------
+	//---
+	//--- Public methods
+	//---
+	//-------------------------------------------------------------------------
 
-  public loc = (code : string) : string => {
-    return this.labelService.getLabelString("errors."+ code);
-  }
-
-  //-------------------------------------------------------------------------
-
-  onClear() {
-    this.formControl.setValue('')
-  }
+	public loc = (code : string) : string => {
+		return this.labelService.getLabelString("errors."+ code);
+	}
 
   //-------------------------------------------------------------------------
 
   public isValid = () : boolean => {
     return this._valid
+  }
+
+  //-------------------------------------------------------------------------
+
+  public mapKeys() {
+    return Object.keys(this.map);
+  }
+
+  //-------------------------------------------------------------------------
+
+  public mapValue(key : string) : string {
+    // @ts-ignore
+    return this.map[key];
   }
 
   //-------------------------------------------------------------------------
@@ -152,8 +145,9 @@ export class InputTextRequired extends AbstractSubscriber {
 
   private valueChanged = (s : FormControlStatus) => {
     this._valid = (s == "VALID")
-    this.valueChange.emit(this.formControl.value)
+    this.keyChange.emit(this.formControl.value)
   }
 }
 
 //=============================================================================
+

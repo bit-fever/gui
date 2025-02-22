@@ -32,7 +32,7 @@ import {
   TradingSession,
   TradingSystemSpec
 } from "../../../../../../model/model";
-import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
+import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
 import {Url} from "../../../../../../model/urls";
 import {PortfolioService} from "../../../../../../service/portfolio.service";
 import {InventoryService} from "../../../../../../service/inventory.service";
@@ -46,7 +46,7 @@ import {InputNumberRequired} from "../../../../../../component/form/input-intege
   styleUrls   : [ './product-broker.edit.scss' ],
   imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
     MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
-    MatDividerModule, InputTextRequired, SelectTextRequired, InputNumberRequired
+    MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired
   ],
   standalone  : true
 })
@@ -73,9 +73,9 @@ export class ProductBrokerEditPanel extends AbstractPanel {
   @ViewChild("pbCostPerOperCtrl")  pbCostPerOperCtrl?  : InputNumberRequired
   @ViewChild("pbMarginValueCtrl")  pbMarginValueCtrl?  : InputNumberRequired
   @ViewChild("pbIncrementCtrl")    pbIncrementCtrl?    : InputNumberRequired
-  @ViewChild("pbMarketCtrl")       pbMarketCtrl?       : SelectTextRequired
-  @ViewChild("pbProductCtrl")      pbProductCtrl?      : SelectTextRequired
-  @ViewChild("pbExchangeCtrl")     pbExchangeCtrl?     : SelectTextRequired
+  @ViewChild("pbMarketCtrl")       pbMarketCtrl?       : SelectRequired
+  @ViewChild("pbProductCtrl")      pbProductCtrl?      : SelectRequired
+  @ViewChild("pbExchangeCtrl")     pbExchangeCtrl?     : SelectRequired
 
   //-------------------------------------------------------------------------
   //---

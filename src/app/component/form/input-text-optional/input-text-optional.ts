@@ -30,17 +30,17 @@ import {BfErrorStateMatcher} from "../error-state-matcher";
 //=============================================================================
 
 @Component({
-  selector    :     'input-text-required',
-  templateUrl :   './input-text-required.html',
-  styleUrls   : [ './input-text-required.scss' ],
+  selector    :     'input-text-optional',
+  templateUrl :   './input-text-optional.html',
+  styleUrls   : [ './input-text-optional.scss' ],
   imports     : [ MatFormFieldModule, MatOptionModule, NgForOf, MatInputModule, MatIconModule,
-                  MatButtonModule, NgIf, FormsModule, ReactiveFormsModule],
+    MatButtonModule, NgIf, FormsModule, ReactiveFormsModule],
   standalone  : true
 })
 
 //=============================================================================
 
-export class InputTextRequired extends AbstractSubscriber {
+export class InputTextOptional extends AbstractSubscriber {
 
   //-------------------------------------------------------------------------
   //---
@@ -55,10 +55,10 @@ export class InputTextRequired extends AbstractSubscriber {
 
   //-------------------------------------------------------------------------
 
-  formControl = new FormControl('', [Validators.required])
+  formControl = new FormControl()
   matcher = new BfErrorStateMatcher();
 
-  private _len   : number  = 1
+  private _len   : number  = 0
   private _valid : boolean = false
 
   //-------------------------------------------------------------------------
@@ -100,7 +100,7 @@ export class InputTextRequired extends AbstractSubscriber {
   @Input()
   set len(l:number) {
     this._len = l
-    this.formControl.setValidators([ Validators.required, Validators.maxLength(l) ])
+    this.formControl.setValidators([ Validators.maxLength(l) ])
     this.formControl.updateValueAndValidity()
   }
 

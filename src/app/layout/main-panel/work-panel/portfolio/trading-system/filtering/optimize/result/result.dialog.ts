@@ -13,7 +13,7 @@ import {AbstractPanel} from "../../../../../../../../component/abstract.panel";
 import {EventBusService} from "../../../../../../../../service/eventbus.service";
 import {LabelService} from "../../../../../../../../service/label.service";
 import {Router} from "@angular/router";
-import {SelectTextRequired} from "../../../../../../../../component/form/select-required/select-text-required";
+import {SelectRequired} from "../../../../../../../../component/form/select-required/select-required";
 import {MatChipsModule} from "@angular/material/chips";
 import {FilterRun} from "../../../../../../../../model/model";
 import {MatCheckboxModule} from "@angular/material/checkbox";
@@ -32,7 +32,7 @@ import {PositiveTranscoder} from "../../../../../../../../component/panel/flex-t
   selector    : 'filter-result-dialog',
   templateUrl : 'result.dialog.html',
   styleUrls   : [ 'result.dialog.scss' ],
-  imports: [MatDialogModule, MatButtonModule, SelectTextRequired, MatChipsModule, MatCheckboxModule,
+  imports: [MatDialogModule, MatButtonModule, SelectRequired, MatChipsModule, MatCheckboxModule,
     NgIf, InputNumberRequired, FlexTablePanel, MatIconModule],
   standalone  : true,
 })

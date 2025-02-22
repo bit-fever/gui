@@ -24,7 +24,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
 import {InputTextRequired} from "../../../../../../component/form/input-text-required/input-text-required";
 import {BrokerProductSpec, Connection, Exchange} from "../../../../../../model/model";
-import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
+import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
 import {InventoryService} from "../../../../../../service/inventory.service";
 import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
 import {
@@ -49,7 +49,7 @@ enum Status {
   styleUrls   : [ './product-broker.create.scss' ],
   imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
     MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
-    MatDividerModule, InputTextRequired, SelectTextRequired, InputNumberRequired
+    MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired
   ],
   standalone  : true
 })
@@ -72,7 +72,7 @@ export class BrokerProductCreatePanel extends AbstractPanel {
 
   status = Status.Selecting
 
-  @ViewChild("pbConnCtrl")         pbConnCtrl?         : SelectTextRequired
+  @ViewChild("pbConnCtrl")         pbConnCtrl?         : SelectRequired
 
   @ViewChild("pbSymbolCtrl")       pbSymbolCtrl?       : InputTextRequired
   @ViewChild("pbNameCtrl")         pbNameCtrl?         : InputTextRequired
@@ -80,9 +80,9 @@ export class BrokerProductCreatePanel extends AbstractPanel {
   @ViewChild("pbCostPerOperCtrl")  pbCostPerOperCtrl?  : InputNumberRequired
   @ViewChild("pbMarginValueCtrl")  pbMarginValueCtrl?  : InputNumberRequired
   @ViewChild("pbIncrementCtrl")    pdIncrementCtrl?    : InputNumberRequired
-  @ViewChild("pbMarketCtrl")       pbMarketCtrl?       : SelectTextRequired
-  @ViewChild("pbProductCtrl")      pbProductCtrl?      : SelectTextRequired
-  @ViewChild("pbExchangeCtrl")     pbExchangeCtrl?     : SelectTextRequired
+  @ViewChild("pbMarketCtrl")       pbMarketCtrl?       : SelectRequired
+  @ViewChild("pbProductCtrl")      pbProductCtrl?      : SelectRequired
+  @ViewChild("pbExchangeCtrl")     pbExchangeCtrl?     : SelectRequired
 
   private connMap = new Map<number, Connection>()
 

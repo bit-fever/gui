@@ -4,9 +4,9 @@
   <div class="form-layout">
     <input-text-required #connCodeCtrl [(value)]="conn.code" [label]="loc('code')" [len]="8" ></input-text-required>
     <input-text-required #connNameCtrl [(value)]="conn.name" [label]="loc('name')" [len]="32"></input-text-required>
-    <select-text-required #connSystemCodeCtrl [(key)]="conn.systemCode" [label]="loc('system')"
+    <select-required #connSystemCodeCtrl [(key)]="conn.systemCode" [label]="loc('system')"
                           (keyChange)="onAdapterChange($event)"
-                          keyField="code" valueField="name" [list]="adapters"></select-text-required>
+                          keyField="code" valueField="name" [list]="adapters"></select-required>
 
     <ng-container *ngFor="let param of params">
       <input-text-required *ngIf="param.type=='string'"   [(value)]="param.valueStr" label="{{label(param.name)}}" [len]="param.maxValue"></input-text-required>

@@ -13,7 +13,7 @@ import {AbstractPanel} from "../../../../../../../../component/abstract.panel";
 import {EventBusService} from "../../../../../../../../service/eventbus.service";
 import {LabelService} from "../../../../../../../../service/label.service";
 import {Router} from "@angular/router";
-import {SelectTextRequired} from "../../../../../../../../component/form/select-required/select-text-required";
+import {SelectRequired} from "../../../../../../../../component/form/select-required/select-required";
 import {MatChipSelectionChange, MatChipsModule} from "@angular/material/chips";
 import {FieldOptimization, FilterOptimizationRequest} from "../../../../../../../../model/model";
 import {MatCheckboxModule} from "@angular/material/checkbox";
@@ -29,7 +29,7 @@ import {MatTabsModule} from "@angular/material/tabs";
   selector    : 'filter-parameter-dialog',
   templateUrl : 'parameter.dialog.html',
   styleUrls   : [ 'parameter.dialog.scss' ],
-  imports: [MatDialogModule, MatButtonModule, SelectTextRequired, MatChipsModule, MatCheckboxModule,
+  imports: [MatDialogModule, MatButtonModule, SelectRequired, MatChipsModule, MatCheckboxModule,
     NgIf, InputNumberRequired, MatTabsModule],
   standalone  : true,
 })

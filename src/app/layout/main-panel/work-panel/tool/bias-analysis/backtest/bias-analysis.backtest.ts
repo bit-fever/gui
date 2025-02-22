@@ -30,7 +30,7 @@ import {ApexAxisChartSeries, ChartComponent} from "ng-apexcharts";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {InventoryService} from "../../../../../../service/inventory.service";
 import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
-import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
+import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
 import {CollectorService} from "../../../../../../service/collector.service";
 import "./charts-config"
 import {
@@ -61,7 +61,7 @@ const EquityChart     = "equity"
   templateUrl :   'bias-analysis.backtest.html',
   styleUrls   : [ 'bias-analysis.backtest.scss' ],
   imports: [MatButtonModule, NgIf, MatGridListModule, MatIconModule, FlexTreePanel,
-    MatDivider, FlexTablePanel, ChartComponent, MatButtonToggleModule, InputNumberRequired, SelectTextRequired],
+    MatDivider, FlexTablePanel, ChartComponent, MatButtonToggleModule, InputNumberRequired, SelectRequired],
   standalone  : true,
 })
 

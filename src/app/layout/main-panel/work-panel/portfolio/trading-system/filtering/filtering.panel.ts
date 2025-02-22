@@ -30,7 +30,7 @@ import {Lib} from "../../../../../../lib/lib";
 import {FormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
 import {PortfolioService} from "../../../../../../service/portfolio.service";
-import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
+import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {FlexTablePanel} from "../../../../../../component/panel/flex-table/flex-table.panel";
 import {FlexTableColumn} from "../../../../../../model/flex-table";
@@ -52,7 +52,7 @@ import {DialogData} from "./optimize/dialog-data";
   styleUrls   : [ './filtering.panel.scss' ],
   imports: [CommonModule, RouterModule, MatExpansionModule, MatIconModule, MatFormFieldModule, FormsModule,
     MatInputModule, MatOptionModule, MatSelectModule, MatSlideToggleModule, MatTabsModule, MatButtonModule,
-    MatDividerModule, SelectTextRequired, MatGridListModule, SimpleTablePanel, MatDialogModule, ChartComponent],
+    MatDividerModule, SelectRequired, MatGridListModule, SimpleTablePanel, MatDialogModule, ChartComponent],
   standalone  : true
 })
 

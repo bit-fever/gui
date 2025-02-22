@@ -112,6 +112,10 @@ model:
     activation      : Activation
     active          : Active
     suggestedAction : Suggested action
+    agentProfile    : Agent profile
+    strategyType    : Strategy type
+    tags            : Tags
+    externalRef     : External reference
 
   connection:
     id                   : Id
@@ -252,7 +256,8 @@ page:
 
   inventory:
     tradingSystem:
-      new:           New trading system
+      new:  New trading system
+      none: None
 
     dataProduct:
       new:   New data product
@@ -626,6 +631,12 @@ map:
     RD: Ready
     TR: Trading
     RV: Review
+
+  strategyType:
+    TF: Trend following
+    MR: Mean reversal
+    BI: Bias
+    OT: Other
 
 # ==============================================================================
 

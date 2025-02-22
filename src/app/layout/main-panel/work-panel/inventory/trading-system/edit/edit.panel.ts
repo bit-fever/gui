@@ -27,11 +27,14 @@ import {
   Portfolio,
   BrokerProduct, DataProduct,
   TradingSession,
-  TradingSystemSpec
+  TradingSystemSpec, AgentProfile
 } from "../../../../../../model/model";
-import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
+import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
 import {InventoryService} from "../../../../../../service/inventory.service";
 import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
+import {ChipSetTextComponent} from "../../../../../../component/form/chip-text-set/chip-set-text";
+import {InputTextOptional} from "../../../../../../component/form/input-text-optional/input-text-optional";
+import {SelectTextRequired} from "../../../../../../component/form/select-optional/select-optional";
 
 //=============================================================================
 
@@ -39,9 +42,9 @@ import {InputNumberRequired} from "../../../../../../component/form/input-intege
   selector    :     "tradingSystem-edit",
   templateUrl :   './edit.panel.html',
   styleUrls   : [ './edit.panel.scss' ],
-  imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
-    MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
-    MatDividerModule, InputTextRequired, SelectTextRequired, InputNumberRequired
+  imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule,
+    MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
+    MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired, ChipSetTextComponent, InputTextOptional, SelectTextRequired
   ],
   standalone  : true
 })
@@ -57,20 +60,21 @@ export class TradingSystemEditPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   ts = new TradingSystemSpec()
-  portfolios : Portfolio     [] = []
-  data       : DataProduct   [] = []
-  brokers    : BrokerProduct [] = []
-  sessions   : TradingSession[] = []
-  scopes     : Object        [] = []
+  data          : DataProduct   [] = []
+  brokers       : BrokerProduct [] = []
+  sessions      : TradingSession[] = []
+  strategyTypes : Object        [] = []
+  profiles      : AgentProfile  [] = []
+  tagSet        : string        [] = []
 
   @ViewChild("tsNameCtrl")      tsNameCtrl?      : InputTextRequired
-  @ViewChild("tsStrategyCtrl")  tsStrategyCtrl?  : InputTextRequired
-  @ViewChild("tsPortfolioCtrl") tsPortfolioCtrl? : SelectTextRequired
-  @ViewChild("tsDataCtrl")      tsDataCtrl?      : SelectTextRequired
-  @ViewChild("tsBrokerCtrl")    tsBrokerCtrl?    : SelectTextRequired
-  @ViewChild("tsSessionCtrl")   tsSessionCtrl?   : SelectTextRequired
+  @ViewChild("tsDataCtrl")      tsDataCtrl?      : SelectRequired
+  @ViewChild("tsBrokerCtrl")    tsBrokerCtrl?    : SelectRequired
+  @ViewChild("tsSessionCtrl")   tsSessionCtrl?   : SelectRequired
   @ViewChild("tsTimeframeCtrl") tsTimeframeCtrl? : InputNumberRequired
-  @ViewChild("tsScopeCtrl")     tsScopeCtrl?     : SelectTextRequired
+  @ViewChild("tsStratTypeCtrl") tsStratTypeCtrl? : SelectRequired
+  @ViewChild("tsProfileCtrl")   tsProfileCtrl?   : SelectRequired
+  @ViewChild("tsExternRefCtrl") tsExternRefCtrl? : InputTextOptional
 
   //-------------------------------------------------------------------------
   //---
@@ -86,9 +90,9 @@ export class TradingSystemEditPanel extends AbstractPanel {
     super(eventBusService, labelService, router, "inventory.tradingSystem", "tradingSystem");
     super.subscribeToApp(AppEvent.TRADINGSYSTEM_EDIT_START, (e : AppEvent) => this.onStart(e));
 
-    inventoryService.getPortfolios().subscribe(
+    inventoryService.getAgentProfiles().subscribe(
       result => {
-        this.portfolios = result.result;
+        this.profiles = result.result;
     })
 
     inventoryService.getDataProducts(false).subscribe(
@@ -116,7 +120,7 @@ export class TradingSystemEditPanel extends AbstractPanel {
   private onStart(event : AppEvent) : void {
     console.log("TradingSystemEditPanel: Starting...");
 
-    this.scopes = this.labelService.getLabel("map.scope")
+    this.strategyTypes  = this.labelService.getLabel("map.strategyType")
 
     if (event.params == undefined) {
       this.ts = new TradingSystemSpec()
@@ -130,13 +134,12 @@ export class TradingSystemEditPanel extends AbstractPanel {
 
   public saveEnabled() : boolean|undefined {
     return  this.tsNameCtrl     ?.isValid() &&
-            this.tsStrategyCtrl ?.isValid() &&
-            this.tsPortfolioCtrl?.isValid() &&
             this.tsDataCtrl     ?.isValid() &&
             this.tsBrokerCtrl   ?.isValid() &&
             this.tsSessionCtrl  ?.isValid() &&
             this.tsTimeframeCtrl?.isValid() &&
-            this.tsScopeCtrl    ?.isValid()
+            this.tsStratTypeCtrl?.isValid() &&
+            this.tsExternRefCtrl?.isValid()
   }
 
   //-------------------------------------------------------------------------
@@ -145,6 +148,7 @@ export class TradingSystemEditPanel extends AbstractPanel {
 
     console.log("TradingSystem is : \n"+ JSON.stringify(this.ts));
 
+    this.ts.tags = this.tagSet.join("|")
     if (this.ts.id == undefined) {
       this.inventoryService.addTradingSystem(this.ts).subscribe( c => {
         this.onClose();

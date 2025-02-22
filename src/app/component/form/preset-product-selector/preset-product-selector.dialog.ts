@@ -17,7 +17,7 @@ import {FileUploader} from "../file-uploader/file-uploader";
 import {InputTextRequired} from "../input-text-required/input-text-required";
 import {MatChipListbox, MatChipOption} from "@angular/material/chips";
 import {MatProgressBar} from "@angular/material/progress-bar";
-import {SelectTextRequired} from "../select-required/select-text-required";
+import {SelectRequired} from "../select-required/select-required";
 import {FlexTablePanel} from "../../panel/flex-table/flex-table.panel";
 import {FlexTableColumn} from "../../../model/flex-table";
 import {PresetProduct, PresetsService} from "../../../service/presets.service";
@@ -30,7 +30,7 @@ import {LabelTranscoder} from "../../panel/flex-table/transcoders";
   selector    :   'instrument-selector-dialog',
   templateUrl :   'preset-product-selector.dialog.html',
   styleUrls   : [ 'preset-product-selector.dialog.scss' ],
-  imports: [MatDialogModule, MatButtonModule, FileUploader, InputTextRequired, MatChipListbox, MatChipOption, MatProgressBar, SelectTextRequired, FlexTablePanel],
+  imports: [MatDialogModule, MatButtonModule, FileUploader, InputTextRequired, MatChipListbox, MatChipOption, MatProgressBar, SelectRequired, FlexTablePanel],
   standalone  : true,
 })
 

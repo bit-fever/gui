@@ -25,7 +25,7 @@ import {MatDividerModule} from "@angular/material/divider";
 import {InputTextRequired} from "../../../../../../component/form/input-text-required/input-text-required";
 import {SystemAdapterService} from "../../../../../../service/system-adapter.service";
 import {Adapter, AdapterParam, Connection, ConnectionSpec} from "../../../../../../model/model";
-import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
+import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
 import {InventoryService} from "../../../../../../service/inventory.service";
 import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
 
@@ -37,7 +37,7 @@ import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
   styleUrls   : [ './edit.panel.scss' ],
   imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
     MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
-    MatDividerModule, InputTextRequired, SelectTextRequired, MatCheckbox
+    MatDividerModule, InputTextRequired, SelectRequired, MatCheckbox
   ],
   standalone  : true
 })

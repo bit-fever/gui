@@ -23,7 +23,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
 import {InputTextRequired} from "../../../../../../component/form/input-text-required/input-text-required";
-import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
+import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
 import {InventoryService} from "../../../../../../service/inventory.service";
 import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
 import {DataProductSpec} from "../../../../../../model/model";
@@ -36,7 +36,7 @@ import {DataProductSpec} from "../../../../../../model/model";
   styleUrls   : [ './product-data.edit.scss' ],
   imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
     MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
-    MatDividerModule, InputTextRequired, SelectTextRequired, InputNumberRequired
+    MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired
   ],
   standalone  : true
 })
@@ -60,8 +60,8 @@ export class ProductDataEditPanel extends AbstractPanel {
   //---  - exchange: its timezone is used to convert the timestamp of tool
 
   @ViewChild("pdNameCtrl")     pdNameCtrl?     : InputTextRequired
-  @ViewChild("pdMarketCtrl")   pdMarketCtrl?   : SelectTextRequired
-  @ViewChild("pdProductCtrl")  pdProductCtrl?  : SelectTextRequired
+  @ViewChild("pdMarketCtrl")   pdMarketCtrl?   : SelectRequired
+  @ViewChild("pdProductCtrl")  pdProductCtrl?  : SelectRequired
 
   //-------------------------------------------------------------------------
   //---

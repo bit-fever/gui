@@ -24,7 +24,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
 import {InputTextRequired} from "../../../../../../component/form/input-text-required/input-text-required";
 import {Connection, DataProductSpec, Exchange} from "../../../../../../model/model";
-import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
+import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
 import {InventoryService} from "../../../../../../service/inventory.service";
 import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
 import {MatDialog} from "@angular/material/dialog";
@@ -49,7 +49,7 @@ enum Status {
   styleUrls   : [ './product-data.create.scss' ],
   imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
     MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
-    MatDividerModule, InputTextRequired, SelectTextRequired, InputNumberRequired
+    MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired
   ],
   standalone  : true
 })
@@ -72,13 +72,13 @@ export class ProductDataCreatePanel extends AbstractPanel {
 
   status = Status.Selecting
 
-  @ViewChild("pdConnCtrl")     pdConnCtrl?     : SelectTextRequired
+  @ViewChild("pdConnCtrl")     pdConnCtrl?     : SelectRequired
 
   @ViewChild("pdSymbolCtrl")   pdSymbolCtrl?   : InputTextRequired
   @ViewChild("pdNameCtrl")     pdNameCtrl?     : InputTextRequired
-  @ViewChild("pdMarketCtrl")   pdMarketCtrl?   : SelectTextRequired
-  @ViewChild("pdProductCtrl")  pdProductCtrl?  : SelectTextRequired
-  @ViewChild("pdExchangeCtrl") pdExchangeCtrl? : SelectTextRequired
+  @ViewChild("pdMarketCtrl")   pdMarketCtrl?   : SelectRequired
+  @ViewChild("pdProductCtrl")  pdProductCtrl?  : SelectRequired
+  @ViewChild("pdExchangeCtrl") pdExchangeCtrl? : SelectRequired
 
   private connMap = new Map<number, Connection>()
 

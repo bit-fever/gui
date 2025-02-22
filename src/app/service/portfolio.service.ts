@@ -11,7 +11,7 @@ import {Observable}      from "rxjs";
 import {
   FilterAnalysisRequest, FilterAnalysisResponse, FilterOptimizationResponse, FilterOptimizationRequest,
   PortfolioMonitoringResponse,
-  PorTradingSystem, StatusResponse, TradingFilter, TradingSystemPropertyResponse,
+  PorTradingSystem, StatusResponse, TradingFilter, TradingSystemPropertyResponse, Portfolio, PortfolioTree,
 } from "../model/model";
 import {HttpService}     from "./http.service";
 import {ListResponse} from "../model/flex-table";
@@ -94,6 +94,18 @@ export class PortfolioService {
 
   //---------------------------------------------------------------------------
   //--- Portfolios
+  //---------------------------------------------------------------------------
+
+  public getPortfolios = (): Observable<ListResponse<Portfolio>> => {
+    return this.httpService.get<ListResponse<Portfolio>>('/api/portfolio/v1/portfolios');
+  }
+
+  //---------------------------------------------------------------------------
+
+  public getPortfolioTree = (): Observable<PortfolioTree[]> => {
+    return this.httpService.get<PortfolioTree[]>('/api/portfolio/v1/portfolio/tree');
+  }
+
   //---------------------------------------------------------------------------
 
   public getPortfolioMonitoring = (ids : number[], period : number): Observable<PortfolioMonitoringResponse> => {

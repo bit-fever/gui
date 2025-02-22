@@ -31,7 +31,7 @@ import {
 import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
-import {SelectTextRequired} from "../../../../../../component/form/select-required/select-text-required";
+import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
 import {AbstractPanel} from "../../../../../../component/abstract.panel";
 import {
 } from "../../../../../../model/model";
@@ -58,7 +58,7 @@ import {BiasConfig, BiasSummaryResponse, DataPointDowList, DataPointEntry} from 
   selector    :     'bias-analysis-playground',
   templateUrl :   './bias-analysis.playground.html',
   styleUrls   : [ './bias-analysis.playground.scss' ],
-    imports: [CommonModule, MatButton, MatIcon, MatFabButton, NgApexchartsModule, MatChipListbox, MatChipOption, SelectTextRequired,
+    imports: [CommonModule, MatButton, MatIcon, MatFabButton, NgApexchartsModule, MatChipListbox, MatChipOption, SelectRequired,
         MatMiniFabButton, ChipSetTextComponent, MatChipGrid, MatChipInput, MatChipRemove, MatChipRow, MatFormField, MatLabel,
         MatError, MatIconButton, MatInput, MatSuffix, ReactiveFormsModule, MatTabGroup, MatTab, MatButtonToggle, MatButtonToggleGroup, MatTooltip, FlexTablePanel,
         MatGridListModule, InputNumberRequired],

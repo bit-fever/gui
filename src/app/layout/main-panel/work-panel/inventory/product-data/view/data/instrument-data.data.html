@@ -1,10 +1,10 @@
 <div class="main-layout">
 
     <div class="options-layout">
-      <date-picker           #fromDateCtrl  [label]="loc('fromDate')"  [(value)]="fromDate" (valueChange)="onFromChange($event)"></date-picker>
-      <date-picker           #toDateCtrl    [label]="loc('toDate')"    [(value)]="toDate"   (valueChange)="onToChange($event)"></date-picker>
-      <select-text-required  #timeframeCtrl [label]="loc('timeframe')" [(key)]  ="timeframe" [map]="timeframes"                                       (keyChange)="onTimeframeChange($event)"></select-text-required>
-      <select-text-required  #timezoneCtrl  [label]="loc('timezone')"  [(key)]  ="timezone"  keyField="timezone" valueField="code" [list]="timezones" (keyChange)="onTimezoneChange($event)"></select-text-required>
+      <date-picker      #fromDateCtrl  [label]="loc('fromDate')"  [(value)]="fromDate" (valueChange)="onFromChange($event)"></date-picker>
+      <date-picker      #toDateCtrl    [label]="loc('toDate')"    [(value)]="toDate"   (valueChange)="onToChange($event)"></date-picker>
+      <select-required  #timeframeCtrl [label]="loc('timeframe')" [(key)]  ="timeframe" [map]="timeframes"                                       (keyChange)="onTimeframeChange($event)"></select-required>
+      <select-required  #timezoneCtrl  [label]="loc('timezone')"  [(key)]  ="timezone"  keyField="timezone" valueField="code" [list]="timezones" (keyChange)="onTimezoneChange($event)"></select-required>
 
       <button mat-icon-button (click)="onReload()">
         <mat-icon>restart_alt</mat-icon>

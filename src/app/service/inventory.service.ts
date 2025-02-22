@@ -15,7 +15,7 @@ import {
   InvTradingSystemFull, Portfolio, PortfolioTree,
   BrokerProduct, BrokerProductSpec,
   DataProduct, DataProductExt, DataProductSpec,
-  TradingSession, TradingSystemSpec, DatafileUploadResponse
+  TradingSession, TradingSystemSpec, DatafileUploadResponse, AgentProfile
 } from "../model/model";
 import {HttpService, UploadEvent} from "./http.service";
 import { HttpParams } from "@angular/common/http";
@@ -158,17 +158,11 @@ export class InventoryService {
   }
 
   //---------------------------------------------------------------------------
-  //--- Portfolios
+  //--- Agent profiles
   //---------------------------------------------------------------------------
 
-  public getPortfolios = (): Observable<ListResponse<Portfolio>> => {
-    return this.httpService.get<ListResponse<Portfolio>>('/api/inventory/v1/portfolios');
-  }
-
-  //---------------------------------------------------------------------------
-
-  public getPortfolioTree = (): Observable<PortfolioTree[]> => {
-    return this.httpService.get<PortfolioTree[]>('/api/inventory/v1/portfolio/tree');
+  public getAgentProfiles = (): Observable<ListResponse<AgentProfile>> => {
+    return this.httpService.get<ListResponse<AgentProfile>>('/api/inventory/v1/agent-profiles');
   }
 }
 

@@ -2,18 +2,18 @@
   <right-title-panel icon="dataset" title="{{loc('new')}}" (onClose)="onClose()"></right-title-panel>
 
   <div class="form-layout">
-    <select-text-required #pdConnCtrl keyField="id" valueField="name"
+    <select-required #pdConnCtrl keyField="id" valueField="name"
                           [label]="mod('connectionCode')"
                           [(key)]="pd.connectionId"
                           [list]="connections"
-                          (keyChange)="onConnectionChange($event)"></select-text-required>
+                          (keyChange)="onConnectionChange($event)"></select-required>
     <br/>
     <div *ngIf="status == Status.Local">
       <input-text-required   #pdSymbolCtrl   [label]="mod('symbol')"       [(value)]="pd.symbol"      [len]="16"></input-text-required><br/>
       <input-text-required   #pdNameCtrl     [label]="mod('name')"         [(value)]="pd.name"        [len]="64"></input-text-required><br/>
-      <select-text-required  #pdMarketCtrl   [label]="mod('marketType')"   [(key)]  ="pd.marketType"  [map]="markets"></select-text-required><br/>
-      <select-text-required  #pdProductCtrl  [label]="mod('productType')"  [(key)]  ="pd.productType" [map]="products"></select-text-required><br/>
-      <select-text-required  #pdExchangeCtrl [label]="mod('exchangeCode')" [(key)]  ="pd.exchangeId"  keyField="id" valueField="code" [list]="exchanges"></select-text-required>
+      <select-required       #pdMarketCtrl   [label]="mod('marketType')"   [(key)]  ="pd.marketType"  [map]="markets"></select-required><br/>
+      <select-required       #pdProductCtrl  [label]="mod('productType')"  [(key)]  ="pd.productType" [map]="products"></select-required><br/>
+      <select-required       #pdExchangeCtrl [label]="mod('exchangeCode')" [(key)]  ="pd.exchangeId"  keyField="id" valueField="code" [list]="exchanges"></select-required>
     </div>
   </div>
 

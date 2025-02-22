@@ -201,8 +201,8 @@
 
     <mat-tab label="{{loc('tabAlgorithm')}}">
       <br/>
-      <select-text-required [(key)]="options.fieldToOptimize" [label]="loc('optimizeFor')" keyField="id" valueField="name" [list]="labelMap('fieldOptions')" class="field-to-optimize"></select-text-required>
-      <select-text-required [(key)]="options.algorithm.type"  [label]="loc('algorithm')"   keyField="id" valueField="name" [list]="labelMap('algorOptions')" class="field-to-optimize"></select-text-required>
+      <select-required [(key)]="options.fieldToOptimize" [label]="loc('optimizeFor')" keyField="id" valueField="name" [list]="labelMap('fieldOptions')" class="field-to-optimize"></select-required>
+      <select-required [(key)]="options.algorithm.type"  [label]="loc('algorithm')"   keyField="id" valueField="name" [list]="labelMap('algorOptions')" class="field-to-optimize"></select-required>
 
     </mat-tab>
   </mat-tab-group>

@@ -5,7 +5,7 @@
     </div>
     <input-number-required [(value)]="backtestReq.stopLoss"   [label]="loc('stopLoss')"   [min]="0" [max]="100000"></input-number-required>
     <input-number-required [(value)]="backtestReq.takeProfit" [label]="loc('takeProfit')" [min]="0" [max]="100000"></input-number-required>
-    <select-text-required class="session-style" [(key)]="sessionId" [label]="loc('session')"   keyField="id" valueField="name" [list]="sessions"></select-text-required>
+    <select-required class="session-style" [(key)]="sessionId" [label]="loc('session')"   keyField="id" valueField="name" [list]="sessions"></select-required>
   </div>
 
   <div class="result-layout" *ngIf="response">

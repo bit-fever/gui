@@ -23,7 +23,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {DataPoint, DataInstrument, DataInstrumentDataResponse} from "../../../../../../../model/model";
 import {FlexTableColumn, ListResponse, ListService} from "../../../../../../../model/flex-table";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {SelectTextRequired} from "../../../../../../../component/form/select-required/select-text-required";
+import {SelectRequired} from "../../../../../../../component/form/select-required/select-required";
 import {DatePicker} from "../../../../../../../component/form/date-picker/date-picker";
 import {Observable} from "rxjs";
 import {
@@ -56,7 +56,7 @@ export type ChartOptions = {
   templateUrl :   './instrument-data.chart.html',
   styleUrls   : [ './instrument-data.chart.scss' ],
   imports: [CommonModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule,
-            RouterModule, FlexTablePanel, MatChipsModule, MatSelectModule, SelectTextRequired,
+            RouterModule, FlexTablePanel, MatChipsModule, MatSelectModule, SelectRequired,
             DatePicker, NgApexchartsModule],
   standalone  : true
 })
@@ -91,7 +91,7 @@ export class DataInstrumentChartPanel extends AbstractPanel {
   // @ts-ignore
   @ViewChild("instrTable") flexTable : FlexTablePanel;
   // @ts-ignore
-  @ViewChild("timeframeCtrl") timeframeCtrl : SelectTextRequired;
+  @ViewChild("timeframeCtrl") timeframeCtrl : SelectRequired;
   // @ts-ignore
   @ViewChild("smallChart", { static: false}) smallChartCtrl : ChartComponent;
 

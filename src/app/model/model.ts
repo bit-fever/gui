@@ -60,13 +60,15 @@ export class PortfolioTree extends Portfolio {
 export class TradingSystemSpec {
   id?               : number
   name?             : string
-  portfolioId?      : number
   dataProductId?    : number
   brokerProductId?  : number
   tradingSessionId? : number
-  workspaceCode?    : string
   timeframe?        : number
-  scope?            : string
+  strategyType?     : string
+  overnight?        : boolean
+  tags?             : string
+  agentProfileId?   : number
+  externalRef?      : string
 }
 
 //=============================================================================
@@ -203,6 +205,19 @@ export class BrokerProduct extends BrokerProductSpec {
   connectionCode? : string
   exchangeCode?   : string
   currencyCode?   : string
+}
+
+//=============================================================================
+
+export class AgentProfile {
+  id?        : number
+  username?  : string
+  name?      : string
+  remoteUrl? : string
+  sslKeyRef? : string
+  sslCertRef?: string
+  createdAt? : string
+  updatedAt? : string
 }
 
 //=============================================================================

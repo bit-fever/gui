@@ -159,9 +159,11 @@ export class InvTradingSystemPanel extends AbstractPanel {
 
     this.columns = [
       new FlexTableColumn(ts, "name"),
-      new FlexTableColumn(ts, "portfolioName"),
       new FlexTableColumn(ts, "dataSymbol"),
       new FlexTableColumn(ts, "brokerSymbol"),
+      new FlexTableColumn(ts, "timeframe"),
+      new FlexTableColumn(ts, "type"),
+      new FlexTableColumn(ts, "overnight"),
       new FlexTableColumn(ts, "tradingSession"),
     ]
   }

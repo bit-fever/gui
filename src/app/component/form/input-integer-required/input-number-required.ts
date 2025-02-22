@@ -53,7 +53,7 @@ export class InputNumberRequired extends AbstractSubscriber {
 
   //-------------------------------------------------------------------------
 
-  formControl = new FormControl()
+  formControl = new FormControl<number|undefined>(undefined, [Validators.required])
   matcher    = new BfErrorStateMatcher();
 
   private _min?  : number
@@ -78,6 +78,10 @@ export class InputNumberRequired extends AbstractSubscriber {
   //-------------------------------------------------------------------------
 
   get value() : number|undefined {
+    if (this.formControl.value == null) {
+      return undefined
+    }
+
     return this.formControl.value
   }
 
@@ -129,7 +133,7 @@ export class InputNumberRequired extends AbstractSubscriber {
   //-------------------------------------------------------------------------
 
   onClear() {
-    this.formControl.setValue('')
+    this.formControl.setValue(undefined)
   }
 
   //-------------------------------------------------------------------------

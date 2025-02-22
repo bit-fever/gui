@@ -149,7 +149,7 @@ export class InvDataProductPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  private updateButtons = (selection : InvTradingSystemFull[]) => {
+  private updateButtons = (selection : DataProduct[]) => {
     this.disView = (selection.length != 1)
     this.disEdit = (selection.length != 1)
   }
