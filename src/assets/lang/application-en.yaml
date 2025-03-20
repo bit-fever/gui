@@ -30,6 +30,7 @@ button:
   connect   : CONNECT
   disconnect: DISCONNECT
   reset     : RESET
+  finalize  : FINALIZE
 
 menu-button:
   filter    : Filter
@@ -116,6 +117,7 @@ model:
     strategyType    : Strategy type
     tags            : Tags
     externalRef     : External reference
+    overnight       : Overnight
 
   connection:
     id                   : Id
@@ -630,7 +632,6 @@ map:
     DV: Development
     RD: Ready
     TR: Trading
-    RV: Review
 
   strategyType:
     TF: Trend following

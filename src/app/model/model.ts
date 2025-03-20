@@ -65,7 +65,7 @@ export class TradingSystemSpec {
   tradingSessionId? : number
   timeframe?        : number
   strategyType?     : string
-  overnight?        : boolean
+  overnight         : boolean = false
   tags?             : string
   agentProfileId?   : number
   externalRef?      : string
@@ -73,17 +73,27 @@ export class TradingSystemSpec {
 
 //=============================================================================
 
+export class TsScope {
+  static readonly Development = "DV"
+  static readonly Ready       = "RD"
+  static readonly Trading     = "TR"
+}
+
+//-----------------------------------------------------------------------------
+
 export class InvTradingSystem extends TradingSystemSpec {
-  username?         : string;
-  createdAt?        : string;
-  updatedAt?        : string;
+  username?  : string;
+  scope?     : string;
+  createdAt? : string;
+  updatedAt? : string;
 }
 
 //=============================================================================
 
 export class InvTradingSystemFull extends InvTradingSystem {
-	instrumentTicker? : string;
-	portfolioName?    : string;
+	dataSymbol?     : string
+  brokerSymbol?   : string
+  tradingSession? : string
 }
 
 //=============================================================================
@@ -210,14 +220,15 @@ export class BrokerProduct extends BrokerProductSpec {
 //=============================================================================
 
 export class AgentProfile {
-  id?        : number
-  username?  : string
-  name?      : string
-  remoteUrl? : string
-  sslKeyRef? : string
-  sslCertRef?: string
-  createdAt? : string
-  updatedAt? : string
+  id?          : number
+  username?    : string
+  name?        : string
+  remoteUrl?   : string
+  sslKeyRef?   : string
+  sslCertRef?  : string
+  scanInterval?: number
+  createdAt?   : string
+  updatedAt?   : string
 }
 
 //=============================================================================
@@ -260,7 +271,6 @@ export class PorTradingSystem {
   suggestedAction? : number
   firstTrade?      : string
   lastTrade?       : string
-  lastUpdate?      : string
   lastNetProfit?   : number
   lastNetAvgTrade? : number
   lastNumTrades?   : number

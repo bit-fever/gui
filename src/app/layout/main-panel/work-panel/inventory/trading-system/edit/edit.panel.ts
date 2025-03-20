@@ -16,7 +16,7 @@ import {Router} from "@angular/router";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgIf} from "@angular/common";
 import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
@@ -24,7 +24,6 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
 import {InputTextRequired} from "../../../../../../component/form/input-text-required/input-text-required";
 import {
-  Portfolio,
   BrokerProduct, DataProduct,
   TradingSession,
   TradingSystemSpec, AgentProfile
@@ -33,8 +32,8 @@ import {SelectRequired} from "../../../../../../component/form/select-required/s
 import {InventoryService} from "../../../../../../service/inventory.service";
 import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
 import {ChipSetTextComponent} from "../../../../../../component/form/chip-text-set/chip-set-text";
-import {InputTextOptional} from "../../../../../../component/form/input-text-optional/input-text-optional";
 import {SelectTextRequired} from "../../../../../../component/form/select-optional/select-optional";
+import {MatSlideToggle} from "@angular/material/slide-toggle";
 
 //=============================================================================
 
@@ -44,7 +43,7 @@ import {SelectTextRequired} from "../../../../../../component/form/select-option
   styleUrls   : [ './edit.panel.scss' ],
   imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule,
     MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
-    MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired, ChipSetTextComponent, InputTextOptional, SelectTextRequired
+    MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired, ChipSetTextComponent, SelectTextRequired, MatSlideToggle, NgIf
   ],
   standalone  : true
 })
@@ -74,7 +73,7 @@ export class TradingSystemEditPanel extends AbstractPanel {
   @ViewChild("tsTimeframeCtrl") tsTimeframeCtrl? : InputNumberRequired
   @ViewChild("tsStratTypeCtrl") tsStratTypeCtrl? : SelectRequired
   @ViewChild("tsProfileCtrl")   tsProfileCtrl?   : SelectRequired
-  @ViewChild("tsExternRefCtrl") tsExternRefCtrl? : InputTextOptional
+  @ViewChild("tsExternRefCtrl") tsExternRefCtrl? : InputTextRequired
 
   //-------------------------------------------------------------------------
   //---
@@ -133,13 +132,19 @@ export class TradingSystemEditPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   public saveEnabled() : boolean|undefined {
+    let agent = true
+
+    if (this.ts.agentProfileId && this.tsExternRefCtrl) {
+      agent = this.tsExternRefCtrl?.isValid()
+    }
+
     return  this.tsNameCtrl     ?.isValid() &&
             this.tsDataCtrl     ?.isValid() &&
             this.tsBrokerCtrl   ?.isValid() &&
             this.tsSessionCtrl  ?.isValid() &&
             this.tsTimeframeCtrl?.isValid() &&
             this.tsStratTypeCtrl?.isValid() &&
-            this.tsExternRefCtrl?.isValid()
+            agent
   }
 
   //-------------------------------------------------------------------------
@@ -166,6 +171,7 @@ export class TradingSystemEditPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   public onClose() : void {
+    this.ts = new TradingSystemSpec()
     let event = new AppEvent(AppEvent.RIGHT_PANEL_CLOSE);
     super.emitToApp(event);
   }

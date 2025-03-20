@@ -2,10 +2,11 @@
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
   <div>
-    <button mat-button (click)="onCreateClick()" [disabled]="disCreate">{{button("create")}}</button>
-    <button mat-button (click)="onViewClick()"   [disabled]="disView">{{button("view")}}</button>
-    <button mat-button (click)="onEditClick()"   [disabled]="disEdit">{{button("edit")}}</button>
-    <button mat-button (click)="onDeleteClick()" [disabled]="disDelete">{{button("delete")}}</button>
+    <button mat-button (click)="onCreateClick()"   [disabled]="disCreate"  >{{button("create")}}</button>
+    <button mat-button (click)="onViewClick()"     [disabled]="disView"    >{{button("view")}}</button>
+    <button mat-button (click)="onEditClick()"     [disabled]="disEdit"    >{{button("edit")}}</button>
+    <button mat-button (click)="onDeleteClick()"   [disabled]="disDelete"  >{{button("delete")}}</button>
+    <button mat-button (click)="onFinalizeClick()" [disabled]="disFinalize">{{button("finalize")}}</button>
   </div>
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

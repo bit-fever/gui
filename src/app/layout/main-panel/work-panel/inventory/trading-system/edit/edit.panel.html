@@ -16,18 +16,16 @@
     <br/>
     <chip-set-text [title]="mod('tags')" [(items)]="tagSet"></chip-set-text>
     <br/>
+    <mat-slide-toggle [(ngModel)]="ts.overnight">{{mod("overnight")}}</mat-slide-toggle>
+    <p></p>
     <select-optional #tsProfileCtrl  [(key)]="ts.agentProfileId"      [label]="mod('agentProfile')" keyField="id" valueField="name" [list]="profiles"></select-optional>
     <br/>
-    <input-text-optional #tsExternRefCtrl [(value)]="ts.externalRef"  [label]="mod('externalRef')" [len]="64"></input-text-optional>
+    <input-text-required #tsExternRefCtrl [(value)]="ts.externalRef"  [label]="mod('externalRef')" [len]="64" *ngIf="ts.agentProfileId"></input-text-required>
   </div>
 
-  <div class="input-layout">
+  <div class="buttons-layout">
     <mat-divider></mat-divider>
     <button mat-button (click)="onSave()" [disabled]="!saveEnabled()">{{button("save")}}</button>
     <button mat-button (click)="onClose()">{{button("cancel")}}</button>
   </div>
 </div>
-
-<!--overnight?        : boolean-->
-<!--agentProfileId?   : number-->
-<!--externalRef?      : string-->

@@ -12,7 +12,7 @@ import {MatInputModule}       from "@angular/material/input";
 import {MatCardModule}        from "@angular/material/card";
 import {MatIconModule}        from "@angular/material/icon";
 import {MatButtonModule}      from "@angular/material/button";
-import {InvTradingSystemFull}    from "../../../../../model/model";
+import {InvTradingSystemFull, TsScope} from "../../../../../model/model";
 import {FlexTableColumn, ListResponse, ListService} from "../../../../../model/flex-table";
 import {AbstractPanel}        from "../../../../../component/abstract.panel";
 import {FlexTablePanel}       from "../../../../../component/panel/flex-table/flex-table.panel";
@@ -45,12 +45,13 @@ export class InvTradingSystemPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  columns  : FlexTableColumn[] = [];
-  service  : ListService<InvTradingSystemFull>;
-  disCreate: boolean = false;
-  disView  : boolean = true;
-  disEdit  : boolean = true;
-  disDelete: boolean = true;
+  columns    : FlexTableColumn[] = [];
+  service    : ListService<InvTradingSystemFull>;
+  disCreate  : boolean = false
+  disView    : boolean = true
+  disEdit    : boolean = true
+  disDelete  : boolean = true
+  disFinalize: boolean = true
 
   @ViewChild("table") table : FlexTablePanel<InvTradingSystemFull>|null = null;
 
@@ -139,6 +140,20 @@ export class InvTradingSystemPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
+  onFinalizeClick() {
+    // @ts-ignore
+    let selection = this.table.getSelection();
+
+    for (let i=0; i<selection.length; i++) {
+      let id = selection[i].id
+      // @ts-ignore
+      this.inventoryService.deleteTradingSystem(id).subscribe( res => {
+        this.table?.reload()
+      })
+    }
+  }
+  //-------------------------------------------------------------------------
+
   onFilterClick() {
     // @ts-ignore
     let selection = this.table.getSelection();
@@ -175,9 +190,10 @@ export class InvTradingSystemPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   private updateButtons = (selection : InvTradingSystemFull[]) => {
-    this.disView  = (selection.length != 1)
-    this.disEdit  = (selection.length != 1)
-    this.disDelete= (selection.length == 0)
+    this.disView    = (selection.length != 1)
+    this.disEdit    = (selection.length != 1)
+    this.disDelete  = (selection.length == 0)
+    this.disFinalize= (selection.length != 1) || (selection[0].scope != TsScope.Development)
   }
 }
 
