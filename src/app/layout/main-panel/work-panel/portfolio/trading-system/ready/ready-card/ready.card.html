@@ -1,0 +1,54 @@
+<mat-card class="ts-card" appearance="outlined">
+  <mat-card-header>
+    <div mat-card-avatar>
+      <mat-icon class="marketType" fontIcon="{{marketTypeIcon()}}"></mat-icon>
+    </div>
+    <mat-card-title-group>
+      <mat-card-title>{{ts.name}}</mat-card-title>
+      <mat-card-subtitle style="font-size: smaller">{{ts.dataSymbol}}->{{ts.brokerSymbol}} - {{ts.timeframe}} min - {{ts.sessionName}}</mat-card-subtitle>
+    </mat-card-title-group>
+    <div class="buttons-layout">
+      <mat-icon class="status" style="color:{{statusColor(ts.status)}}">{{statusIcon(ts.status)}}</mat-icon>
+      <button mat-icon-button [matMenuTriggerFor]="dropMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content style="padding: 0px 8px 0px 8px">
+    <div class="info-layout">
+      <img class="chart-layout" src="https://material.angular.io/assets/img/examples/shiba2.jpg2">
+      <table class="table-layout">
+        <tr>
+          <td>{{loc('lastNetProfit')}}</td>
+          <td class="value-style" style="color:{{valueColor(ts.lastNetProfit)}}">{{ts.lastNetProfit}}</td>
+        </tr>
+        <tr>
+          <td>{{loc('lastNetAvgTrade')}}</td>
+          <td class="value-style" style="color:{{valueColor(ts.lastNetAvgTrade)}}">{{ts.lastNetAvgTrade}}</td>
+        </tr>
+        <tr>
+          <td>{{loc('lastNumTrades')}}</td>
+          <td class="value-style">{{ts.lastNumTrades}}</td>
+        </tr>
+        <tr>
+          <td>{{loc('lastTrade')}}</td>
+          <td class="value-style">{{ts.lastTrade?.substring(0,10)}}</td>
+        </tr>
+        <tr>
+          <td>{{loc('currency')}}</td>
+          <td class="value-style">{{ts.currencyCode}}</td>
+        </tr>
+      </table>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <check-button [status]="ts.running"        [config]="powerConfig" (valueChange)="onPowerClick()"></check-button>
+    <check-button [status]="ts.autoActivation" [config]="activConfig" (valueChange)="onActivationClick()"></check-button>
+    <check-button [status]="ts.active"         [config]="enablConfig" (valueChange)="onActiveClick()"></check-button>
+  </mat-card-actions>
+</mat-card>
+
+<mat-menu #dropMenu="matMenu">
+  <button mat-menu-item (click)="onMenuFilter()">{{menu('filter')}}</button>
+</mat-menu>

@@ -79,12 +79,6 @@ export class MenuService extends AbstractSubscriber {
         route: Url.Inventory_BrokerProducts,
         iconClasses: 'currency_exchange'
       },
-      {
-        id: 'menu.inventory.trading-system',
-        label: this.get('inventory.tradingSystem'),
-        route: Url.Inventory_TradingSystems,
-        iconClasses: 'inventory'
-      },
 
       //-------------------------------------------------------------
 

@@ -7,11 +7,6 @@
 //=============================================================================
 
 import {Component, ViewChild} from '@angular/core';
-import {RightTitlePanel} from "../../../../../../component/panel/right-title/right-title.panel";
-import {AbstractPanel}   from "../../../../../../component/abstract.panel";
-import {AppEvent} from "../../../../../../model/event";
-import {LabelService} from "../../../../../../service/label.service";
-import {EventBusService} from "../../../../../../service/eventbus.service";
 import {Router} from "@angular/router";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatOptionModule} from "@angular/material/core";
@@ -22,18 +17,25 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
-import {InputTextRequired} from "../../../../../../component/form/input-text-required/input-text-required";
-import {
-  BrokerProduct, DataProduct,
-  TradingSession,
-  TradingSystemSpec, AgentProfile
-} from "../../../../../../model/model";
-import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
-import {InventoryService} from "../../../../../../service/inventory.service";
-import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
-import {ChipSetTextComponent} from "../../../../../../component/form/chip-text-set/chip-set-text";
-import {SelectTextRequired} from "../../../../../../component/form/select-optional/select-optional";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
+import {RightTitlePanel} from "../../../../../../../component/panel/right-title/right-title.panel";
+import {InputTextRequired} from "../../../../../../../component/form/input-text-required/input-text-required";
+import {SelectRequired} from "../../../../../../../component/form/select-required/select-required";
+import {InputNumberRequired} from "../../../../../../../component/form/input-integer-required/input-number-required";
+import {ChipSetTextComponent} from "../../../../../../../component/form/chip-text-set/chip-set-text";
+import {SelectTextRequired} from "../../../../../../../component/form/select-optional/select-optional";
+import {AbstractPanel} from "../../../../../../../component/abstract.panel";
+import {
+  AgentProfile,
+  BrokerProduct,
+  DataProduct,
+  TradingSession,
+  TradingSystemSpec
+} from "../../../../../../../model/model";
+import {EventBusService} from "../../../../../../../service/eventbus.service";
+import {LabelService} from "../../../../../../../service/label.service";
+import {InventoryService} from "../../../../../../../service/inventory.service";
+import {AppEvent} from "../../../../../../../model/event";
 
 //=============================================================================
 

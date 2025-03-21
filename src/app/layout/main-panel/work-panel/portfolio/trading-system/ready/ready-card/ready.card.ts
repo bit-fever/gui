@@ -11,19 +11,19 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
-import {LabelService} from "../../../../../../service/label.service";
-import {CheckButtonConfig} from "../../../../../../component/form/check-button/check-button-config";
-import {PorTradingSystem, TradingSystemProperty, TspResponseStatus} from "../../../../../../model/model";
-import {CheckButton} from "../../../../../../component/form/check-button/check-button";
 import {MatCardModule} from "@angular/material/card";
-import {TradingSystemStatusStyler} from "../../../../../../component/panel/flex-table/transcoders";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {PortfolioService} from "../../../../../../service/portfolio.service";
-import {AbstractPanel} from "../../../../../../component/abstract.panel";
-import {EventBusService} from "../../../../../../service/eventbus.service";
 import {Router} from "@angular/router";
 import {MatMenuModule} from "@angular/material/menu";
-import {Url} from "../../../../../../model/urls";
+import {CheckButton} from "../../../../../../../component/form/check-button/check-button";
+import {AbstractPanel} from "../../../../../../../component/abstract.panel";
+import {TradingSystemStatusStyler} from "../../../../../../../component/panel/flex-table/transcoders";
+import {CheckButtonConfig} from "../../../../../../../component/form/check-button/check-button-config";
+import {PorTradingSystem, TradingSystemProperty, TspResponseStatus} from "../../../../../../../model/model";
+import {EventBusService} from "../../../../../../../service/eventbus.service";
+import {LabelService} from "../../../../../../../service/label.service";
+import {PortfolioService} from "../../../../../../../service/portfolio.service";
+import {Url} from "../../../../../../../model/urls";
 
 //=============================================================================
 
@@ -32,16 +32,16 @@ const LABEL_ROOT = "page.portfolio.tradingSystem.trading.buttons"
 //=============================================================================
 
 @Component({
-  selector    :     'trading-card',
-  templateUrl :   './trading-card.html',
-  styleUrls   : [ './trading-card.scss' ],
+  selector    :     'ready-card',
+  templateUrl :   './ready.card.html',
+  styleUrls   : [ './ready.card.scss' ],
   imports: [MatFormFieldModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIconModule, CheckButton, MatCardModule, MatMenuModule],
   standalone  : true
 })
 
 //=============================================================================
 
-export class TradingCard extends AbstractPanel {
+export class ReadyCard extends AbstractPanel {
 
   //-------------------------------------------------------------------------
   //---
@@ -69,7 +69,7 @@ export class TradingCard extends AbstractPanel {
               router                  : Router,
               private snackBar        : MatSnackBar,
               private portfolioService: PortfolioService,
-              ) {
+  ) {
     super(eventBusService, labelService, router, "portfolio.tradingSystem.trading");
   }
 
@@ -190,7 +190,7 @@ export class TradingCard extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onMenuFilter() {
-      this.navigateTo([ Url.Portfolio_TradingSystems, this.ts.id, Url.Sub_Filtering ]);
+    this.navigateTo([ Url.Portfolio_TradingSystems, this.ts.id, Url.Sub_Filtering ]);
   }
 }
 

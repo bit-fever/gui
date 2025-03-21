@@ -1,0 +1,50 @@
+<div class="main-panel">
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <div class="filters">
+    <ng-content></ng-content>
+
+    <mat-form-field>
+      <mat-label>{{loc("filter")}}</mat-label>
+      <input matInput type="text" [(ngModel)]="filter">
+      @if (filter) {
+        <button matSuffix mat-icon-button (click)="filter=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </mat-form-field>
+
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="selRunning">
+      <mat-button-toggle value="*" (change)="onFlagRunningChange()">{{ loc("filters.all") }}</mat-button-toggle>
+      <mat-button-toggle value="r" (change)="onFlagRunningChange()">{{ loc("filters.running") }}</mat-button-toggle>
+      <mat-button-toggle value="s" (change)="onFlagRunningChange()">{{ loc("filters.stopped") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="selActive">
+      <mat-button-toggle value="*" (change)="onFlagActiveChange()">{{ loc("filters.all") }}</mat-button-toggle>
+      <mat-button-toggle value="a" (change)="onFlagActiveChange()">{{ loc("filters.active") }}</mat-button-toggle>
+      <mat-button-toggle value="i" (change)="onFlagActiveChange()">{{ loc("filters.inactive") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="selActivation">
+      <mat-button-toggle value="*" (change)="onFlagActivationChange()">{{ loc("filters.all") }}</mat-button-toggle>
+      <mat-button-toggle value="m" (change)="onFlagActivationChange()">{{ loc("filters.manual") }}</mat-button-toggle>
+      <mat-button-toggle value="a" (change)="onFlagActivationChange()">{{ loc("filters.auto") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <span style="flex:1 0 auto"></span>
+
+    <button mat-stroked-button [disabled]="true">{{tradingSystems.length}}</button>
+    <div>
+      <button mat-icon-button (click)="reload()">
+        <span class="material-symbols-outlined">refresh</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <div class="ts-layout">
+    <trading-card *ngFor="let ts of tradingSystems" [tradingSystem]="ts"></trading-card>
+  </div>
+</div>

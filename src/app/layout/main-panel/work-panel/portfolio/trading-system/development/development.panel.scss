@@ -1,20 +1,20 @@
 //=============================================================================
 //===
-//=== Copyright (C) 2023 Andrea Carboni
+//=== Copyright (C) 2025 Andrea Carboni
 //===
 //=== Use of this source code is governed by an MIT-style license that can be
 //=== found in the LICENSE file
 //=============================================================================
 
 .main-panel {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
+  display        : flex;
+  flex-direction : column;
+  flex-wrap      : nowrap;
   justify-content: flex-start;
-  align-items: stretch;
-  gap: 0;
-  height   : 100%;
-  overflow: hidden;
+  align-items    : stretch;
+  gap            : 0;
+  height         : 100%;
+  overflow       : hidden;
 }
 
 //=============================================================================
@@ -22,6 +22,26 @@
 .table-panel {
   flex: 1 1 auto;
   overflow: auto;
+}
+
+//=============================================================================
+
+.filters {
+  width: 100%;
+  padding-top: 4px;
+  display: flex;
+  align-items: baseline;
+
+  mat-form-field {
+    margin-left: 8px;
+  }
+  mat-button-toggle-group {
+    margin-left: 8px;
+  }
+
+  button {
+    vertical-align: middle;
+  }
 }
 
 //=============================================================================

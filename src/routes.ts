@@ -16,8 +16,6 @@ import {MonitoringPanel}    from "./app/layout/main-panel/work-panel/portfolio/m
 import {FilteringPanel} from "./app/layout/main-panel/work-panel/portfolio/trading-system/filtering/filtering.panel";
 import {ConnectionPanel} from "./app/layout/main-panel/work-panel/admin/connection/connection.panel";
 import {ConnectionEditPanel} from "./app/layout/main-panel/work-panel/admin/connection/edit/edit.panel";
-import {InvTradingSystemPanel} from "./app/layout/main-panel/work-panel/inventory/trading-system/trading-system.panel";
-import {TradingSystemEditPanel} from "./app/layout/main-panel/work-panel/inventory/trading-system/edit/edit.panel";
 import {InvBrokerProductPanel} from "./app/layout/main-panel/work-panel/inventory/product-broker/product-broker.list";
 import {ProductDataEditPanel} from "./app/layout/main-panel/work-panel/inventory/product-data/edit/product-data.edit";
 import {
@@ -53,6 +51,9 @@ import {ConnectionCreatePanel} from "./app/layout/main-panel/work-panel/admin/co
 import {
   TradingSystemDashboard
 } from "./app/layout/main-panel/work-panel/portfolio/trading-system/trading-system.dashboard";
+import {
+  TradingSystemEditPanel
+} from "./app/layout/main-panel/work-panel/portfolio/trading-system/development/edit/edit.panel";
 
 //=============================================================================
 
@@ -78,12 +79,11 @@ export const routes: Routes = [
   { path: Url.Inventory_BrokerProducts,           component: InvBrokerProductPanel           },
   { path: Url.Right_BrokerProduct_Create,         component: BrokerProductCreatePanel, outlet : 'right' },
   { path: Url.Right_BrokerProduct_Edit,           component: ProductBrokerEditPanel,   outlet : 'right' },
-  { path: Url.Inventory_TradingSystems,           component: InvTradingSystemPanel           },
-  { path: Url.Right_TradingSystem_Edit,           component: TradingSystemEditPanel,   outlet : 'right' },
 
   //--- Portfolio
 
   { path: Url.Portfolio_TradingSystems,           component: TradingSystemDashboard          },
+  { path: Url.Right_TradingSystem_Edit,           component: TradingSystemEditPanel,   outlet : 'right' },
 
   { path: Url.Portfolio_TradingSystems_Id, children : [
       { path: Url.Sub_Filtering, component:  FilteringPanel }
