@@ -19,11 +19,13 @@ import {CheckButton} from "../../../../../../../component/form/check-button/chec
 import {AbstractPanel} from "../../../../../../../component/abstract.panel";
 import {TradingSystemStatusStyler} from "../../../../../../../component/panel/flex-table/transcoders";
 import {CheckButtonConfig} from "../../../../../../../component/form/check-button/check-button-config";
-import {PorTradingSystem, TradingSystemProperty, TspResponseStatus} from "../../../../../../../model/model";
+import {PorTradingSystem, TspResponseStatus} from "../../../../../../../model/model";
 import {EventBusService} from "../../../../../../../service/eventbus.service";
 import {LabelService} from "../../../../../../../service/label.service";
 import {PortfolioService} from "../../../../../../../service/portfolio.service";
 import {Url} from "../../../../../../../model/urls";
+import {AppEvent} from "../../../../../../../model/event";
+import {InventoryService} from "../../../../../../../service/inventory.service";
 
 //=============================================================================
 
@@ -68,6 +70,7 @@ export class TradingCard extends AbstractPanel {
               labelService            : LabelService,
               router                  : Router,
               private snackBar        : MatSnackBar,
+              private inventoryService: InventoryService,
               private portfolioService: PortfolioService,
               ) {
     super(eventBusService, labelService, router, "portfolio.tradingSystem.trading");
@@ -135,15 +138,12 @@ export class TradingCard extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onPowerClick() {
-    let value = ""+ !this.ts.running
-    this.portfolioService.setTradingSystemProperty(this.ts.id, TradingSystemProperty.RUNNING, value).subscribe( res => {
+    this.portfolioService.setTradingSystemRunning(this.ts.id, !this.ts.running).subscribe( res => {
       if (res.status == TspResponseStatus.OK) {
-        let message = this.loc("message.runningOk")
-        this.snackBar.open(message, undefined, { duration:2000 })
-        this.ts.running = !this.ts.running
+        this.refresh(res.tradingSystem)
       }
       else if (res.status == TspResponseStatus.ERROR) {
-        let message = this.loc("message.runningError")+" : "+ res.message
+        let message = this.loc("error.running")+" : "+ res.message
         this.snackBar.open(message, this.button("ok"))
       }
     })
@@ -152,15 +152,12 @@ export class TradingCard extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onActivationClick() {
-    let value = ""+ !this.ts.autoActivation
-    this.portfolioService.setTradingSystemProperty(this.ts.id, TradingSystemProperty.ACTIVATION, value).subscribe( res => {
+    this.portfolioService.setTradingSystemActivation(this.ts.id, !this.ts.autoActivation).subscribe( res => {
       if (res.status == TspResponseStatus.OK) {
-        let message = this.loc("message.activationOk")
-        this.snackBar.open(message, undefined, { duration:2000 })
-        this.ts.autoActivation = !this.ts.autoActivation
+        this.refresh(res.tradingSystem)
       }
       else if (res.status == TspResponseStatus.ERROR) {
-        let message = this.loc("message.activationError")+" : "+ res.message
+        let message = this.loc("error.activation")+" : "+ res.message
         this.snackBar.open(message, this.button("ok"))
       }
     })
@@ -169,15 +166,12 @@ export class TradingCard extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onActiveClick() {
-    let value = ""+ !this.ts.active
-    this.portfolioService.setTradingSystemProperty(this.ts.id, TradingSystemProperty.ACTIVE, value).subscribe( res => {
+    this.portfolioService.setTradingSystemActive(this.ts.id, !this.ts.active).subscribe( res => {
       if (res.status == TspResponseStatus.OK) {
-        let message = this.loc("message.activeOk")
-        this.snackBar.open(message, undefined, { duration:2000 })
-        this.ts.active = !this.ts.active
+        this.refresh(res.tradingSystem)
       }
       else if (res.status == TspResponseStatus.ERROR) {
-        let message = this.loc("message.activeError")+" : "+ res.message
+        let message = this.loc("error.active")+" : "+ res.message
         this.snackBar.open(message, this.button("ok"))
       }
     })
@@ -191,6 +185,46 @@ export class TradingCard extends AbstractPanel {
 
   onMenuFilter() {
       this.navigateTo([ Url.Portfolio_TradingSystems, this.ts.id, Url.Sub_Filtering ]);
+  }
+
+  //-------------------------------------------------------------------------
+
+  onMenuToReady() {
+    this.portfolioService.setTradingSystemTrading(this.ts.id, false).subscribe( res => {
+      if (res.status == TspResponseStatus.OK) {
+        this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_LIST_RELOAD))
+      }
+      else if (res.status == TspResponseStatus.ERROR) {
+        let message = this.loc("error.toReady")+" : "+ res.message
+        this.snackBar.open(message, this.button("ok"))
+      }
+    })
+  }
+
+  //-------------------------------------------------------------------------
+
+  onMenuDelete() {
+    this.inventoryService.deleteTradingSystem(this.ts.id).subscribe( res => {
+      this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_LIST_RELOAD))
+    })
+  }
+
+  //-------------------------------------------------------------------------
+  //---
+  //--- Private methods
+  //---
+  //-------------------------------------------------------------------------
+
+  private refresh(ts : PorTradingSystem|undefined) {
+    if (ts == undefined) {
+      return
+    }
+
+    this.ts.running         = ts.running
+    this.ts.autoActivation  = ts.autoActivation
+    this.ts.active          = ts.active
+    this.ts.status          = ts.status
+    this.ts.suggestedAction = ts.suggestedAction
   }
 }
 

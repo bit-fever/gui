@@ -151,7 +151,7 @@
   margin          : 0
 
 - symbol          : MHG
-  name            : Copper
+  name            : Micro Copper
   increment       : 0.0005
   market          : ME
   product         : FU
@@ -201,6 +201,16 @@
   product         : FU
   exchange        : NYMEX
   pointValue      : 10000
+  costPerOperation: 0
+  margin          : 0
+
+- symbol          : MNG
+  name            : Micro Natural Gas
+  increment       : 0.001
+  market          : EN
+  product         : FU
+  exchange        : NYMEX
+  pointValue      : 1000
   costPerOperation: 0
   margin          : 0
 

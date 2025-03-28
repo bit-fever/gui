@@ -88,7 +88,7 @@ export class TradingSystemEditPanel extends AbstractPanel {
               router                   : Router,
               private inventoryService : InventoryService) {
 
-    super(eventBusService, labelService, router, "inventory.tradingSystem", "tradingSystem");
+    super(eventBusService, labelService, router, "portfolio.tradingSystem.development", "tradingSystem");
     super.subscribeToApp(AppEvent.TRADINGSYSTEM_EDIT_START, (e : AppEvent) => this.onStart(e));
 
     inventoryService.getAgentProfiles().subscribe(

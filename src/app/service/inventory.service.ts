@@ -15,7 +15,7 @@ import {
   InvTradingSystemFull, Portfolio, PortfolioTree,
   BrokerProduct, BrokerProductSpec,
   DataProduct, DataProductExt, DataProductSpec,
-  TradingSession, TradingSystemSpec, DatafileUploadResponse, AgentProfile
+  TradingSession, TradingSystemSpec, DatafileUploadResponse, AgentProfile, FinalizationResponse
 } from "../model/model";
 import {HttpService, UploadEvent} from "./http.service";
 import { HttpParams } from "@angular/common/http";
@@ -155,6 +155,12 @@ export class InventoryService {
 
   public deleteTradingSystem = (id: number): Observable<InvTradingSystem> => {
     return this.httpService.delete<InvTradingSystem>('/api/inventory/v1/trading-systems/'+ id);
+  }
+
+  //---------------------------------------------------------------------------
+
+  public finalizeTradingSystem = (id: number): Observable<FinalizationResponse> => {
+    return this.httpService.post<FinalizationResponse>('/api/inventory/v1/trading-systems/'+ id +'/finalize', {});
   }
 
   //---------------------------------------------------------------------------

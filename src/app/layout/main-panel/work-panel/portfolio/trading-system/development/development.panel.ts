@@ -20,7 +20,7 @@ import {InventoryService} from "../../../../../../service/inventory.service";
 import {FlexTablePanel} from "../../../../../../component/panel/flex-table/flex-table.panel";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {FlexTableColumn} from "../../../../../../model/flex-table";
-import {InvTradingSystemFull, TsScope} from "../../../../../../model/model";
+import {InvTradingSystemFull} from "../../../../../../model/model";
 import {AppEvent} from "../../../../../../model/event";
 import {Url} from "../../../../../../model/urls";
 import {MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
@@ -75,10 +75,10 @@ export class DevelopmentPanel extends AbstractPanel {
               private inventoryService: InventoryService,
               private storageService  : StorageService) {
 
-    super(eventBusService, labelService, router, "portfolio.tradingSystem");
+    super(eventBusService, labelService, router, "portfolio.tradingSystem.development");
 
     eventBusService.subscribeToApp(AppEvent.TRADINGSYSTEM_LIST_RELOAD, () => {
-      this.table?.reload()
+      this.reload()
       this.updateButtons([])
     })
   }
@@ -111,6 +111,11 @@ export class DevelopmentPanel extends AbstractPanel {
   }
 
   //-------------------------------------------------------------------------
+
+  override destroy = () : void => {
+  }
+
+  //-------------------------------------------------------------------------
   //---
   //--- Public methods
   //---
@@ -131,8 +136,11 @@ export class DevelopmentPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   reload() {
+    console.log("Reloading...")
+
     this.tradingSystemsOrig = []
     this.tradingSystems     = []
+    this.table?.clearSelection()
 
     this.inventoryService.getTradingSystems(true).subscribe( res => {
       this.tradingSystemsOrig = res.result
@@ -185,7 +193,7 @@ export class DevelopmentPanel extends AbstractPanel {
       let id = selection[i].id
       // @ts-ignore
       this.inventoryService.deleteTradingSystem(id).subscribe( res => {
-        this.table?.reload()
+        this.reload()
       })
     }
   }
@@ -199,8 +207,8 @@ export class DevelopmentPanel extends AbstractPanel {
     for (let i=0; i<selection.length; i++) {
       let id = selection[i].id
       // @ts-ignore
-      this.inventoryService.deleteTradingSystem(id).subscribe( res => {
-        this.table?.reload()
+      this.inventoryService.finalizeTradingSystem(id).subscribe( res => {
+        this.reload()
       })
     }
   }
@@ -225,14 +233,14 @@ export class DevelopmentPanel extends AbstractPanel {
     this.disView    = (selection.length != 1)
     this.disEdit    = (selection.length != 1)
     this.disDelete  = (selection.length == 0)
-    this.disFinalize= (selection.length != 1) || (selection[0].scope != TsScope.Development)
+    this.disFinalize= (selection.length == 0)
   }
 
   //-------------------------------------------------------------------------
 
   private rebuildTSList() {
     this.tradingSystems = this.tradingSystemsOrig.filter(ts => {
-      return (ts.scope == TsScope.Development && this.runFilter(ts))
+      return (!ts.finalized && this.runFilter(ts))
     })
   }
 

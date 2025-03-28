@@ -15,15 +15,14 @@ import {MatCardModule} from "@angular/material/card";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
 import {MatMenuModule} from "@angular/material/menu";
-import {CheckButton} from "../../../../../../../component/form/check-button/check-button";
 import {AbstractPanel} from "../../../../../../../component/abstract.panel";
-import {TradingSystemStatusStyler} from "../../../../../../../component/panel/flex-table/transcoders";
-import {CheckButtonConfig} from "../../../../../../../component/form/check-button/check-button-config";
-import {PorTradingSystem, TradingSystemProperty, TspResponseStatus} from "../../../../../../../model/model";
+import {PorTradingSystem, TspResponseStatus} from "../../../../../../../model/model";
 import {EventBusService} from "../../../../../../../service/eventbus.service";
 import {LabelService} from "../../../../../../../service/label.service";
 import {PortfolioService} from "../../../../../../../service/portfolio.service";
 import {Url} from "../../../../../../../model/urls";
+import {AppEvent} from "../../../../../../../model/event";
+import {InventoryService} from "../../../../../../../service/inventory.service";
 
 //=============================================================================
 
@@ -35,7 +34,7 @@ const LABEL_ROOT = "page.portfolio.tradingSystem.trading.buttons"
   selector    :     'ready-card',
   templateUrl :   './ready.card.html',
   styleUrls   : [ './ready.card.scss' ],
-  imports: [MatFormFieldModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIconModule, CheckButton, MatCardModule, MatMenuModule],
+  imports: [MatFormFieldModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIconModule, MatCardModule, MatMenuModule],
   standalone  : true
 })
 
@@ -49,13 +48,6 @@ export class ReadyCard extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  statusStyler = new TradingSystemStatusStyler()
-  suggActions : Object[] = []
-
-  powerConfig = new CheckButtonConfig("mode_off_on",                 "off",      "#A0A0A0", "mode_off_on", "on",     "#00A000", LABEL_ROOT)
-  activConfig = new CheckButtonConfig("airline_seat_recline_normal", "manual",   "#A00080", "mode_off_on", "auto",   "#0080C0", LABEL_ROOT)
-  enablConfig = new CheckButtonConfig("toggle_off",                  "inactive", "#A0A0A0", "toggle_on",   "active", "#00A000", LABEL_ROOT)
-
   @Input("tradingSystem") ts : PorTradingSystem = new PorTradingSystem()
 
   //-------------------------------------------------------------------------
@@ -68,9 +60,10 @@ export class ReadyCard extends AbstractPanel {
               labelService            : LabelService,
               router                  : Router,
               private snackBar        : MatSnackBar,
+              private inventoryService: InventoryService,
               private portfolioService: PortfolioService,
   ) {
-    super(eventBusService, labelService, router, "portfolio.tradingSystem.trading");
+    super(eventBusService, labelService, router, "portfolio.tradingSystem.ready");
   }
 
   //-------------------------------------------------------------------------
@@ -80,7 +73,6 @@ export class ReadyCard extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   override init = () : void => {
-    this.suggActions = this.labelService.getLabel("map.suggestedAction")
   }
 
   //-------------------------------------------------------------------------
@@ -110,77 +102,13 @@ export class ReadyCard extends AbstractPanel {
   }
 
   //-------------------------------------------------------------------------
-
-  suggAction(id : number|undefined) : any {
-    // @ts-ignore
-    return this.suggActions[id]
-  }
-
-  //-------------------------------------------------------------------------
-
-  statusIcon(status : number|undefined) : string|undefined {
-    return (status != undefined) ? this.statusStyler.getStyle(status, null).icon : ""
-  }
-
-  //-------------------------------------------------------------------------
-
-  statusColor(status : number|undefined) : string|undefined {
-    return (status != undefined) ? this.statusStyler.getStyle(status, null).color : ""
-  }
-
-  //-------------------------------------------------------------------------
   //---
   //--- Events
   //---
   //-------------------------------------------------------------------------
 
-  onPowerClick() {
+  onTradingClick() {
     let value = ""+ !this.ts.running
-    this.portfolioService.setTradingSystemProperty(this.ts.id, TradingSystemProperty.RUNNING, value).subscribe( res => {
-      if (res.status == TspResponseStatus.OK) {
-        let message = this.loc("message.runningOk")
-        this.snackBar.open(message, undefined, { duration:2000 })
-        this.ts.running = !this.ts.running
-      }
-      else if (res.status == TspResponseStatus.ERROR) {
-        let message = this.loc("message.runningError")+" : "+ res.message
-        this.snackBar.open(message, this.button("ok"))
-      }
-    })
-  }
-
-  //-------------------------------------------------------------------------
-
-  onActivationClick() {
-    let value = ""+ !this.ts.autoActivation
-    this.portfolioService.setTradingSystemProperty(this.ts.id, TradingSystemProperty.ACTIVATION, value).subscribe( res => {
-      if (res.status == TspResponseStatus.OK) {
-        let message = this.loc("message.activationOk")
-        this.snackBar.open(message, undefined, { duration:2000 })
-        this.ts.autoActivation = !this.ts.autoActivation
-      }
-      else if (res.status == TspResponseStatus.ERROR) {
-        let message = this.loc("message.activationError")+" : "+ res.message
-        this.snackBar.open(message, this.button("ok"))
-      }
-    })
-  }
-
-  //-------------------------------------------------------------------------
-
-  onActiveClick() {
-    let value = ""+ !this.ts.active
-    this.portfolioService.setTradingSystemProperty(this.ts.id, TradingSystemProperty.ACTIVE, value).subscribe( res => {
-      if (res.status == TspResponseStatus.OK) {
-        let message = this.loc("message.activeOk")
-        this.snackBar.open(message, undefined, { duration:2000 })
-        this.ts.active = !this.ts.active
-      }
-      else if (res.status == TspResponseStatus.ERROR) {
-        let message = this.loc("message.activeError")+" : "+ res.message
-        this.snackBar.open(message, this.button("ok"))
-      }
-    })
   }
 
   //-------------------------------------------------------------------------
@@ -191,6 +119,28 @@ export class ReadyCard extends AbstractPanel {
 
   onMenuFilter() {
     this.navigateTo([ Url.Portfolio_TradingSystems, this.ts.id, Url.Sub_Filtering ]);
+  }
+
+  //-------------------------------------------------------------------------
+
+  onMenuToTrading() {
+    this.portfolioService.setTradingSystemTrading(this.ts.id, true).subscribe( res => {
+      if (res.status == TspResponseStatus.OK) {
+        this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_LIST_RELOAD))
+      }
+      else if (res.status == TspResponseStatus.ERROR) {
+        let message = this.loc("error.toTrading")+" : "+ res.message
+        this.snackBar.open(message, this.button("ok"))
+      }
+    })
+  }
+
+  //-------------------------------------------------------------------------
+
+  onMenuDelete() {
+    this.inventoryService.deleteTradingSystem(this.ts.id).subscribe( res => {
+      this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_LIST_RELOAD))
+    })
   }
 }
 

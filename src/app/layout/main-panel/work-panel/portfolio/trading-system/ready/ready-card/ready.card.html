@@ -1,4 +1,4 @@
-<mat-card class="ts-card" appearance="outlined">
+<mat-card class="ts-card" appearance="outlined" xmlns="http://www.w3.org/1999/html">
   <mat-card-header>
     <div mat-card-avatar>
       <mat-icon class="marketType" fontIcon="{{marketTypeIcon()}}"></mat-icon>
@@ -8,7 +8,6 @@
       <mat-card-subtitle style="font-size: smaller">{{ts.dataSymbol}}->{{ts.brokerSymbol}} - {{ts.timeframe}} min - {{ts.sessionName}}</mat-card-subtitle>
     </mat-card-title-group>
     <div class="buttons-layout">
-      <mat-icon class="status" style="color:{{statusColor(ts.status)}}">{{statusIcon(ts.status)}}</mat-icon>
       <button mat-icon-button [matMenuTriggerFor]="dropMenu">
         <mat-icon>more_vert</mat-icon>
       </button>
@@ -42,13 +41,10 @@
       </table>
     </div>
   </mat-card-content>
-  <mat-card-actions>
-    <check-button [status]="ts.running"        [config]="powerConfig" (valueChange)="onPowerClick()"></check-button>
-    <check-button [status]="ts.autoActivation" [config]="activConfig" (valueChange)="onActivationClick()"></check-button>
-    <check-button [status]="ts.active"         [config]="enablConfig" (valueChange)="onActiveClick()"></check-button>
-  </mat-card-actions>
 </mat-card>
 
 <mat-menu #dropMenu="matMenu">
-  <button mat-menu-item (click)="onMenuFilter()">{{menu('filter')}}</button>
+  <button mat-menu-item (click)="onMenuFilter()"   >{{menu('filter')}}</button>
+  <button mat-menu-item (click)="onMenuToTrading()">{{menu('toTrading')}}</button>
+  <button mat-menu-item (click)="onMenuDelete()"   >{{menu('delete')}}</button>
 </mat-menu>

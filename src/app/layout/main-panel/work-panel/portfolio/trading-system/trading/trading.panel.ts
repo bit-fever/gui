@@ -19,12 +19,13 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
 import {AbstractPanel} from "../../../../../../component/abstract.panel";
 import {TradingCard} from "./trading-card/trading.card";
-import {PorTradingSystem, TsScope} from "../../../../../../model/model";
+import {PorTradingSystem} from "../../../../../../model/model";
 import {EventBusService} from "../../../../../../service/eventbus.service";
 import {LabelService} from "../../../../../../service/label.service";
 import {PortfolioService} from "../../../../../../service/portfolio.service";
 import {StorageService} from "../../../../../../service/storage.service";
 import {Setting} from "../../../../../../model/setting";
+import {AppEvent} from "../../../../../../model/event";
 
 //=============================================================================
 
@@ -70,7 +71,11 @@ export class TradingPanel extends AbstractPanel {
               private portfolioService: PortfolioService,
               private storageService  : StorageService) {
 
-    super(eventBusService, labelService, router, "portfolio.tradingSystem");
+    super(eventBusService, labelService, router, "portfolio.tradingSystem.trading");
+
+    eventBusService.subscribeToApp(AppEvent.TRADINGSYSTEM_LIST_RELOAD, () => {
+      this.reload()
+    })
   }
 
   //-------------------------------------------------------------------------
@@ -158,7 +163,7 @@ export class TradingPanel extends AbstractPanel {
 
   private rebuildTSList() {
     this.tradingSystems = this.tradingSystemsOrig.filter(ts => {
-      return (ts.scope == TsScope.Trading && this.runFilter(ts))
+      return (ts.finalized && ts.trading && this.runFilter(ts))
     })
   }
 

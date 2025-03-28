@@ -73,17 +73,9 @@ export class TradingSystemSpec {
 
 //=============================================================================
 
-export class TsScope {
-  static readonly Development = "DV"
-  static readonly Ready       = "RD"
-  static readonly Trading     = "TR"
-}
-
-//-----------------------------------------------------------------------------
-
 export class InvTradingSystem extends TradingSystemSpec {
   username?  : string;
-  scope?     : string;
+  finalized  : boolean = false;
   createdAt? : string;
   updatedAt? : string;
 }
@@ -94,6 +86,12 @@ export class InvTradingSystemFull extends InvTradingSystem {
 	dataSymbol?     : string
   brokerSymbol?   : string
   tradingSession? : string
+}
+
+//=============================================================================
+
+export class FinalizationResponse {
+  status? : string
 }
 
 //=============================================================================
@@ -248,7 +246,6 @@ export class PorTradingSystem {
   username?        : string
   workspaceCode?   : string
   name?            : string
-  scope?           : string
   timeframe?       : number
   dataProductId?   : number
   dataSymbol?      : string
@@ -264,6 +261,8 @@ export class PorTradingSystem {
   tradingSessionId?: number
   sessionName?     : string
   sessionConfig?   : string
+  finalized?       : boolean
+  trading          : boolean = false
   running          : boolean = false
   autoActivation   : boolean = false
   active           : boolean = false
@@ -275,6 +274,9 @@ export class PorTradingSystem {
   lastNetAvgTrade? : number
   lastNumTrades?   : number
 }
+
+//=============================================================================
+
 
 //=============================================================================
 //===
@@ -428,12 +430,6 @@ export class FilterAnalysisResponse {
 
 //-----------------------------------------------------------------------------
 
-export class TradingSystemProperty {
-  static RUNNING    = "running"
-  static ACTIVATION = "activation"
-  static ACTIVE     = "active"
-}
-
 export class TspResponseStatus {
   static OK      = "ok"
   static SKIPPED = "skipped"
@@ -441,8 +437,9 @@ export class TspResponseStatus {
 }
 
 export class TradingSystemPropertyResponse {
-  status   : string = ""
-  message? : string
+  status         : string = ""
+  message?       : string
+  tradingSystem? : PorTradingSystem
 }
 
 //=============================================================================

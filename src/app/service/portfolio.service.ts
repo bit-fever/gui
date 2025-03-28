@@ -9,9 +9,18 @@
 import {Injectable}      from "@angular/core";
 import {Observable}      from "rxjs";
 import {
-  FilterAnalysisRequest, FilterAnalysisResponse, FilterOptimizationResponse, FilterOptimizationRequest,
+  FilterAnalysisRequest,
+  FilterAnalysisResponse,
+  FilterOptimizationResponse,
+  FilterOptimizationRequest,
   PortfolioMonitoringResponse,
-  PorTradingSystem, StatusResponse, TradingFilter, TradingSystemPropertyResponse, Portfolio, PortfolioTree,
+  PorTradingSystem,
+  StatusResponse,
+  TradingFilter,
+  TradingSystemPropertyResponse,
+  Portfolio,
+  PortfolioTree,
+  FinalizationResponse,
 } from "../model/model";
 import {HttpService}     from "./http.service";
 import {ListResponse} from "../model/flex-table";
@@ -45,13 +54,26 @@ export class PortfolioService {
 
   //---------------------------------------------------------------------------
 
-  public setTradingSystemProperty = (tsId : number, property : string, value : string): Observable<TradingSystemPropertyResponse> => {
-    let req = {
-      property: property,
-      value   : value
-    }
+  public setTradingSystemTrading = (id: number, value: boolean): Observable<TradingSystemPropertyResponse> => {
+    return this.httpService.post<TradingSystemPropertyResponse>('/api/portfolio/v1/trading-systems/'+ id +'/trading', { value: value });
+  }
 
-    return this.httpService.post<TradingSystemPropertyResponse>('/api/portfolio/v1/trading-systems/'+ tsId +'/properties', req);
+  //---------------------------------------------------------------------------
+
+  public setTradingSystemRunning = (id: number, value: boolean): Observable<TradingSystemPropertyResponse> => {
+    return this.httpService.post<TradingSystemPropertyResponse>('/api/portfolio/v1/trading-systems/'+ id +'/running', { value: value });
+  }
+
+  //---------------------------------------------------------------------------
+
+  public setTradingSystemActivation = (id: number, value: boolean): Observable<TradingSystemPropertyResponse> => {
+    return this.httpService.post<TradingSystemPropertyResponse>('/api/portfolio/v1/trading-systems/'+ id +'/activation', { value: value });
+  }
+
+  //---------------------------------------------------------------------------
+
+  public setTradingSystemActive = (id: number, value: boolean): Observable<TradingSystemPropertyResponse> => {
+    return this.httpService.post<TradingSystemPropertyResponse>('/api/portfolio/v1/trading-systems/'+ id +'/active', { value: value });
   }
 
   //---------------------------------------------------------------------------

@@ -16,13 +16,14 @@ import {AbstractPanel} from "../../../../../../component/abstract.panel";
 import {EventBusService} from "../../../../../../service/eventbus.service";
 import {LabelService} from "../../../../../../service/label.service";
 import {StorageService} from "../../../../../../service/storage.service";
-import {TradingCard} from "../trading/trading-card/trading.card";
 import {MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
-import {PorTradingSystem, TsScope} from "../../../../../../model/model";
+import {PorTradingSystem} from "../../../../../../model/model";
 import {PortfolioService} from "../../../../../../service/portfolio.service";
+import {ReadyCard} from "./ready-card/ready.card";
+import {AppEvent} from "../../../../../../model/event";
 
 //=============================================================================
 
@@ -30,7 +31,7 @@ import {PortfolioService} from "../../../../../../service/portfolio.service";
   selector    :     'ready-panel',
   templateUrl :   './ready.panel.html',
   styleUrls   : [ './ready.panel.scss' ],
-  imports: [CommonModule, RouterModule, MatTabsModule, ReactiveFormsModule, FormsModule, TradingCard, MatFormField, MatIcon, MatIconButton, MatInput, MatLabel, MatSuffix, MatButton],
+  imports: [CommonModule, RouterModule, MatTabsModule, ReactiveFormsModule, FormsModule, MatFormField, MatIcon, MatIconButton, MatInput, MatLabel, MatSuffix, MatButton, ReadyCard],
   standalone  : true
 })
 
@@ -63,7 +64,11 @@ export class ReadyPanel extends AbstractPanel {
               private portfolioService: PortfolioService,
               private storageService  : StorageService) {
 
-    super(eventBusService, labelService, router, "portfolio.tradingSystem");
+    super(eventBusService, labelService, router, "portfolio.tradingSystem.ready");
+
+    eventBusService.subscribeToApp(AppEvent.TRADINGSYSTEM_LIST_RELOAD, () => {
+      this.reload()
+    })
   }
 
   //-------------------------------------------------------------------------
@@ -121,7 +126,7 @@ export class ReadyPanel extends AbstractPanel {
 
   private rebuildTSList() {
     this.tradingSystems = this.tradingSystemsOrig.filter(ts => {
-      return (ts.scope == TsScope.Ready && this.runFilter(ts))
+      return (ts.finalized && !ts.trading && this.runFilter(ts))
     })
   }
 

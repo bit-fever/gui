@@ -33,7 +33,10 @@ button:
   finalize  : FINALIZE
 
 menu-button:
-  filter    : Filter
+  filter   : Filter
+  toTrading: Move to trading
+  toReady  : Move to ready
+  delete   : Delete
 
 # ==============================================================================
 # ===
@@ -257,10 +260,6 @@ page:
   # ==============================================================================
 
   inventory:
-    tradingSystem:
-      new:  New trading system
-      none: None
-
     dataProduct:
       new:   New data product
       edit:  Edit data product
@@ -286,6 +285,8 @@ page:
         exchange : Exchange
         tooManyDataPoints : Too many datapoints. Try reducing the time period or increasing the timeframe. Max 10.000 datapoints can be returned.
 
+    # ----------------------------------------------------------------------------
+
     brokerProduct:
       new:              New broker product
       edit:             Edit broker product
@@ -303,8 +304,22 @@ page:
 
   portfolio:
     tradingSystem:
-      filter: Filter...
+      development:
+        new   : New trading system
+        none  : None
+        filter: Filter...
+
+      ready:
+        filter: Filter...
+        lastNetProfit  : Net profit
+        lastNetAvgTrade: Net avg trade
+        lastNumTrades  : Num of trades
+        lastTrade      : Last trade
+        currency       : Currency
+        error:
+          toTrading: Can't move the trading system to TRADING
       trading:
+        filter: Filter...
         lastNetProfit  : Net profit
         lastNetAvgTrade: Net avg trade
         lastNumTrades  : Num of trades
@@ -317,22 +332,19 @@ page:
           auto    : Auto
           active  : Active
           inactive: Inactive
-        message:
-          runningError    : An error occured while starting/stopping the trading system
-          activationError : An error occured while changing the activation of the trading system
-          activeError     : An error occured while activating/deactivating the trading system
-          runningOk       : Running status updated
-          activationOk    : Activation updated
-          activeOk        : Active flag updated
-      filters:
-        all     : All
-        running : Running
-        stopped : Stopped
-        active  : Active
-        inactive: Inactive
-        manual  : Manual
-        auto    : Auto
-
+        error:
+          running    : Can't start/stop the trading system
+          activation : Can't change the activation of the trading system
+          active     : Can't activate/deactivate the trading system
+          toReady    : Can't move the trading system to TRADING
+        filters:
+          all     : All
+          running : Running
+          stopped : Stopped
+          active  : Active
+          inactive: Inactive
+          manual  : Manual
+          auto    : Auto
 
     # ----------------------------------------------------------------------------
 
