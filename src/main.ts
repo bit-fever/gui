@@ -32,6 +32,7 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {CollectorService} from "./app/service/collector.service";
 import {PresetsService} from "./app/service/presets.service";
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
+import {LocalService} from "./app/service/local.service";
 import {StorageService} from "./app/service/storage.service";
 
 //=============================================================================
@@ -59,6 +60,7 @@ bootstrapApplication(AppComponent, {
     PortfolioService,
     PresetsService,
     SessionService,
+    LocalService,
     StorageService,
     SystemAdapterService,
 	]

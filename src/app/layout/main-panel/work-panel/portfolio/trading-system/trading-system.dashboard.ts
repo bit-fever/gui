@@ -13,7 +13,7 @@ import {LabelService} from "../../../../../service/label.service";
 import {EventBusService} from "../../../../../service/eventbus.service";
 import {Router} from "@angular/router";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {StorageService} from "../../../../../service/storage.service";
+import {LocalService} from "../../../../../service/local.service";
 import { MatButtonToggleModule} from "@angular/material/button-toggle";
 import {Setting} from "../../../../../model/setting";
 import {TradingPanel} from "./trading/trading.panel";
@@ -55,7 +55,7 @@ export class TradingSystemDashboard extends AbstractPanel {
   constructor(eventBusService : EventBusService,
               labelService    : LabelService,
               router          : Router,
-              private storageService  : StorageService) {
+              private storageService  : LocalService) {
 
     super(eventBusService, labelService, router, "portfolio.tradingSystem");
   }

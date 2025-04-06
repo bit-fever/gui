@@ -100,6 +100,22 @@ export class HttpService {
 
 	//-------------------------------------------------------------------------
 
+  public getBytes = (url : string, options? : any): Observable<ArrayBuffer> => {
+
+    this.showLoader();
+
+    options = {
+      responseType: 'arrayBuffer'
+    }
+
+    return this.httpClient.get(url, this.setupOptions(options)).pipe(
+      catchError((err, caught) => this.handleError(err, caught)),
+      finalize  (()      => this.hideLoader())
+    );
+  }
+
+  //-------------------------------------------------------------------------
+
 	public get = <T = any>(url : string, options? : any): Observable<T> => {
 
 		this.showLoader();

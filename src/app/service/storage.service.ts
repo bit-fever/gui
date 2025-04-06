@@ -6,58 +6,32 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-//=============================================================================
-
-import {Injectable} from "@angular/core";
+import {Injectable}  from "@angular/core";
+import {Observable}  from "rxjs";
 import {HttpService} from "./http.service";
-import {EventBusService} from "./eventbus.service";
-import {AppEvent} from "../model/event";
-import {parse} from "yaml";
 
 //=============================================================================
 
 @Injectable()
 export class StorageService {
 
-  //-------------------------------------------------------------------------
+  //---------------------------------------------------------------------------
+  //---
+  //--- Constructor
+  //---
+  //---------------------------------------------------------------------------
+
+  constructor(private httpService: HttpService) {}
+
+  //---------------------------------------------------------------------------
   //---
   //--- API methods
   //---
-  //-------------------------------------------------------------------------
+  //---------------------------------------------------------------------------
 
-  public getItem = (key:string) : string|null => {
-    return localStorage.getItem(key)
-  }
-
-  //-------------------------------------------------------------------------
-
-  public getItemWithDefault = (key:string, defValue:string) : string => {
-    let value = localStorage.getItem(key)
-
-    if (value == null) {
-      return defValue
-    }
-
-    return value
-  }
-
-  //-------------------------------------------------------------------------
-
-  public setItem = (key:string, value:string|null) => {
-    if (value == null) {
-      localStorage.removeItem(key)
-    }
-    else {
-      localStorage.setItem(key, value)
-    }
-  }
-
-  //-------------------------------------------------------------------------
-
-  public removeItem = (key:string) => {
-    localStorage.removeItem(key)
+  public getEquityChart = (id:number): Observable<ArrayBuffer> => {
+    return this.httpService.getBytes('/api/storage/v1/trading-systems/'+ id +'/equity-chart');
   }
 }
 
 //=============================================================================
-

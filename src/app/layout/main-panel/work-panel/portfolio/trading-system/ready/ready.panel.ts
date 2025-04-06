@@ -15,7 +15,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {AbstractPanel} from "../../../../../../component/abstract.panel";
 import {EventBusService} from "../../../../../../service/eventbus.service";
 import {LabelService} from "../../../../../../service/label.service";
-import {StorageService} from "../../../../../../service/storage.service";
+import {LocalService} from "../../../../../../service/local.service";
 import {MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatIconButton} from "@angular/material/button";
@@ -62,7 +62,7 @@ export class ReadyPanel extends AbstractPanel {
               router          : Router,
               private snackBar        : MatSnackBar,
               private portfolioService: PortfolioService,
-              private storageService  : StorageService) {
+              private storageService  : LocalService) {
 
     super(eventBusService, labelService, router, "portfolio.tradingSystem.ready");
 

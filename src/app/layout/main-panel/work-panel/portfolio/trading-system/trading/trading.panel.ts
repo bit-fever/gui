@@ -23,7 +23,7 @@ import {PorTradingSystem} from "../../../../../../model/model";
 import {EventBusService} from "../../../../../../service/eventbus.service";
 import {LabelService} from "../../../../../../service/label.service";
 import {PortfolioService} from "../../../../../../service/portfolio.service";
-import {StorageService} from "../../../../../../service/storage.service";
+import {LocalService} from "../../../../../../service/local.service";
 import {Setting} from "../../../../../../model/setting";
 import {AppEvent} from "../../../../../../model/event";
 
@@ -69,7 +69,7 @@ export class TradingPanel extends AbstractPanel {
               router          : Router,
               private snackBar        : MatSnackBar,
               private portfolioService: PortfolioService,
-              private storageService  : StorageService) {
+              private storageService  : LocalService) {
 
     super(eventBusService, labelService, router, "portfolio.tradingSystem.trading");
 

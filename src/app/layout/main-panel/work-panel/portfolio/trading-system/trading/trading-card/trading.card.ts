@@ -26,6 +26,7 @@ import {PortfolioService} from "../../../../../../../service/portfolio.service";
 import {Url} from "../../../../../../../model/urls";
 import {AppEvent} from "../../../../../../../model/event";
 import {InventoryService} from "../../../../../../../service/inventory.service";
+import {StorageService} from "../../../../../../../service/storage.service";
 
 //=============================================================================
 
@@ -58,7 +59,9 @@ export class TradingCard extends AbstractPanel {
   activConfig = new CheckButtonConfig("airline_seat_recline_normal", "manual",   "#A00080", "mode_off_on", "auto",   "#0080C0", LABEL_ROOT)
   enablConfig = new CheckButtonConfig("toggle_off",                  "inactive", "#A0A0A0", "toggle_on",   "active", "#00A000", LABEL_ROOT)
 
-  @Input("tradingSystem") ts : PorTradingSystem = new PorTradingSystem()
+  ts : PorTradingSystem = new PorTradingSystem()
+
+  equityChart? : string
 
   //-------------------------------------------------------------------------
   //---
@@ -72,8 +75,29 @@ export class TradingCard extends AbstractPanel {
               private snackBar        : MatSnackBar,
               private inventoryService: InventoryService,
               private portfolioService: PortfolioService,
+              private storageService  : StorageService,
               ) {
     super(eventBusService, labelService, router, "portfolio.tradingSystem.trading");
+  }
+
+  //-------------------------------------------------------------------------
+  //---
+  //--- Properties
+  //---
+  //-------------------------------------------------------------------------
+
+  get tradingSystem() {
+    return this.ts
+  }
+
+  //-------------------------------------------------------------------------
+
+  @Input()
+  set tradingSystem(ts : PorTradingSystem) {
+    this.ts = ts
+    this.storageService.getEquityChart(ts.id).subscribe( res => {
+      this.equityChart = btoa(String.fromCharCode(...new Uint8Array(res)));
+    })
   }
 
   //-------------------------------------------------------------------------
