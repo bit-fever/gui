@@ -11,6 +11,9 @@ import {NgIf}           from "@angular/common";
 import {MainPanel}      from "./main-panel/main.panel";
 import {HeaderPanel}    from "./header-panel/header-panel";
 import {SessionService} from "../service/session.service";
+import {DocEditor} from "../portal/doc-editor/doc-editor";
+import {PortalModule} from "@angular/cdk/portal";
+import {PortalService} from "../service/portal.service";
 
 //=============================================================================
 
@@ -18,7 +21,7 @@ import {SessionService} from "../service/session.service";
 	selector   : 'app-root',
 	templateUrl:   './app.component.html',
 	styleUrls  : [ './app.component.scss'],
-  imports:     [HeaderPanel, MainPanel, NgIf],
+  imports: [HeaderPanel, MainPanel, NgIf, PortalModule, DocEditor],
 	standalone : true
 })
 
@@ -32,7 +35,8 @@ export class AppComponent implements OnInit {
   //---
   //-------------------------------------------------------------------------
 
-  constructor(public sessionService : SessionService) {}
+  constructor(public sessionService : SessionService,
+              public portalService  : PortalService) {}
 
   //-------------------------------------------------------------------------
   //---

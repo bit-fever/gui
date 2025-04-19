@@ -33,10 +33,11 @@ button:
   finalize  : FINALIZE
 
 menu-button:
-  filter   : Filter
-  toTrading: Move to trading
-  toReady  : Move to ready
-  delete   : Delete
+  filter       : Filter
+  documentation: Documentation
+  toTrading    : Move to trading
+  toReady      : Move to ready
+  delete       : Delete
 
 # ==============================================================================
 # ===

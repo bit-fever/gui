@@ -34,6 +34,7 @@ import {PresetsService} from "./app/service/presets.service";
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 import {LocalService} from "./app/service/local.service";
 import {StorageService} from "./app/service/storage.service";
+import {PortalService} from "./app/service/portal.service";
 
 //=============================================================================
 
@@ -58,6 +59,7 @@ bootstrapApplication(AppComponent, {
     MenuService,
     NotificationService,
     PortfolioService,
+    PortalService,
     PresetsService,
     SessionService,
     LocalService,

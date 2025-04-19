@@ -27,6 +27,7 @@ import {Url} from "../../../../../../../model/urls";
 import {AppEvent} from "../../../../../../../model/event";
 import {InventoryService} from "../../../../../../../service/inventory.service";
 import {StorageService} from "../../../../../../../service/storage.service";
+import {PortalService} from "../../../../../../../service/portal.service";
 
 //=============================================================================
 
@@ -76,6 +77,7 @@ export class TradingCard extends AbstractPanel {
               private inventoryService: InventoryService,
               private portfolioService: PortfolioService,
               private storageService  : StorageService,
+              private portalService   : PortalService,
               ) {
     super(eventBusService, labelService, router, "portfolio.tradingSystem.trading");
   }
@@ -207,12 +209,6 @@ export class TradingCard extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  onMenuFilter() {
-      this.navigateTo([ Url.Portfolio_TradingSystems, this.ts.id, Url.Sub_Filtering ]);
-  }
-
-  //-------------------------------------------------------------------------
-
   onMenuToReady() {
     this.portfolioService.setTradingSystemTrading(this.ts.id, false).subscribe( res => {
       if (res.status == TspResponseStatus.OK) {
@@ -223,6 +219,18 @@ export class TradingCard extends AbstractPanel {
         this.snackBar.open(message, this.button("ok"))
       }
     })
+  }
+
+  //-------------------------------------------------------------------------
+
+  onMenuFilter() {
+      this.navigateTo([ Url.Portfolio_TradingSystems, this.ts.id, Url.Sub_Filtering ]);
+  }
+
+  //-------------------------------------------------------------------------
+
+  onMenuDocumentation() {
+    this.portalService.openDocEditor(this.ts.id)
   }
 
   //-------------------------------------------------------------------------
