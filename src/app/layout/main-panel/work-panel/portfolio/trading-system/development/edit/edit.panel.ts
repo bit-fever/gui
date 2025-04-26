@@ -40,14 +40,13 @@ import {AppEvent} from "../../../../../../../model/event";
 //=============================================================================
 
 @Component({
-  selector    :     "tradingSystem-edit",
-  templateUrl :   './edit.panel.html',
-  styleUrls   : [ './edit.panel.scss' ],
-  imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule,
-    MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
-    MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired, ChipSetTextComponent, SelectTextRequired, MatSlideToggle, NgIf
-  ],
-  standalone  : true
+    selector: "tradingSystem-edit",
+    templateUrl: './edit.panel.html',
+    styleUrls: ['./edit.panel.scss'],
+    imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule,
+        MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
+        MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired, ChipSetTextComponent, SelectTextRequired, MatSlideToggle, NgIf
+    ]
 })
 
 //=============================================================================

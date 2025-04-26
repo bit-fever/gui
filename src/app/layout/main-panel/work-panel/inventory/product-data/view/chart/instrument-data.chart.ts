@@ -52,13 +52,12 @@ export type ChartOptions = {
 //=============================================================================
 
 @Component({
-  selector    :     'instrumentData-chart',
-  templateUrl :   './instrument-data.chart.html',
-  styleUrls   : [ './instrument-data.chart.scss' ],
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule,
-            RouterModule, FlexTablePanel, MatChipsModule, MatSelectModule, SelectRequired,
-            DatePicker, NgApexchartsModule],
-  standalone  : true
+    selector: 'instrumentData-chart',
+    templateUrl: './instrument-data.chart.html',
+    styleUrls: ['./instrument-data.chart.scss'],
+    imports: [CommonModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule,
+        RouterModule, FlexTablePanel, MatChipsModule, MatSelectModule, SelectRequired,
+        DatePicker, NgApexchartsModule]
 })
 
 //=============================================================================

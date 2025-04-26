@@ -27,11 +27,10 @@ type FlexTableFilter<T> = (row: T, filter: string) => boolean;
 //=============================================================================
 
 @Component({
-  selector    :     'flex-table',
-  templateUrl :   './flex-table.panel.html',
-  styleUrls   : [ './flex-table.panel.scss' ],
-  imports: [CommonModule, MatTableModule, MatSortModule, MatIconModule, MatFormFieldModule, MatInputModule, MatCheckboxModule, MatButtonModule, MatTooltip],
-  standalone  : true
+    selector: 'flex-table',
+    templateUrl: './flex-table.panel.html',
+    styleUrls: ['./flex-table.panel.scss'],
+    imports: [CommonModule, MatTableModule, MatSortModule, MatIconModule, MatFormFieldModule, MatInputModule, MatCheckboxModule, MatButtonModule, MatTooltip]
 })
 
 //=============================================================================

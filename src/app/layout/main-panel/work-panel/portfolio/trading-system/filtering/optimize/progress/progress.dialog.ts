@@ -25,12 +25,11 @@ import {MatIconModule} from "@angular/material/icon";
 //=============================================================================
 
 @Component({
-  selector    : 'filter-progress-dialog',
-  templateUrl : 'progress.dialog.html',
-  styleUrls   : [ 'progress.dialog.scss' ],
-  imports: [MatDialogModule, MatButtonModule, NgIf, MatProgressSpinnerModule, MatGridListModule,
-            MatIconModule],
-  standalone  : true,
+    selector: 'filter-progress-dialog',
+    templateUrl: 'progress.dialog.html',
+    styleUrls: ['progress.dialog.scss'],
+    imports: [MatDialogModule, MatButtonModule, NgIf, MatProgressSpinnerModule, MatGridListModule,
+        MatIconModule]
 })
 
 //=============================================================================

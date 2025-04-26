@@ -28,12 +28,11 @@ import {LabelTranscoder} from "../../../../../component/panel/flex-table/transco
 //=============================================================================
 
 @Component({
-  selector    :     'inventory-product-tool',
-  templateUrl :   './product-data.list.html',
-  styleUrls   : [ './product-data.list.scss' ],
-  imports     : [ CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
-    RouterModule, FlexTablePanel],
-  standalone  : true
+    selector: 'inventory-product-tool',
+    templateUrl: './product-data.list.html',
+    styleUrls: ['./product-data.list.scss'],
+    imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
+        RouterModule, FlexTablePanel]
 })
 
 //=============================================================================

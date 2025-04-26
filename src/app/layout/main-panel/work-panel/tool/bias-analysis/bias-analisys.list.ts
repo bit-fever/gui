@@ -27,12 +27,11 @@ import {BiasAnalysisFull} from "./model";
 //=============================================================================
 
 @Component({
-  selector    :     'bias-analysis',
-  templateUrl :   './bias-analysis.list.html',
-  styleUrls   : [ './bias-analysis.list.scss' ],
-  imports     : [ CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
-    RouterModule, FlexTablePanel],
-  standalone  : true
+    selector: 'bias-analysis',
+    templateUrl: './bias-analysis.list.html',
+    styleUrls: ['./bias-analysis.list.scss'],
+    imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
+        RouterModule, FlexTablePanel]
 })
 
 //=============================================================================

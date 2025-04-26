@@ -31,14 +31,13 @@ import {DataProductSpec} from "../../../../../../model/model";
 //=============================================================================
 
 @Component({
-  selector    :     "productData-edit",
-  templateUrl :   './product-data.edit.html',
-  styleUrls   : [ './product-data.edit.scss' ],
-  imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
-    MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
-    MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired
-  ],
-  standalone  : true
+    selector: "productData-edit",
+    templateUrl: './product-data.edit.html',
+    styleUrls: ['./product-data.edit.scss'],
+    imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
+        MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
+        MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired
+    ]
 })
 
 //=============================================================================

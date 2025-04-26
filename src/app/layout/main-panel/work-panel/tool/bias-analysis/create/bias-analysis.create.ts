@@ -37,14 +37,13 @@ import {BiasAnalysis} from "../model";
 //=============================================================================
 
 @Component({
-  selector    :     "biasAnalysis-create",
-  templateUrl :   './bias-analysis.create.html',
-  styleUrls   : [ './bias-analysis.create.scss' ],
-  imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
-    MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
-    MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired, InstrumentSelectorPanel
-  ],
-  standalone  : true
+    selector: "biasAnalysis-create",
+    templateUrl: './bias-analysis.create.html',
+    styleUrls: ['./bias-analysis.create.scss'],
+    imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
+        MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
+        MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired, InstrumentSelectorPanel
+    ]
 })
 
 //=============================================================================

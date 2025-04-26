@@ -21,12 +21,11 @@ export type Validator = (value : string) => boolean
 //=============================================================================
 
 @Component({
-  selector    :     'chip-set-text',
-  templateUrl :   './chip-set-text.html',
-  styleUrls   : [ './chip-set-text.scss' ],
-  imports: [CommonModule, MatFormFieldModule, MatChipsModule, MatIcon],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone  : true
+    selector: 'chip-set-text',
+    templateUrl: './chip-set-text.html',
+    styleUrls: ['./chip-set-text.scss'],
+    imports: [CommonModule, MatFormFieldModule, MatChipsModule, MatIcon],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 //=============================================================================

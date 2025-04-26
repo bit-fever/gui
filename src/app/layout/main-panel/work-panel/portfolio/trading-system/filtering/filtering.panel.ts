@@ -47,13 +47,12 @@ import {DialogData} from "./optimize/dialog-data";
 //=============================================================================
 
 @Component({
-  selector    :   'trading-system-filtering',
-  templateUrl :   './filtering.panel.html',
-  styleUrls   : [ './filtering.panel.scss' ],
-  imports: [CommonModule, RouterModule, MatExpansionModule, MatIconModule, MatFormFieldModule, FormsModule,
-    MatInputModule, MatOptionModule, MatSelectModule, MatSlideToggleModule, MatTabsModule, MatButtonModule,
-    MatDividerModule, SelectRequired, MatGridListModule, SimpleTablePanel, MatDialogModule, ChartComponent],
-  standalone  : true
+    selector: 'trading-system-filtering',
+    templateUrl: './filtering.panel.html',
+    styleUrls: ['./filtering.panel.scss'],
+    imports: [CommonModule, RouterModule, MatExpansionModule, MatIconModule, MatFormFieldModule, FormsModule,
+        MatInputModule, MatOptionModule, MatSelectModule, MatSlideToggleModule, MatTabsModule, MatButtonModule,
+        MatDividerModule, SelectRequired, MatGridListModule, SimpleTablePanel, MatDialogModule, ChartComponent]
 })
 
 //=============================================================================

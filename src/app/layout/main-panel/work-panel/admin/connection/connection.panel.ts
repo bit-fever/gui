@@ -30,12 +30,11 @@ import {SystemAdapterService} from "../../../../../service/system-adapter.servic
 //=============================================================================
 
 @Component({
-  selector    :     'connection',
-  templateUrl :   './connection.panel.html',
-  styleUrls   : [ './connection.panel.scss' ],
-  imports     : [ CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
-                  RouterModule, FlexTablePanel],
-  standalone  : true
+    selector: 'connection',
+    templateUrl: './connection.panel.html',
+    styleUrls: ['./connection.panel.scss'],
+    imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
+        RouterModule, FlexTablePanel]
 })
 
 //=============================================================================

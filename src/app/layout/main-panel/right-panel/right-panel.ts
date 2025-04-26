@@ -12,11 +12,10 @@ import {RouterModule} from "@angular/router";
 //=============================================================================
 
 @Component({
-    selector      :   'right-panel',
-    templateUrl   : './right-panel.html',
-	styleUrls     : [ './right-panel.scss' ],
-	imports       : [ RouterModule ],
-	standalone    : true
+    selector: 'right-panel',
+    templateUrl: './right-panel.html',
+    styleUrls: ['./right-panel.scss'],
+    imports: [RouterModule]
 })
 
 //=============================================================================

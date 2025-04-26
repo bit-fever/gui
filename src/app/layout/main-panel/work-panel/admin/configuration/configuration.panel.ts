@@ -21,11 +21,10 @@ import {Router, RouterModule} from "@angular/router";
 //=============================================================================
 
 @Component({
-	selector	:    'configuration-panel',
-	templateUrl	:  './configuration.panel.html',
-	styleUrls   : ['./configuration.panel.scss' ],
-	imports     : [ MatCardModule, MatIconModule, MatDividerModule, MatButtonModule, RouterModule ],
-	standalone  : true
+    selector: 'configuration-panel',
+    templateUrl: './configuration.panel.html',
+    styleUrls: ['./configuration.panel.scss'],
+    imports: [MatCardModule, MatIconModule, MatDividerModule, MatButtonModule, RouterModule]
 })
 
 //=============================================================================

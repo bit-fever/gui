@@ -25,9 +25,10 @@ import {AppEvent}        from "../../../../model/event";
 //=============================================================================
 
 @Component({
-	selector       : 'asm-menu-anchor',
-	templateUrl    : './anchor.component.html',
-	changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'asm-menu-anchor',
+    templateUrl: './anchor.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 
 //=============================================================================

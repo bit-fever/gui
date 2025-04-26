@@ -18,11 +18,10 @@ import {PortalService} from "../service/portal.service";
 //=============================================================================
 
 @Component({
-	selector   : 'app-root',
-	templateUrl:   './app.component.html',
-	styleUrls  : [ './app.component.scss'],
-  imports: [HeaderPanel, MainPanel, NgIf, PortalModule, DocEditor],
-	standalone : true
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    imports: [HeaderPanel, MainPanel, NgIf, PortalModule, DocEditor]
 })
 
 //=============================================================================

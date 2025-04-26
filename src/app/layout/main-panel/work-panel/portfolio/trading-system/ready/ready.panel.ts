@@ -28,11 +28,10 @@ import {AppEvent} from "../../../../../../model/event";
 //=============================================================================
 
 @Component({
-  selector    :     'ready-panel',
-  templateUrl :   './ready.panel.html',
-  styleUrls   : [ './ready.panel.scss' ],
-  imports: [CommonModule, RouterModule, MatTabsModule, ReactiveFormsModule, FormsModule, MatFormField, MatIcon, MatIconButton, MatInput, MatLabel, MatSuffix, MatButton, ReadyCard],
-  standalone  : true
+    selector: 'ready-panel',
+    templateUrl: './ready.panel.html',
+    styleUrls: ['./ready.panel.scss'],
+    imports: [CommonModule, RouterModule, MatTabsModule, ReactiveFormsModule, FormsModule, MatFormField, MatIcon, MatIconButton, MatInput, MatLabel, MatSuffix, MatButton, ReadyCard]
 })
 
 //=============================================================================

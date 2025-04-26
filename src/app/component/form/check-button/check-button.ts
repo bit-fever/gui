@@ -17,11 +17,10 @@ import {LabelService} from "../../../service/label.service";
 //=============================================================================
 
 @Component({
-  selector    :     'check-button',
-  templateUrl :   './check-button.html',
-  styleUrls   : [ './check-button.scss' ],
-  imports: [MatFormFieldModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIconModule],
-  standalone  : true
+    selector: 'check-button',
+    templateUrl: './check-button.html',
+    styleUrls: ['./check-button.scss'],
+    imports: [MatFormFieldModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIconModule]
 })
 
 //=============================================================================

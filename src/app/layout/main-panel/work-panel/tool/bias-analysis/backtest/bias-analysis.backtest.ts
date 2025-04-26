@@ -57,12 +57,11 @@ const EquityChart     = "equity"
 //=============================================================================
 
 @Component({
-  selector    :   'bias-analysis-backtest',
-  templateUrl :   'bias-analysis.backtest.html',
-  styleUrls   : [ 'bias-analysis.backtest.scss' ],
-  imports: [MatButtonModule, NgIf, MatGridListModule, MatIconModule, FlexTreePanel,
-    MatDivider, FlexTablePanel, ChartComponent, MatButtonToggleModule, InputNumberRequired, SelectRequired],
-  standalone  : true,
+    selector: 'bias-analysis-backtest',
+    templateUrl: 'bias-analysis.backtest.html',
+    styleUrls: ['bias-analysis.backtest.scss'],
+    imports: [MatButtonModule, NgIf, MatGridListModule, MatIconModule, FlexTreePanel,
+        MatDivider, FlexTablePanel, ChartComponent, MatButtonToggleModule, InputNumberRequired, SelectRequired]
 })
 
 //=============================================================================

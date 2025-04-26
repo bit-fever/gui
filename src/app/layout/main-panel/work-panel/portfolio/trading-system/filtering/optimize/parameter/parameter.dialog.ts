@@ -26,12 +26,11 @@ import {MatTabsModule} from "@angular/material/tabs";
 //=============================================================================
 
 @Component({
-  selector    : 'filter-parameter-dialog',
-  templateUrl : 'parameter.dialog.html',
-  styleUrls   : [ 'parameter.dialog.scss' ],
-  imports: [MatDialogModule, MatButtonModule, SelectRequired, MatChipsModule, MatCheckboxModule,
-    NgIf, InputNumberRequired, MatTabsModule],
-  standalone  : true,
+    selector: 'filter-parameter-dialog',
+    templateUrl: 'parameter.dialog.html',
+    styleUrls: ['parameter.dialog.scss'],
+    imports: [MatDialogModule, MatButtonModule, SelectRequired, MatChipsModule, MatCheckboxModule,
+        NgIf, InputNumberRequired, MatTabsModule]
 })
 
 //=============================================================================

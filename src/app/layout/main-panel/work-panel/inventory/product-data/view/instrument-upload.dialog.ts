@@ -32,12 +32,11 @@ import {MatChipSelectionChange, MatChipsModule} from "@angular/material/chips";
 //=============================================================================
 
 @Component({
-  selector    : 'instrument-upload-dialog',
-  templateUrl : 'instrument-upload.dialog.html',
-  styleUrls   : [ 'instrument-upload.dialog.scss' ],
-  imports: [MatDialogModule, MatButtonModule, NgIf, MatProgressSpinnerModule, MatGridListModule,
-    MatIconModule, InputTextRequired, DatePicker, FileUploader, MatProgressBarModule, SelectRequired, MatChipsModule],
-  standalone  : true,
+    selector: 'instrument-upload-dialog',
+    templateUrl: 'instrument-upload.dialog.html',
+    styleUrls: ['instrument-upload.dialog.scss'],
+    imports: [MatDialogModule, MatButtonModule, NgIf, MatProgressSpinnerModule, MatGridListModule,
+        MatIconModule, InputTextRequired, DatePicker, FileUploader, MatProgressBarModule, SelectRequired, MatChipsModule]
 })
 
 //=============================================================================

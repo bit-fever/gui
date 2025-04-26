@@ -28,12 +28,11 @@ import {BrokerProduct} from "../../../../../model/model";
 //=============================================================================
 
 @Component({
-  selector    :     'inventory-product-broker',
-  templateUrl :   './product-broker.list.html',
-  styleUrls   : [ './product-broker.list.scss' ],
-  imports     : [ CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
-    RouterModule, FlexTablePanel],
-  standalone  : true
+    selector: 'inventory-product-broker',
+    templateUrl: './product-broker.list.html',
+    styleUrls: ['./product-broker.list.scss'],
+    imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
+        RouterModule, FlexTablePanel]
 })
 
 //=============================================================================

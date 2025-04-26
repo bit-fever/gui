@@ -32,11 +32,10 @@ const LABEL_ROOT = "page.portfolio.tradingSystem.trading.buttons"
 //=============================================================================
 
 @Component({
-  selector    :     'ready-card',
-  templateUrl :   './ready.card.html',
-  styleUrls   : [ './ready.card.scss' ],
-  imports: [MatFormFieldModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIconModule, MatCardModule, MatMenuModule],
-  standalone  : true
+    selector: 'ready-card',
+    templateUrl: './ready.card.html',
+    styleUrls: ['./ready.card.scss'],
+    imports: [MatFormFieldModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIconModule, MatCardModule, MatMenuModule]
 })
 
 //=============================================================================

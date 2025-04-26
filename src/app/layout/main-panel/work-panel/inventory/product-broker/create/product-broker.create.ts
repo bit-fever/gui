@@ -44,14 +44,13 @@ enum Status {
 //=============================================================================
 
 @Component({
-  selector    :     "productBroker-create",
-  templateUrl :   './product-broker.create.html',
-  styleUrls   : [ './product-broker.create.scss' ],
-  imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
-    MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
-    MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired
-  ],
-  standalone  : true
+    selector: "productBroker-create",
+    templateUrl: './product-broker.create.html',
+    styleUrls: ['./product-broker.create.scss'],
+    imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
+        MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
+        MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired
+    ]
 })
 
 //=============================================================================

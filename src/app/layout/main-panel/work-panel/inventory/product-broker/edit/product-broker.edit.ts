@@ -41,14 +41,13 @@ import {InputNumberRequired} from "../../../../../../component/form/input-intege
 //=============================================================================
 
 @Component({
-  selector    :     "productBroker-edit",
-  templateUrl :   './product-broker.edit.html',
-  styleUrls   : [ './product-broker.edit.scss' ],
-  imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
-    MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
-    MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired
-  ],
-  standalone  : true
+    selector: "productBroker-edit",
+    templateUrl: './product-broker.edit.html',
+    styleUrls: ['./product-broker.edit.scss'],
+    imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
+        MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
+        MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired
+    ]
 })
 
 //=============================================================================

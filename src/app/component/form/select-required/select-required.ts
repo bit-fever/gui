@@ -29,12 +29,11 @@ import {BfErrorStateMatcher} from "../error-state-matcher";
 //=============================================================================
 
 @Component({
-	selector    :     'select-required',
-	templateUrl :   './select-required.html',
-	styleUrls   : [ './select-required.scss' ],
-  imports: [MatFormFieldModule, MatOptionModule, MatSelectModule, MatIconModule,
-    NgIf, FormsModule, ReactiveFormsModule, NgForOf],
-	standalone  : true
+    selector: 'select-required',
+    templateUrl: './select-required.html',
+    styleUrls: ['./select-required.scss'],
+    imports: [MatFormFieldModule, MatOptionModule, MatSelectModule, MatIconModule,
+        NgIf, FormsModule, ReactiveFormsModule, NgForOf]
 })
 
 //=============================================================================

@@ -29,10 +29,11 @@ import { rotateAnimation } from '../node/node.animations';
 //=============================================================================
 
 @Component({
-	selector       : 'li[asm-menu-item][menuItem]',
-	templateUrl    : './item.component.html',
-	animations     : [rotateAnimation],
-	changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'li[asm-menu-item][menuItem]',
+    templateUrl: './item.component.html',
+    animations: [rotateAnimation],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 
 //=============================================================================

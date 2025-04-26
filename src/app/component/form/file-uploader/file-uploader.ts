@@ -30,14 +30,13 @@ const StatusError     = 3
 //=============================================================================
 
 @Component({
-  selector   :    'file-uploader',
-  templateUrl:  './file-uploader.html',
-  styleUrls  : ['./file-uploader.scss'],
-  imports    : [
-    MatExpansionModule, DragAndDropDirective, MatProgressBarModule, MatRippleModule, MatTooltipModule,
-    NgIf, ReactiveFormsModule, NgForOf, MatButtonModule, MatSnackBarModule
-  ],
-  standalone: true
+    selector: 'file-uploader',
+    templateUrl: './file-uploader.html',
+    styleUrls: ['./file-uploader.scss'],
+    imports: [
+        MatExpansionModule, DragAndDropDirective, MatProgressBarModule, MatRippleModule, MatTooltipModule,
+        NgIf, ReactiveFormsModule, NgForOf, MatButtonModule, MatSnackBarModule
+    ]
 })
 
 //=============================================================================

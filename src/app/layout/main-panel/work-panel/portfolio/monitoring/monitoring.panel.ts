@@ -58,13 +58,12 @@ class PorfolioNodeProvider implements TreeNodeProvider<PortfolioTree> {
 //=============================================================================
 
 @Component({
-  selector    :     'portfolio-monitoring',
-  templateUrl :   './monitoring.panel.html',
-  styleUrls   : [ './monitoring.panel.scss' ],
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatDividerModule, MatFormFieldModule,
-    MatSelectModule, MatSlideToggleModule, RouterModule, MatChipsModule,
-    FlexTreePanel, FlexTablePanel, ChartComponent],
-  standalone  : true
+    selector: 'portfolio-monitoring',
+    templateUrl: './monitoring.panel.html',
+    styleUrls: ['./monitoring.panel.scss'],
+    imports: [CommonModule, MatButtonModule, MatIconModule, MatDividerModule, MatFormFieldModule,
+        MatSelectModule, MatSlideToggleModule, RouterModule, MatChipsModule,
+        FlexTreePanel, FlexTablePanel, ChartComponent]
 })
 
 //=============================================================================

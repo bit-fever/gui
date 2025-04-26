@@ -36,11 +36,10 @@ const LABEL_ROOT = "page.portfolio.tradingSystem.trading.buttons"
 //=============================================================================
 
 @Component({
-  selector    :     'trading-card',
-  templateUrl :   './trading.card.html',
-  styleUrls   : [ './trading.card.scss' ],
-  imports: [MatFormFieldModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIconModule, CheckButton, MatCardModule, MatMenuModule],
-  standalone  : true
+    selector: 'trading-card',
+    templateUrl: './trading.card.html',
+    styleUrls: ['./trading.card.scss'],
+    imports: [MatFormFieldModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIconModule, CheckButton, MatCardModule, MatMenuModule]
 })
 
 //=============================================================================

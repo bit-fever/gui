@@ -27,11 +27,10 @@ import {LabelTranscoder} from "../../panel/flex-table/transcoders";
 //=============================================================================
 
 @Component({
-  selector    :   'instrument-selector-dialog',
-  templateUrl :   'instrument-selector.dialog.html',
-  styleUrls   : [ 'instrument-selector.dialog.scss' ],
-  imports: [MatDialogModule, MatButtonModule, FileUploader, InputTextRequired, MatChipListbox, MatChipOption, MatProgressBar, SelectRequired, FlexTablePanel],
-  standalone  : true,
+    selector: 'instrument-selector-dialog',
+    templateUrl: 'instrument-selector.dialog.html',
+    styleUrls: ['instrument-selector.dialog.scss'],
+    imports: [MatDialogModule, MatButtonModule, FileUploader, InputTextRequired, MatChipListbox, MatChipOption, MatProgressBar, SelectRequired, FlexTablePanel]
 })
 
 //=============================================================================

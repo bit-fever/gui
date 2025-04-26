@@ -29,11 +29,10 @@ import {BfErrorStateMatcher} from "../error-state-matcher";
 //=============================================================================
 
 @Component({
-  selector    :     'select-optional',
-  templateUrl :   './select-optional.html',
-  styleUrls   : [ './select-optional.scss' ],
-  imports     : [MatFormFieldModule, MatOptionModule, NgForOf, MatSelectModule, MatIconModule, FormsModule, ReactiveFormsModule],
-  standalone  : true
+    selector: 'select-optional',
+    templateUrl: './select-optional.html',
+    styleUrls: ['./select-optional.scss'],
+    imports: [MatFormFieldModule, MatOptionModule, NgForOf, MatSelectModule, MatIconModule, FormsModule, ReactiveFormsModule]
 })
 
 //=============================================================================

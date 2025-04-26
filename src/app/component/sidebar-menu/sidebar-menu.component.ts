@@ -20,11 +20,12 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 //=============================================================================
 
 @Component({
-	selector       : 'asm-angular-sidebar-menu',
-	templateUrl    : './sidebar-menu.component.html',
-	styleUrls      : [ 'sidebar-menu.component.scss' ],
-	providers      : [ NodeService, AnchorService, RoleService, SearchService ],
-	changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'asm-angular-sidebar-menu',
+    templateUrl: './sidebar-menu.component.html',
+    styleUrls: ['sidebar-menu.component.scss'],
+    providers: [NodeService, AnchorService, RoleService, SearchService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 
 //=============================================================================

@@ -19,11 +19,10 @@ import {MatInputModule} from "@angular/material/input";
 //=============================================================================
 
 @Component({
-	selector    :     'left-panel',
-	templateUrl :   './left-panel.html',
-	styleUrls   : [ './left-panel.scss' ],
-	imports     : [ CommonModule, MatInputModule, MatIconModule, MatToolbarModule, SidebarMenuModule ],
-	standalone  : true
+    selector: 'left-panel',
+    templateUrl: './left-panel.html',
+    styleUrls: ['./left-panel.scss'],
+    imports: [CommonModule, MatInputModule, MatIconModule, MatToolbarModule, SidebarMenuModule]
 })
 
 //=============================================================================

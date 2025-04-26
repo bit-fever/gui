@@ -22,11 +22,10 @@ import {MatButtonModule} from "@angular/material/button";
 //=============================================================================
 
 @Component({
-  selector    :     'simple-table',
-  templateUrl :   './simple-table.panel.html',
-  styleUrls   : [ './simple-table.panel.scss' ],
-  imports: [CommonModule, MatTableModule, MatSortModule, MatFormFieldModule, MatInputModule, MatIconModule],
-  standalone  : true
+    selector: 'simple-table',
+    templateUrl: './simple-table.panel.html',
+    styleUrls: ['./simple-table.panel.scss'],
+    imports: [CommonModule, MatTableModule, MatSortModule, MatFormFieldModule, MatInputModule, MatIconModule]
 })
 
 //=============================================================================

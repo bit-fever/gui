@@ -32,14 +32,13 @@ import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
 //=============================================================================
 
 @Component({
-  selector    :     'connection-edit',
-  templateUrl :   './edit.panel.html',
-  styleUrls   : [ './edit.panel.scss' ],
-  imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
-    MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
-    MatDividerModule, InputTextRequired, SelectRequired, MatCheckbox
-  ],
-  standalone  : true
+    selector: 'connection-edit',
+    templateUrl: './edit.panel.html',
+    styleUrls: ['./edit.panel.scss'],
+    imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
+        MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
+        MatDividerModule, InputTextRequired, SelectRequired, MatCheckbox
+    ]
 })
 
 //=============================================================================

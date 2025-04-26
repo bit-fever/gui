@@ -24,11 +24,10 @@ import {CollectorService} from "../../../service/collector.service";
 //=============================================================================
 
 @Component({
-  selector    :     'instrument-selector',
-  templateUrl :   './instrument-selector.panel.html',
-  styleUrls   : [ './instrument-selector.panel.scss' ],
-  imports: [CommonModule, MatFormFieldModule, MatInput, FormsModule, MatIconButton, MatIcon],
-  standalone  : true
+    selector: 'instrument-selector',
+    templateUrl: './instrument-selector.panel.html',
+    styleUrls: ['./instrument-selector.panel.scss'],
+    imports: [CommonModule, MatFormFieldModule, MatInput, FormsModule, MatIconButton, MatIcon]
 })
 
 //=============================================================================

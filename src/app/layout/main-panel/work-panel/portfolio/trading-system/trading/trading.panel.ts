@@ -30,12 +30,11 @@ import {AppEvent} from "../../../../../../model/event";
 //=============================================================================
 
 @Component({
-  selector    :     'trading-panel',
-  templateUrl :   './trading.panel.html',
-  styleUrls   : [ './trading.panel.scss' ],
-  imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
-    RouterModule, MatTabsModule, ReactiveFormsModule, MatButtonToggle, MatButtonToggleGroup, TradingCard, FormsModule],
-  standalone  : true
+    selector: 'trading-panel',
+    templateUrl: './trading.panel.html',
+    styleUrls: ['./trading.panel.scss'],
+    imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
+        RouterModule, MatTabsModule, ReactiveFormsModule, MatButtonToggle, MatButtonToggleGroup, TradingCard, FormsModule]
 })
 
 //=============================================================================

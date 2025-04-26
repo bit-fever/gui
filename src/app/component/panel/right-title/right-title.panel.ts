@@ -15,11 +15,10 @@ import {MatButtonModule}  from "@angular/material/button";
 //=============================================================================
 
 @Component({
-  selector    :     'right-title-panel',
-  templateUrl :   './right-title.panel.html',
-  styleUrls   : [ './right-title.panel.scss' ],
-  imports     : [ MatToolbarModule, MatIconModule, MatButtonModule],
-  standalone  : true
+    selector: 'right-title-panel',
+    templateUrl: './right-title.panel.html',
+    styleUrls: ['./right-title.panel.scss'],
+    imports: [MatToolbarModule, MatIconModule, MatButtonModule]
 })
 
 //=============================================================================

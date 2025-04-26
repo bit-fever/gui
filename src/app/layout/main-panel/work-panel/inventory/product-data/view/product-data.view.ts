@@ -35,12 +35,11 @@ import {Url} from "../../../../../../model/urls";
 //=============================================================================
 
 @Component({
-  selector    :     'productData-view',
-  templateUrl :   './product-data.view.html',
-  styleUrls   : [ './product-data.view.scss' ],
-  imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
-    RouterModule, FlexTablePanel, MatTabsModule, MatDialogModule],
-  standalone  : true
+    selector: 'productData-view',
+    templateUrl: './product-data.view.html',
+    styleUrls: ['./product-data.view.scss'],
+    imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
+        RouterModule, FlexTablePanel, MatTabsModule, MatDialogModule]
 })
 
 //=============================================================================

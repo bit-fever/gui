@@ -30,13 +30,12 @@ import {DataPointTimeTranscoder} from "../../../../../../../component/panel/flex
 //=============================================================================
 
 @Component({
-  selector    :     'instrumentData-data',
-  templateUrl :   './instrument-data.data.html',
-  styleUrls   : [ './instrument-data.data.scss' ],
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule,
-            RouterModule, FlexTablePanel, MatChipsModule, MatSelectModule, SelectRequired,
-            DatePicker],
-  standalone  : true
+    selector: 'instrumentData-data',
+    templateUrl: './instrument-data.data.html',
+    styleUrls: ['./instrument-data.data.scss'],
+    imports: [CommonModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule,
+        RouterModule, FlexTablePanel, MatChipsModule, MatSelectModule, SelectRequired,
+        DatePicker]
 })
 
 //=============================================================================

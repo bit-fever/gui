@@ -30,11 +30,10 @@ import {MatInput} from "@angular/material/input";
 //=============================================================================
 
 @Component({
-  selector    :     'development-panel',
-  templateUrl :   './development.panel.html',
-  styleUrls   : [ './development.panel.scss' ],
-  imports: [CommonModule, RouterModule, MatTabsModule, ReactiveFormsModule, FormsModule, FlexTablePanel, MatButton, MatFormField, MatIcon, MatIconButton, MatInput, MatLabel, MatSuffix],
-  standalone  : true
+    selector: 'development-panel',
+    templateUrl: './development.panel.html',
+    styleUrls: ['./development.panel.scss'],
+    imports: [CommonModule, RouterModule, MatTabsModule, ReactiveFormsModule, FormsModule, FlexTablePanel, MatButton, MatFormField, MatIcon, MatIconButton, MatInput, MatLabel, MatSuffix]
 })
 
 //=============================================================================

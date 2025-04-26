@@ -22,17 +22,15 @@ import {CdkPortal} from '@angular/cdk/portal';
 import {AbstractSubscriber}   from "../../service/abstract-subscriber";
 import {EventBusService}      from "../../service/eventbus.service";
 import {PortalService} from "../../service/portal.service";
-import {QuillEditorComponent} from "ngx-quill";
 import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
 
 //=============================================================================
 
 @Component({
-  selector   :    'doc-editor',
-  templateUrl:  './doc-editor.html',
-  styleUrls  : ['./doc-editor.scss'],
-  imports: [PortalModule, QuillEditorComponent, MatButtonToggle, MatButtonToggleGroup],
-  standalone : true
+    selector: 'doc-editor',
+    templateUrl: './doc-editor.html',
+    styleUrls: ['./doc-editor.scss'],
+    imports: [PortalModule, MatButtonToggle, MatButtonToggleGroup]
 })
 
 //=============================================================================

@@ -34,14 +34,13 @@ import {BiasAnalysis} from "../model";
 //=============================================================================
 
 @Component({
-  selector    :     "biasAnalysis-edit",
-  templateUrl :   './bias-analysis.edit.html',
-  styleUrls   : [ './bias-analysis.edit.scss' ],
-  imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule,
-    MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
-    MatDividerModule, InputTextRequired, SelectRequired, InstrumentSelectorPanel
-  ],
-  standalone  : true
+    selector: "biasAnalysis-edit",
+    templateUrl: './bias-analysis.edit.html',
+    styleUrls: ['./bias-analysis.edit.scss'],
+    imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule,
+        MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
+        MatDividerModule, InputTextRequired, SelectRequired, InstrumentSelectorPanel
+    ]
 })
 
 //=============================================================================

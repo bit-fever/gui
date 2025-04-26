@@ -14,11 +14,10 @@ import {LabelService} from "../../../service/label.service";
 //=============================================================================
 
 @Component({
-  selector     :   'work-panel',
-  templateUrl  : './work.panel.html',
-	styleUrls    : [ './work.panel.scss' ],
-	imports      : [RouterModule, NgIf],
-	standalone   : true
+    selector: 'work-panel',
+    templateUrl: './work.panel.html',
+    styleUrls: ['./work.panel.scss'],
+    imports: [RouterModule, NgIf]
 })
 
 //=============================================================================

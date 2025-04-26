@@ -20,11 +20,10 @@ import {RightPanel} from "./right-panel/right-panel";
 //=============================================================================
 
 @Component({
-	selector   :    'main-panel',
-	templateUrl:  './main.panel.html',
-	styleUrls  : ['./main.panel.scss'],
-	imports    : [ MatSidenavModule, RouterModule, LeftPanel, WorkPanel, RightPanel ],
-	standalone : true
+    selector: 'main-panel',
+    templateUrl: './main.panel.html',
+    styleUrls: ['./main.panel.scss'],
+    imports: [MatSidenavModule, RouterModule, LeftPanel, WorkPanel, RightPanel]
 })
 
 //=============================================================================

@@ -23,11 +23,10 @@ import {DevelopmentPanel} from "./development/development.panel";
 //=============================================================================
 
 @Component({
-  selector    :     'portfolio-trading-system-db',
-  templateUrl :   './trading-system.dashboard.html',
-  styleUrls   : [ './trading-system.dashboard.scss' ],
-  imports: [MatButtonToggleModule, ReactiveFormsModule, TradingPanel, NgIf, ReadyPanel, DevelopmentPanel],
-  standalone  : true
+    selector: 'portfolio-trading-system-db',
+    templateUrl: './trading-system.dashboard.html',
+    styleUrls: ['./trading-system.dashboard.scss'],
+    imports: [MatButtonToggleModule, ReactiveFormsModule, TradingPanel, NgIf, ReadyPanel, DevelopmentPanel]
 })
 
 //=============================================================================

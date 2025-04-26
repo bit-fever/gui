@@ -29,12 +29,11 @@ import {PositiveTranscoder} from "../../../../../../../../component/panel/flex-t
 //=============================================================================
 
 @Component({
-  selector    : 'filter-result-dialog',
-  templateUrl : 'result.dialog.html',
-  styleUrls   : [ 'result.dialog.scss' ],
-  imports: [MatDialogModule, MatButtonModule, SelectRequired, MatChipsModule, MatCheckboxModule,
-    NgIf, InputNumberRequired, FlexTablePanel, MatIconModule],
-  standalone  : true,
+    selector: 'filter-result-dialog',
+    templateUrl: 'result.dialog.html',
+    styleUrls: ['result.dialog.scss'],
+    imports: [MatDialogModule, MatButtonModule, SelectRequired, MatChipsModule, MatCheckboxModule,
+        NgIf, InputNumberRequired, FlexTablePanel, MatIconModule]
 })
 
 //=============================================================================

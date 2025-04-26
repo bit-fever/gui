@@ -20,11 +20,10 @@ import {TreeNodeProvider}        from "../../../model/flex-tree";
 //=============================================================================
 
 @Component({
-  selector    :     'flex-tree',
-  templateUrl :   './flex-tree.panel.html',
-  styleUrls   : [ './flex-tree.panel.scss' ],
-  imports     : [CommonModule, MatButtonModule, MatIconModule, MatTreeModule],
-  standalone  : true
+    selector: 'flex-tree',
+    templateUrl: './flex-tree.panel.html',
+    styleUrls: ['./flex-tree.panel.scss'],
+    imports: [CommonModule, MatButtonModule, MatIconModule, MatTreeModule]
 })
 
 //=============================================================================

@@ -30,11 +30,10 @@ import {BfErrorStateMatcher} from "../error-state-matcher";
 //=============================================================================
 
 @Component({
-  selector    :     'input-number-required',
-  templateUrl :   './input-number-required.html',
-  styleUrls   : [ './input-number-required.scss' ],
-  imports: [MatFormFieldModule, MatOptionModule, MatInputModule, FormsModule, ReactiveFormsModule, NgIf, MatButtonModule, MatIconModule],
-  standalone  : true
+    selector: 'input-number-required',
+    templateUrl: './input-number-required.html',
+    styleUrls: ['./input-number-required.scss'],
+    imports: [MatFormFieldModule, MatOptionModule, MatInputModule, FormsModule, ReactiveFormsModule, NgIf, MatButtonModule, MatIconModule]
 })
 
 //=============================================================================

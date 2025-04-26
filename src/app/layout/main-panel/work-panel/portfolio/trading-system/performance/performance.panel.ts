@@ -29,14 +29,13 @@ import {AppEvent} from "../../../../../../model/event";
 //=============================================================================
 
 @Component({
-  selector    :     "tradingSystem-performance",
-  templateUrl :   './performance.panel.html',
-  styleUrls   : [ './performance.panel.scss' ],
-  imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule,
-    MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
-    MatDividerModule,
-  ],
-  standalone  : true
+    selector: "tradingSystem-performance",
+    templateUrl: './performance.panel.html',
+    styleUrls: ['./performance.panel.scss'],
+    imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule,
+        MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
+        MatDividerModule,
+    ]
 })
 
 //=============================================================================

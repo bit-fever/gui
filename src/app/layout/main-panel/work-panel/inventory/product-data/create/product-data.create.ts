@@ -44,14 +44,13 @@ enum Status {
 //=============================================================================
 
 @Component({
-  selector    :     "productData-create",
-  templateUrl :   './product-data.create.html',
-  styleUrls   : [ './product-data.create.scss' ],
-  imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
-    MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
-    MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired
-  ],
-  standalone  : true
+    selector: "productData-create",
+    templateUrl: './product-data.create.html',
+    styleUrls: ['./product-data.create.scss'],
+    imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
+        MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
+        MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired
+    ]
 })
 
 //=============================================================================

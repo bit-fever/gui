@@ -28,12 +28,11 @@ import {IntDateAdapter} from "./int-date-adapter";
 //=============================================================================
 
 @Component({
-  selector    :   'date-picker',
-  templateUrl :   'date-picker.html',
-  styleUrls   : [ 'date-picker.scss' ],
-  imports     : [MatFormFieldModule, MatInputModule, MatDatepickerModule, NgIf, ReactiveFormsModule, MatNativeDateModule],
-  providers   : [{provide: DateAdapter, useClass: IntDateAdapter}],
-  standalone  : true
+    selector: 'date-picker',
+    templateUrl: 'date-picker.html',
+    styleUrls: ['date-picker.scss'],
+    imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, NgIf, ReactiveFormsModule, MatNativeDateModule],
+    providers: [{ provide: DateAdapter, useClass: IntDateAdapter }]
 })
 
 //=============================================================================
