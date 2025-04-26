@@ -326,6 +326,7 @@ page:
         lastNumTrades  : Num of trades
         lastTrade      : Last trade
         currency       : Currency
+        performance    : Performance
         buttons:
           on      : On
           off     : Off
@@ -346,6 +347,9 @@ page:
           inactive: Inactive
           manual  : Manual
           auto    : Auto
+
+      performance:
+        title: Trading system performance
 
     # ----------------------------------------------------------------------------
 

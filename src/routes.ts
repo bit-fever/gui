@@ -54,6 +54,9 @@ import {
 import {
   TradingSystemEditPanel
 } from "./app/layout/main-panel/work-panel/portfolio/trading-system/development/edit/edit.panel";
+import {
+  TradingSystemPerformancePanel
+} from "./app/layout/main-panel/work-panel/portfolio/trading-system/performance/performance.panel";
 
 //=============================================================================
 
@@ -83,7 +86,8 @@ export const routes: Routes = [
   //--- Portfolio
 
   { path: Url.Portfolio_TradingSystems,           component: TradingSystemDashboard          },
-  { path: Url.Right_TradingSystem_Edit,           component: TradingSystemEditPanel,   outlet : 'right' },
+  { path: Url.Right_TradingSystem_Edit,           component: TradingSystemEditPanel,        outlet : 'right' },
+  { path: Url.Right_TradingSystem_Performance,    component: TradingSystemPerformancePanel, outlet : 'right' },
 
   { path: Url.Portfolio_TradingSystems_Id, children : [
       { path: Url.Sub_Filtering, component:  FilteringPanel }
