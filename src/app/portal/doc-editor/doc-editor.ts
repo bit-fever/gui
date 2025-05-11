@@ -30,7 +30,7 @@ import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-to
     selector: 'doc-editor',
     templateUrl: './doc-editor.html',
     styleUrls: ['./doc-editor.scss'],
-    imports: [PortalModule, MatButtonToggle, MatButtonToggleGroup]
+    imports: [PortalModule]
 })
 
 //=============================================================================

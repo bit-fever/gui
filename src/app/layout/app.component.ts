@@ -14,6 +14,8 @@ import {SessionService} from "../service/session.service";
 import {DocEditor} from "../portal/doc-editor/doc-editor";
 import {PortalModule} from "@angular/cdk/portal";
 import {PortalService} from "../service/portal.service";
+import {LabelService} from "../service/label.service";
+import {MenuService} from "../service/menu.service";
 
 //=============================================================================
 
@@ -35,6 +37,8 @@ export class AppComponent implements OnInit {
   //-------------------------------------------------------------------------
 
   constructor(public sessionService : SessionService,
+              public labelService   : LabelService,
+              public menuService    : MenuService,
               public portalService  : PortalService) {}
 
   //-------------------------------------------------------------------------

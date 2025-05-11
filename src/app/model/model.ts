@@ -710,3 +710,74 @@ export class TradingSession {
 }
 
 //=============================================================================
+//===
+//=== Performance Analysis
+//===
+//=============================================================================
+
+export class PerformanceAnalysisRequest {
+  daysBack : number = 0
+  timezone : string = ""
+}
+
+//=============================================================================
+
+export class PerformanceAnalysisResponse {
+  tradingSystem? : PorTradingSystem;
+  gross?         : Performance;
+  net?           : Performance;
+  allEquities?   : PerfEquities;
+  longEquities?  : PerfEquities;
+  shortEquities? : PerfEquities;
+  trades         : Trade[] = []
+}
+
+//=============================================================================
+
+export class Performance {
+  profit?        : Value;
+  maxDrawdown?   : Value;
+  averageTrade?  : Value;
+  percentProfit? : Value;
+}
+
+//=============================================================================
+
+export class Value {
+  total : number = 0;
+  long  : number = 0;
+  short : number = 0;
+}
+
+//=============================================================================
+
+export class PerfEquities {
+  time         : Date[]   = [];
+  grossProfit  : number[] = [];
+  netProfit    : number[] = [];
+  grossDrawdown: number[] = [];
+  netDrawdown  : number[] = [];
+  trades?      : number;
+}
+
+//=============================================================================
+
+export class Trade {
+  id?                 : number
+  tradingSystemId?    : number
+  tradeType?          : string
+  entryDate?          : Date
+  entryPrice?         : number
+  entryLabel?         : string
+  exitDate?           : Date
+  exitPrice?          : number
+  exitLabel?          : string
+  grossProfit?        : number
+  contracts?          : number
+  entryDateAtBroker?  : Date
+  entryPriceAtBroker? : number
+  exitDateAtBroker?   : Date
+  exitPriceAtBroker?  : number
+}
+
+//=============================================================================

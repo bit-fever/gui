@@ -54,8 +54,9 @@
 </mat-card>
 
 <mat-menu #dropMenu="matMenu">
-  <button mat-menu-item (click)="onMenuToReady()">{{menu('toReady')}}</button>
-  <button mat-menu-item (click)="onMenuFilter()" >{{menu('filter')}}</button>
+  <button mat-menu-item (click)="onMenuToReady()"       >{{menu('toReady')}}</button>
+  <button mat-menu-item (click)="onMenuFilter()"        >{{menu('filter')}}</button>
   <button mat-menu-item (click)="onMenuDocumentation()" >{{menu('documentation')}}</button>
+  <button mat-menu-item (click)="onMenuDeleteTrades()"  >{{menu('deleteTrades')}}</button>
   <button mat-menu-item (click)="onMenuDelete()" [disabled]="ts.running">{{menu('delete')}}</button>
 </mat-menu>

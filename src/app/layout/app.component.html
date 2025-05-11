@@ -1,4 +1,4 @@
-<div *ngIf="sessionService.isAuthenticated">
+<div *ngIf="sessionService.isAuthenticated && labelService.isLoaded">
   <header-panel></header-panel>
   <main-panel></main-panel>
 </div>

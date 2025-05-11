@@ -60,8 +60,8 @@ import {BiasConfig, BiasSummaryResponse, DataPointDowList, DataPointEntry} from 
     styleUrls: ['./bias-analysis.playground.scss'],
     imports: [CommonModule, MatButton, MatIcon, MatFabButton, NgApexchartsModule, MatChipListbox, MatChipOption, SelectRequired,
         MatMiniFabButton, ChipSetTextComponent, MatChipGrid, MatChipInput, MatChipRemove, MatChipRow, MatFormField, MatLabel,
-        MatError, MatIconButton, MatInput, MatSuffix, ReactiveFormsModule, MatTabGroup, MatTab, MatButtonToggle, MatButtonToggleGroup, MatTooltip, FlexTablePanel,
-        MatGridListModule, InputNumberRequired]
+        MatError, MatIconButton, MatInput, MatSuffix, ReactiveFormsModule, MatTabGroup, MatTab, MatButtonToggle, MatButtonToggleGroup, FlexTablePanel,
+        MatGridListModule]
 })
 
 //=============================================================================

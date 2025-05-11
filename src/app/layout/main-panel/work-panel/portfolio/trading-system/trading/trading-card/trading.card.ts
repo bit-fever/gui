@@ -205,7 +205,7 @@ export class TradingCard extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onPerformanceClick() {
-    this.openRightPanel(Url.Portfolio_TradingSystems, Url.Right_TradingSystem_Performance, AppEvent.TRADINGSYSTEM_PERFORMANCE_START, this.ts);
+    this.openRightPanel(Url.Portfolio_TradingSystems, Url.Right_TradingSystem_Performance, AppEvent.TRADINGSYSTEM_PERFORMANCE_START, this.ts.id);
   }
 
   //-------------------------------------------------------------------------
@@ -236,6 +236,14 @@ export class TradingCard extends AbstractPanel {
 
   onMenuDocumentation() {
     this.portalService.openDocEditor(this.ts.id)
+  }
+
+  //-------------------------------------------------------------------------
+
+  onMenuDeleteTrades() {
+    this.portfolioService.deleteTradingSystemTrades(this.ts.id).subscribe( res => {
+      this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_LIST_RELOAD))
+    })
   }
 
   //-------------------------------------------------------------------------

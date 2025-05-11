@@ -1,0 +1,27 @@
+<div class="main-layout">
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <div class="filters">
+    <mat-form-field>
+      <mat-label>{{loc("filter")}}</mat-label>
+      <input matInput type="text" [(ngModel)]="filter">
+      @if (filter) {
+        <button matSuffix mat-icon-button (click)="filter=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </mat-form-field>
+
+    <span style="flex:1 0 auto"></span>
+
+    <button mat-stroked-button [disabled]="true">{{trades.length}}</button>
+  </div>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <flex-table #table class="table-panel"
+              [columns]    = "columns"
+              [data]       = "trades"
+              [searchPanel]= "false"
+  ></flex-table>
+</div>

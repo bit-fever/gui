@@ -1,9 +1,42 @@
 <div class="main-layout">
-  <right-title-panel icon="query_stats" title="{{loc('title')}}" (onClose)="onClose()"></right-title-panel>
+  <right-title-panel icon="query_stats" title="{{par.tradingSystem?.name}}" (onClose)="onClose()"></right-title-panel>
 
-  <div class="form-layout">
-    <span>bla bla</span>
+  <!-- ============================================================================================================= -->
+
+  <div class="header-layout">
+    <mat-form-field class="periods-layout">
+      <mat-label>{{loc("period")}}</mat-label>
+      <mat-select [value]="selectedPeriod" (selectionChange)="onPeriodChange($event)">
+        <mat-option *ngFor="let p of periods" [value]="p.id">
+          {{p.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <select-required  #timezoneCtrl  [label]="loc('timezone')"  [(key)]  ="timezone"  keyField="timezone" valueField="code" [list]="timezones" (keyChange)="onTimezoneChange($event)"></select-required>
+
+    <span style="flex:1 0 auto"></span>
+
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="selTab" class="tabs-layout">
+      <mat-button-toggle value="summary" (change)="onTabSet()">{{ loc("tab.summary") }}</mat-button-toggle>
+      <mat-button-toggle value="charts"  (change)="onTabSet()">{{ loc("tab.charts") }}</mat-button-toggle>
+      <mat-button-toggle value="trades"  (change)="onTabSet()">{{ loc("tab.trades") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <div>
+      <button mat-icon-button (click)="onReloadClick()">
+        <span class="material-symbols-outlined">refresh</span>
+      </button>
+    </div>
   </div>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <performance-summary-panel *ngIf="selTab.value=='summary'" class="panel-layout" [par]="par"></performance-summary-panel>
+  <performance-chart-panel   #chartPanel  *ngIf="selTab.value=='charts'"  class="panel-layout"></performance-chart-panel>
+  <performance-trade-panel   *ngIf="selTab.value=='trades'"  class="panel-layout" [par]="par"></performance-trade-panel>
+
+  <!-- ============================================================================================================= -->
 
   <div class="buttons-layout">
     <mat-divider></mat-divider>

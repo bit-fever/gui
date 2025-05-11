@@ -1,0 +1,41 @@
+<div class="main-layout">
+  <table class="table-layout">
+    <thead>
+      <tr>
+        <th>{{loc('metric')}}</th>
+        <th></th>
+        <th>{{loc('all')}}</th>
+        <th>{{loc('long')}}</th>
+        <th>{{loc('short')}}</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <ng-template ngFor let-row [ngForOf]="summary">
+        <tr>
+          <td class="metric-style" rowspan="2">{{row.text}}</td>
+          <td class="up-type-style">{{loc('gross')}}</td>
+          <td class="up-value-style {{row.grossTotStyle()}}">{{row.grossTotal}}</td>
+          <td class="up-value-style {{row.grossLonStyle()}}">{{row.grossLong}}</td>
+          <td class="up-value-style {{row.grossShoStyle()}}">{{row.grossShort}}</td>
+        </tr>
+        <tr>
+          <td class="down-type-style">{{loc('net')}}</td>
+          <td class="down-value-style {{ row.netTotStyle()}}">{{row.netTotal}}</td>
+          <td class="down-value-style {{ row.netLonStyle()}}">{{row.netLong}}</td>
+          <td class="down-value-style {{ row.netShoStyle()}}">{{row.netShort}}</td>
+        </tr>
+      </ng-template>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <tr>
+        <td class="metric-style">{{loc('trades')}}</td>
+        <td class="type-style"></td>
+        <td class="value-style">{{par?.allEquities?.trades}}</td>
+        <td class="value-style">{{par?.longEquities?.trades}}</td>
+        <td class="value-style">{{par?.shortEquities?.trades}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -20,7 +20,7 @@ import {
   TradingSystemPropertyResponse,
   Portfolio,
   PortfolioTree,
-  FinalizationResponse,
+  FinalizationResponse, PerformanceAnalysisRequest, PerformanceAnalysisResponse,
 } from "../model/model";
 import {HttpService}     from "./http.service";
 import {ListResponse} from "../model/flex-table";
@@ -54,6 +54,12 @@ export class PortfolioService {
 
   //---------------------------------------------------------------------------
 
+  public getPerformanceAnalysis = (id:number, req : PerformanceAnalysisRequest): Observable<PerformanceAnalysisResponse> => {
+    return this.httpService.post<PerformanceAnalysisResponse>('/api/portfolio/v1/trading-systems/'+ id +'/performance-analysis', req);
+  }
+
+  //---------------------------------------------------------------------------
+
   public setTradingSystemTrading = (id: number, value: boolean): Observable<TradingSystemPropertyResponse> => {
     return this.httpService.post<TradingSystemPropertyResponse>('/api/portfolio/v1/trading-systems/'+ id +'/trading', { value: value });
   }
@@ -74,6 +80,12 @@ export class PortfolioService {
 
   public setTradingSystemActive = (id: number, value: boolean): Observable<TradingSystemPropertyResponse> => {
     return this.httpService.post<TradingSystemPropertyResponse>('/api/portfolio/v1/trading-systems/'+ id +'/active', { value: value });
+  }
+
+  //---------------------------------------------------------------------------
+
+  public deleteTradingSystemTrades = (id:number): Observable<void> => {
+    return this.httpService.delete<void>('/api/portfolio/v1/trading-systems/'+ id +'/trades');
   }
 
   //---------------------------------------------------------------------------

@@ -9,7 +9,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule}    from "@angular/material/icon";
-import {MatButtonModule}  from "@angular/material/button";
+import {MatButtonModule, MatIconButton} from "@angular/material/button";
 
 
 //=============================================================================
@@ -18,7 +18,7 @@ import {MatButtonModule}  from "@angular/material/button";
     selector: 'right-title-panel',
     templateUrl: './right-title.panel.html',
     styleUrls: ['./right-title.panel.scss'],
-    imports: [MatToolbarModule, MatIconModule, MatButtonModule]
+  imports: [MatToolbarModule, MatIconModule, MatButtonModule, MatIconButton, MatIconButton]
 })
 
 //=============================================================================

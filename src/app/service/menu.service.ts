@@ -49,6 +49,7 @@ export class MenuService extends AbstractSubscriber {
   //-------------------------------------------------------------------------
 
   private setMenu(): void {
+    console.log("Initializing left menu...")
     const menu: Menu = [
       {
         id: 'menu.main',
