@@ -1,1 +1,43 @@
-<div class="main-layout">Chart</div>
+<div class="main-layout">
+  <div class="header-layout">
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="tradeType" class="toggle-layout">
+      <mat-button-toggle value="all"    (change)="onTradeTypeChange()">{{ loc("all") }}</mat-button-toggle>
+      <mat-button-toggle value="long"   (change)="onTradeTypeChange()">{{ loc("long") }}</mat-button-toggle>
+      <mat-button-toggle value="short"  (change)="onTradeTypeChange()">{{ loc("short") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="profitType" class="toggle-layout">
+      <mat-button-toggle value="all"    (change)="onProfitTypeChange()">{{ loc("all") }}</mat-button-toggle>
+      <mat-button-toggle value="gross"  (change)="onProfitTypeChange()">{{ loc("gross") }}</mat-button-toggle>
+      <mat-button-toggle value="net"    (change)="onProfitTypeChange()">{{ loc("net") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-button-toggle-group [hideMultipleSelectionIndicator]="true" [multiple]="true" [formControl]="showDrawdown" class="toggle-layout">
+      <mat-button-toggle value="true" (change)="onDrawdownChange()">{{ loc("drawdown") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="chartType" class="toggle-layout">
+      <mat-button-toggle value="time"  (change)="onChartTypeChange()">{{ loc("time") }}</mat-button-toggle>
+      <mat-button-toggle value="trade" (change)="onChartTypeChange()">{{ loc("trade") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-button-toggle-group [hideMultipleSelectionIndicator]="true" [multiple]="true" [formControl]="showSteps" class="toggle-layout">
+      <mat-button-toggle value="true" (change)="onStepsChange()">{{ loc("stepline") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <!-- ============================================================================================================= -->
+
+  <div class="chart-layout">
+    <apx-chart
+      [title]      = "chartOptions.title"
+      [chart]      = "chartOptions.chart"
+      [series]     = "chartOptions.series"
+      [dataLabels] = "chartOptions.dataLabels"
+      [plotOptions]= "chartOptions.plotOptions"
+      [stroke]     = "chartOptions.stroke"
+      [xaxis]      = "chartOptions.xaxis"
+      [colors]     = "chartOptions.colors"
+    ></apx-chart>
+  </div>
+</div>

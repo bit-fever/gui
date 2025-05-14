@@ -24,6 +24,7 @@ import {Url} from "../../../../../../../model/urls";
 import {AppEvent} from "../../../../../../../model/event";
 import {InventoryService} from "../../../../../../../service/inventory.service";
 import {StorageService} from "../../../../../../../service/storage.service";
+import {PortalService} from "../../../../../../../service/portal.service";
 
 //=============================================================================
 
@@ -65,6 +66,7 @@ export class ReadyCard extends AbstractPanel {
               private inventoryService: InventoryService,
               private portfolioService: PortfolioService,
               private storageService  : StorageService,
+              private portalService   : PortalService,
   ) {
     super(eventBusService, labelService, router, "portfolio.tradingSystem.ready");
   }
@@ -130,20 +132,11 @@ export class ReadyCard extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  onTradingClick() {
-    let value = ""+ !this.ts.running
-  }
 
   //-------------------------------------------------------------------------
   //---
   //--- Menu events
   //---
-  //-------------------------------------------------------------------------
-
-  onMenuFilter() {
-    this.navigateTo([ Url.Portfolio_TradingSystems, this.ts.id, Url.Sub_Filtering ]);
-  }
-
   //-------------------------------------------------------------------------
 
   onMenuToTrading() {
@@ -155,6 +148,26 @@ export class ReadyCard extends AbstractPanel {
         let message = this.loc("error.toTrading")+" : "+ res.message
         this.snackBar.open(message, this.button("ok"))
       }
+    })
+  }
+
+  //-------------------------------------------------------------------------
+
+  onMenuFilter() {
+    this.navigateTo([ Url.Portfolio_TradingSystems, this.ts.id, Url.Sub_Filtering ]);
+  }
+
+  //-------------------------------------------------------------------------
+
+  onMenuDocumentation() {
+    this.portalService.openDocEditor(this.ts.id)
+  }
+
+  //-------------------------------------------------------------------------
+
+  onMenuDeleteTrades() {
+    this.portfolioService.deleteTradingSystemTrades(this.ts.id).subscribe( res => {
+      this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_LIST_RELOAD))
     })
   }
 

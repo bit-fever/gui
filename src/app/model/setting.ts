@@ -13,6 +13,10 @@ export enum Setting {
   Portfolio_TradSys_Activation = "port.ts.activation",
   Portfolio_TradSys_PerfPeriod = "port.ts.perfPeriod",
   Portfolio_TradSys_PerfTab    = "port.ts.perfTab",
+  Portfolio_TradSys_PerfTrade  = "port.ts.perfTrade",
+  Portfolio_TradSys_PerfProfit = "port.ts.perfProfit",
+  Portfolio_TradSys_PerfDdown  = "port.ts.perfDdown",
+  Portfolio_TradSys_PerfChart  = "port.ts.perfChart",
 }
 
 //=============================================================================

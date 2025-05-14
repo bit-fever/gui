@@ -380,6 +380,8 @@ page:
             name: Last year
           - id: 730
             name: Last 2 years
+          - id: 1825
+            name: Last 5 years
           - id: 0
             name: All
         tab:
@@ -398,6 +400,20 @@ page:
           maxDD   : Max drawdown
           avgTrade: Average trade
           trades  : Trades
+        chart:
+          all           : All
+          long          : Long
+          short         : Short
+          gross         : Gross
+          net           : Net
+          time          : Time
+          trade         : Trade
+          drawdown      : Drawdown
+          grossEquity   : Gross equity
+          netEquity     : Net equity
+          grossDrawdown : Gross drawdown
+          netDrawdown   : Net drawdown
+          stepline      : Stepline
         trades:
           filter: Filter...
 

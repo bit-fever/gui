@@ -6,6 +6,32 @@
 //=== found in the LICENSE file
 //=============================================================================
 
+import {
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexDataLabels,
+  ApexPlotOptions,
+  ApexStroke, ApexTitleSubtitle,
+  ApexXAxis,
+  ApexYAxis
+} from "ng-apexcharts";
+
+//=============================================================================
+
+export type ChartOptions = {
+  title      : ApexTitleSubtitle,
+  series     : ApexAxisChartSeries;
+  chart      : ApexChart;
+  xaxis      : ApexXAxis;
+  yaxis      : ApexYAxis;
+  plotOptions: ApexPlotOptions;
+  dataLabels : ApexDataLabels;
+  stroke     : ApexStroke;
+  colors     : string[]
+};
+
+//=============================================================================
+
 export class ChartLib {
 
   //-------------------------------------------------------------------------
@@ -14,7 +40,7 @@ export class ChartLib {
   //---
   //-------------------------------------------------------------------------
 
-  public buildDataset(name: string, times : any[], values : number[], isDrawdown? : boolean) : any {
+  public buildDataset(name: string, times : any[], values : number[], isDrawdown? : boolean, color? : string) : any {
     let data : any[] = values.map( (e, i) => {
       return {
         x : times[i] ,
@@ -26,7 +52,7 @@ export class ChartLib {
       name: name,
       data: data,
       type: "line",
-      color: "",
+      color: color,
     }
 
     if (isDrawdown) {

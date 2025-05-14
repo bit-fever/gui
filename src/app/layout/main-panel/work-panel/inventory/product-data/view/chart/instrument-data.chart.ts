@@ -36,18 +36,7 @@ import {
   ApexPlotOptions,
   ApexDataLabels, ChartComponent,
 } from "ng-apexcharts";
-
-//=============================================================================
-
-export type ChartOptions = {
-  series     : ApexAxisChartSeries;
-  chart      : ApexChart;
-  xaxis      : ApexXAxis;
-  yaxis      : ApexYAxis;
-  plotOptions: ApexPlotOptions;
-  dataLabels : ApexDataLabels;
-  stroke     : ApexStroke;
-};
+import {ChartOptions} from "../../../../../../../lib/chart-lib";
 
 //=============================================================================
 
@@ -310,6 +299,7 @@ export class DataInstrumentChartPanel extends AbstractPanel {
 
   private buildMainChartOptions() : ChartOptions {
     return {
+      title: {},
       series: [{
           data: []
         }
@@ -341,7 +331,8 @@ export class DataInstrumentChartPanel extends AbstractPanel {
           formatter: this.mainTooltip
         }
       },
-      yaxis: {}
+      yaxis: {},
+      colors: [],
     };
   }
 
@@ -385,6 +376,7 @@ export class DataInstrumentChartPanel extends AbstractPanel {
 
   private buildSmallChartOptions() : ChartOptions {
     return {
+      title: {},
       series: [
         {
           data: []
@@ -421,7 +413,8 @@ export class DataInstrumentChartPanel extends AbstractPanel {
       xaxis: {
         type: "datetime",
       },
-      yaxis: {}
+      yaxis: {},
+      colors: [],
     };
   }
 

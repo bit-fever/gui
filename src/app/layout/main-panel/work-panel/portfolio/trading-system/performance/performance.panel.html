@@ -13,11 +13,11 @@
       </mat-select>
     </mat-form-field>
 
-    <select-required  #timezoneCtrl  [label]="loc('timezone')"  [(key)]  ="timezone"  keyField="timezone" valueField="code" [list]="timezones" (keyChange)="onTimezoneChange($event)"></select-required>
+    <select-required [label]="loc('timezone')"  [(key)]  ="timezone"  keyField="timezone" valueField="code" [list]="timezones" (keyChange)="onTimezoneChange($event)"></select-required>
 
     <span style="flex:1 0 auto"></span>
 
-    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="selTab" class="tabs-layout">
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="selTab">
       <mat-button-toggle value="summary" (change)="onTabSet()">{{ loc("tab.summary") }}</mat-button-toggle>
       <mat-button-toggle value="charts"  (change)="onTabSet()">{{ loc("tab.charts") }}</mat-button-toggle>
       <mat-button-toggle value="trades"  (change)="onTabSet()">{{ loc("tab.trades") }}</mat-button-toggle>
@@ -33,7 +33,7 @@
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
   <performance-summary-panel *ngIf="selTab.value=='summary'" class="panel-layout" [par]="par"></performance-summary-panel>
-  <performance-chart-panel   #chartPanel  *ngIf="selTab.value=='charts'"  class="panel-layout"></performance-chart-panel>
+  <performance-chart-panel   *ngIf="selTab.value=='charts'"  class="panel-layout" [par]="par"></performance-chart-panel>
   <performance-trade-panel   *ngIf="selTab.value=='trades'"  class="panel-layout" [par]="par"></performance-trade-panel>
 
   <!-- ============================================================================================================= -->
