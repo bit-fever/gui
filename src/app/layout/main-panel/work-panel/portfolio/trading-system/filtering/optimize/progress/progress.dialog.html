@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>{{loc("title_progress")}}</h2>
+<h2 mat-dialog-title>{{loc("titleProgress")}}</h2>
 <mat-dialog-content class="mat-typography">
   <div class="main-layout">
     <mat-progress-spinner class="example-margin" [value]="percentage">
@@ -61,13 +61,26 @@
         <td></td>
         <td class="data-style"></td>
         <td></td>
-        <td></td>
-        <td class="data-style"></td>
+        <td>{{loc("taStartDate")}}</td>
+        <td class="data-style">{{response?.startDate}}</td>
         <td></td>
         <td>{{loc("taTrendline")}}</td>
         <td>
           <mat-icon *ngIf="response?.filter?.trendline"  fontIcon="done"></mat-icon>
           <mat-icon *ngIf="!response?.filter?.trendline" fontIcon="close"></mat-icon>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td class="data-style"></td>
+        <td></td>
+        <td></td>
+        <td class="data-style"></td>
+        <td></td>
+        <td>{{loc("taDrawdown")}}</td>
+        <td>
+          <mat-icon *ngIf="response?.filter?.drawdown"  fontIcon="done"></mat-icon>
+          <mat-icon *ngIf="!response?.filter?.drawdown" fontIcon="close"></mat-icon>
         </td>
       </tr>
     </table>

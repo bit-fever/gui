@@ -1,152 +1,136 @@
 <div class="main-layout">
 
   <mat-accordion class="left-layout" multi>
-    <mat-expansion-panel [expanded]="filter.posProEnabled" hideToggle>
+    <mat-expansion-panel [expanded]="filter.posProEnabled" hideToggle class="expansion-layout">
       <mat-expansion-panel-header>
-        <mat-panel-title>{{loc("positiveProfit")}}
-          <span class="filler"></span>
-          <mat-icon>functions</mat-icon>
+        <mat-panel-title><mat-icon>functions</mat-icon> {{loc("positiveProfit")}}
+          <span class="filler"> </span>
           <mat-slide-toggle (change)="onPositiveProfitChange($event)" [checked]="filter.posProEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
         </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <mat-form-field>
-        <mat-label>{{loc("length")}}</mat-label>
-        <input matInput type="number" min="1" max="300" required [(ngModel)]="filter.posProLen">
-      </mat-form-field>
+      <input-number-required [(value)]="filter.posProLen" [label]="loc('length')" [min]="1" [max]="300"></input-number-required>
     </mat-expansion-panel>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <mat-expansion-panel [expanded]="filter.oldNewEnabled" hideToggle>
+    <mat-expansion-panel [expanded]="filter.oldNewEnabled" hideToggle class="expansion-layout">
       <mat-expansion-panel-header>
-        <mat-panel-title>{{loc("oldVsNew")}}
+        <mat-panel-title><mat-icon>date_range</mat-icon> {{loc("oldVsNew")}}
           <span class="filler"></span>
-          <mat-icon>date_range</mat-icon>
           <mat-slide-toggle (change)="onOldVsNewChange($event)" [checked]="filter.oldNewEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
         </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <mat-form-field>
-        <mat-label>{{loc("oldLen")}}</mat-label>
-        <input matInput type="number" min="1" max="600" required  [(ngModel)]="filter.oldNewOldLen">
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>{{loc("newLen")}}</mat-label>
-        <input matInput type="number" min="1" max="300" required [(ngModel)]="filter.oldNewNewLen">
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>{{loc("oldPercentage")}}</mat-label>
-        <input matInput type="number" min="1" max="150" required [(ngModel)]="filter.oldNewOldPerc">
-      </mat-form-field>
+      <input-number-required [(value)]="filter.oldNewOldLen"  [label]="loc('oldLen')"        [min]="1" [max]="600"></input-number-required>
+      <input-number-required [(value)]="filter.oldNewNewLen"  [label]="loc('newLen')"        [min]="1" [max]="300"></input-number-required>
+      <input-number-required [(value)]="filter.oldNewOldPerc" [label]="loc('oldPercentage')" [min]="1" [max]="150"></input-number-required>
     </mat-expansion-panel>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <mat-expansion-panel [expanded]="filter.winPerEnabled" hideToggle>
+    <mat-expansion-panel [expanded]="filter.winPerEnabled" hideToggle class="expansion-layout">
       <mat-expansion-panel-header>
-        <mat-panel-title>{{loc("winningPercentage")}}
+        <mat-panel-title><mat-icon>percent</mat-icon> {{loc("winningPercentage")}}
           <span class="filler"></span>
-          <mat-icon>percent</mat-icon>
           <mat-slide-toggle (change)="onWinningPercentageChange($event)" [checked]="filter.winPerEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
         </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <mat-form-field>
-        <mat-label>{{loc("length")}}</mat-label>
-        <input matInput type="number" min="1" max="300" required [(ngModel)]="filter.winPerLen">
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>{{loc("winningPercValue")}}</mat-label>
-        <input matInput type="number" min="1" max="100" required [(ngModel)]="filter.winPerValue">
-      </mat-form-field>
+      <input-number-required [(value)]="filter.winPerLen"   [label]="loc('length')"           [min]="1" [max]="300"></input-number-required>
+      <input-number-required [(value)]="filter.winPerValue" [label]="loc('winningPercValue')" [min]="1" [max]="100"></input-number-required>
     </mat-expansion-panel>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <mat-expansion-panel [expanded]="filter.equAvgEnabled" hideToggle>
+    <mat-expansion-panel [expanded]="filter.equAvgEnabled" hideToggle class="expansion-layout">
       <mat-expansion-panel-header>
-        <mat-panel-title>{{loc("equityAverage")}}
+        <mat-panel-title><mat-icon>ssid_chart</mat-icon> {{loc("equityAverage")}}
           <span class="filler"></span>
-          <mat-icon>ssid_chart</mat-icon>
           <mat-slide-toggle (change)="onEquityAverageChange($event)" [checked]="filter.equAvgEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
         </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <mat-form-field>
-        <mat-label>{{loc("equityLen")}}</mat-label>
-        <input matInput type="number" min="1" max="300" required [(ngModel)]="filter.equAvgLen">
-      </mat-form-field>
+      <input-number-required [(value)]="filter.equAvgLen" [label]="loc('equityLen')" [min]="1" [max]="300"></input-number-required>
     </mat-expansion-panel>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <mat-expansion-panel [expanded]="filter.trendlineEnabled" hideToggle>
+    <mat-expansion-panel [expanded]="filter.trendlineEnabled" hideToggle class="expansion-layout">
       <mat-expansion-panel-header>
-        <mat-panel-title>{{loc("trendline")}}
+        <mat-panel-title><mat-icon>trending_up</mat-icon> {{loc("trendline")}}
           <span class="filler"></span>
-          <mat-icon>trending_up</mat-icon>
           <mat-slide-toggle (change)="onTrendlineChange($event)" [checked]="filter.trendlineEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
         </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <mat-form-field>
-        <mat-label>{{loc("length")}}</mat-label>
-        <input matInput type="number" min="1" max="300" required [(ngModel)]="filter.trendlineLen">
-      </mat-form-field>
+      <input-number-required [(value)]="filter.trendlineLen"   [label]="loc('length')"         [min]="1" [max]="300"></input-number-required>
+      <input-number-required [(value)]="filter.trendlineValue" [label]="loc('trendlineValue')" [min]="1" [max]="200"></input-number-required>
+    </mat-expansion-panel>
 
-      <mat-form-field>
-        <mat-label>{{loc("trendlineValue")}}</mat-label>
-        <input matInput type="number" min="1" max="200" required [(ngModel)]="filter.trendlineValue">
-      </mat-form-field>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <mat-expansion-panel [expanded]="filter.drawdownEnabled" hideToggle class="expansion-layout">
+      <mat-expansion-panel-header>
+        <mat-panel-title><mat-icon>support</mat-icon> {{loc("drawdown")}}
+          <span class="filler"></span>
+          <mat-slide-toggle (change)="onDrawdownChange($event)" [checked]="filter.drawdownEnabled" (click)="$event.stopPropagation()"></mat-slide-toggle>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <input-number-required [(value)]="filter.drawdownMin" [label]="loc('drawdownMin')" [min]="1" [max]="50000"></input-number-required>
+      <input-number-required [(value)]="filter.drawdownMax" [label]="loc('drawdownMax')" [min]="1" [max]="50000"></input-number-required>
     </mat-expansion-panel>
   </mat-accordion>
 
   <!-- ====================================================================== -->
 
   <div class="center-layout">
-    <div>
-      <button mat-button (click)="onRunClick()"     >{{button("run")}}</button>
-      <button mat-button (click)="onOptimizeClick()">{{button("optimize")}}</button>
-      <button mat-button (click)="onSaveClick()"    >{{button("save")}}</button>
-      <button mat-button (click)="onReloadClick()"  >{{button("reload")}}</button>
+    <div class="buttons-layout">
+      <select-required label="{{loc('period')}}" [(key)]="selectedPeriod" [list]="periods" keyField="id" valueField="name" (keyChange)="onPeriodChange($event)"></select-required>
+      <input-text-optional [label]="loc('startDate')" [value]="startDateDisplayed" [disabled]="true"></input-text-optional>
+      <flat-button label="{{button('run')}}"      (click)="onRunClick()"     ></flat-button>
+      <flat-button label="{{button('optimize')}}" (click)="onOptimizeClick()"></flat-button>
+      <flat-button label="{{button('save')}}"     (click)="onSaveClick()"    ></flat-button>
+      <flat-button label="{{button('reload')}}"   (click)="onReloadClick()"  ></flat-button>
     </div>
 
     <div class="chart-layout">
-      <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
-        <mat-tab label="{{tradingSystem.name}}">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{tradingSystem.name}}"</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
           <simple-table #table class="table-panel"
                         [columns]    = "summaryColumns"
                         [data]       = "summaryData"
                         [searchPanel]= "false"
           ></simple-table>
-        </mat-tab>
-      </mat-tab-group>
-
-      <apx-chart
-        [title]      = "equityChartOptions.title"
-        [chart]      = "equityChartOptions.chart"
-        [series]     = "equityChartOptions.series"
-        [dataLabels] = "equityChartOptions.dataLabels"
-        [plotOptions]= "equityChartOptions.plotOptions"
-        [stroke]     = "equityChartOptions.stroke"
-        [colors]     = "equityChartOptions.colors"
-        [xaxis]      = "equityChartOptions.xaxis"
-      ></apx-chart>
-      <apx-chart
-        [title]      = "activChartOptions.title"
-        [chart]      = "activChartOptions.chart"
-        [series]     = "activChartOptions.series"
-        [dataLabels] = "activChartOptions.dataLabels"
-        [plotOptions]= "activChartOptions.plotOptions"
-        [stroke]     = "activChartOptions.stroke"
-        [xaxis]      = "activChartOptions.xaxis"
-      ></apx-chart>
+          <p></p>
+          <apx-chart
+            [title]      = "equityChartOptions.title"
+            [chart]      = "equityChartOptions.chart"
+            [series]     = "equityChartOptions.series"
+            [dataLabels] = "equityChartOptions.dataLabels"
+            [plotOptions]= "equityChartOptions.plotOptions"
+            [stroke]     = "equityChartOptions.stroke"
+            [colors]     = "equityChartOptions.colors"
+            [xaxis]      = "equityChartOptions.xaxis"
+            [annotations]= "equityChartOptions.annotations"
+          ></apx-chart>
+          <apx-chart
+            [title]      = "activChartOptions.title"
+            [chart]      = "activChartOptions.chart"
+            [series]     = "activChartOptions.series"
+            [dataLabels] = "activChartOptions.dataLabels"
+            [plotOptions]= "activChartOptions.plotOptions"
+            [stroke]     = "activChartOptions.stroke"
+            [xaxis]      = "activChartOptions.xaxis"
+          ></apx-chart>
+        </mat-card-content>
+      </mat-card>
     </div>
-
   </div>
 
   <!-- ====================================================================== -->

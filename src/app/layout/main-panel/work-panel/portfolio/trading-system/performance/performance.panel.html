@@ -4,16 +4,8 @@
   <!-- ============================================================================================================= -->
 
   <div class="header-layout">
-    <mat-form-field class="periods-layout">
-      <mat-label>{{loc("period")}}</mat-label>
-      <mat-select [value]="selectedPeriod" (selectionChange)="onPeriodChange($event)">
-        <mat-option *ngFor="let p of periods" [value]="p.id">
-          {{p.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <select-required [label]="loc('timezone')"  [(key)]  ="timezone"  keyField="timezone" valueField="code" [list]="timezones" (keyChange)="onTimezoneChange($event)"></select-required>
+    <select-required [label]="loc('period')"   [(key)]="selectedPeriod" [list]="periods"   (keyChange)="onPeriodChange($event)"   keyField="id"       valueField="name"></select-required>
+    <select-required [label]="loc('timezone')" [(key)]="timezone"       [list]="timezones" (keyChange)="onTimezoneChange($event)" keyField="timezone" valueField="code"></select-required>
 
     <span style="flex:1 0 auto"></span>
 

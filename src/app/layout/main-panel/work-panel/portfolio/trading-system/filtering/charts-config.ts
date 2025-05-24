@@ -6,7 +6,8 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {ApexAxisChartSeries, ApexChart, ApexStroke, ApexTitleSubtitle, ApexXAxis} from "ng-apexcharts";
+import {ApexAnnotations, ApexAxisChartSeries, ApexChart, ApexStroke, ApexTitleSubtitle, ApexXAxis} from "ng-apexcharts";
+import {ChartOptions} from "../../../../../../lib/chart-lib";
 
 //=============================================================================
 //===
@@ -14,24 +15,28 @@ import {ApexAxisChartSeries, ApexChart, ApexStroke, ApexTitleSubtitle, ApexXAxis
 //===
 //=============================================================================
 
-export function buildEquityChartOptions(title : string) : {} {
+export function buildEquityChartOptions(title : string, clickFunction: any) : ChartOptions {
   return {
-    chart: <ApexChart>{
+    chart: {
       type: "line",
       height: 500,
       id: "base",
       group: "equity",
       zoom: {
         enabled: true,
-        allowMouseWheelZoom: false
+        allowMouseWheelZoom: false,
+        autoScaleYaxis: true
+      },
+      events: {
+        click: clickFunction,
       }
     },
 
-    series: <ApexAxisChartSeries>[],
+    series: [],
 
     plotOptions: {},
 
-    stroke: <ApexStroke>{
+    stroke: {
       curve: "stepline",
       width: 2,
       dashArray: [ 0, 0, 0, 0, 4]
@@ -41,14 +46,22 @@ export function buildEquityChartOptions(title : string) : {} {
       // enabled: true,
     },
 
-    title: <ApexTitleSubtitle>{
+    title: {
       text: title
     },
 
 //    colors: [ '#008FFB', '#00E396', '#FF0000', '#800000' ],
 
-    xaxis: <ApexXAxis>{
+    xaxis: {
       type: "datetime"
+    },
+
+    yaxis: {},
+
+    colors: [],
+
+    annotations: {
+      xaxis: [ {} ]
     }
   }
 }
@@ -59,8 +72,8 @@ export function buildEquityChartOptions(title : string) : {} {
 //===
 //=============================================================================
 
-export function buildActivationChartOptions(title : string) : {} {
-  return {
+export function buildActivationChartOptions(title : string) : ChartOptions {
+  return <ChartOptions>{
     chart: <ApexChart>{
       type: "line",
       height: 300,

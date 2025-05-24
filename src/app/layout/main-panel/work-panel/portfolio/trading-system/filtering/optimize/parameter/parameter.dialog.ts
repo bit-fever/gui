@@ -59,6 +59,7 @@ export class OptimizeParameterDialog extends AbstractPanel {
 
     super(eventBusService, labelService, router, "portfolio.filtering.optimize");
     this.resetOptions()
+    this.options.startDate = data.startDate
   }
 
   //-------------------------------------------------------------------------
@@ -102,6 +103,13 @@ export class OptimizeParameterDialog extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
+  onDrawdownChange(e: MatChipSelectionChange) {
+    this.options.filterConfig.enableDrawdown = e.selected;
+    this.updateFields();
+  }
+
+  //-------------------------------------------------------------------------
+
   onReset() {
     this.resetOptions()
   }
@@ -140,6 +148,9 @@ export class OptimizeParameterDialog extends AbstractPanel {
     o.filterConfig.enableTrendline        = !f.trendlineEnabled
     o.filterConfig.trendlineLen.enabled   = !f.trendlineEnabled
     o.filterConfig.trendlineValue.enabled = !f.trendlineEnabled
+    o.filterConfig.enableDrawdown         = !f.drawdownEnabled
+    o.filterConfig.drawdownMin.enabled    = !f.drawdownEnabled
+    o.filterConfig.drawdownMax.enabled    = !f.drawdownEnabled
 
     o.baseline = f
 

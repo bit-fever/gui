@@ -357,15 +357,21 @@ export class TradingFilter {
   trendlineEnabled : boolean = false
   trendlineLen     : number  = 0
   trendlineValue   : number  = 0
+
+  drawdownEnabled  : boolean = false
+  drawdownMin      : number  = 0
+  drawdownMax      : number  = 0
 }
 
 //=============================================================================
 
 export class FilterAnalysisRequest {
-  filter? : TradingFilter
+  startDate? : string
+  filter?    : TradingFilter
 
-  constructor(filter? : TradingFilter) {
-    this.filter = filter
+  constructor(startDate? : string, filter? : TradingFilter) {
+    this.startDate = startDate
+    this.filter    = filter
   }
 }
 
@@ -399,7 +405,7 @@ export class Serie {
 //-----------------------------------------------------------------------------
 
 export class Equities {
-  time               : Date  [] = []
+  time               : string[] = []
   unfilteredEquity   : number[] = []
   filteredEquity     : number[] = []
   unfilteredDrawdown : number[] = []
@@ -480,6 +486,7 @@ export class FilterConfig {
   enableWinPerc   : boolean = true
   enableEquAvg    : boolean = true
   enableTrendline : boolean = true
+  enableDrawdown  : boolean = true
 
   posProLen     : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 1)
   oldNewOldLen  : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 1)
@@ -490,6 +497,8 @@ export class FilterConfig {
   equAvgLen     : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 1)
   trendlineLen  : FieldOptimization = new FieldOptimization(true, 20, 2, 160, 1)
   trendlineValue: FieldOptimization = new FieldOptimization(true, 10, 1, 100, 1)
+  drawdownMin   : FieldOptimization = new FieldOptimization(true, 500, 100, 5000, 100)
+  drawdownMax   : FieldOptimization = new FieldOptimization(true, 100, 100, 5000, 100)
 }
 
 //=============================================================================
@@ -502,6 +511,7 @@ export class AlgorithmSpec {
 //=============================================================================
 
 export class FilterOptimizationRequest {
+  startDate?      : string
   fieldToOptimize : string  = "netProfit"
   filterConfig    : FilterConfig  = new FilterConfig()
   algorithm       : AlgorithmSpec = new AlgorithmSpec()
@@ -521,6 +531,7 @@ export class FilterOptimizationResponse {
   endTime?         : string
   status?          : string
   runs?            : FilterRun[]
+  startDate?       : string
   baseValue?       : number
   bestValue?       : number
   fieldToOptimize? : string
@@ -541,6 +552,7 @@ export class FilterRun {
   oldVsNewDes : string = ""
   winPercDes  : string = ""
   trendlineDes: string = ""
+  drawdownDes : string = ""
 }
 
 //=============================================================================
@@ -551,6 +563,7 @@ export class SelectedFilters {
   winPerc?   : boolean
   equVsAvg?  : boolean
   trendline? : boolean
+  drawdown?  : boolean
 }
 
 //=============================================================================

@@ -43,6 +43,11 @@ import {OptimizeParameterDialog} from "./optimize/parameter/parameter.dialog";
 import {ChartComponent} from "ng-apexcharts";
 import {buildActivationChartOptions, buildEquityChartOptions} from "./charts-config";
 import {DialogData} from "./optimize/dialog-data";
+import {MatCardModule} from "@angular/material/card";
+import {FlatButton} from "../../../../../../component/form/flat-button/flat-button";
+import {ChartOptions} from "../../../../../../lib/chart-lib";
+import {InputTextOptional} from "../../../../../../component/form/input-text-optional/input-text-optional";
+import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
 
 //=============================================================================
 
@@ -50,9 +55,10 @@ import {DialogData} from "./optimize/dialog-data";
     selector: 'trading-system-filtering',
     templateUrl: './filtering.panel.html',
     styleUrls: ['./filtering.panel.scss'],
-    imports: [CommonModule, RouterModule, MatExpansionModule, MatIconModule, MatFormFieldModule, FormsModule,
-        MatInputModule, MatOptionModule, MatSelectModule, MatSlideToggleModule, MatTabsModule, MatButtonModule,
-        MatDividerModule, SelectRequired, MatGridListModule, SimpleTablePanel, MatDialogModule, ChartComponent]
+  imports: [CommonModule, RouterModule, MatExpansionModule, MatIconModule, MatFormFieldModule, FormsModule,
+    MatInputModule, MatOptionModule, MatSelectModule, MatSlideToggleModule, MatTabsModule, MatButtonModule,
+    MatDividerModule, SelectRequired, MatGridListModule, SimpleTablePanel, MatDialogModule, ChartComponent, MatCardModule,
+    FlatButton, InputTextOptional, InputNumberRequired]
 })
 
 //=============================================================================
@@ -65,12 +71,18 @@ export class FilteringPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
+  selectedPeriod : number = 0
+  periods        : any
+
+  startDate          : string|undefined
+  startDateDisplayed : string|undefined
+
   filter             = new TradingFilter()
   tradingSystem= new TradingSystemSmall()
   summary              = new Summary()
 
-  equityChartOptions : any
-  activChartOptions  : any
+  equityChartOptions : ChartOptions
+  activChartOptions  : ChartOptions
 
   summaryColumns: FlexTableColumn[] = [];
   summaryData   : SummaryRow[]      = []
@@ -106,7 +118,7 @@ export class FilteringPanel extends AbstractPanel {
       new FlexTableColumn(ts, "filtered")
     ]
 
-    this.equityChartOptions = buildEquityChartOptions(this.loc("equities"))
+    this.equityChartOptions = buildEquityChartOptions    (this.loc("equities"), this.onChartClick)
     this.activChartOptions  = buildActivationChartOptions(this.loc("activation"))
   }
 
@@ -117,7 +129,8 @@ export class FilteringPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   override init = () : void => {
-    this.tsId = Number(this.route.snapshot.paramMap.get("id"));
+    this.tsId      = Number(this.route.snapshot.paramMap.get("id"));
+    this.periods   = this.labelMap("periods");
     this.callService(new FilterAnalysisRequest())
   }
 
@@ -125,6 +138,24 @@ export class FilteringPanel extends AbstractPanel {
   //---
   //--- Event methods
   //---
+  //-------------------------------------------------------------------------
+
+  onPeriodChange(value: number) {
+    if (value == -1) {
+    }
+    else if (value == 0) {
+      this.startDate          = undefined
+      this.startDateDisplayed = undefined
+      this.setAnnotationDate(undefined)
+    }
+    else {
+      let date = this.findDateFromDays(value)
+      this.startDate          = date.toISOString()
+      this.startDateDisplayed = this.startDate.substring(0, 10)
+      this.setAnnotationDate(date)
+    }
+  }
+
   //-------------------------------------------------------------------------
 
   onPositiveProfitChange(e : MatSlideToggleChange) {
@@ -157,8 +188,14 @@ export class FilteringPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
+  onDrawdownChange(e : MatSlideToggleChange) {
+    this.filter.drawdownEnabled = e.checked;
+  }
+
+  //-------------------------------------------------------------------------
+
   onRunClick() {
-    this.callService(new FilterAnalysisRequest(this.filter))
+    this.callService(new FilterAnalysisRequest(this.startDate, this.filter))
   }
 
   //-------------------------------------------------------------------------
@@ -196,12 +233,24 @@ export class FilteringPanel extends AbstractPanel {
   }
 
   //-------------------------------------------------------------------------
+
+  onChartClick = (e: any, chart?: any, options?: any) => {
+    if (this.analysis.equities.time.length > 0) {
+      this.selectedPeriod     = -1
+      this.startDate          = this.analysis.equities.time[options.dataPointIndex]
+      this.startDateDisplayed = this.startDate.substring(0,10)
+      this.setAnnotationDate(new Date(this.startDate))
+    }
+  }
+
+  //-------------------------------------------------------------------------
   //---
   //--- Private methods
   //---
   //-------------------------------------------------------------------------
 
   private callService(req : FilterAnalysisRequest) {
+    console.log("Calling service")
     this.portfolioService.runFilterAnalysis(this.tsId, req).subscribe(
       result => {
         this.analysis       = result;
@@ -213,6 +262,43 @@ export class FilteringPanel extends AbstractPanel {
         this.createActivationChart(result);
       }
     )
+  }
+
+  //-------------------------------------------------------------------------
+
+  private findDateFromDays(daysBack : number) : Date {
+    let now   = new Date().getTime()
+    let delta = daysBack * 24 * 3600 * 1000
+    let past    = new Date(now-delta)
+
+    return new Date(past)
+  }
+
+  //-------------------------------------------------------------------------
+
+  private setAnnotationDate(d : Date|undefined) {
+    let date = undefined
+    let text = ""
+
+    if (d != undefined) {
+      date = d.getTime()
+      text = d.toISOString().substring(0, 10)
+    }
+
+    this.equityChartOptions.annotations = {
+      xaxis: [
+        {
+          x: date,
+          borderColor: '#775DD0',
+          label: {
+            style: {
+              color: '#000000',
+            },
+            text: text
+          }
+        }
+      ]
+    }
   }
 
   //-------------------------------------------------------------------------
@@ -302,7 +388,7 @@ export class FilteringPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  private addActivationDatasetBase(time:Date[], values:number[], label : string, factor : number) : any {
+  private addActivationDatasetBase(time:any[], values:number[], label : string, factor : number) : any {
     for (let i=0; i<values.length; i++) {
       values[i] += factor
     }
@@ -318,9 +404,10 @@ export class FilteringPanel extends AbstractPanel {
     const dialogRef = this.dialog.open(OptimizeParameterDialog, {
       minWidth : "1280px",
       data: <DialogData>{
-        tsId    : this.tradingSystem.id,
-        tsName  : this.tradingSystem.name,
-        baseline: this.filter
+        tsId     : this.tradingSystem.id,
+        tsName   : this.tradingSystem.name,
+        startDate: this.startDate,
+        baseline : this.filter
       }
     })
 
@@ -353,7 +440,7 @@ export class FilteringPanel extends AbstractPanel {
 
   private openResultDialog() {
     const dialogRef = this.dialog.open(OptimizeResultDialog, {
-      minWidth: "1400px",
+      minWidth: "1600px",
       data: {
         tsId    : this.tradingSystem.id,
         tsName  : this.tradingSystem.name,

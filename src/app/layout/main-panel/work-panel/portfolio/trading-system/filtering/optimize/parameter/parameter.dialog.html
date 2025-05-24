@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>{{loc("title_params")}}</h2>
+<h2 mat-dialog-title>{{loc("titleParams")}}</h2>
 <mat-dialog-content class="dialog-style">
   <mat-tab-group>
     <mat-tab label="{{loc('tabFilter')}}">
@@ -8,6 +8,7 @@
       <mat-chip-option (selectionChange)="onWinPercChange   ($event)" [selected]="options.filterConfig.enableWinPerc"  >{{loc("winningPerc")}}</mat-chip-option>
       <mat-chip-option (selectionChange)="onEquVsAvgChange  ($event)" [selected]="options.filterConfig.enableEquAvg"   >{{loc("equityVsAverage")}}</mat-chip-option>
       <mat-chip-option (selectionChange)="onTrendlineChange ($event)" [selected]="options.filterConfig.enableTrendline">{{loc("trendline")}}</mat-chip-option>
+      <mat-chip-option (selectionChange)="onDrawdownChange  ($event)" [selected]="options.filterConfig.enableDrawdown" >{{loc("drawdown")}}</mat-chip-option>
 
       <table>
         <tr>
@@ -194,6 +195,46 @@
             <input-number-required class ="value-style" *ngIf="options.filterConfig.trendlineValue.enabled" [(value)]="options.filterConfig.trendlineValue.minValue" [label]="loc('minValue')" [min]="1" [max]="300"></input-number-required>
             <input-number-required class ="value-style" *ngIf="options.filterConfig.trendlineValue.enabled" [(value)]="options.filterConfig.trendlineValue.maxValue" [label]="loc('maxValue')" [min]="1" [max]="300"></input-number-required>
             <input-number-required class ="value-style" *ngIf="options.filterConfig.trendlineValue.enabled" [(value)]="options.filterConfig.trendlineValue.step"     [label]="loc('step')"     [min]="1" [max]="300"></input-number-required>
+          </td>
+        </tr>
+
+        <!-- Drawdown: min - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <tr *ngIf="options.filterConfig.enableDrawdown">
+          <td>
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? options.filterConfig.drawdownMin.toggle() : null"
+                          [checked]="options.filterConfig.drawdownMin.enabled">
+            </mat-checkbox>
+          </td>
+          <td>{{loc("drawdown")}}</td>
+          <td>{{loc("minValue")}}</td>
+          <td>
+            <input-number-required *ngIf="!options.filterConfig.drawdownMin.enabled" [(value)]="options.filterConfig.drawdownMin.curValue" [label]="loc('curValue')" [min]="1" [max]="50000"></input-number-required>
+
+            <input-number-required class ="value-style" *ngIf="options.filterConfig.drawdownMin.enabled" [(value)]="options.filterConfig.drawdownMin.minValue" [label]="loc('minValue')" [min]="1" [max]="50000"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.filterConfig.drawdownMin.enabled" [(value)]="options.filterConfig.drawdownMin.maxValue" [label]="loc('maxValue')" [min]="1" [max]="50000"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.filterConfig.drawdownMin.enabled" [(value)]="options.filterConfig.drawdownMin.step"     [label]="loc('step')"     [min]="1" [max]="50000"></input-number-required>
+          </td>
+        </tr>
+
+        <!-- Drawdown: max - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <tr *ngIf="options.filterConfig.enableDrawdown">
+          <td>
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? options.filterConfig.drawdownMax.toggle() : null"
+                          [checked]="options.filterConfig.drawdownMax.enabled">
+            </mat-checkbox>
+          </td>
+          <td>{{loc("drawdown")}}</td>
+          <td>{{loc("maxValue")}}</td>
+          <td>
+            <input-number-required *ngIf="!options.filterConfig.drawdownMax.enabled" [(value)]="options.filterConfig.drawdownMax.curValue" [label]="loc('curValue')" [min]="1" [max]="50000"></input-number-required>
+
+            <input-number-required class ="value-style" *ngIf="options.filterConfig.drawdownMax.enabled" [(value)]="options.filterConfig.drawdownMax.minValue" [label]="loc('minValue')" [min]="1" [max]="50000"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.filterConfig.drawdownMax.enabled" [(value)]="options.filterConfig.drawdownMax.maxValue" [label]="loc('maxValue')" [min]="1" [max]="50000"></input-number-required>
+            <input-number-required class ="value-style" *ngIf="options.filterConfig.drawdownMax.enabled" [(value)]="options.filterConfig.drawdownMax.step"     [label]="loc('step')"     [min]="1" [max]="50000"></input-number-required>
           </td>
         </tr>
       </table>

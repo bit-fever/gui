@@ -53,6 +53,9 @@ export class OptimizeResultDialog extends AbstractPanel {
   steps?    : number
   duration? : number
   field     : string = ""
+  baseValue?: number
+  bestValue?: number
+  startDate?: string
 
   //-------------------------------------------------------------------------
   //---
@@ -70,13 +73,16 @@ export class OptimizeResultDialog extends AbstractPanel {
     super(eventBusService, labelService, router, "portfolio.filtering.optimize");
 
     this.portfolioService.getFilterOptimizationInfo(this.data.tsId).subscribe(
-      result => {
-        if (result.runs) {
-          this.steps    = result.maxSteps
-          this.duration = result.duration
+      res => {
+        if (res.runs) {
+          this.steps    = res.maxSteps
+          this.duration = res.duration
+          this.baseValue= res.baseValue
+          this.bestValue= res.bestValue
+          this.startDate= res.startDate
           // @ts-ignore
-          this.field    = this.fieldToOptimize(result.fieldToOptimize)
-          this.runs     = result.runs
+          this.field    = this.fieldToOptimize(res.fieldToOptimize)
+          this.runs     = res.runs
           this.runs.forEach(run => {
             this.calcDescription(run)
           })
@@ -150,6 +156,7 @@ export class OptimizeResultDialog extends AbstractPanel {
       new FlexTableColumn(ts, "oldVsNewDes"),
       new FlexTableColumn(ts, "winPercDes"),
       new FlexTableColumn(ts, "trendlineDes"),
+      new FlexTableColumn(ts, "drawdownDes"),
     ]
   }
 
@@ -186,6 +193,10 @@ export class OptimizeResultDialog extends AbstractPanel {
 
     if (f.trendlineEnabled) {
       run.trendlineDes = "Len:"+ f.trendlineLen +", Val:"+ f.trendlineValue
+    }
+
+    if (f.drawdownEnabled) {
+      run.drawdownDes = "Min:"+ f.drawdownMin +", Max:"+ f.drawdownMax
     }
   }
 }

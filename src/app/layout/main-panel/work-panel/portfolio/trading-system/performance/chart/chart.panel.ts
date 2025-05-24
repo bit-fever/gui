@@ -162,9 +162,9 @@ export class PerformanceChartPanel extends AbstractPanel {
 
   private buildChartOptions() : ChartOptions {
     return {
-      title: <ApexTitleSubtitle>{
+      title: {
       },
-      chart: <ApexChart>{
+      chart: {
         type: "line",
         height: 500,
         id: "base",
@@ -176,11 +176,11 @@ export class PerformanceChartPanel extends AbstractPanel {
         }
       },
 
-      series: <ApexAxisChartSeries>[],
+      series: [],
 
       plotOptions: {},
 
-      stroke: <ApexStroke>{
+      stroke: {
         curve: "stepline",
         width: 2,
       },
@@ -190,11 +190,12 @@ export class PerformanceChartPanel extends AbstractPanel {
 
       colors: [],
 
-      xaxis: <ApexXAxis>{
+      xaxis: {
         type: "datetime"
       },
 
-      yaxis: <ApexYAxis>{}
+      yaxis: {},
+      annotations: {},
     }
   }
 

@@ -1,30 +1,18 @@
 //=============================================================================
 //===
-//=== Copyright (C) 2022 Andrea Carboni
+//=== Copyright (C) 2025 Andrea Carboni
 //===
 //=== Use of this source code is governed by an MIT-style license that can be
 //=== found in the LICENSE file
 //=============================================================================
 
-$font-family:
-  // Safari for OS X and iOS (San Francisco)
-  -apple-system,
-  // Chrome < 56 for OS X (San Francisco)
-  BlinkMacSystemFont,
-  // Windows
-  'Segoe UI',
-  // Android
-  'Roboto',
-  // Basic web fallback
-  'Helvetica Neue',
-  Arial, sans-serif,
-  // Emoji fonts
-  'Apple Color Emoji',
-  'Segoe UI Emoji', 'Segoe UI Symbol';
+@import "../../../../styles/variables";
 
 //=============================================================================
 
-$background-color: #E0E8EF;
-$buttons-color   : #707E90;
+.flat-style {
+  background-color: $buttons-color !important;
+  font-size       : smaller;
+}
 
 //=============================================================================

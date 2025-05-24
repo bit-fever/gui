@@ -121,9 +121,8 @@ export class TradingSystemPerformancePanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  onPeriodChange(e: MatSelectChange) {
-    this.selectedPeriod = e.value;
-    this.localService.setItem(Setting.Portfolio_TradSys_PerfPeriod, e.value)
+  onPeriodChange(value: string) {
+    this.localService.setItem(Setting.Portfolio_TradSys_PerfPeriod, value)
     this.reload();
   }
 

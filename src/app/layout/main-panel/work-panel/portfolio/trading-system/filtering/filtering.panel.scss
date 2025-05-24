@@ -6,28 +6,48 @@
 //=== found in the LICENSE file
 //=============================================================================
 
+@import "../../../../../../../styles/variables";
+
+//=============================================================================
+
 .main-layout {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: stretch;
-  gap: 16px;
+  gap: 0;
   height   : 100%;
   overflow: hidden;
-  padding: 0 8px 0 8px;
 }
 
 //=============================================================================
 
 .left-layout {
-  width: 320px;
+  width: 340px;
   overflow-y: auto;
+  background-color: $background-color;
+  padding-top: 8px;
 }
 
-.left-layout .mat-expansion-panel-header-title {
+//-----------------------------------------------------------------------------
+
+.expansion-layout {
+  margin-left : 8px;
+  margin-right: 8px;
+}
+
+//-----------------------------------------------------------------------------
+
+.expansion-layout .mat-expansion-panel-header-title {
   justify-content: space-between;
   align-items: center;
+}
+
+//-----------------------------------------------------------------------------
+
+mat-accordion input-number-required {
+  width: 100%;
 }
 
 //=============================================================================
@@ -40,16 +60,30 @@
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: stretch;
-  gap: 16px;
+  gap: 8px;
   height   : 100%;
   overflow: hidden;
-  padding: 0 8px 0 8px;
+  background-color: $background-color;
+}
+
+//=============================================================================
+
+.buttons-layout {
+  padding-top: 4px;
+  padding-left: 4px;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
 }
 
 //=============================================================================
 
 .filler {
-  flex: 1 1 auto;
+  flex: 1 0 auto;
 }
 
 //=============================================================================
@@ -67,6 +101,20 @@
   text-align: center;
   width: 100%;
   padding-top: 10px;
+}
+
+//=============================================================================
+
+mat-card {
+  background-color: white;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+//=============================================================================
+
+simple-table table {
+  background-color: white;
 }
 
 //=============================================================================

@@ -1,15 +1,25 @@
-<h2 mat-dialog-title>{{loc("title_result")}}</h2>
+<h2 mat-dialog-title>{{loc("titleResult")}}</h2>
 <mat-dialog-content class="mat-typography">
   <table class="summary-layout">
     <tr>
       <td>{{loc("taTotalSteps")}}</td>
       <td class="data-style">{{steps}}</td>
       <td class="separator-layout"></td>
-      <td>{{loc("taDuration")}}</td>
-      <td class="data-style">{{duration}} secs</td>
+      <td>{{loc("taBaseValue")}}</td>
+      <td class="data-style">{{baseValue}}</td>
       <td class="separator-layout"></td>
       <td>{{loc("taOptimFor")}}</td>
       <td class="data-style">{{field}}</td>
+    </tr>
+    <tr>
+      <td>{{loc("taDuration")}}</td>
+      <td class="data-style">{{duration}} secs</td>
+      <td class="separator-layout"></td>
+      <td>{{loc("taBestValue")}}</td>
+      <td class="data-style">{{bestValue}}</td>
+      <td class="separator-layout"></td>
+      <td>{{loc("taStartDate")}}</td>
+      <td class="data-style">{{startDate}}</td>
     </tr>
   </table>
 

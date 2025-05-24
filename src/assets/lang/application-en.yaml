@@ -149,6 +149,7 @@ model:
     oldVsNewDes : Old vs new
     winPercDes  : Winning %
     trendlineDes: Trendline
+    drawdownDes : Drawdown
 
   dataProduct:
     id             : Id
@@ -451,6 +452,21 @@ page:
     # ----------------------------------------------------------------------------
 
     filtering:
+      period: Period
+      startDate: Start filtering from
+      periods:
+        - id: 365
+          name: Last year
+        - id: 730
+          name: Last 2 years
+        - id: 1825
+          name: Last 5 years
+        - id: 3650
+          name: Last 10 years
+        - id: 0
+          name: All
+        - id: -1
+          name: Custom
       equities:          Equities and drawdowns
       activation:        Activation
       length:            Trades length
@@ -465,6 +481,9 @@ page:
       equityLen:         Average trades length
       trendline:         Trendline slope > value
       trendlineValue:    Slope * 100
+      drawdown:          Drawdown
+      drawdownMin:       Min value
+      drawdownMax:       Max value
       filterSaved:       Filter saved
       summary: Summary
       analysis: Analysis
@@ -491,19 +510,20 @@ page:
         filterActivation: Filter activation
 
       optimize:
-        title_params  : Filter optimization - Parameters
-        title_progress: Filter optimization - Progress
-        title_result  : Filter optimization - Result
-        tabFilter     : Filter
-        tabAlgorithm  : Algorithm
-        optimizeFor   : Optimize for
-        algorithm     : Algorithm
-        positiveProfit: Positive profit
-        oldVsNewPeriod: Old vs new
-        winningPerc   : Winning %
+        titleParams    : Filter optimization - Parameters
+        titleProgress  : Filter optimization - Progress
+        titleResult    : Filter optimization - Result
+        tabFilter      : Filter
+        tabAlgorithm   : Algorithm
+        optimizeFor    : Optimize for
+        algorithm      : Algorithm
+        positiveProfit : Positive profit
+        oldVsNewPeriod : Old vs new
+        winningPerc    : Winning %
         equityVsAverage: Equity vs average
-        trendline:       Trendline
-        value:           Value
+        trendline      : Trendline
+        drawdown       : Drawdown
+        value          : Value
         selected:  Selected
         filter:    Filter
         parameter: Parameter
@@ -544,8 +564,10 @@ page:
         taWinPerc:    Winning percentage
         taEquVsAvg:   Equity vs average
         taTrendline:  Trendline
+        taDrawdown:   Drawdown
         taDuration:   Duration
         taGain:       Gain
+        taStartDate:  Start date
   instrumentSelector:
     message: Data instrument
     title  : Data instrument selector
