@@ -28,6 +28,7 @@ import {AppEvent} from "../../../../../../../model/event";
 import {InventoryService} from "../../../../../../../service/inventory.service";
 import {StorageService} from "../../../../../../../service/storage.service";
 import {PortalService} from "../../../../../../../service/portal.service";
+import {FlatButton} from "../../../../../../../component/form/flat-button/flat-button";
 
 //=============================================================================
 
@@ -39,7 +40,7 @@ const LABEL_ROOT = "page.portfolio.tradingSystem.trading.buttons"
     selector: 'trading-card',
     templateUrl: './trading.card.html',
     styleUrls: ['./trading.card.scss'],
-    imports: [MatFormFieldModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIconModule, CheckButton, MatCardModule, MatMenuModule]
+  imports: [MatFormFieldModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIconModule, CheckButton, MatCardModule, MatMenuModule, FlatButton]
 })
 
 //=============================================================================

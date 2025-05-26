@@ -1,4 +1,4 @@
-<mat-card class="ts-card" appearance="outlined" xmlns="http://www.w3.org/1999/html">
+<mat-card class="ts-card">
   <mat-card-header>
     <div mat-card-avatar>
       <mat-icon class="marketType" fontIcon="{{marketTypeIcon()}}"></mat-icon>
@@ -41,6 +41,9 @@
       </table>
     </div>
   </mat-card-content>
+  <mat-card-actions>
+    <flat-button icon="query_stats" label="{{loc('performance')}}" (click)="onPerformanceClick()"></flat-button>
+  </mat-card-actions>
 </mat-card>
 
 <mat-menu #dropMenu="matMenu">

@@ -26,7 +26,7 @@
 .left-layout {
   width: 340px;
   overflow-y: auto;
-  background-color: $background-color;
+  background-color: $backgroundColor;
   padding-top: 8px;
 }
 
@@ -63,7 +63,7 @@ mat-accordion input-number-required {
   gap: 8px;
   height   : 100%;
   overflow: hidden;
-  background-color: $background-color;
+  background-color: $backgroundColor;
 }
 
 //=============================================================================

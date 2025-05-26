@@ -25,6 +25,7 @@ import {AppEvent} from "../../../../../../../model/event";
 import {InventoryService} from "../../../../../../../service/inventory.service";
 import {StorageService} from "../../../../../../../service/storage.service";
 import {PortalService} from "../../../../../../../service/portal.service";
+import {FlatButton} from "../../../../../../../component/form/flat-button/flat-button";
 
 //=============================================================================
 
@@ -36,7 +37,7 @@ const LABEL_ROOT = "page.portfolio.tradingSystem.trading.buttons"
     selector: 'ready-card',
     templateUrl: './ready.card.html',
     styleUrls: ['./ready.card.scss'],
-    imports: [MatFormFieldModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIconModule, MatCardModule, MatMenuModule]
+  imports: [MatFormFieldModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIconModule, MatCardModule, MatMenuModule, FlatButton]
 })
 
 //=============================================================================
@@ -132,6 +133,9 @@ export class ReadyCard extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
+  onPerformanceClick() {
+    this.openRightPanel(Url.Portfolio_TradingSystems, Url.Right_TradingSystem_Performance, AppEvent.TRADINGSYSTEM_PERFORMANCE_START, this.ts.id);
+  }
 
   //-------------------------------------------------------------------------
   //---

@@ -334,6 +334,7 @@ page:
         lastNumTrades  : Num of trades
         lastTrade      : Last trade
         currency       : Currency
+        performance    : Performance
         error:
           toTrading: Can't move the trading system to TRADING
       trading:

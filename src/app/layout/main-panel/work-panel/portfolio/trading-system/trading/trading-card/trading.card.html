@@ -1,4 +1,4 @@
-<mat-card class="ts-card" appearance="outlined">
+<mat-card class="ts-card">
   <mat-card-header>
     <div mat-card-avatar>
       <mat-icon class="marketType" fontIcon="{{marketTypeIcon()}}"></mat-icon>
@@ -46,9 +46,7 @@
     <check-button [status]="ts.running"        [config]="powerConfig" (valueChange)="onPowerClick()"></check-button>
     <check-button [status]="ts.autoActivation" [config]="activConfig" (valueChange)="onActivationClick()"></check-button>
     <check-button [status]="ts.active"         [config]="enablConfig" (valueChange)="onActiveClick()"></check-button>
-    <button mat-stroked-button (click)="onPerformanceClick()" class="performance-layout">
-      <mat-icon class="material-symbols-outlined">query_stats</mat-icon>{{loc('performance')}}
-    </button>
+    <flat-button icon="query_stats" label="{{loc('performance')}}" (click)="onPerformanceClick()"></flat-button>
     <span class="suggested-action">{{suggAction(ts.suggestedAction)}}</span>
   </mat-card-actions>
 </mat-card>
