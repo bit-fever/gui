@@ -345,6 +345,9 @@ page:
         lastTrade      : Last trade
         currency       : Currency
         performance    : Performance
+        chart:
+          time  : Time
+          trades: Trades
         buttons:
           on      : On
           off     : Off

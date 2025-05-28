@@ -62,7 +62,11 @@ export class TradingCard extends AbstractPanel {
 
   ts : PorTradingSystem = new PorTradingSystem()
 
-  equityChart? : string
+  equityChartTime?   : string
+  equityChartTrades? : string
+
+  @Input()
+  chartType : string|null = "time"
 
   //-------------------------------------------------------------------------
   //---
@@ -97,8 +101,11 @@ export class TradingCard extends AbstractPanel {
   @Input()
   set tradingSystem(ts : PorTradingSystem) {
     this.ts = ts
-    this.storageService.getEquityChart(ts.id).subscribe( res => {
-      this.equityChart = btoa(String.fromCharCode(...new Uint8Array(res)));
+    this.storageService.getEquityChart(ts.id, "time").subscribe( res => {
+      this.equityChartTime = btoa(String.fromCharCode(...new Uint8Array(res)));
+    })
+    this.storageService.getEquityChart(ts.id, "trades").subscribe( res => {
+      this.equityChartTrades = btoa(String.fromCharCode(...new Uint8Array(res)));
     })
   }
 
@@ -155,6 +162,16 @@ export class TradingCard extends AbstractPanel {
 
   statusColor(status : number|undefined) : string|undefined {
     return (status != undefined) ? this.statusStyler.getStyle(status, null).color : ""
+  }
+
+  //-------------------------------------------------------------------------
+
+  equityChart() : string|undefined {
+    if (this.chartType == "time") {
+      return this.equityChartTime
+    }
+
+    return this.equityChartTrades
   }
 
   //-------------------------------------------------------------------------

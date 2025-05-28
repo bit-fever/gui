@@ -14,6 +14,11 @@
       }
     </mat-form-field>
 
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="selChartType">
+      <mat-button-toggle value="time"   (change)="onChartTypeChange()">{{ loc("chart.time") }}</mat-button-toggle>
+      <mat-button-toggle value="trades" (change)="onChartTypeChange()">{{ loc("chart.trades") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+
     <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="selRunning">
       <mat-button-toggle value="*" (change)="onFlagRunningChange()">{{ loc("filters.all") }}</mat-button-toggle>
       <mat-button-toggle value="r" (change)="onFlagRunningChange()">{{ loc("filters.running") }}</mat-button-toggle>
@@ -45,6 +50,6 @@
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
   <div class="ts-layout">
-    <trading-card *ngFor="let ts of tradingSystems" [tradingSystem]="ts"></trading-card>
+    <trading-card *ngFor="let ts of tradingSystems" [tradingSystem]="ts" [chartType]="selChartType.value"></trading-card>
   </div>
 </div>

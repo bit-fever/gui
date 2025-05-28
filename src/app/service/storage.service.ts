@@ -29,8 +29,8 @@ export class StorageService {
   //---
   //---------------------------------------------------------------------------
 
-  public getEquityChart = (id:number): Observable<ArrayBuffer> => {
-    return this.httpService.getBytes('/api/storage/v1/trading-systems/'+ id +'/equity-chart');
+  public getEquityChart = (id:number, type:string): Observable<ArrayBuffer> => {
+    return this.httpService.getBytes('/api/storage/v1/trading-systems/'+ id +'/equity-chart?type='+type);
   }
 }
 

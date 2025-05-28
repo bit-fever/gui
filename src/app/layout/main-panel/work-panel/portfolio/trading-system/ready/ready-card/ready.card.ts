@@ -87,7 +87,7 @@ export class ReadyCard extends AbstractPanel {
   @Input()
   set tradingSystem(ts : PorTradingSystem) {
     this.ts = ts
-    this.storageService.getEquityChart(ts.id).subscribe( res => {
+    this.storageService.getEquityChart(ts.id, "time").subscribe( res => {
       this.equityChart = btoa(String.fromCharCode(...new Uint8Array(res)));
     })
   }

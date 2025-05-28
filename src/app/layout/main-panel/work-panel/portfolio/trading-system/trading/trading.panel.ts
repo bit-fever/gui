@@ -49,6 +49,7 @@ export class TradingPanel extends AbstractPanel {
 
   _filter = ""
 
+  selChartType = new FormControl("time")
   selRunning   = new FormControl("*")
   selActive    = new FormControl("*")
   selActivation= new FormControl("*")
@@ -91,6 +92,7 @@ export class TradingPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   private setupSettings = () => {
+    this.selChartType .setValue(this.storageService.getItemWithDefault(Setting.Portfolio_TradSys_ChartType , "time"))
     this.selRunning   .setValue(this.storageService.getItemWithDefault(Setting.Portfolio_TradSys_Running   , "*"))
     this.selActive    .setValue(this.storageService.getItemWithDefault(Setting.Portfolio_TradSys_Active    , "*"))
     this.selActivation.setValue(this.storageService.getItemWithDefault(Setting.Portfolio_TradSys_Activation, "*"))
@@ -130,6 +132,13 @@ export class TradingPanel extends AbstractPanel {
   //---
   //--- Events
   //---
+  //-------------------------------------------------------------------------
+
+  onChartTypeChange() {
+    let value = this.selChartType.value
+    this.storageService.setItem(Setting.Portfolio_TradSys_ChartType, value)
+  }
+
   //-------------------------------------------------------------------------
 
   onFlagRunningChange() {
