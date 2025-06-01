@@ -79,7 +79,7 @@ export class InstrumentSelectorDialog extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   setupColumns = () => {
-    let ts = this.labelService.getLabel("model.instrumentData");
+    let ts = this.labelService.getLabel("model.dataInstrument");
 
     this.columns = [
       new FlexTableColumn(ts, "symbol"),

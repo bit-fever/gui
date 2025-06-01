@@ -163,7 +163,7 @@ export class ConnectionPanel extends AbstractPanel {
       new FlexTableColumn(ts, "name"),
       new FlexTableColumn(ts, "systemCode"),
       new FlexTableColumn(ts, "systemName"),
-      new FlexTableColumn(ts, "connectionCode", undefined, new ConnectionStyler()),
+      new FlexTableColumn(ts, "instanceCode", undefined, new ConnectionStyler()),
       new FlexTableColumn(ts, "updatedAt", new IsoDateTranscoder()),
     ]
   }
@@ -182,10 +182,11 @@ export class ConnectionPanel extends AbstractPanel {
 
     if ( selection.length == 1) {
       let conn = selection[0]
+      let isLocal = (conn.supportsMultipleData == true)
       let isConnected = (conn.instanceCode != "")
       this.disEdit    = isConnected
-      this.disConnect = isConnected
-      this.disDisconn = !isConnected
+      this.disConnect = isConnected  || isLocal
+      this.disDisconn = !isConnected || isLocal
     }
   }
 }

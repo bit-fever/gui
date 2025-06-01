@@ -9,6 +9,7 @@
 import {IconStyle, IconStyler, Transcoder} from "../../../model/flex-table";
 import {LabelService} from "../../../service/label.service";
 import {TsStatus} from "../../../model/model";
+import {isCollection} from "yaml";
 
 //=============================================================================
 //===
@@ -147,7 +148,10 @@ var FLAG_TRUE_RED   = new IconStyle("radio_button_checked",   "#A00000");
 export class ConnectionStyler implements IconStyler {
 
   getStyle(value : string, row? : any) : IconStyle {
-    if (value != undefined && value != '') return FLAG_TRUE_RED;
+    let isConnected = value != ""
+    let isLocal     = row["supportsMultipleData"] == true
+
+    if (isConnected || isLocal) return FLAG_TRUE_GREEN;
 
     return FLAG_FALSE;
   }

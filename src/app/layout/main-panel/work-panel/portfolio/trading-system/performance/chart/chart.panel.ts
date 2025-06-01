@@ -194,7 +194,9 @@ export class PerformanceChartPanel extends AbstractPanel {
         type: "datetime"
       },
 
-      yaxis: {},
+      yaxis: {
+        decimalsInFloat: 0
+      },
       annotations: {},
     }
   }

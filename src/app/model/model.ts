@@ -107,15 +107,15 @@ export class ConnectionSpec {
 //=============================================================================
 
 export class Connection extends ConnectionSpec {
-  username?              : string
-  systemName?            : string
-  instanceCode?          : string
-  supportsData?          : boolean
-  supportsBroker?        : boolean
-  supportsMultipleFeeds? : boolean
-  supportsInventory?     : boolean
-  createdAt?             : string
-  updatedAt?             : string
+  username?             : string
+  systemName?           : string
+  instanceCode?         : string
+  supportsData?         : boolean
+  supportsBroker?       : boolean
+  supportsMultipleData? : boolean
+  supportsInventory?    : boolean
+  createdAt?            : string
+  updatedAt?            : string
 }
 
 //=============================================================================
@@ -300,13 +300,13 @@ export class AdapterParam {
 //=============================================================================
 
 export class Adapter {
-  code?                  : string
-  name?                  : string
-  params                 : AdapterParam[] = []
-  supportsFeed?          : boolean
-  supportsBroker?        : boolean
-  supportsMultipleFeeds? : boolean
-  supportsInventory?     : boolean
+  code?                 : string
+  name?                 : string
+  params                : AdapterParam[] = []
+  supportsFeed?         : boolean
+  supportsBroker?       : boolean
+  supportsMultipleData? : boolean
+  supportsInventory?    : boolean
 }
 
 //=============================================================================

@@ -131,7 +131,7 @@ model:
     name                 : Name
     systemCode           : System code
     systemName           : System name
-    connectionCode       : Connected
+    instanceCode         : Connected
     supportsData         : Data
     supportsBroker       : Broker
     supportsMultipleData : MData
@@ -669,6 +669,7 @@ adapter:
     live    : Live
     authUrl : Authentication URL
     apiUrl  : API URL
+    noAuth  : No authentication
 
 # ==============================================================================
 # ===
