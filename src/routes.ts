@@ -57,6 +57,7 @@ import {
 import {
   TradingSystemPerformancePanel
 } from "./app/layout/main-panel/work-panel/portfolio/trading-system/performance/performance.panel";
+import {BiasAnalysisViewPanel} from "./app/layout/main-panel/work-panel/tool/bias-analysis/view/bias-analysis.view";
 
 //=============================================================================
 
@@ -99,6 +100,7 @@ export const routes: Routes = [
 
   { path: Url.Tool_BiasAnalyses,                  component: BiasAnalisysListPanel           },
   { path: Url.Right_BiasAnalysis_Create,          component: BiasAnalysisCreatePanel, outlet : 'right' },
+  { path: Url.Right_BiasAnalysis_View,            component: BiasAnalysisViewPanel,   outlet : 'right' },
   { path: Url.Right_BiasAnalysis_Edit,            component: BiasAnalysisEditPanel,   outlet : 'right' },
   { path: Url.Tool_BiasAnalyses_Id, children : [
       { path: Url.Sub_Playground, component:  BiasAnalysisPlaygroundPanel },

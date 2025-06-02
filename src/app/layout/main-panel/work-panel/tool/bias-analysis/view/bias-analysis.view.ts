@@ -23,32 +23,29 @@ import {MatButtonModule} from "@angular/material/button";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
 import {InputTextRequired} from "../../../../../../component/form/input-text-required/input-text-required";
-import {
-  BrokerProduct,
-} from "../../../../../../model/model";
 import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
 import {InventoryService} from "../../../../../../service/inventory.service";
 import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
-import {MatDialog} from "@angular/material/dialog";
-import {CollectorService} from "../../../../../../service/collector.service";
+import {BrokerProduct} from "../../../../../../model/model";
 import {InstrumentSelectorPanel} from "../../../../../../component/form/instrument-selector/instrument-selector.panel";
-import {BiasAnalysis} from "../model";
+import {CollectorService} from "../../../../../../service/collector.service";
+import {BiasAnalysis, BiasAnalysisFull} from "../model";
 
 //=============================================================================
 
 @Component({
-    selector: "biasAnalysis-create",
-    templateUrl: './bias-analysis.create.html',
-    styleUrls: ['./bias-analysis.create.scss'],
-    imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
-        MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
-        MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired, InstrumentSelectorPanel
-    ]
+  selector: "biasAnalysis-view",
+  templateUrl: './bias-analysis.view.html',
+  styleUrls: ['./bias-analysis.view.scss'],
+  imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule,
+    MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
+    MatDividerModule, InputTextRequired, SelectRequired, InstrumentSelectorPanel
+  ]
 })
 
 //=============================================================================
 
-export class BiasAnalysisCreatePanel extends AbstractPanel {
+export class BiasAnalysisViewPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
   //---
@@ -56,9 +53,7 @@ export class BiasAnalysisCreatePanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  ba = new BiasAnalysis()
-
-  products : BrokerProduct[] = []
+  ba = new BiasAnalysisFull()
 
   //-------------------------------------------------------------------------
   //---
@@ -69,17 +64,11 @@ export class BiasAnalysisCreatePanel extends AbstractPanel {
   constructor(eventBusService          : EventBusService,
               labelService             : LabelService,
               router                   : Router,
-              public  dialog           : MatDialog,
               private inventoryService : InventoryService,
               private collectorService : CollectorService) {
 
     super(eventBusService, labelService, router, "tool.biasAnalysis", "biasAnalysis");
-    super.subscribeToApp(AppEvent.BIASANALYSIS_CREATE_START, (e : AppEvent) => this.onStart(e));
-
-    inventoryService.getBrokerProducts(false).subscribe(
-      result => {
-        this.products = result.result;
-      })
+    super.subscribeToApp(AppEvent.BIASANALYSIS_VIEW_START, (e : AppEvent) => this.onStart(e));
   }
 
   //-------------------------------------------------------------------------
@@ -89,32 +78,13 @@ export class BiasAnalysisCreatePanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   private onStart(event : AppEvent) : void {
-    console.log("BiasAnalysisCreatePanel: Starting...");
-    this.ba = new BiasAnalysis()
-  }
-
-  //-------------------------------------------------------------------------
-
-  public saveEnabled() : boolean|undefined {
-    return  this.ba.name             != undefined &&
-            this.ba.dataInstrumentId != undefined &&
-            this.ba.brokerProductId  != undefined
-  }
-
-  //-------------------------------------------------------------------------
-
-  public onSave() : void {
-    this.collectorService.addBiasAnalysis(this.ba).subscribe( x => {
-      this.onClose();
-      this.ba = new BiasAnalysis()
-      this.emitToApp(new AppEvent<any>(AppEvent.BIASANALYSIS_LIST_RELOAD))
-    })
+    console.log("BiasAnalysisViewPanel: Starting...");
+    this.ba = Object.assign(new BiasAnalysis(), event.params)
   }
 
   //-------------------------------------------------------------------------
 
   public onClose() : void {
-    this.ba = new BiasAnalysis()
     super.emitToApp(new AppEvent(AppEvent.RIGHT_PANEL_CLOSE));
   }
 }

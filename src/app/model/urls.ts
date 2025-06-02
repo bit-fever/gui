@@ -40,6 +40,7 @@ export enum Url {
   Right_BrokerProduct_Create      = "brokerProduct-create",
   Right_BrokerProduct_Edit        = "brokerProduct-edit",
   Right_BiasAnalysis_Create       = "biasAnalysis-create",
+  Right_BiasAnalysis_View         = "biasAnalysis-view",
   Right_BiasAnalysis_Edit         = "biasAnalysis-edit",
 }
 

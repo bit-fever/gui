@@ -221,9 +221,12 @@ model:
     notes          : Notes
     dataSymbol     : Data symbol
     dataName       : Data name
+    dataProductId  : Data product
     brokerSymbol   : Broken symbol
     brokerName     : Broker name
     brokerProductId: Broker product
+    createdAt      : Created at
+    updatedAt      : Updated at
 
   biasConfig:
     startDay   : Start day
@@ -582,8 +585,9 @@ page:
 
   tool:
     biasAnalysis:
-      new:   New bias analysis
-      edit:  Edit bias analysis
+      new         :   New bias analysis
+      view        :  View bias analysis
+      edit        :  Edit bias analysis
       delta       : Delta
       pointValue  : Point value
 

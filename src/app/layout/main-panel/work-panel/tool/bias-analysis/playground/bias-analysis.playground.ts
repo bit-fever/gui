@@ -41,14 +41,12 @@ import {CollectorService} from "../../../../../../service/collector.service";
 import {ChipSetTextComponent} from "../../../../../../component/form/chip-text-set/chip-set-text";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
-import {MatTooltip} from "@angular/material/tooltip";
 import {FlexTablePanel} from "../../../../../../component/panel/flex-table/flex-table.panel";
 import {FlexTableColumn, ListResponse, ListService, Transcoder} from "../../../../../../model/flex-table";
 import {Observable} from "rxjs";
 import {ListLabelTranscoder, OperationTranscoder} from "../../../../../../component/panel/flex-table/transcoders";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatDialog} from "@angular/material/dialog";
-import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
 import {Url} from "../../../../../../model/urls";
 import {BiasConfig, BiasSummaryResponse, DataPointDowList, DataPointEntry} from "../model";
 

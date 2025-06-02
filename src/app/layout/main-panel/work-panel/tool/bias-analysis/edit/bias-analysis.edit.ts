@@ -102,6 +102,7 @@ export class BiasAnalysisEditPanel extends AbstractPanel {
   public onSave() : void {
     this.collectorService.updateBiasAnalysis(this.ba).subscribe( c => {
       this.onClose();
+      this.ba = new BiasAnalysis()
       this.emitToApp(new AppEvent<any>(AppEvent.BIASANALYSIS_LIST_RELOAD))
     })
   }
@@ -109,6 +110,7 @@ export class BiasAnalysisEditPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   public onClose() : void {
+    this.ba = new BiasAnalysis()
     super.emitToApp(new AppEvent(AppEvent.RIGHT_PANEL_CLOSE));
   }
 }

@@ -59,6 +59,7 @@ export class AppEvent<T = any>  {
 
   static BIASANALYSIS_LIST_RELOAD  : string = "biasAnalysis.list.reload";
   static BIASANALYSIS_CREATE_START : string = "biasAnalysis.create.start";
+  static BIASANALYSIS_VIEW_START   : string = "biasAnalysis.view.start";
   static BIASANALYSIS_EDIT_START   : string = "biasAnalysis.edit.start";
 }
 

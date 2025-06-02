@@ -133,6 +133,12 @@ export class CollectorService {
 
   //---------------------------------------------------------------------------
 
+  public deleteBiasAnalysis = (id:number): Observable<BiasAnalysis> => {
+    return this.httpService.delete<BiasAnalysis>('/api/collector/v1/bias-analyses/'+ id);
+  }
+
+  //---------------------------------------------------------------------------
+
   public getBiasSummary = (id:number): Observable<BiasSummaryResponse> => {
     return this.httpService.get<BiasSummaryResponse>('/api/collector/v1/bias-analyses/'+ id+'/summary', {});
   }

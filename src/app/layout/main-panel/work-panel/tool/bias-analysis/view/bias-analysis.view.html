@@ -1,0 +1,45 @@
+<div class="main-layout">
+  <right-title-panel icon="query_stats" title="{{loc('view')}}" (onClose)="onClose()"></right-title-panel>
+
+  <div class="form-layout">
+    <table class="table-layout">
+      <tr>
+        <td>{{mod("name")}}</td>
+        <td class="value-style">{{ba.name}}</td>
+        <td></td>
+        <td>{{mod("notes")}}</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>{{mod('dataProductId')}}</td>
+        <td class="value-style">{{ba.dataSymbol +" : "+ ba.dataName}}</td>
+        <td></td>
+        <td class="note-style" colspan="3" rowspan="4">{{ba.notes}}</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>{{mod('brokerProductId')}}</td>
+        <td class="value-style">{{ba.brokerSymbol +" : "+ ba.brokerName}}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>{{mod('createdAt')}}</td>
+        <td class="value-style">{{ba.createdAt}}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>{{mod('updatedAt')}}</td>
+        <td class="value-style">{{ba.updatedAt}}</td>
+        <td></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="buttons-layout">
+    <mat-divider></mat-divider>
+    <button mat-button (click)="onClose()">{{button("cancel")}}</button>
+  </div>
+</div>
+

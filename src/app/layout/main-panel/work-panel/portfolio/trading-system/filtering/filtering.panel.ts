@@ -141,6 +141,7 @@ export class FilteringPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onPeriodChange(value: number) {
+    console.log("On period change")
     if (value == -1) {
     }
     else if (value == 0) {

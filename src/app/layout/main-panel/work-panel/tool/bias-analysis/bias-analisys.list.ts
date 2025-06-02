@@ -50,6 +50,7 @@ export class BiasAnalisysListPanel extends AbstractPanel {
   disView  : boolean = true;
   disEdit  : boolean = true;
   disPlay  : boolean = true;
+  disDelete: boolean = true;
 
   @ViewChild("table") table : FlexTablePanel<BiasAnalysisFull>|null = null;
 
@@ -69,8 +70,7 @@ export class BiasAnalisysListPanel extends AbstractPanel {
     this.service = this.getBiasAnalyses;
 
     eventBusService.subscribeToApp(AppEvent.BIASANALYSIS_LIST_RELOAD, () => {
-      this.table?.reload()
-      this.updateButtons([])
+      this.reload()
     })
   }
 
@@ -107,10 +107,7 @@ export class BiasAnalisysListPanel extends AbstractPanel {
   onViewClick() {
     // @ts-ignore
     let selection = this.table.getSelection();
-
-    if (selection.length > 0) {
-      this.navigateTo([ Url.Tool_BiasAnalyses, selection[0].id ]);
-    }
+    this.openRightPanel(Url.Tool_BiasAnalyses, Url.Right_BiasAnalysis_View, AppEvent.BIASANALYSIS_VIEW_START, selection[0]);
   }
 
   //-------------------------------------------------------------------------
@@ -128,6 +125,21 @@ export class BiasAnalisysListPanel extends AbstractPanel {
     let selection = this.table.getSelection();
 
     this.navigateTo([ Url.Tool_BiasAnalyses, selection[0].id, Url.Sub_Playground ]);
+  }
+
+  //-------------------------------------------------------------------------
+
+  onDeleteClick() {
+    // @ts-ignore
+    let selection = this.table.getSelection();
+
+    for (let i=0; i<selection.length; i++) {
+      let id = selection[i].id
+      // @ts-ignore
+      this.collectorService.deleteBiasAnalysis(id).subscribe( res => {
+        this.reload()
+      })
+    }
   }
 
   //-------------------------------------------------------------------------
@@ -154,10 +166,19 @@ export class BiasAnalisysListPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
+  private reload() {
+    console.log("Reloading...")
+    this.table?.reload()
+    this.updateButtons([])
+  }
+
+  //-------------------------------------------------------------------------
+
   private updateButtons = (selection : BiasAnalysisFull[]) => {
-    this.disView = (selection.length != 1)
-    this.disEdit = (selection.length != 1)
-    this.disPlay = (selection.length != 1)
+    this.disView   = (selection.length != 1)
+    this.disEdit   = (selection.length != 1)
+    this.disPlay   = (selection.length != 1)
+    this.disDelete = (selection.length == 0)
   }
 }
 

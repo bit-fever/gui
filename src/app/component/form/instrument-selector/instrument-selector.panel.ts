@@ -74,6 +74,7 @@ export class InstrumentSelectorPanel extends AbstractSubscriber {
   @Input()
   set value(v : number|undefined) {
     this.instrId = v
+    this.text    = undefined
 
     if (v != undefined) {
       this.collectorService.getDataInstrumentById(v, false).subscribe( die => {

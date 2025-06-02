@@ -67,7 +67,7 @@ export class SelectRequired extends AbstractSubscriber {
 	//---
 	//-------------------------------------------------------------------------
 
-	constructor(eventBusService : EventBusService, private labelService : LabelService) {
+  constructor(eventBusService : EventBusService, private labelService : LabelService) {
 		super(eventBusService)
     this.formControl.statusChanges.subscribe(this.valueChanged)
 	}
