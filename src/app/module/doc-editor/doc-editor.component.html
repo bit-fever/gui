@@ -1,11 +1,8 @@
-<mat-toolbar class="toolbar-layout">
-  <span>{{title}}</span>
-  <span class="spacer"></span>
-
+<module-title-panel icon="query_stats" title="{{title}}" (onClose)="onClose()">
   <button mat-icon-button (click)="onSaveClick()">
     <span class="material-symbols-outlined">cloud_upload</span>
   </button>
-</mat-toolbar>
+</module-title-panel>
 
 <!-- ============================================================================================= -->
 

@@ -12,7 +12,9 @@ import {MatButtonModule} from "@angular/material/button";
 import {ActivatedRoute} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {StorageService} from "../../service/storage.service";
-import {BroadcastEvent, BroadcastService} from "../../service/broadcast.service";
+import {BroadcastEvent, BroadcastService, EventType} from "../../service/broadcast.service";
+import {ModuleTitlePanel} from "../../component/panel/module-title/module-title.panel";
+import {RightTitlePanel} from "../../component/panel/right-title/right-title.panel";
 
 declare var $:any
 
@@ -22,7 +24,7 @@ declare var $:any
   selector   : 'editor',
   templateUrl: './doc-editor.component.html',
   styleUrl   : './doc-editor.component.scss',
-  imports    : [MatToolbarModule, MatButtonModule],
+  imports: [MatToolbarModule, MatButtonModule, ModuleTitlePanel, RightTitlePanel],
   standalone : true
 })
 
@@ -50,7 +52,9 @@ export class DocEditorComponent implements OnInit {
               private broadcastService : BroadcastService) {
 
     broadcastService.onEvent((e : BroadcastEvent)=>{
-      window.close()
+      if (e.type == EventType.TradingsSystem_Deleted) {
+        window.close()
+      }
     })
   }
 
@@ -84,6 +88,12 @@ export class DocEditorComponent implements OnInit {
     this.storageService.setTradingSystemDoc(this.tsId, doc).subscribe( res => {
       this.snackBar.open("Documentation saved", undefined, { duration: 3000 })
     })
+  }
+
+  //-------------------------------------------------------------------------
+
+  public onClose() : void {
+    window.close()
   }
 }
 

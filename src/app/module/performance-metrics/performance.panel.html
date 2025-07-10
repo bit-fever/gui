@@ -1,5 +1,5 @@
 <div class="main-layout">
-  <right-title-panel icon="query_stats" title="{{par.tradingSystem?.name}}" (onClose)="onClose()"></right-title-panel>
+  <module-title-panel icon="query_stats" title="{{par.tradingSystem?.name}}" (onClose)="onClose()"></module-title-panel>
 
   <!-- ============================================================================================================= -->
 
@@ -30,8 +30,4 @@
 
   <!-- ============================================================================================================= -->
 
-  <div class="buttons-layout">
-    <mat-divider></mat-divider>
-    <button mat-button (click)="onClose()">{{button("cancel")}}</button>
-  </div>
 </div>

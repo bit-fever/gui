@@ -225,7 +225,7 @@ export class TradingCard extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onPerformanceClick() {
-    this.openRightPanel(Url.Portfolio_TradingSystems, Url.Right_TradingSystem_Performance, AppEvent.TRADINGSYSTEM_PERFORMANCE_START, this.ts.id);
+    this.moduleService.openPerformanceMetrics(this.ts.id)
   }
 
   //-------------------------------------------------------------------------

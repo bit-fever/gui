@@ -7,31 +7,33 @@
 //=============================================================================
 
 import {Component} from '@angular/core';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatOptionModule} from "@angular/material/core";
-import {MatSelectChange, MatSelectModule} from "@angular/material/select";
+import {MatSelectModule} from "@angular/material/select";
 import {NgForOf, NgIf} from "@angular/common";
 import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
-import {AbstractPanel} from "../../../../../../component/abstract.panel";
-import {RightTitlePanel} from "../../../../../../component/panel/right-title/right-title.panel";
-import {EventBusService} from "../../../../../../service/eventbus.service";
-import {LabelService} from "../../../../../../service/label.service";
-import {PortfolioService} from "../../../../../../service/portfolio.service";
-import {PerformanceAnalysisRequest, PerformanceAnalysisResponse} from "../../../../../../model/model";
-import {AppEvent} from "../../../../../../model/event";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {PerformanceSummaryPanel} from "./summary/summary.panel";
 import {PerformanceChartPanel} from "./chart/chart.panel";
 import {PerformanceTradePanel} from "./trade/trade.panel";
-import {Setting} from "../../../../../../model/setting";
-import {LocalService} from "../../../../../../service/local.service";
-import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
-import {InventoryService} from "../../../../../../service/inventory.service";
+import {AbstractPanel} from "../../component/abstract.panel";
+import {PerformanceAnalysisRequest, PerformanceAnalysisResponse} from "../../model/model";
+import {EventBusService} from "../../service/eventbus.service";
+import {LabelService} from "../../service/label.service";
+import {InventoryService} from "../../service/inventory.service";
+import {PortfolioService} from "../../service/portfolio.service";
+import {LocalService} from "../../service/local.service";
+import {AppEvent} from "../../model/event";
+import {Setting} from "../../model/setting";
+import {SelectRequired} from "../../component/form/select-required/select-required";
+import {RightTitlePanel} from "../../component/panel/right-title/right-title.panel";
+import {BroadcastEvent, BroadcastService, EventType} from "../../service/broadcast.service";
+import {ModuleTitlePanel} from "../../component/panel/module-title/module-title.panel";
 
 //=============================================================================
 
@@ -39,9 +41,9 @@ import {InventoryService} from "../../../../../../service/inventory.service";
     selector: "tradingSystem-performance",
     templateUrl: './performance.panel.html',
     styleUrls: ['./performance.panel.scss'],
-  imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule,
+  imports: [MatFormFieldModule, MatOptionModule, MatSelectModule,
     MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
-    MatDividerModule, NgForOf, MatButtonToggleModule, MatIconModule, PerformanceSummaryPanel, PerformanceChartPanel, PerformanceTradePanel, NgIf, SelectRequired,
+    MatDividerModule, MatButtonToggleModule, MatIconModule, PerformanceSummaryPanel, PerformanceChartPanel, PerformanceTradePanel, NgIf, SelectRequired, RightTitlePanel, ModuleTitlePanel,
   ]
 })
 
@@ -75,12 +77,19 @@ export class TradingSystemPerformancePanel extends AbstractPanel {
   constructor(eventBusService          : EventBusService,
               labelService             : LabelService,
               router                   : Router,
+              private route            : ActivatedRoute,
               private inventoryService : InventoryService,
               private portfolioService : PortfolioService,
-              private localService     : LocalService) {
+              private localService     : LocalService,
+              private broadcastService : BroadcastService) {
 
     super(eventBusService, labelService, router, "portfolio.tradingSystem.performance", "tradingSystem");
-    super.subscribeToApp(AppEvent.TRADINGSYSTEM_PERFORMANCE_START, (e : AppEvent) => this.onStart(e));
+
+    broadcastService.onEvent((e : BroadcastEvent)=>{
+      if (e.type == EventType.TradingsSystem_Deleted) {
+        window.close()
+      }
+    })
   }
 
   //-------------------------------------------------------------------------
@@ -103,22 +112,16 @@ export class TradingSystemPerformancePanel extends AbstractPanel {
         this.timezones = [ exchange, ...result.result]
       }
     )
+
+    this.periods = this.labelMap("periods");
+    this.tsId    = Number(this.route.snapshot.paramMap.get("id"));
+    this.reload()
   }
 
   //-------------------------------------------------------------------------
   //---
   //--- Events
   //---
-  //-------------------------------------------------------------------------
-
-  private onStart(event : AppEvent) : void {
-    console.log("TradingSystemPerformancePanel: Starting...");
-
-    this.periods = this.labelMap("periods");
-    this.tsId    = event.params
-    this.reload()
-  }
-
   //-------------------------------------------------------------------------
 
   onPeriodChange(value: string) {
@@ -148,9 +151,7 @@ export class TradingSystemPerformancePanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   public onClose() : void {
-    this.par = new PerformanceAnalysisResponse()
-    let event = new AppEvent(AppEvent.RIGHT_PANEL_CLOSE);
-    super.emitToApp(event);
+    window.close()
   }
 
   //-------------------------------------------------------------------------

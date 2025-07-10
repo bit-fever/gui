@@ -6,14 +6,23 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-.editor-layout {
-  border: 0 !important;
+.toolbar-layout {
+  background-color: #F4F8FF;
+  border-bottom: solid #505AC2;
+  --mat-toolbar-standard-height: 48px;
 }
 
 //=============================================================================
 
-.trumbowyg-editor {
-  height: 800px;
+.title {
+  margin-left : 16px;
+  margin-right: 16px;
+}
+
+//=============================================================================
+
+.filler {
+  flex: 1 1 auto;
 }
 
 //=============================================================================

@@ -54,11 +54,9 @@ import {
 import {
   TradingSystemEditPanel
 } from "./app/layout/main-panel/work-panel/portfolio/trading-system/development/edit/edit.panel";
-import {
-  TradingSystemPerformancePanel
-} from "./app/layout/main-panel/work-panel/portfolio/trading-system/performance/performance.panel";
 import {BiasAnalysisViewPanel} from "./app/layout/main-panel/work-panel/tool/bias-analysis/view/bias-analysis.view";
 import {DocEditorComponent} from "./app/module/doc-editor/doc-editor.component";
+import {TradingSystemPerformancePanel} from "./app/module/performance-metrics/performance.panel";
 
 //=============================================================================
 
@@ -89,7 +87,6 @@ export const routes: Routes = [
 
   { path: Url.Portfolio_TradingSystems,           component: TradingSystemDashboard          },
   { path: Url.Right_TradingSystem_Edit,           component: TradingSystemEditPanel,        outlet : 'right' },
-  { path: Url.Right_TradingSystem_Performance,    component: TradingSystemPerformancePanel, outlet : 'right' },
 
   { path: Url.Portfolio_TradingSystems_Id, children : [
       { path: Url.Sub_Filtering, component:  FilteringPanel }
@@ -117,7 +114,8 @@ export const routes: Routes = [
 
   //--- Modules
 
-  { path: Url.Module_DocEditor,                   component: DocEditorComponent   },
+  { path: Url.Module_DocEditor,                   component: DocEditorComponent            },
+  { path: Url.Module_PerformanceMetrics,          component: TradingSystemPerformancePanel },
 
   { path:'**',                                    component: UnknownPanel },
 ];

@@ -1,0 +1,12 @@
+<mat-toolbar class="toolbar-layout">
+  <mat-icon class="material-symbols-outlined">{{icon}}</mat-icon>
+  <div class="title">{{title}}</div>
+
+  <span class="filler"></span>
+
+  <ng-content></ng-content>
+
+  <button mat-icon-button (click)="onClose.emit($event)">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>

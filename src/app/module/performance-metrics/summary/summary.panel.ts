@@ -7,12 +7,12 @@
 //=============================================================================
 
 import {Component, Input} from '@angular/core';
-import {AbstractPanel} from "../../../../../../../component/abstract.panel";
-import {EventBusService} from "../../../../../../../service/eventbus.service";
-import {LabelService} from "../../../../../../../service/label.service";
 import {Router} from "@angular/router";
-import {PerformanceAnalysisResponse} from "../../../../../../../model/model";
 import {NgForOf} from "@angular/common";
+import {AbstractPanel} from "../../../component/abstract.panel";
+import {PerformanceAnalysisResponse} from "../../../model/model";
+import {EventBusService} from "../../../service/eventbus.service";
+import {LabelService} from "../../../service/label.service";
 
 //=============================================================================
 

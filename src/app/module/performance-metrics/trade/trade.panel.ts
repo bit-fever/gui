@@ -7,19 +7,19 @@
 //=============================================================================
 
 import {Component, Input} from '@angular/core';
-import {AbstractPanel} from "../../../../../../../component/abstract.panel";
-import {EventBusService} from "../../../../../../../service/eventbus.service";
-import {LabelService} from "../../../../../../../service/label.service";
 import {Router} from "@angular/router";
-import {FlexTablePanel} from "../../../../../../../component/panel/flex-table/flex-table.panel";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatInput, MatLabel} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {FlexTableColumn} from "../../../../../../../model/flex-table";
-import {PerformanceAnalysisResponse, Trade} from "../../../../../../../model/model";
 import {MatFormField, MatSuffix} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
-import {DataPointTimeTranscoder} from "../../../../../../../component/panel/flex-table/transcoders";
+import {AbstractPanel} from "../../../component/abstract.panel";
+import {PerformanceAnalysisResponse, Trade} from "../../../model/model";
+import {FlexTableColumn} from "../../../model/flex-table";
+import {EventBusService} from "../../../service/eventbus.service";
+import {LabelService} from "../../../service/label.service";
+import {DataPointTimeTranscoder} from "../../../component/panel/flex-table/transcoders";
+import {FlexTablePanel} from "../../../component/panel/flex-table/flex-table.panel";
 
 //=============================================================================
 

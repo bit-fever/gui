@@ -1,54 +1,48 @@
 //=============================================================================
 //===
-//=== Copyright (C) 2025 Andrea Carboni
+//=== Copyright (C) 2023 Andrea Carboni
 //===
 //=== Use of this source code is governed by an MIT-style license that can be
 //=== found in the LICENSE file
 //=============================================================================
 
-import {Injectable} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatIconModule}    from "@angular/material/icon";
+import {MatButtonModule, MatIconButton} from "@angular/material/button";
+
 
 //=============================================================================
 
-@Injectable()
-export class ModuleService {
+@Component({
+    selector: 'module-title-panel',
+    templateUrl: './module-title.panel.html',
+    styleUrls: ['./module-title.panel.scss'],
+  imports: [MatToolbarModule, MatIconModule, MatButtonModule, MatIconButton, MatIconButton]
+})
+
+//=============================================================================
+
+export class ModuleTitlePanel {
+
   //-------------------------------------------------------------------------
   //---
   //--- Variables
   //---
   //-------------------------------------------------------------------------
 
-  //-------------------------------------------------------------------------
-  //---
-  //--- Constructor
-  //---
+  @Input() icon?  : string;
+  @Input() title? : string;
+
   //-------------------------------------------------------------------------
 
-  constructor() {}
+  @Output() onClose : EventEmitter<Event> = new EventEmitter<Event>();
 
   //-------------------------------------------------------------------------
   //---
   //--- API methods
   //---
   //-------------------------------------------------------------------------
-
-  public openDocEditor(tsId:number) {
-    let extWindow = window.open('module/doc-editor/'+tsId, '', 'popup,width=1500,height=950,left=100,top=100');
-
-    if (extWindow == null) {
-      console.log("DocEditor's window is null")
-    }
-  }
-
-  //-------------------------------------------------------------------------
-
-  public openPerformanceMetrics(tsId:number) {
-    let extWindow = window.open('module/performance-metrics/'+tsId, '', 'popup,width=1500,height=950,left=100,top=100');
-
-    if (extWindow == null) {
-      console.log("PerformanceMetrics' window is null")
-    }
-  }
 }
 
 //=============================================================================

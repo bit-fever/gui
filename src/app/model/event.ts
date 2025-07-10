@@ -44,9 +44,8 @@ export class AppEvent<T = any>  {
   static CONNECTION_CREATE_START : string = "connection.create.start";
   static CONNECTION_EDIT_START   : string = "connection.edit.start";
 
-  static TRADINGSYSTEM_LIST_RELOAD       : string = "tradingSystem.list.reload";
-  static TRADINGSYSTEM_EDIT_START        : string = "tradingSystem.edit.start";
-  static TRADINGSYSTEM_PERFORMANCE_START : string = "tradingSystem.performance.start";
+  static TRADINGSYSTEM_LIST_RELOAD : string = "tradingSystem.list.reload";
+  static TRADINGSYSTEM_EDIT_START  : string = "tradingSystem.edit.start";
 
   static DATAPRODUCT_LIST_RELOAD   : string = "dataProduct.list.reload";
   static DATAPRODUCT_CREATE_START  : string = "dataProduct.create.start";

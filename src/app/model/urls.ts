@@ -37,7 +37,6 @@ export enum Url {
   Right_Connection_Create         = "connection-create",
   Right_Connection_Edit           = "connection-edit",
   Right_TradingSystem_Edit        = "tradingSystem-edit",
-  Right_TradingSystem_Performance = "tradingSystem-performance",
   Right_DataProduct_Create        = "dataProduct-create",
   Right_DataProduct_Edit          = "dataProduct-edit",
   Right_BrokerProduct_Create      = "brokerProduct-create",
@@ -48,7 +47,8 @@ export enum Url {
 
   //--- Modules ---------------------------------------------------------------
 
-  Module_DocEditor = "module/doc-editor/:id"
+  Module_DocEditor          = "module/doc-editor/:id",
+  Module_PerformanceMetrics = "module/performance-metrics/:id"
 }
 
 //=============================================================================
