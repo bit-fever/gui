@@ -1,19 +1,19 @@
 <div class="main-layout">
   <div class="options-layout">
-      <mat-chip-listbox [multiple]="true" class="chips-style">
-        <mat-chip-option (selectionChange)="onMonthChange($event, 0)"  [selected]="selMonths[0]" >{{map("months", "jan")}}</mat-chip-option>
-        <mat-chip-option (selectionChange)="onMonthChange($event, 1)"  [selected]="selMonths[1]" >{{map("months", "feb")}}</mat-chip-option>
-        <mat-chip-option (selectionChange)="onMonthChange($event, 2)"  [selected]="selMonths[2]" >{{map("months", "mar")}}</mat-chip-option>
-        <mat-chip-option (selectionChange)="onMonthChange($event, 3)"  [selected]="selMonths[3]" >{{map("months", "apr")}}</mat-chip-option>
-        <mat-chip-option (selectionChange)="onMonthChange($event, 4)"  [selected]="selMonths[4]" >{{map("months", "may")}}</mat-chip-option>
-        <mat-chip-option (selectionChange)="onMonthChange($event, 5)"  [selected]="selMonths[5]" >{{map("months", "jun")}}</mat-chip-option>
-        <mat-chip-option (selectionChange)="onMonthChange($event, 6)"  [selected]="selMonths[6]" >{{map("months", "jul")}}</mat-chip-option>
-        <mat-chip-option (selectionChange)="onMonthChange($event, 7)"  [selected]="selMonths[7]" >{{map("months", "aug")}}</mat-chip-option>
-        <mat-chip-option (selectionChange)="onMonthChange($event, 8)"  [selected]="selMonths[8]" >{{map("months", "sep")}}</mat-chip-option>
-        <mat-chip-option (selectionChange)="onMonthChange($event, 9)"  [selected]="selMonths[9]" >{{map("months", "oct")}}</mat-chip-option>
-        <mat-chip-option (selectionChange)="onMonthChange($event, 10)" [selected]="selMonths[10]">{{map("months", "nov")}}</mat-chip-option>
-        <mat-chip-option (selectionChange)="onMonthChange($event, 11)" [selected]="selMonths[11]">{{map("months", "dec")}}</mat-chip-option>
-      </mat-chip-listbox>
+      <mat-button-toggle-group [hideMultipleSelectionIndicator]="true" [multiple]="true" [formControl]="monthsControl">
+        <mat-button-toggle [value]="0"  (change)="onMonthChange($event)">{{map("months", "jan")}}</mat-button-toggle>
+        <mat-button-toggle [value]="1"  (change)="onMonthChange($event)">{{map("months", "feb")}}</mat-button-toggle>
+        <mat-button-toggle [value]="2"  (change)="onMonthChange($event)">{{map("months", "mar")}}</mat-button-toggle>
+        <mat-button-toggle [value]="3"  (change)="onMonthChange($event)">{{map("months", "apr")}}</mat-button-toggle>
+        <mat-button-toggle [value]="4"  (change)="onMonthChange($event)">{{map("months", "may")}}</mat-button-toggle>
+        <mat-button-toggle [value]="5"  (change)="onMonthChange($event)">{{map("months", "jun")}}</mat-button-toggle>
+        <mat-button-toggle [value]="6"  (change)="onMonthChange($event)">{{map("months", "jul")}}</mat-button-toggle>
+        <mat-button-toggle [value]="7"  (change)="onMonthChange($event)">{{map("months", "aug")}}</mat-button-toggle>
+        <mat-button-toggle [value]="8"  (change)="onMonthChange($event)">{{map("months", "sep")}}</mat-button-toggle>
+        <mat-button-toggle [value]="9"  (change)="onMonthChange($event)">{{map("months", "oct")}}</mat-button-toggle>
+        <mat-button-toggle [value]="10" (change)="onMonthChange($event)">{{map("months", "nov")}}</mat-button-toggle>
+        <mat-button-toggle [value]="11" (change)="onMonthChange($event)">{{map("months", "dec")}}</mat-button-toggle>
+      </mat-button-toggle-group>
 
       <button mat-icon-button (click)="onMonthLeft()">
         <mat-icon>keyboard_arrow_left</mat-icon>
@@ -33,17 +33,8 @@
                      [validator]="validator"
                      [(items)]="excludedSet"
                      (itemsChange)="onExcludedChange($event)"></chip-set-text>
-  </div>
-
-  <!-- ========================================================================================= -->
-
-  <div class="options-layout">
-    <mat-chip-listbox [multiple]="true" hideSingleSelectionIndicator="true">
-      <mat-chip-option (selectionChange)="onLabelsChange($event)" [selected]="showLabels">{{loc("labels")}}</mat-chip-option>
-      <mat-chip-option (selectionChange)="onProfitChange($event)" [selected]="showProfit">{{loc("profit")}}</mat-chip-option>
-    </mat-chip-listbox>
-
-    <span class="spacer-layout"></span>
+    <toggle-button label="{{loc('labels')}}" [(checked)]="showLabels" (checkedChange)="onLabelsChange()"></toggle-button>
+    <toggle-button label="{{loc('profit')}}" [(checked)]="showProfit" (checkedChange)="onProfitChange()"></toggle-button>
 
     <div class="selection-layout">
       <span>{{loc('selection')}} : </span>
@@ -65,7 +56,7 @@
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <mat-tab-group>
+    <mat-tab-group preserveContent>
       <mat-tab label="{{loc('tabDetails')}}">
         <apx-chart
           [chart]      = "barOptions.chart"

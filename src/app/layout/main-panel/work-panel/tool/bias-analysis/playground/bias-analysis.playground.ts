@@ -26,11 +26,10 @@ import {
   MatChipOption,
   MatChipRemove,
   MatChipRow,
-  MatChipSelectionChange
 } from "@angular/material/chips";
 import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
 import {AbstractPanel} from "../../../../../../component/abstract.panel";
 import {
@@ -40,15 +39,15 @@ import {LabelService} from "../../../../../../service/label.service";
 import {CollectorService} from "../../../../../../service/collector.service";
 import {ChipSetTextComponent} from "../../../../../../component/form/chip-text-set/chip-set-text";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
-import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
+import {MatButtonToggle, MatButtonToggleChange, MatButtonToggleGroup} from "@angular/material/button-toggle";
 import {FlexTablePanel} from "../../../../../../component/panel/flex-table/flex-table.panel";
 import {FlexTableColumn, ListResponse, ListService, Transcoder} from "../../../../../../model/flex-table";
 import {Observable} from "rxjs";
 import {ListLabelTranscoder, OperationTranscoder} from "../../../../../../component/panel/flex-table/transcoders";
 import {MatGridListModule} from "@angular/material/grid-list";
-import {MatDialog} from "@angular/material/dialog";
 import {Url} from "../../../../../../model/urls";
 import {BiasConfig, BiasSummaryResponse, DataPointDowList, DataPointEntry} from "../model";
+import {ToggleButton} from "../../../../../../component/form/toggle-button/toggle-button";
 
 //=============================================================================
 
@@ -56,10 +55,10 @@ import {BiasConfig, BiasSummaryResponse, DataPointDowList, DataPointEntry} from 
     selector: 'bias-analysis-playground',
     templateUrl: './bias-analysis.playground.html',
     styleUrls: ['./bias-analysis.playground.scss'],
-    imports: [CommonModule, MatButton, MatIcon, MatFabButton, NgApexchartsModule, MatChipListbox, MatChipOption, SelectRequired,
-        MatMiniFabButton, ChipSetTextComponent, MatChipGrid, MatChipInput, MatChipRemove, MatChipRow, MatFormField, MatLabel,
-        MatError, MatIconButton, MatInput, MatSuffix, ReactiveFormsModule, MatTabGroup, MatTab, MatButtonToggle, MatButtonToggleGroup, FlexTablePanel,
-        MatGridListModule]
+  imports: [CommonModule, MatButton, MatIcon, NgApexchartsModule,
+    ChipSetTextComponent, MatFormField, MatLabel,
+    MatIconButton, MatInput, MatSuffix, ReactiveFormsModule, MatTabGroup, MatTab, MatButtonToggle, MatButtonToggleGroup, FlexTablePanel,
+    MatGridListModule, ToggleButton]
 })
 
 //=============================================================================
@@ -79,6 +78,8 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
 
   result    : BiasSummaryResponse = new BiasSummaryResponse()
 
+  monthsControl = new FormControl<number[]>([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+
   selMonths  : boolean[] = [ true, true, true, true, true, true, true, true, true, true, true, true ]
   excludedSet: string[] = []
 
@@ -96,8 +97,7 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
   columns    : FlexTableColumn[] = [];
   service    : ListService<BiasConfig>;
 
-  @ViewChild("configsTable")
-  configsTable : FlexTablePanel | undefined
+  @ViewChild("configsTable") configsTable : FlexTablePanel | undefined
 
   //-------------------------------------------------------------------------
   //---
@@ -109,8 +109,7 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
               labelService            : LabelService,
               router                  : Router,
               private route           : ActivatedRoute,
-              private collectorService: CollectorService,
-              public  dialog          : MatDialog) {
+              private collectorService: CollectorService) {
 
     super(eventBusService, labelService, router, "tool.biasPlayground");
 
@@ -169,30 +168,36 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  onLabelsChange(e: MatChipSelectionChange) {
-    this.showLabels = e.selected;
+  onLabelsChange() {
     // @ts-ignore
     this.options.dataLabels = <ApexDataLabels>{
       enabled: this.showLabels,
       style: {
         fontSize: '12px',
         fontWeight: 'plain',
-        // colors: [ '#000000' ]
       }
     }
   }
 
   //-------------------------------------------------------------------------
 
-  onProfitChange(e: MatChipSelectionChange) {
-    this.showProfit = e.selected
+  onProfitChange() {
     this.options.series = this.setupSeries(this.result, this.selMonths, this.excludedSet)
   }
 
   //-------------------------------------------------------------------------
 
-  onMonthChange(e: MatChipSelectionChange, month: number) {
-    this.selMonths[month] = e.selected
+  onMonthChange(e: MatButtonToggleChange) {
+    let month : number  = e.value
+    let found : boolean = false
+
+    this.monthsControl.value?.forEach( value => {
+      if (month == value) {
+        found = true
+      }
+    })
+
+    this.selMonths[month] = found
     this.options.series = this.setupSeries(this.result, this.selMonths, this.excludedSet)
   }
 
@@ -217,6 +222,7 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
         }
 
         this.selMonths[i-1] = true
+        this.updateFormControlFromMonths()
         this.options.series = this.setupSeries(this.result, this.selMonths, this.excludedSet)
         return
       }
@@ -229,6 +235,7 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
     for (let i=0; i<12; i++) {
       this.selMonths[i] = !this.selMonths[i]
     }
+    this.updateFormControlFromMonths()
     this.options.series = this.setupSeries(this.result, this.selMonths, this.excludedSet)
   }
 
@@ -239,6 +246,7 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
       if (this.selMonths[i]) {
         this.selMonths[i]          = false
         this.selMonths[(i+1) % 12] = true
+        this.updateFormControlFromMonths()
         this.options.series = this.setupSeries(this.result, this.selMonths, this.excludedSet)
         return
       }
@@ -674,6 +682,20 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
     else {
       return dpe.delta
     }
+  }
+
+  //-------------------------------------------------------------------------
+
+  private updateFormControlFromMonths() {
+    let list : number[] = []
+
+    for (let i=0; i<this.selMonths.length; i++) {
+      if (this.selMonths[i]) {
+        list = [...list, i ]
+      }
+    }
+
+    this.monthsControl.setValue(list)
   }
 
   //-------------------------------------------------------------------------

@@ -19,6 +19,7 @@ import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
 import {Setting} from "../../../../../../../model/setting";
 import {LocalService} from "../../../../../../../service/local.service";
+import {ToggleButton} from "../../../../../../../component/form/toggle-button/toggle-button";
 
 //=============================================================================
 
@@ -31,7 +32,8 @@ import {LocalService} from "../../../../../../../service/local.service";
     ReactiveFormsModule,
     FormsModule,
     MatButtonToggle,
-    MatButtonToggleGroup
+    MatButtonToggleGroup,
+    ToggleButton
   ]
 })
 
@@ -60,9 +62,9 @@ export class PerformanceChartPanel extends AbstractPanel {
 
   tradeType   = new FormControl("all")
   profitType  = new FormControl("all")
-  showDrawdown= new FormControl("true")
   chartType   = new FormControl("time")
-  showSteps   = new FormControl("true")
+  showDrawdown = true
+  showSteps    = true
 
   chartOptions : ChartOptions;
 
@@ -88,10 +90,11 @@ export class PerformanceChartPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   override init = () : void => {
-    this.tradeType   .setValue(this.localService.getItemWithDefault(Setting.Portfolio_TradSys_PerfTrade,  "all"))
-    this.profitType  .setValue(this.localService.getItemWithDefault(Setting.Portfolio_TradSys_PerfProfit, "all"))
-    this.showDrawdown.setValue(this.localService.getItemWithDefault(Setting.Portfolio_TradSys_PerfDdown, "true"))
-    this.chartType   .setValue(this.localService.getItemWithDefault(Setting.Portfolio_TradSys_PerfChart, "time"))
+    this.tradeType .setValue(this.localService.getItemWithDefault(Setting.Portfolio_TradSys_PerfTrade,  "all"))
+    this.profitType.setValue(this.localService.getItemWithDefault(Setting.Portfolio_TradSys_PerfProfit, "all"))
+    this.chartType .setValue(this.localService.getItemWithDefault(Setting.Portfolio_TradSys_PerfChart, "time"))
+
+    this.showDrawdown = this.localService.getItemWithDefault(Setting.Portfolio_TradSys_PerfDdown, "true") == "true"
 
     this.updateChartType()
   }
@@ -119,8 +122,7 @@ export class PerformanceChartPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onDrawdownChange() {
-    let value = this.showDrawdown.value
-    this.localService.setItem(Setting.Portfolio_TradSys_PerfDdown, value)
+    this.localService.setItem(Setting.Portfolio_TradSys_PerfDdown, this.showDrawdown+"")
     this.rebuildChart()
   }
 
@@ -136,9 +138,7 @@ export class PerformanceChartPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onStepsChange() {
-    let value = this.showSteps.value
-
-    if (value == undefined || value == "true") {
+    if (this.showSteps) {
       this.chartOptions.stroke = <ApexStroke>{
         curve: "stepline",
         width: 2,
@@ -218,7 +218,7 @@ export class PerformanceChartPanel extends AbstractPanel {
         datasets = [...datasets, Lib.chart.buildDataset(this.loc("netEquity"), xAxis, equs.netProfit, false, "#008FFB")]
       }
 
-      if (this.shouldShowDrawdown()) {
+      if (this.showDrawdown) {
         if (this.shouldShowGrossEquity()) {
           datasets = [...datasets, Lib.chart.buildDataset(this.loc("grossDrawdown"), xAxis, equs.grossDrawdown, true)]
         }
@@ -257,12 +257,6 @@ export class PerformanceChartPanel extends AbstractPanel {
 
   private shouldShowNetEquity() : boolean {
     return this.profitType.value == "all" || this.profitType.value == "net"
-  }
-
-  //-------------------------------------------------------------------------
-
-  private shouldShowDrawdown() : boolean {
-    return this.showDrawdown.value == "true"
   }
 
   //-------------------------------------------------------------------------

@@ -12,18 +12,14 @@
       <mat-button-toggle value="net"    (change)="onProfitTypeChange()">{{ loc("net") }}</mat-button-toggle>
     </mat-button-toggle-group>
 
-    <mat-button-toggle-group [hideMultipleSelectionIndicator]="true" [multiple]="true" [formControl]="showDrawdown" class="toggle-layout">
-      <mat-button-toggle value="true" (change)="onDrawdownChange()">{{ loc("drawdown") }}</mat-button-toggle>
-    </mat-button-toggle-group>
+    <toggle-button label="{{loc('drawdown')}}" [(checked)]="showDrawdown" (checkedChange)="onDrawdownChange()"></toggle-button>
 
     <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="chartType" class="toggle-layout">
       <mat-button-toggle value="time"  (change)="onChartTypeChange()">{{ loc("time") }}</mat-button-toggle>
       <mat-button-toggle value="trade" (change)="onChartTypeChange()">{{ loc("trade") }}</mat-button-toggle>
     </mat-button-toggle-group>
 
-    <mat-button-toggle-group [hideMultipleSelectionIndicator]="true" [multiple]="true" [formControl]="showSteps" class="toggle-layout">
-      <mat-button-toggle value="true" (change)="onStepsChange()">{{ loc("stepline") }}</mat-button-toggle>
-    </mat-button-toggle-group>
+    <toggle-button label="{{loc('stepline')}}" [(checked)]="showSteps" (checkedChange)="onStepsChange()"></toggle-button>
   </div>
 
   <!-- ============================================================================================================= -->

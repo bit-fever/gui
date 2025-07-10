@@ -85,7 +85,7 @@ export class DataInstrumentChartPanel extends AbstractPanel {
 
   mainChartOptions  : ChartOptions;
   smallChartOptions : ChartOptions;
-  reduction         : number = 1200
+  reduction         : number = 800
 
   //-------------------------------------------------------------------------
   //---
