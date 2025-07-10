@@ -6,7 +6,7 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {Component, EventEmitter, Input, Output} from "@angular/core";
+import {Component, Input} from "@angular/core";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
@@ -27,8 +27,9 @@ import {Url} from "../../../../../../../model/urls";
 import {AppEvent} from "../../../../../../../model/event";
 import {InventoryService} from "../../../../../../../service/inventory.service";
 import {StorageService} from "../../../../../../../service/storage.service";
-import {PortalService} from "../../../../../../../service/portal.service";
+import {ModuleService} from "../../../../../../../service/module.service";
 import {FlatButton} from "../../../../../../../component/form/flat-button/flat-button";
+import {BroadcastService} from "../../../../../../../service/broadcast.service";
 
 //=============================================================================
 
@@ -74,14 +75,15 @@ export class TradingCard extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  constructor(eventBusService         : EventBusService,
-              labelService            : LabelService,
-              router                  : Router,
-              private snackBar        : MatSnackBar,
-              private inventoryService: InventoryService,
-              private portfolioService: PortfolioService,
-              private storageService  : StorageService,
-              private portalService   : PortalService,
+  constructor(eventBusService          : EventBusService,
+              labelService             : LabelService,
+              router                   : Router,
+              private snackBar         : MatSnackBar,
+              private inventoryService : InventoryService,
+              private portfolioService : PortfolioService,
+              private storageService   : StorageService,
+              private moduleService    : ModuleService,
+              private broadcastService : BroadcastService,
               ) {
     super(eventBusService, labelService, router, "portfolio.tradingSystem.trading");
   }
@@ -253,7 +255,7 @@ export class TradingCard extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onMenuDocumentation() {
-    this.portalService.openDocEditor(this.ts.id)
+    this.moduleService.openDocEditor(this.ts.id)
   }
 
   //-------------------------------------------------------------------------
@@ -268,6 +270,7 @@ export class TradingCard extends AbstractPanel {
 
   onMenuDelete() {
     this.inventoryService.deleteTradingSystem(this.ts.id).subscribe( res => {
+      this.broadcastService.sendTradingSystemDeleted(this.ts.id)
       this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_LIST_RELOAD))
     })
   }

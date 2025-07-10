@@ -26,6 +26,8 @@ import {Url} from "../../../../../../model/urls";
 import {MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
 import {MatInput} from "@angular/material/input";
+import {BroadcastService} from "../../../../../../service/broadcast.service";
+import {ModuleService} from "../../../../../../service/module.service";
 
 //=============================================================================
 
@@ -67,12 +69,14 @@ export class DevelopmentPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  constructor(eventBusService : EventBusService,
-              labelService    : LabelService,
-              router          : Router,
+  constructor(eventBusService         : EventBusService,
+              labelService            : LabelService,
+              router                  : Router,
               private snackBar        : MatSnackBar,
               private inventoryService: InventoryService,
-              private storageService  : LocalService) {
+              private storageService  : LocalService,
+              private moduleService   : ModuleService,
+              private broadcastService: BroadcastService) {
 
     super(eventBusService, labelService, router, "portfolio.tradingSystem.development");
 
@@ -192,6 +196,7 @@ export class DevelopmentPanel extends AbstractPanel {
       let id = selection[i].id
       // @ts-ignore
       this.inventoryService.deleteTradingSystem(id).subscribe( res => {
+        this.broadcastService.sendTradingSystemDeleted(res.id)
         this.reload()
       })
     }
@@ -211,14 +216,14 @@ export class DevelopmentPanel extends AbstractPanel {
       })
     }
   }
+
   //-------------------------------------------------------------------------
 
-  onFilterClick() {
+  onDocumentClick() {
     // @ts-ignore
-    let selection = this.table.getSelection();
-
-    if (selection.length > 0) {
-      this.navigateTo([ Url.Portfolio_TradingSystems, selection[0].id, Url.Sub_Filtering ]);
+    let tsId = this.table.getSelection()[0].id;
+    if (tsId != undefined) {
+      this.moduleService.openDocEditor(tsId)
     }
   }
 

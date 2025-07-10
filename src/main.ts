@@ -6,7 +6,7 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {enableProdMode, importProvidersFrom} from "@angular/core";
+import {enableProdMode, importProvidersFrom, provideZoneChangeDetection} from "@angular/core";
 import {bootstrapApplication}    from '@angular/platform-browser';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
@@ -34,7 +34,8 @@ import {PresetsService} from "./app/service/presets.service";
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 import {LocalService} from "./app/service/local.service";
 import {StorageService} from "./app/service/storage.service";
-import {PortalService} from "./app/service/portal.service";
+import {ModuleService} from "./app/service/module.service";
+import {BroadcastService} from "./app/service/broadcast.service";
 
 //=============================================================================
 
@@ -44,13 +45,14 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
 	providers: [
-//    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
 		importProvidersFrom(BrowserAnimationsModule),
     importProvidersFrom(MatNativeDateModule),
     provideHttpClient(withInterceptorsFromDi()),
+    provideZoneChangeDetection({ eventCoalescing: true }),
 		provideRouter(routes),
     provideAuth(authConfig),
     ApplicationService,
+    BroadcastService,
     EventBusService,
     HttpService,
     InventoryService,
@@ -59,7 +61,7 @@ bootstrapApplication(AppComponent, {
     MenuService,
     NotificationService,
     PortfolioService,
-    PortalService,
+    ModuleService,
     PresetsService,
     SessionService,
     LocalService,

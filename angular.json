@@ -35,10 +35,13 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/trumbowyg/dist/ui/trumbowyg.min.css"
             ],
             "scripts": [
-              "node_modules/apexcharts/dist/apexcharts.min.js"
+              "node_modules/apexcharts/dist/apexcharts.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/trumbowyg/dist/trumbowyg.min.js"
             ],
             "browser": "src/main.ts"
           },
@@ -99,10 +102,13 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/trumbowyg/dist/ui/trumbowyg.min.css"
             ],
             "scripts": [
-              "node_modules/apexcharts/dist/apexcharts.min.js"
+              "node_modules/apexcharts/dist/apexcharts.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/trumbowyg/dist/trumbowyg.min.js"
             ]
           }
         }

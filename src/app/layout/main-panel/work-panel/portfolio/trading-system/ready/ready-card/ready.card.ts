@@ -24,8 +24,9 @@ import {Url} from "../../../../../../../model/urls";
 import {AppEvent} from "../../../../../../../model/event";
 import {InventoryService} from "../../../../../../../service/inventory.service";
 import {StorageService} from "../../../../../../../service/storage.service";
-import {PortalService} from "../../../../../../../service/portal.service";
+import {ModuleService} from "../../../../../../../service/module.service";
 import {FlatButton} from "../../../../../../../component/form/flat-button/flat-button";
+import {BroadcastService} from "../../../../../../../service/broadcast.service";
 
 //=============================================================================
 
@@ -60,14 +61,15 @@ export class ReadyCard extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  constructor(eventBusService         : EventBusService,
-              labelService            : LabelService,
-              router                  : Router,
-              private snackBar        : MatSnackBar,
-              private inventoryService: InventoryService,
-              private portfolioService: PortfolioService,
-              private storageService  : StorageService,
-              private portalService   : PortalService,
+  constructor(eventBusService          : EventBusService,
+              labelService             : LabelService,
+              router                   : Router,
+              private snackBar         : MatSnackBar,
+              private inventoryService : InventoryService,
+              private portfolioService : PortfolioService,
+              private storageService   : StorageService,
+              private moduleService    : ModuleService,
+              private broadcastService : BroadcastService
   ) {
     super(eventBusService, labelService, router, "portfolio.tradingSystem.ready");
   }
@@ -164,7 +166,7 @@ export class ReadyCard extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onMenuDocumentation() {
-    this.portalService.openDocEditor(this.ts.id)
+    this.moduleService.openDocEditor(this.ts.id)
   }
 
   //-------------------------------------------------------------------------
@@ -179,6 +181,7 @@ export class ReadyCard extends AbstractPanel {
 
   onMenuDelete() {
     this.inventoryService.deleteTradingSystem(this.ts.id).subscribe( res => {
+      this.broadcastService.sendTradingSystemDeleted(this.ts.id)
       this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_LIST_RELOAD))
     })
   }

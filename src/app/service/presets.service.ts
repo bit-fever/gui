@@ -65,7 +65,7 @@ export class PresetsService {
 
   private loadProductsFile() {
 
-    this.httpService.get<string>("assets/presets/"+ PresetsService.PRODUCTS_FILE, { responseType : "text" })
+    this.httpService.get<string>("assets/preset/"+ PresetsService.PRODUCTS_FILE, { responseType : "text" })
       .subscribe(result => {
         this.products = parse(result)
         this.updateStatus()

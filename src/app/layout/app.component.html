@@ -1,6 +1,15 @@
 <div *ngIf="sessionService.isAuthenticated && labelService.isLoaded">
-  <header-panel></header-panel>
-  <main-panel></main-panel>
-</div>
 
-<doc-editor *ngIf="portalService.showDocEditor"></doc-editor>
+  <!-- Main application - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <div *ngIf="!isModule()">
+    <header-panel></header-panel>
+    <main-panel></main-panel>
+  </div>
+
+  <!-- Modules (doc/code editors, performance metrics, etc...) - - - - - - - - - - - - - -->
+
+  <div *ngIf="isModule()">
+    <router-outlet></router-outlet>
+  </div>
+</div>

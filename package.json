@@ -22,6 +22,8 @@
     "angular-auth-oidc-client": "^19.0.1",
     "apexcharts": "^4.7.0",
     "ng-apexcharts": "~1.15.0",
+    "trumbowyg": "^2.31.0",
+    "jquery": "^3.7.1",
     "normalize.css": "^8.0.1",
     "rxjs": "~7.8.2",
     "tslib": "^2.3.0",

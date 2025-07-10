@@ -58,6 +58,7 @@ import {
   TradingSystemPerformancePanel
 } from "./app/layout/main-panel/work-panel/portfolio/trading-system/performance/performance.panel";
 import {BiasAnalysisViewPanel} from "./app/layout/main-panel/work-panel/tool/bias-analysis/view/bias-analysis.view";
+import {DocEditorComponent} from "./app/module/doc-editor/doc-editor.component";
 
 //=============================================================================
 
@@ -113,6 +114,10 @@ export const routes: Routes = [
   { path: Url.Admin_Connections,                  component: ConnectionPanel                 },
   { path: Url.Right_Connection_Create,            component: ConnectionCreatePanel, outlet : 'right' },
   { path: Url.Right_Connection_Edit,              component: ConnectionEditPanel,   outlet : 'right' },
+
+  //--- Modules
+
+  { path: Url.Module_DocEditor,                   component: DocEditorComponent   },
 
   { path:'**',                                    component: UnknownPanel },
 ];

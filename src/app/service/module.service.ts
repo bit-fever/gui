@@ -6,21 +6,17 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {Injectable, ApplicationRef, Injector} from '@angular/core';
-import {DomPortalOutlet} from "@angular/cdk/portal";
+import {Injectable} from '@angular/core';
 
 //=============================================================================
 
 @Injectable()
-export class PortalService {
+export class ModuleService {
   //-------------------------------------------------------------------------
   //---
   //--- Variables
   //---
   //-------------------------------------------------------------------------
-
-  showDocEditor = false
-  docEditorTsId = 0
 
   //-------------------------------------------------------------------------
   //---
@@ -37,22 +33,13 @@ export class PortalService {
   //-------------------------------------------------------------------------
 
   public openDocEditor(tsId:number) {
-    let extWindow = window.open('doc-editor/edit/'+tsId, '', 'popup,width=1500,height=950,left=100,top=100');
+    let extWindow = window.open('module/doc-editor/'+tsId, '', 'popup,width=1500,height=950,left=100,top=100');
 
     if (extWindow == null) {
       console.log("DocEditor's window is null")
       return
     }
   }
-
-  // public openDocEditor(tsId:number) {
-  //   if (this.showDocEditor) {
-  //     return
-  //   }
-  //
-  //   this.docEditorTsId = tsId
-  //   this.showDocEditor = true
-  // }
 }
 
 //=============================================================================

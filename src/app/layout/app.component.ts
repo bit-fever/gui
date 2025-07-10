@@ -11,11 +11,10 @@ import {NgIf}           from "@angular/common";
 import {MainPanel}      from "./main-panel/main.panel";
 import {HeaderPanel}    from "./header-panel/header-panel";
 import {SessionService} from "../service/session.service";
-import {DocEditor} from "../portal/doc-editor/doc-editor";
 import {PortalModule} from "@angular/cdk/portal";
-import {PortalService} from "../service/portal.service";
 import {LabelService} from "../service/label.service";
 import {MenuService} from "../service/menu.service";
+import {RouterOutlet} from "@angular/router";
 
 //=============================================================================
 
@@ -23,7 +22,7 @@ import {MenuService} from "../service/menu.service";
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    imports: [HeaderPanel, MainPanel, NgIf, PortalModule, DocEditor]
+  imports: [HeaderPanel, MainPanel, NgIf, PortalModule, RouterOutlet]
 })
 
 //=============================================================================
@@ -38,8 +37,7 @@ export class AppComponent implements OnInit {
 
   constructor(public sessionService : SessionService,
               public labelService   : LabelService,
-              public menuService    : MenuService,
-              public portalService  : PortalService) {}
+              public menuService    : MenuService) {}
 
   //-------------------------------------------------------------------------
   //---
@@ -49,6 +47,16 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.sessionService.checkAuthentication();
+  }
+
+  //-------------------------------------------------------------------------
+  //---
+  //--- API methods
+  //---
+  //-------------------------------------------------------------------------
+
+  isModule() : boolean {
+    return (window.location.href.indexOf("/module/") != -1);
   }
 }
 

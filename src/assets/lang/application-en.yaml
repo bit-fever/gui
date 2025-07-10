@@ -31,6 +31,7 @@ button:
   disconnect: DISCONNECT
   reset     : RESET
   finalize  : FINALIZE
+  document  : DOCUMENT
 
 menu-button:
   filter       : Filter

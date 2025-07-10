@@ -24,12 +24,15 @@ export enum Url {
   Admin_Connections            = "admin/connections",
   Admin_Config                 = "admin/config",
 
+  //--- Sub paths -------------------------------------------------------------
   Sub_Filtering   = "filtering",
   Sub_Chart       = "chart",
   Sub_Playground  = "playground",
   Sub_Backtest    = "backtest",
   Sub_Data        = "data",
   Sub_Performance = "performance",
+
+  //--- Right panels ----------------------------------------------------------
 
   Right_Connection_Create         = "connection-create",
   Right_Connection_Edit           = "connection-edit",
@@ -42,6 +45,10 @@ export enum Url {
   Right_BiasAnalysis_Create       = "biasAnalysis-create",
   Right_BiasAnalysis_View         = "biasAnalysis-view",
   Right_BiasAnalysis_Edit         = "biasAnalysis-edit",
+
+  //--- Modules ---------------------------------------------------------------
+
+  Module_DocEditor = "module/doc-editor/:id"
 }
 
 //=============================================================================
