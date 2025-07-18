@@ -729,20 +729,31 @@ export class TradingSession {
 //=============================================================================
 
 export class PerformanceAnalysisRequest {
-  daysBack : number = 0
-  timezone : string = ""
+  daysBack  : number = 0
+  timezone  : string = ""
+  fromDate? : number
+  toDate?   : number
 }
 
 //=============================================================================
 
 export class PerformanceAnalysisResponse {
-  tradingSystem? : PorTradingSystem;
-  gross?         : Performance;
-  net?           : Performance;
-  allEquities?   : PerfEquities;
-  longEquities?  : PerfEquities;
-  shortEquities? : PerfEquities;
+  general?       : General
+  tradingSystem? : PorTradingSystem
+  gross?         : Performance
+  net?           : Performance
+  allEquities?   : PerfEquities
+  longEquities?  : PerfEquities
+  shortEquities? : PerfEquities
   trades         : Trade[] = []
+  aggregates?    : Aggregates
+}
+
+//=============================================================================
+
+export class General {
+  fromDate : number = 0
+  toDate   : number = 0
 }
 
 //=============================================================================
@@ -791,6 +802,25 @@ export class Trade {
   entryPriceAtBroker? : number
   exitDateAtBroker?   : Date
   exitPriceAtBroker?  : number
+}
+
+//=============================================================================
+
+export class Aggregates {
+  annual : AnnualAggregate[] = []
+}
+
+//=============================================================================
+
+export class AnnualAggregate {
+  year          : number = 0
+  grossProfit   : number = 0
+  grossAvgTrade : number = 0
+  grossWinPerc  : number = 0
+  netProfit     : number = 0
+  netAvgTrade   : number = 0
+  netWinPerc    : number = 0
+  trades        : number = 0
 }
 
 //=============================================================================

@@ -56,6 +56,7 @@ export class SelectTextRequired extends AbstractSubscriber {
   //-------------------------------------------------------------------------
 
   formControl = new FormControl<any>(undefined)
+  private prevValue : any
 
   //-------------------------------------------------------------------------
   //---
@@ -133,7 +134,12 @@ export class SelectTextRequired extends AbstractSubscriber {
   //-------------------------------------------------------------------------
 
   private valueChanged = (s : FormControlStatus) => {
-    this.keyChange.emit(this.formControl.value)
+    let value = this.formControl.value
+
+    if (value != this.prevValue) {
+      this.prevValue = value
+      this.keyChange.emit(value)
+    }
   }
 }
 

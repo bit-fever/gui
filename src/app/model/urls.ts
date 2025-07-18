@@ -47,8 +47,8 @@ export enum Url {
 
   //--- Modules ---------------------------------------------------------------
 
-  Module_DocEditor          = "module/doc-editor/:id",
-  Module_PerformanceMetrics = "module/performance-metrics/:id"
+  Module_DocEditor           = "module/doc-editor/:id",
+  Module_PerformanceAnalysis = "module/performance-analysis/:id"
 }
 
 //=============================================================================

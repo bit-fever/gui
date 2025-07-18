@@ -115,7 +115,7 @@ export const routes: Routes = [
   //--- Modules
 
   { path: Url.Module_DocEditor,                   component: DocEditorComponent            },
-  { path: Url.Module_PerformanceMetrics,          component: TradingSystemPerformancePanel },
+  { path: Url.Module_PerformanceAnalysis,         component: TradingSystemPerformancePanel },
 
   { path:'**',                                    component: UnknownPanel },
 ];

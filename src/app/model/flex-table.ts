@@ -24,29 +24,57 @@ export type ListService<T> = (params? : any) => Observable<ListResponse<T>>;
 //=============================================================================
 
 export class FlexTableColumn {
-  column      : string;
-  header      : string;
-  transcoder?  : Transcoder;
-  iconStyler?  : IconStyler;
+  column      : string
+  header      : string
+  transcoder? : Transcoder
+  iconStyler? : IconStyler
+  cellStyler? : CellStyler
 
-  constructor(obj:any, column : string, transCoder? : Transcoder, iconStyler? : IconStyler) {
+  constructor(obj:any, column : string, transCoder? : Transcoder, iconStyler? : IconStyler, cellStyler? : CellStyler) {
     this.column     = column;
     this.header     = obj[column];
     this.transcoder = transCoder;
     this.iconStyler = iconStyler;
+    this.cellStyler = cellStyler;
+  }
+
+  //---------------------------------------------------------------------------
+
+  transcode(value: any, row: any) : string {
+    if (this.transcoder != undefined) {
+      return this.transcoder.transcode(value, row)
+    }
+
+    return value
+  }
+
+  //---------------------------------------------------------------------------
+
+  cellStyle(value: any, row: any) : string {
+    if (this.cellStyler != undefined) {
+      return this.cellStyler.getCellStyle(value, row)
+    }
+
+    return ""
   }
 }
 
 //=============================================================================
 
 export interface Transcoder {
-	transcode(value: any, row?: any): string;
+	transcode(value: any, row?: any): any;
 }
 
 //=============================================================================
 
 export interface IconStyler {
 	getStyle(value : any, row? : any) : IconStyle;
+}
+
+//=============================================================================
+
+export interface CellStyler {
+  getCellStyle(value : any, row? : any) : string;
 }
 
 //=============================================================================

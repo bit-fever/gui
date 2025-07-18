@@ -60,6 +60,7 @@ export class SelectRequired extends AbstractSubscriber {
 	matcher = new BfErrorStateMatcher();
 
   private _valid : boolean= false
+  private prevValue : any
 
 	//-------------------------------------------------------------------------
 	//---
@@ -144,7 +145,12 @@ export class SelectRequired extends AbstractSubscriber {
 
   private valueChanged = (s : FormControlStatus) => {
     this._valid = (s == "VALID")
-    this.keyChange.emit(this.formControl.value)
+    let value = this.formControl.value
+
+    if (value != this.prevValue) {
+      this.prevValue = value
+      this.keyChange.emit(value)
+    }
   }
 }
 

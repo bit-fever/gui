@@ -47,8 +47,7 @@
             style="color:{{column.iconStyler.getStyle(element[column.column], element).color}}">
         {{column.iconStyler.getStyle(element[column.column], element).icon}}
       </span>
-      <span *ngIf="column.transcoder">{{column.transcoder.transcode(element[column.column], element)}}</span>
-      <span *ngIf="!column.transcoder && !column.iconStyler">{{element[column.column]}}</span>
+      <span *ngIf="!column.iconStyler" style="{{column.cellStyle(element[column.column], element)}}">{{column.transcode(element[column.column], element)}}</span>
     </td>
   </ng-container>
 

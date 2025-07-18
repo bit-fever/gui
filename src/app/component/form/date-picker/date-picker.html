@@ -1,6 +1,6 @@
 <mat-form-field class="main-layout">
   <mat-label>{{label}}</mat-label>
-  <input matInput [matDatepicker]="picker" [formControl]="formControl" [errorStateMatcher]="matcher" [disabled]="disabled">
+  <input matInput [matDatepicker]="picker" [formControl]="formControl" [errorStateMatcher]="matcher">
   <mat-hint>YYYY-MM-DD</mat-hint>
   <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>

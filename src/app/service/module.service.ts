@@ -43,7 +43,7 @@ export class ModuleService {
   //-------------------------------------------------------------------------
 
   public openPerformanceMetrics(tsId:number) {
-    let extWindow = window.open('module/performance-metrics/'+tsId, '', 'popup,width=1500,height=950,left=100,top=100');
+    let extWindow = window.open('module/performance-analysis/'+tsId, '', 'popup,width=1500,height=950,left=100,top=100');
 
     if (extWindow == null) {
       console.log("PerformanceMetrics' window is null")

@@ -78,7 +78,7 @@ export class PerformanceChartPanel extends AbstractPanel {
               labelService         : LabelService,
               router               : Router,
               private localService : LocalService) {
-    super(eventBusService, labelService, router, "portfolio.tradingSystem.performance.chart", "")
+    super(eventBusService, labelService, router, "module.performance.chart", "")
 
     this.chartOptions  = this.buildChartOptions()
   }
@@ -166,7 +166,7 @@ export class PerformanceChartPanel extends AbstractPanel {
       },
       chart: {
         type: "line",
-        height: 500,
+        height: "96%",
         id: "base",
         group: "equity",
         zoom: {
@@ -191,13 +191,28 @@ export class PerformanceChartPanel extends AbstractPanel {
       colors: [],
 
       xaxis: {
-        type: "datetime"
       },
 
       yaxis: {
-        decimalsInFloat: 0
+        tickAmount: 20,
+        decimalsInFloat: 0,
+        axisBorder: {
+          show: true,
+        },
+        axisTicks: {
+          show: true,
+        }
       },
       annotations: {},
+      grid: {
+        borderColor: "#B0B0B0",
+        strokeDashArray: 3,
+        xaxis: {
+          lines: {
+            show: true
+          }
+        }
+      }
     }
   }
 
@@ -264,12 +279,14 @@ export class PerformanceChartPanel extends AbstractPanel {
   private updateChartType() {
     if (this.chartType.value == "trade") {
       this.chartOptions.xaxis = <ApexXAxis>{
-        type:"numeric"
+        type:"numeric",
+        tickAmount: 20,
+        decimalsInFloat: 0,
       }
     }
     else {
       this.chartOptions.xaxis = <ApexXAxis>{
-        type:"datetime"
+        type:"datetime",
       }
     }
   }

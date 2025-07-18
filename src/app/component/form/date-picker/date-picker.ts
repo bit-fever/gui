@@ -47,7 +47,6 @@ export class DatePicker {
 
   @Input() label    : string  = ""
   @Input() required : boolean = false
-  @Input() disabled : boolean = false
 
   @Output() valueChange = new EventEmitter<number|null>();
 
@@ -57,6 +56,7 @@ export class DatePicker {
   matcher    = new BfErrorStateMatcher();
 
   private _valid : boolean = false
+  private prevValue : any
 
   //-------------------------------------------------------------------------
   //---
@@ -87,6 +87,20 @@ export class DatePicker {
   }
 
   //-------------------------------------------------------------------------
+
+  get disabled() : boolean {
+    return this.formControl.disabled
+  }
+
+  //-------------------------------------------------------------------------
+
+  @Input()
+  set disabled(value : boolean) {
+    if (value)  this.formControl.disable()
+      else      this.formControl.enable()
+  }
+
+  //-------------------------------------------------------------------------
   //---
   //--- Public methods
   //---
@@ -110,14 +124,17 @@ export class DatePicker {
 
   private valueChanged = (s : FormControlStatus) => {
     this._valid = (s == "VALID")
-    this.valueChange.emit(this.formControl.value)
+    let value = this.formControl.value
+
+    if (value != this.prevValue) {
+      this.prevValue = value
+      this.valueChange.emit(value)
+    }
   }
 
   //-------------------------------------------------------------------------
 
   private validator = (control: AbstractControl<number|null>): ValidationErrors | null => {
-    console.log("Validating : "+control.value)
-
     if (this.required && control.value == null) {
       console.log("Required!!!")
       return { "required": "-" }

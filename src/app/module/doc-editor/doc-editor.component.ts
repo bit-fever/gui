@@ -52,7 +52,7 @@ export class DocEditorComponent implements OnInit {
               private broadcastService : BroadcastService) {
 
     broadcastService.onEvent((e : BroadcastEvent)=>{
-      if (e.type == EventType.TradingsSystem_Deleted) {
+      if (e.type == EventType.TradingsSystem_Deleted && e.id == this.tsId) {
         window.close()
       }
     })

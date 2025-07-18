@@ -58,7 +58,7 @@ export class PerformanceSummaryPanel extends AbstractPanel {
   constructor(eventBusService          : EventBusService,
               labelService             : LabelService,
               router                   : Router) {
-    super(eventBusService, labelService, router, "portfolio.tradingSystem.performance.summary", "")
+    super(eventBusService, labelService, router, "module.performance.summary", "")
   }
 
   //---------------------------------------------------------------------------

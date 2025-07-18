@@ -1,18 +1,21 @@
 <div class="main-layout">
-  <module-title-panel icon="query_stats" title="{{par.tradingSystem?.name}}" (onClose)="onClose()"></module-title-panel>
+  <module-title-panel icon="query_stats" title="{{loc('title') + ' '+par.tradingSystem?.name}}" (onClose)="onClose()"></module-title-panel>
 
   <!-- ============================================================================================================= -->
 
   <div class="header-layout">
-    <select-required [label]="loc('period')"   [(key)]="selectedPeriod" [list]="periods"   (keyChange)="onPeriodChange($event)"   keyField="id"       valueField="name"></select-required>
-    <select-required [label]="loc('timezone')" [(key)]="timezone"       [list]="timezones" (keyChange)="onTimezoneChange($event)" keyField="timezone" valueField="code"></select-required>
+    <select-required [label]="loc('period')"   [(key)]="selectedPeriod" [list]="periods"     (keyChange)  ="onPeriodChange($event)"   keyField="id"       valueField="name"></select-required>
+    <select-required [label]="loc('timezone')" [(key)]="timezone"       [list]="timezones"   (keyChange)  ="onTimezoneChange($event)" keyField="timezone" valueField="code"></select-required>
+    <date-picker     [label]="loc('fromDate')" [disabled]="!isCustom()" [(value)]="fromDate" (valueChange)="onFromChange($event)"></date-picker>
+    <date-picker     [label]="loc('toDate')"   [disabled]="!isCustom()" [(value)]="toDate"   (valueChange)="onToChange($event)"></date-picker>
 
     <span style="flex:1 0 auto"></span>
 
     <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="selTab">
-      <mat-button-toggle value="summary" (change)="onTabSet()">{{ loc("tab.summary") }}</mat-button-toggle>
-      <mat-button-toggle value="charts"  (change)="onTabSet()">{{ loc("tab.charts") }}</mat-button-toggle>
-      <mat-button-toggle value="trades"  (change)="onTabSet()">{{ loc("tab.trades") }}</mat-button-toggle>
+      <mat-button-toggle value="summary"    (change)="onTabSet()">{{ loc("tab.summary") }}</mat-button-toggle>
+      <mat-button-toggle value="charts"     (change)="onTabSet()">{{ loc("tab.charts") }}</mat-button-toggle>
+      <mat-button-toggle value="aggregates" (change)="onTabSet()">{{ loc("tab.aggregates") }}</mat-button-toggle>
+      <mat-button-toggle value="trades"     (change)="onTabSet()">{{ loc("tab.trades") }}</mat-button-toggle>
     </mat-button-toggle-group>
 
     <div>
@@ -24,9 +27,10 @@
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-  <performance-summary-panel *ngIf="selTab.value=='summary'" class="panel-layout" [par]="par"></performance-summary-panel>
-  <performance-chart-panel   *ngIf="selTab.value=='charts'"  class="panel-layout" [par]="par"></performance-chart-panel>
-  <performance-trade-panel   *ngIf="selTab.value=='trades'"  class="panel-layout" [par]="par"></performance-trade-panel>
+  <performance-summary-panel   *ngIf="selTab.value=='summary'"    class="panel-layout" [par]="par"></performance-summary-panel>
+  <performance-chart-panel     *ngIf="selTab.value=='charts'"     class="panel-layout" [par]="par"></performance-chart-panel>
+  <performance-aggregate-panel *ngIf="selTab.value=='aggregates'" class="panel-layout" [par]="par"></performance-aggregate-panel>
+  <performance-trade-panel     *ngIf="selTab.value=='trades'"     class="panel-layout" [par]="par"></performance-trade-panel>
 
   <!-- ============================================================================================================= -->
 

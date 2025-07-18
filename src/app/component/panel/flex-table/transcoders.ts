@@ -6,7 +6,7 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {IconStyle, IconStyler, Transcoder} from "../../../model/flex-table";
+import {CellStyler, IconStyle, IconStyler, Transcoder} from "../../../model/flex-table";
 import {LabelService} from "../../../service/label.service";
 import {TsStatus} from "../../../model/model";
 import {isCollection} from "yaml";
@@ -230,5 +230,18 @@ export class InstrumentStatusStyler implements IconStyler {
 var STATUS_READY      = new IconStyle("done",  "#00A000");
 var STATUS_PROCESSING = new IconStyle("build", "#0080FF");
 var STATUS_ERROR      = new IconStyle("error", "#A00000");
+
+//=============================================================================
+
+export class NumericClassStyler implements CellStyler {
+
+  getCellStyle(value : number, row? : any) : string {
+    let style = "text-align: right;";
+    if (value > 0) return style+"color: #00A000;";
+    if (value < 0) return style+"color: #A00000;";
+
+    return "";
+  }
+}
 
 //=============================================================================

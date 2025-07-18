@@ -267,6 +267,16 @@ model:
     exitDateAtBroker   : Exit date at broker
     exitPriceAtBroker  : Exit price at broker
 
+  annualAggregate:
+      year         : Year
+      grossProfit  : Gross profit
+      grossAvgTrade: Gross Avg Trade
+      grossWinPerc : Gross win (%)
+      netProfit    : Net profit
+      netAvgTrade  : Net Avg Trade
+      netWinPerc   : Net win (%)
+      trades       : Trades
+
 # ==============================================================================
 # ===
 # === Pages
@@ -372,59 +382,6 @@ page:
           inactive: Inactive
           manual  : Manual
           auto    : Auto
-
-      performance:
-        title: Trading system performance
-        period  : Analysis period
-        timezone: View timezone
-        exchange: Exchange
-        periods:
-          - id: 30
-            name: Last month
-          - id: 90
-            name: Last 3 months
-          - id: 180
-            name: Last 6 months
-          - id: 365
-            name: Last year
-          - id: 730
-            name: Last 2 years
-          - id: 1825
-            name: Last 5 years
-          - id: 0
-            name: All
-        tab:
-          summary : Summary
-          charts  : Charts
-          periodic: Periodic
-          trades  : Trades
-        summary:
-          metric  : Metric
-          all     : All
-          long    : Long
-          short   : Short
-          gross   : Gross
-          net     : Net
-          profit  : Profit
-          maxDD   : Max drawdown
-          avgTrade: Average trade
-          trades  : Trades
-        chart:
-          all           : All
-          long          : Long
-          short         : Short
-          gross         : Gross
-          net           : Net
-          time          : Time
-          trade         : Trade
-          drawdown      : Drawdown
-          grossEquity   : Gross equity
-          netEquity     : Net equity
-          grossDrawdown : Gross drawdown
-          netDrawdown   : Net drawdown
-          stepline      : Stepline
-        trades:
-          filter: Filter...
 
     # ----------------------------------------------------------------------------
 
@@ -661,6 +618,65 @@ page:
 
   # ==============================================================================
 
+  module:
+    performance:
+      title: Performance analysis for
+      period  : Analysis period
+      fromDate: From date
+      toDate  : To date
+      timezone: View timezone
+      exchange: Exchange
+      periods:
+        - id: 30
+          name: Last month
+        - id: 90
+          name: Last 3 months
+        - id: 180
+          name: Last 6 months
+        - id: 365
+          name: Last year
+        - id: 730
+          name: Last 2 years
+        - id: 1825
+          name: Last 5 years
+        - id: 0
+          name: All
+        - id: -1
+          name: Custom
+      tab:
+        summary   : Summary
+        charts    : Charts
+        periodic  : Periodic
+        aggregates: Aggregates
+        trades    : Trades
+      summary:
+        metric  : Metric
+        all     : All
+        long    : Long
+        short   : Short
+        gross   : Gross
+        net     : Net
+        profit  : Profit
+        maxDD   : Max drawdown
+        avgTrade: Average trade
+        trades  : Trades
+      chart:
+        all           : All
+        long          : Long
+        short         : Short
+        gross         : Gross
+        net           : Net
+        time          : Time
+        trade         : Trade
+        drawdown      : Drawdown
+        grossEquity   : Gross equity
+        netEquity     : Net equity
+        grossDrawdown : Gross drawdown
+        netDrawdown   : Net drawdown
+        stepline      : Stepline
+      trades:
+        filter: Filter...
+
 # ==============================================================================
 # ===
 # === Adapters
@@ -691,6 +707,7 @@ map:
     BO: Bond
     MT: Meat
     FX: Currency
+    SO: Softs
 
   product:
     FU: Futures

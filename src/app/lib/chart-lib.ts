@@ -30,6 +30,7 @@ export type ChartOptions = {
   stroke      : ApexStroke
   colors      : string[]
   annotations : ApexAnnotations
+  grid        : ApexGrid
 };
 
 //=============================================================================

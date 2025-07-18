@@ -28,12 +28,12 @@ import {LabelService} from "../../service/label.service";
 import {InventoryService} from "../../service/inventory.service";
 import {PortfolioService} from "../../service/portfolio.service";
 import {LocalService} from "../../service/local.service";
-import {AppEvent} from "../../model/event";
 import {Setting} from "../../model/setting";
 import {SelectRequired} from "../../component/form/select-required/select-required";
-import {RightTitlePanel} from "../../component/panel/right-title/right-title.panel";
 import {BroadcastEvent, BroadcastService, EventType} from "../../service/broadcast.service";
 import {ModuleTitlePanel} from "../../component/panel/module-title/module-title.panel";
+import {DatePicker} from "../../component/form/date-picker/date-picker";
+import {PerformanceAggregatePanel} from "./aggregate/aggregate.panel";
 
 //=============================================================================
 
@@ -43,7 +43,7 @@ import {ModuleTitlePanel} from "../../component/panel/module-title/module-title.
     styleUrls: ['./performance.panel.scss'],
   imports: [MatFormFieldModule, MatOptionModule, MatSelectModule,
     MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
-    MatDividerModule, MatButtonToggleModule, MatIconModule, PerformanceSummaryPanel, PerformanceChartPanel, PerformanceTradePanel, NgIf, SelectRequired, RightTitlePanel, ModuleTitlePanel,
+    MatDividerModule, MatButtonToggleModule, MatIconModule, PerformanceSummaryPanel, PerformanceChartPanel, PerformanceTradePanel, NgIf, SelectRequired, ModuleTitlePanel, DatePicker, PerformanceAggregatePanel,
   ]
 })
 
@@ -59,6 +59,8 @@ export class TradingSystemPerformancePanel extends AbstractPanel {
 
   selectedPeriod : number = 180
   timezone       : string = "exchange"
+  fromDate       : number|null = null
+  toDate         : number|null = 0
 
   periods        : any
   timezones      : any
@@ -83,10 +85,10 @@ export class TradingSystemPerformancePanel extends AbstractPanel {
               private localService     : LocalService,
               private broadcastService : BroadcastService) {
 
-    super(eventBusService, labelService, router, "portfolio.tradingSystem.performance", "tradingSystem");
+    super(eventBusService, labelService, router, "module.performance", "tradingSystem");
 
     broadcastService.onEvent((e : BroadcastEvent)=>{
-      if (e.type == EventType.TradingsSystem_Deleted) {
+      if (e.type == EventType.TradingsSystem_Deleted && e.id == this.tsId) {
         window.close()
       }
     })
@@ -99,6 +101,8 @@ export class TradingSystemPerformancePanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   override init = () : void => {
+    console.log("TradingSystemPerformancePanel: Initializing...")
+
     this.selectedPeriod = Number(this.localService.getItemWithDefault(Setting.Portfolio_TradSys_PerfPeriod, "180"))
     this.selTab.setValue(this.localService.getItemWithDefault(Setting.Portfolio_TradSys_PerfTab, "summary"))
 
@@ -115,7 +119,9 @@ export class TradingSystemPerformancePanel extends AbstractPanel {
 
     this.periods = this.labelMap("periods");
     this.tsId    = Number(this.route.snapshot.paramMap.get("id"));
-    this.reload()
+
+    //--- Reloading is implicitly triggered by the 2 select-required components
+    //--- this.reload()
   }
 
   //-------------------------------------------------------------------------
@@ -125,14 +131,31 @@ export class TradingSystemPerformancePanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onPeriodChange(value: string) {
+    console.log("Analysis period change : ", value)
     this.localService.setItem(Setting.Portfolio_TradSys_PerfPeriod, value)
-    this.reload();
+
+    if (this.selectedPeriod != -1) {
+      this.reload();
+    }
   }
 
   //-------------------------------------------------------------------------
 
   onTimezoneChange(value: string) {
+    console.log("Timezone change : ", value)
     this.reload()
+  }
+
+  //-------------------------------------------------------------------------
+
+  onFromChange(value: number|null) {
+    console.log("From period change : ", value)
+  }
+
+  //-------------------------------------------------------------------------
+
+  onToChange(value: number|null) {
+    console.log("To period change : ", value)
   }
 
   //-------------------------------------------------------------------------
@@ -156,6 +179,16 @@ export class TradingSystemPerformancePanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
   //---
+  //--- Public methods
+  //---
+  //-------------------------------------------------------------------------
+
+  isCustom() : boolean {
+    return this.selectedPeriod == -1
+  }
+
+  //-------------------------------------------------------------------------
+  //---
   //--- Private methods
   //---
   //-------------------------------------------------------------------------
@@ -172,8 +205,21 @@ export class TradingSystemPerformancePanel extends AbstractPanel {
       timezone : this.timezone,
     }
 
+    if (this.fromDate != null) {
+      req.fromDate = this.fromDate;
+    }
+
+    if (this.toDate != null) {
+      req.toDate = this.toDate;
+    }
+
     this.portfolioService.getPerformanceAnalysis(this.tsId, req).subscribe(res => {
       this.par = res
+
+      if (res.general != undefined) {
+        this.fromDate = res.general.fromDate
+        this.toDate   = res.general.toDate
+      }
     })
   }
 }

@@ -62,7 +62,8 @@ export function buildEquityChartOptions(title : string, clickFunction: any) : Ch
 
     annotations: {
       xaxis: [ {} ]
-    }
+    },
+    grid: {}
   }
 }
 
