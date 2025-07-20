@@ -28,7 +28,7 @@ import {AbstractPanel} from "../../../../../../../component/abstract.panel";
 import {
   AgentProfile,
   BrokerProduct,
-  DataProduct,
+  DataProduct, PorTradingSystem,
   TradingSession,
   TradingSystemSpec
 } from "../../../../../../../model/model";
@@ -40,7 +40,7 @@ import {AppEvent} from "../../../../../../../model/event";
 //=============================================================================
 
 @Component({
-    selector: "tradingSystem-devel-edit",
+    selector: "tradingSystem-ready-edit",
     templateUrl: './edit.panel.html',
     styleUrls: ['./edit.panel.scss'],
     imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule,
@@ -51,7 +51,7 @@ import {AppEvent} from "../../../../../../../model/event";
 
 //=============================================================================
 
-export class TradingSystemDevelEditPanel extends AbstractPanel {
+export class TradingSystemReadyEditPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
   //---
@@ -60,14 +60,14 @@ export class TradingSystemDevelEditPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   ts = new TradingSystemSpec()
+  disabled = false
+
   data          : DataProduct   [] = []
   brokers       : BrokerProduct [] = []
   sessions      : TradingSession[] = []
   strategyTypes : Object        [] = []
   profiles      : AgentProfile  [] = []
   tagSet        : string        [] = []
-
-  title : string =""
 
   @ViewChild("tsNameCtrl")      tsNameCtrl?      : InputTextRequired
   @ViewChild("tsDataCtrl")      tsDataCtrl?      : SelectRequired
@@ -89,8 +89,8 @@ export class TradingSystemDevelEditPanel extends AbstractPanel {
               router                   : Router,
               private inventoryService : InventoryService) {
 
-    super(eventBusService, labelService, router, "portfolio.tradingSystem.development", "tradingSystem");
-    super.subscribeToApp(AppEvent.TRADINGSYSTEM_DEVEL_EDIT_START, (e : AppEvent) => this.onStart(e));
+    super(eventBusService, labelService, router, "portfolio.tradingSystem.ready", "tradingSystem");
+    super.subscribeToApp(AppEvent.TRADINGSYSTEM_READY_EDIT_START, (e : AppEvent) => this.onStart(e));
 
     inventoryService.getAgentProfiles().subscribe(
       result => {
@@ -124,16 +124,11 @@ export class TradingSystemDevelEditPanel extends AbstractPanel {
   private onStart(event : AppEvent) : void {
     console.log("TradingSystemEditPanel: Starting...");
 
-    this.strategyTypes  = this.labelService.getLabel("map.strategyType")
+    this.strategyTypes = this.labelService.getLabel("map.strategyType")
 
-    if (event.params == undefined) {
-      this.ts = new TradingSystemSpec()
-      this.title = this.loc('new')
-    }
-    else {
-      this.ts = Object.assign(new TradingSystemSpec(), event.params)
-      this.title = this.loc('edit')
-    }
+    this.ts = Object.assign(new TradingSystemSpec(), event.params)
+    let pts : PorTradingSystem = event.params
+    this.disabled = (pts.trading || pts.lastTrade != undefined)
   }
 
   //-------------------------------------------------------------------------
@@ -161,25 +156,16 @@ export class TradingSystemDevelEditPanel extends AbstractPanel {
     console.log("TradingSystem is : \n"+ JSON.stringify(this.ts));
 
     this.ts.tags = this.tagSet.join("|")
-    if (this.ts.id == undefined) {
-      this.inventoryService.addTradingSystem(this.ts).subscribe( c => {
-        this.onClose();
-        this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_DEVEL_LIST_RELOAD))
-      })
-    }
-    else {
-      this.inventoryService.updateTradingSystem(this.ts).subscribe( c => {
-        this.onClose();
-        this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_DEVEL_LIST_RELOAD))
-      })
-    }
+    this.inventoryService.updateTradingSystem(this.ts).subscribe( c => {
+      this.onClose();
+      this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_READY_LIST_RELOAD))
+    })
   }
 
   //-------------------------------------------------------------------------
 
   public onClose() : void {
     this.ts = new TradingSystemSpec()
-    this.title = ""
 
     let event = new AppEvent(AppEvent.RIGHT_PANEL_CLOSE);
     super.emitToApp(event);

@@ -34,6 +34,7 @@ button:
   document  : DOCUMENT
 
 menu-button:
+  edit         : Edit
   filter       : Filter
   documentation: Documentation
   toTrading    : Move to trading
@@ -338,11 +339,13 @@ page:
     tradingSystem:
       development:
         new   : New trading system
+        edit  : Edit trading system
         none  : None
         filter: Filter...
 
       ready:
-        filter: Filter...
+        edit           : Edit trading system
+        filter         : Filter...
         lastNetProfit  : Net profit
         lastNetAvgTrade: Net avg trade
         lastNumTrades  : Num of trades
@@ -533,9 +536,15 @@ page:
         taDuration:   Duration
         taGain:       Gain
         taStartDate:  Start date
+
+  # ==============================================================================
+
   instrumentSelector:
     message: Data instrument
     title  : Data instrument selector
+
+  # ==============================================================================
+
   presetProductSelector:
     title  : Products selector
 

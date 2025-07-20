@@ -65,7 +65,7 @@ export class ReadyPanel extends AbstractPanel {
 
     super(eventBusService, labelService, router, "portfolio.tradingSystem.ready");
 
-    eventBusService.subscribeToApp(AppEvent.TRADINGSYSTEM_LIST_RELOAD, () => {
+    eventBusService.subscribeToApp(AppEvent.TRADINGSYSTEM_READY_LIST_RELOAD, () => {
       this.reload()
     })
   }

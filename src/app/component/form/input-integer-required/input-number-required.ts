@@ -120,6 +120,24 @@ export class InputNumberRequired extends AbstractSubscriber {
   }
 
   //-------------------------------------------------------------------------
+
+  get disabled() : boolean {
+    return this.formControl.disabled
+  }
+
+  //-------------------------------------------------------------------------
+
+  @Input()
+  set disabled(v : boolean) {
+    if (v) {
+      this.formControl.disable()
+    }
+    else {
+      this.formControl.enable()
+    }
+  }
+
+  //-------------------------------------------------------------------------
   //---
   //--- Public methods
   //---

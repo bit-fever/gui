@@ -1,5 +1,5 @@
 <div class="main-layout">
-  <right-title-panel icon="inventory" title="{{loc('new')}}" (onClose)="onClose()"></right-title-panel>
+  <right-title-panel icon="inventory" title="{{title}}" (onClose)="onClose()"></right-title-panel>
 
   <div class="form-layout">
     <input-text-required #tsNameCtrl        [(value)]="ts.name"           [label]="mod('name')" [len]="64"></input-text-required>

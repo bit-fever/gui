@@ -36,7 +36,8 @@ export enum Url {
 
   Right_Connection_Create         = "connection-create",
   Right_Connection_Edit           = "connection-edit",
-  Right_TradingSystem_Edit        = "tradingSystem-edit",
+  Right_TradingSystem_DevelEdit   = "tradingSystem-devel-edit",
+  Right_TradingSystem_ReadyEdit   = "tradingSystem-ready-edit",
   Right_DataProduct_Create        = "dataProduct-create",
   Right_DataProduct_Edit          = "dataProduct-edit",
   Right_BrokerProduct_Create      = "brokerProduct-create",

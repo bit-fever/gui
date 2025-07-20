@@ -33,7 +33,7 @@ import {BfErrorStateMatcher} from "../error-state-matcher";
     selector: 'input-text-required',
     templateUrl: './input-text-required.html',
     styleUrls: ['./input-text-required.scss'],
-    imports: [MatFormFieldModule, MatOptionModule, NgForOf, MatInputModule, MatIconModule,
+    imports: [MatFormFieldModule, MatOptionModule, MatInputModule, MatIconModule,
         MatButtonModule, NgIf, FormsModule, ReactiveFormsModule]
 })
 

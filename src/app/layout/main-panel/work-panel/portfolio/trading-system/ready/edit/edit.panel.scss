@@ -7,15 +7,15 @@
 //=============================================================================
 
 .main-layout {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
+  display        : flex;
+  flex-direction : column;
+  flex-wrap      : nowrap;
   justify-content: flex-start;
-  align-items: stretch;
-  gap: 8px;
-  height   : 100%;
-  overflow: hidden;
-  width: 400px;
+  align-items    : stretch;
+  gap            : 8px;
+  height         : 100%;
+  overflow       : hidden;
+  width          : 400px;
 }
 
 //=============================================================================

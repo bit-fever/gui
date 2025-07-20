@@ -1,7 +1,7 @@
 <mat-form-field class="main-layout">
   <mat-label>{{label}}</mat-label>
   <input matInput type="number" [formControl]="formControl" [errorStateMatcher]="matcher">
-  <button *ngIf="formControl.value" matSuffix mat-icon-button (click)="onClear()">
+  <button *ngIf="formControl.value && !disabled" matSuffix mat-icon-button (click)="onClear()" [disabled]="disabled">
     <mat-icon>close</mat-icon>
   </button>
   <mat-error *ngIf="formControl.hasError('min') && !formControl.hasError('required')">

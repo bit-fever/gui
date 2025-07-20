@@ -148,13 +148,19 @@ export class ReadyCard extends AbstractPanel {
   onMenuToTrading() {
     this.portfolioService.setTradingSystemTrading(this.ts.id, true).subscribe( res => {
       if (res.status == TspResponseStatus.OK) {
-        this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_LIST_RELOAD))
+        this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_READY_LIST_RELOAD))
       }
       else if (res.status == TspResponseStatus.ERROR) {
         let message = this.loc("error.toTrading")+" : "+ res.message
         this.snackBar.open(message, this.button("ok"))
       }
     })
+  }
+
+  //-------------------------------------------------------------------------
+
+  onMenuEdit() {
+    this.openRightPanel(Url.Portfolio_TradingSystems, Url.Right_TradingSystem_ReadyEdit, AppEvent.TRADINGSYSTEM_READY_EDIT_START, this.ts);
   }
 
   //-------------------------------------------------------------------------
@@ -173,7 +179,7 @@ export class ReadyCard extends AbstractPanel {
 
   onMenuDeleteTrades() {
     this.portfolioService.deleteTradingSystemTrades(this.ts.id).subscribe( res => {
-      this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_LIST_RELOAD))
+      this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_READY_LIST_RELOAD))
     })
   }
 
@@ -182,7 +188,7 @@ export class ReadyCard extends AbstractPanel {
   onMenuDelete() {
     this.inventoryService.deleteTradingSystem(this.ts.id).subscribe( res => {
       this.broadcastService.sendTradingSystemDeleted(this.ts.id)
-      this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_LIST_RELOAD))
+      this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_READY_LIST_RELOAD))
     })
   }
 }

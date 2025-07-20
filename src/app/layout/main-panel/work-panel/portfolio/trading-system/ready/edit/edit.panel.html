@@ -1,0 +1,31 @@
+<div class="main-layout">
+  <right-title-panel icon="inventory" title="{{loc('edit')}}" (onClose)="onClose()"></right-title-panel>
+
+  <div class="form-layout">
+    <input-text-required #tsNameCtrl        [(value)]="ts.name"           [label]="mod('name')" [len]="64"></input-text-required>
+    <br/>
+    <select-required #tsDataCtrl       [(key)]="ts.dataProductId"    [label]="mod('dataSymbol')"      keyField="id" valueField="name" [list]="data" [disabled]="disabled">></select-required>
+    <br/>
+    <select-required #tsBrokerCtrl     [(key)]="ts.brokerProductId"  [label]="mod('brokerSymbol')"    keyField="id" valueField="name" [list]="brokers" [disabled]="disabled">></select-required>
+    <br/>
+    <select-required #tsSessionCtrl    [(key)]="ts.tradingSessionId" [label]="mod('tradingSession')"  keyField="id" valueField="name" [list]="sessions" [disabled]="disabled">></select-required>
+    <br/>
+    <input-number-required #tsTimeframeCtrl [(value)]="ts.timeframe"      [label]="mod('timeframe')" [min]="1" [max]="1440" [disabled]="disabled">></input-number-required>
+    <br/>
+    <select-required #tsStratTypeCtrl  [(key)]="ts.strategyType"     [label]="mod('strategyType')"   [map]="strategyTypes"></select-required>
+    <br/>
+    <chip-set-text [title]="mod('tags')" [(items)]="tagSet"></chip-set-text>
+    <br/>
+    <mat-slide-toggle [(ngModel)]="ts.overnight">{{mod("overnight")}}</mat-slide-toggle>
+    <p></p>
+    <select-optional #tsProfileCtrl  [(key)]="ts.agentProfileId"      [label]="mod('agentProfile')" keyField="id" valueField="name" [list]="profiles" [disabled]="disabled">></select-optional>
+    <br/>
+    <input-text-required #tsExternRefCtrl [(value)]="ts.externalRef"  [label]="mod('externalRef')" [len]="64" *ngIf="ts.agentProfileId" [disabled]="disabled">></input-text-required>
+  </div>
+
+  <div class="buttons-layout">
+    <mat-divider></mat-divider>
+    <button mat-button (click)="onSave()" [disabled]="!saveEnabled()">{{button("save")}}</button>
+    <button mat-button (click)="onClose()">{{button("cancel")}}</button>
+  </div>
+</div>

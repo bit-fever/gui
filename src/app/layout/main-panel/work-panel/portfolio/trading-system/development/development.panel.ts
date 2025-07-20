@@ -80,7 +80,7 @@ export class DevelopmentPanel extends AbstractPanel {
 
     super(eventBusService, labelService, router, "portfolio.tradingSystem.development");
 
-    eventBusService.subscribeToApp(AppEvent.TRADINGSYSTEM_LIST_RELOAD, () => {
+    eventBusService.subscribeToApp(AppEvent.TRADINGSYSTEM_DEVEL_LIST_RELOAD, () => {
       this.reload()
       this.updateButtons([])
     })
@@ -164,7 +164,7 @@ export class DevelopmentPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onCreateClick() {
-    this.openRightPanel(Url.Portfolio_TradingSystems, Url.Right_TradingSystem_Edit, AppEvent.TRADINGSYSTEM_EDIT_START);
+    this.openRightPanel(Url.Portfolio_TradingSystems, Url.Right_TradingSystem_DevelEdit, AppEvent.TRADINGSYSTEM_DEVEL_EDIT_START);
   }
 
   //-------------------------------------------------------------------------
@@ -183,7 +183,7 @@ export class DevelopmentPanel extends AbstractPanel {
   onEditClick() {
     // @ts-ignore
     let selection = this.table.getSelection();
-    this.openRightPanel(Url.Portfolio_TradingSystems, Url.Right_TradingSystem_Edit, AppEvent.TRADINGSYSTEM_EDIT_START, selection[0]);
+    this.openRightPanel(Url.Portfolio_TradingSystems, Url.Right_TradingSystem_DevelEdit, AppEvent.TRADINGSYSTEM_DEVEL_EDIT_START, selection[0]);
   }
 
   //-------------------------------------------------------------------------

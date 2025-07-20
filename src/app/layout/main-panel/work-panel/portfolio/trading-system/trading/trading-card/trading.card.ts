@@ -237,7 +237,7 @@ export class TradingCard extends AbstractPanel {
   onMenuToReady() {
     this.portfolioService.setTradingSystemTrading(this.ts.id, false).subscribe( res => {
       if (res.status == TspResponseStatus.OK) {
-        this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_LIST_RELOAD))
+        this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_TRADING_LIST_RELOAD))
       }
       else if (res.status == TspResponseStatus.ERROR) {
         let message = this.loc("error.toReady")+" : "+ res.message
@@ -248,31 +248,8 @@ export class TradingCard extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  onMenuFilter() {
-      this.navigateTo([ Url.Portfolio_TradingSystems, this.ts.id, Url.Sub_Filtering ]);
-  }
-
-  //-------------------------------------------------------------------------
-
   onMenuDocumentation() {
     this.moduleService.openDocEditor(this.ts.id)
-  }
-
-  //-------------------------------------------------------------------------
-
-  onMenuDeleteTrades() {
-    this.portfolioService.deleteTradingSystemTrades(this.ts.id).subscribe( res => {
-      this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_LIST_RELOAD))
-    })
-  }
-
-  //-------------------------------------------------------------------------
-
-  onMenuDelete() {
-    this.inventoryService.deleteTradingSystem(this.ts.id).subscribe( res => {
-      this.broadcastService.sendTradingSystemDeleted(this.ts.id)
-      this.emitToApp(new AppEvent<any>(AppEvent.TRADINGSYSTEM_LIST_RELOAD))
-    })
   }
 
   //-------------------------------------------------------------------------
