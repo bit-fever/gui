@@ -8,14 +8,29 @@
 
 .toolbar {
 //  background-color: #FFF8F4;
-  background-color: #F4F8FF;
-//  border-bottom: solid #F37C40;
+//  background-color: #F4F8FF;
+  //  border-bottom: solid #F37C40;
+
+  background-color: #FFFFFF;
   border-bottom: solid #505AC2;
 }
 //=============================================================================
 
 .spacer {
   flex: 1 1 auto;
+}
+
+//=============================================================================
+
+.logo-coin-style {
+  height: 36px;
+}
+
+//=============================================================================
+
+.logo-text-style {
+  height: 26px;
+  margin-left: 4px;
 }
 
 //=============================================================================

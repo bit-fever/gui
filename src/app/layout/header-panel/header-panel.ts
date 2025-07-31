@@ -24,8 +24,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     selector: 'header-panel',
     templateUrl: './header-panel.html',
     styleUrls: ['./header-panel.scss'],
-    imports: [MatButtonModule, MatIconModule, MatToolbarModule, RouterModule, MatSnackBarModule,
-        MatProgressSpinnerModule],
+  imports: [MatButtonModule, MatIconModule, MatToolbarModule, RouterModule, MatSnackBarModule, MatProgressSpinnerModule],
     providers: []
 })
 

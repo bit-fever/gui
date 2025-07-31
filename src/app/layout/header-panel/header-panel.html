@@ -1,9 +1,11 @@
 <mat-toolbar class="toolbar">
-  <button mat-icon-button class="example-icon" (click)="onMenuClick()">
+  <button mat-icon-button (click)="onMenuClick()">
     <span class="material-symbols-outlined">menu</span>
   </button>
 
-  <span>{{loc('title')}}</span>
+  <img src="assets/image/logo-coin-small.png" class="logo-coin-style"/>
+  <img src="assets/image/logo-text-small.png" class="logo-text-style"/>
+
   <span class="spacer"></span>
 
   <div [hidden]="spinnerHidden">
