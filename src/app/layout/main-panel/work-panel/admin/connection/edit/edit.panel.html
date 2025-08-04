@@ -7,7 +7,7 @@
     <select-required [(key)]="conn.systemCode" [label]="loc('system')" [disabled]="true"
                           keyField="code" valueField="name" [list]="adapters"></select-required>
 
-    <ng-container *ngFor="let param of params">
+    <ng-container *ngFor="let param of configParams">
       <input-text-required *ngIf="param.type=='string'"   [(value)]="param.valueStr" label="{{label(param.name)}}" [len]="param.maxValue"></input-text-required>
       <input-text-required *ngIf="param.type=='password'" [(value)]="param.valueStr" label="{{label(param.name)}}" [len]="param.maxValue" type="password"></input-text-required>
       <mat-checkbox *ngIf="param.type=='bool'" [checked]="param.valueBool" (change)="onCheckChange($event, param)">{{label(param.name)}}</mat-checkbox>

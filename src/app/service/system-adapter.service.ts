@@ -10,7 +10,7 @@ import {Injectable}        from "@angular/core";
 import {Observable}        from "rxjs";
 import {ListResponse}      from "../model/flex-table";
 import {HttpService}       from "./http.service";
-import {Adapter, ConnectionRequest, ConnectionResult, ConnectionSpec} from "../model/model";
+import {Adapter, ConnectionRequest, ConnectionResult, ConnectionSpec, TestAdapterRequest} from "../model/model";
 
 //=============================================================================
 
@@ -37,8 +37,20 @@ export class SystemAdapterService {
 
   //---------------------------------------------------------------------------
 
-  public connect = (cr : ConnectionRequest): Observable<ConnectionResult> => {
-    return this.httpService.post<ConnectionResult>('/api/system/v1/connections', cr);
+  public getAdapter = (code : string): Observable<Adapter> => {
+    return this.httpService.get<Adapter>('/api/system/v1/adapters/'+code);
+  }
+
+  //---------------------------------------------------------------------------
+
+  public connect = (connectionCode : string, cr : ConnectionRequest): Observable<ConnectionResult> => {
+    return this.httpService.put<ConnectionResult>('/api/system/v1/connections/'+ connectionCode, cr);
+  }
+
+  //---------------------------------------------------------------------------
+
+  public testAdapter = (connectionCode : string, tar : TestAdapterRequest): Observable<string> => {
+    return this.httpService.post<string>('/api/system/v1/connections/'+ connectionCode +"/test", tar);
   }
 }
 

@@ -28,6 +28,7 @@ import {Adapter, AdapterParam, Connection, ConnectionSpec} from "../../../../../
 import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
 import {InventoryService} from "../../../../../../service/inventory.service";
 import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
+import {areAdapterParamsValid, createConfig, initParameters} from "../param-utils";
 
 //=============================================================================
 
@@ -52,8 +53,8 @@ export class ConnectionCreatePanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   conn = new ConnectionSpec()
-  adapters : Adapter     [] = []
-  params   : AdapterParam[] = []
+  adapters     : Adapter     [] = []
+  configParams : AdapterParam[] = []
 
   @ViewChild("connCodeCtrl")       connCodeCtrl?       : InputTextRequired
   @ViewChild("connNameCtrl")       connNameCtrl?       : InputTextRequired
@@ -84,8 +85,8 @@ export class ConnectionCreatePanel extends AbstractPanel {
 
   private onStart(event : AppEvent) : void {
   	console.log("ConnectionCreatePanel: Starting...");
-    this.conn   = new ConnectionSpec()
-    this.params = []
+    this.conn         = new ConnectionSpec()
+    this.configParams = []
   }
 
   //-------------------------------------------------------------------------
@@ -99,7 +100,7 @@ export class ConnectionCreatePanel extends AbstractPanel {
 
     this.adapters.forEach( a => {
       if (a.code == e) {
-        this.params = this.initParameters(a.params)
+        this.configParams = initParameters(a.configParams)
       }
     })
   }
@@ -119,7 +120,7 @@ export class ConnectionCreatePanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   public saveEnabled() : boolean|undefined {
-    return  this.areAdapterParamsValid() &&
+    return  areAdapterParamsValid(this.configParams) &&
             this.connCodeCtrl?.isValid() &&
             this.connNameCtrl?.isValid() &&
             this.connSystemCodeCtrl?.isValid()
@@ -128,7 +129,7 @@ export class ConnectionCreatePanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   public onSave() : void {
-    this.conn.systemConfig = this.createConfig()
+    this.conn.systemConfigParams = createConfig(this.configParams)
 
     this.inventoryService.addConnection(this.conn).subscribe( c => {
       this.onClose();
@@ -149,83 +150,6 @@ export class ConnectionCreatePanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  private initParameters(list : AdapterParam[]) : AdapterParam[] {
-    if (list == null) {
-      return []
-    }
-
-    list.forEach(p => {
-      switch (p.type) {
-        case "string":
-          p.valueStr = p.defValue
-          break;
-        case "password":
-          p.valueStr = ""
-          break;
-        case "int":
-          p.valueInt = Number(p.defValue)
-          break;
-        case "bool":
-          p.valueBool = p.defValue == "true"
-          break;
-      }
-    })
-
-    return list
-  }
-
-  //-------------------------------------------------------------------------
-
-  private areAdapterParamsValid() : boolean {
-    let valid = true
-
-    if (this.params != undefined) {
-      this.params.forEach( p => {
-        if (!p.nullable) {
-          if (p.type == "string" || p.type == "password") {
-            if (p.valueStr != undefined && p.valueStr.trim() == "") {
-              valid = false
-            }
-          }
-          else if (p.type == "int") {
-          }
-        }
-      })
-    }
-
-    return valid
-  }
-
-  //-------------------------------------------------------------------------
-
-  private createConfig() : string {
-    let config = ""
-
-    if (this.params != undefined) {
-      let map : any = {}
-
-      this.params.forEach( p => {
-        switch (p.type) {
-          case "string":
-          case "password":
-            map[p.name] = p.valueStr
-            break;
-
-          case "bool":
-            map[p.name] = p.valueBool
-            break;
-
-          case "int":
-            map[p.name] = p.valueInt
-            break;
-        }
-      })
-
-      config = JSON.stringify(map)
-    }
-
-    return config
-  }
 }
 
 //=============================================================================

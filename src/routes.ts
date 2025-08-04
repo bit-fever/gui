@@ -60,6 +60,7 @@ import {TradingSystemPerformancePanel} from "./app/module/performance-metrics/pe
 import {
   TradingSystemReadyEditPanel
 } from "./app/layout/main-panel/work-panel/portfolio/trading-system/ready/edit/edit.panel";
+import {AdapterTestPanel} from "./app/layout/main-panel/work-panel/admin/test/adapter-test.panel";
 
 //=============================================================================
 
@@ -115,6 +116,7 @@ export const routes: Routes = [
   { path: Url.Admin_Connections,                  component: ConnectionPanel                 },
   { path: Url.Right_Connection_Create,            component: ConnectionCreatePanel, outlet : 'right' },
   { path: Url.Right_Connection_Edit,              component: ConnectionEditPanel,   outlet : 'right' },
+  { path: Url.Admin_Test_Adapter,                 component: AdapterTestPanel                },
 
   //--- Modules
 

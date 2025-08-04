@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>{{loc("title")}} : <b>{{data.conn.name}}</b></h2>
+<mat-dialog-content class="dialog-layout">
+  <div class="form-layout">
+    <ng-container *ngFor="let param of connectParams">
+      <input-text-required *ngIf="param.type=='string'"   [(value)]="param.valueStr" label="{{label(param.name)}}" [len]="param.maxValue"></input-text-required>
+      <input-text-required *ngIf="param.type=='password'" [(value)]="param.valueStr" label="{{label(param.name)}}" [len]="param.maxValue" type="password"></input-text-required>
+      <mat-checkbox *ngIf="param.type=='bool'" [checked]="param.valueBool" (change)="onCheckChange($event, param)">{{label(param.name)}}</mat-checkbox>
+    </ng-container>
+
+    <span class="login-error">{{error}}</span>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <div [hidden]="!loggingIn">
+    <svg width="24" height="24" viewBox="0 0 24 24">
+      <style>.spinner_0XTQ{transform-origin:center;animation:spinner_y6GP .75s linear infinite}@keyframes spinner_y6GP{100%{transform:rotate(360deg)}}</style>
+      <path class="spinner_0XTQ" d="M12,23a9.63,9.63,0,0,1-8-9.5,9.51,9.51,0,0,1,6.79-9.1A1.66,1.66,0,0,0,12,2.81h0a1.67,1.67,0,0,0-1.94-1.64A11,11,0,0,0,12,23Z"/>
+    </svg>
+  </div>
+
+  <button mat-button (click)="onLogin()" [disabled]="loginDisabled || !paramsAreValid()">{{button("login")}}</button>
+  <button mat-button mat-dialog-close>{{button("cancel")}}</button>
+</mat-dialog-actions>

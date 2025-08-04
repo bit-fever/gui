@@ -23,6 +23,7 @@ export enum Url {
 
   Admin_Connections            = "admin/connections",
   Admin_Config                 = "admin/config",
+  Admin_Test_Adapter           = "admin/test/adapter",
 
   //--- Sub paths -------------------------------------------------------------
   Sub_Filtering   = "filtering",

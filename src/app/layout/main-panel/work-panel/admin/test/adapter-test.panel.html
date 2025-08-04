@@ -1,0 +1,7 @@
+<div class="main-panel">
+  <input-text-required label="Connection code" [(value)]="connCode" class="input-style"></input-text-required>
+  <input-text-required label="Service"         [(value)]="service"  class="input-style"></input-text-required>
+  <input-text-optional label="Query string"    [(value)]="query"    class="input-style"></input-text-optional>
+  <button mat-button (click)="onRunClick()">RUN</button>
+  <textarea matInput [value]="result" class="result-style"></textarea>
+</div>

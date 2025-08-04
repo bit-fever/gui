@@ -12,7 +12,7 @@ import {MatInputModule}       from "@angular/material/input";
 import {MatCardModule}        from "@angular/material/card";
 import {MatIconModule}        from "@angular/material/icon";
 import {MatButtonModule}      from "@angular/material/button";
-import {AdapterParam, Connection, ConnectionRequest, ConnectionResultStatusOpenUrl} from "../../../../../model/model";
+import {Connection} from "../../../../../model/model";
 import {FlexTableColumn, ListService} from "../../../../../model/flex-table";
 import {AbstractPanel}        from "../../../../../component/abstract.panel";
 import {FlexTablePanel}       from "../../../../../component/panel/flex-table/flex-table.panel";
@@ -25,7 +25,9 @@ import {Router, RouterModule} from "@angular/router";
 import {Url} from "../../../../../model/urls";
 import {AppEvent} from "../../../../../model/event";
 import {InventoryService} from "../../../../../service/inventory.service";
-import {SystemAdapterService} from "../../../../../service/system-adapter.service";
+import {MatDialog} from "@angular/material/dialog";
+import {SystemLoginDialog} from "./login/system-login.dialog";
+import {DialogData} from "./login/dialog-data";
 
 //=============================================================================
 
@@ -67,7 +69,8 @@ export class ConnectionPanel extends AbstractPanel {
               labelService    : LabelService,
               router          : Router,
               inventoryService: InventoryService,
-              private systemAdapterService: SystemAdapterService) {
+              public  dialog              : MatDialog
+              ) {
 
     super(eventBusService, labelService, router, "admin.connection");
     this.service = inventoryService.getConnections;
@@ -129,14 +132,17 @@ export class ConnectionPanel extends AbstractPanel {
 
     if (selection.length > 0) {
       let conn = selection[0]
-      let cr = new ConnectionRequest()
-      cr.systemCode = conn.systemCode
-      cr.config     = JSON.parse(conn.systemConfig)
 
-      this.systemAdapterService.connect(cr).subscribe( res => {
-        console.log("Connection result: "+ JSON.stringify(res))
-        if (res.status == ConnectionResultStatusOpenUrl) {
-          window.open(res.message, "_blank", "popup")
+      const dialogRef = this.dialog.open(SystemLoginDialog, {
+        minWidth : "400px",
+        data: <DialogData>{
+          conn : conn
+        }
+      })
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.table?.reload()
         }
       })
     }
@@ -145,7 +151,6 @@ export class ConnectionPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onDisconnectClick() {
-
   }
 
   //-------------------------------------------------------------------------

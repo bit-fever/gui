@@ -28,6 +28,7 @@ import {Adapter, AdapterParam, Connection, ConnectionSpec} from "../../../../../
 import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
 import {InventoryService} from "../../../../../../service/inventory.service";
 import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
+import {areAdapterParamsValid, createConfig} from "../param-utils";
 
 //=============================================================================
 
@@ -52,8 +53,8 @@ export class ConnectionEditPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   conn = new ConnectionSpec()
-  adapters : Adapter     [] = []
-  params   : AdapterParam[] = []
+  adapters     : Adapter     [] = []
+  configParams : AdapterParam[] = []
 
   @ViewChild("connNameCtrl") connNameCtrl? : InputTextRequired
 
@@ -89,8 +90,8 @@ export class ConnectionEditPanel extends AbstractPanel {
 
     let adapter = this.findAdapter(conn.systemCode)
     if (adapter != undefined) {
-      let map = this.createMap(conn.systemConfig)
-      this.params = this.updateParameters(adapter.params, map)
+      let map = this.createMap(conn.systemConfigParams)
+      this.configParams = this.updateParameters(adapter.configParams, map)
       console.log("Connection parameters have been initialized")
     }
     else {
@@ -117,18 +118,18 @@ export class ConnectionEditPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   public saveEnabled() : boolean|undefined {
-    return  this.areAdapterParamsValid() && this.connNameCtrl?.isValid()
+    return areAdapterParamsValid(this.configParams) && this.connNameCtrl?.isValid()
   }
 
   //-------------------------------------------------------------------------
 
   public onSave() : void {
     let conn = new ConnectionSpec()
-    conn.id           = this.conn.id
-    conn.code         = this.conn.code
-    conn.name         = this.conn.name
-    conn.systemCode   = this.conn.systemCode
-    conn.systemConfig = this.createConfig()
+    conn.id                 = this.conn.id
+    conn.code               = this.conn.code
+    conn.name               = this.conn.name
+    conn.systemCode         = this.conn.systemCode
+    conn.systemConfigParams = createConfig(this.configParams)
 
     this.inventoryService.updateConnection(conn).subscribe( c => {
       this.onClose();
@@ -163,56 +164,6 @@ export class ConnectionEditPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  private areAdapterParamsValid() : boolean {
-    let valid = true
-
-    if (this.params != undefined) {
-      this.params.forEach( p => {
-        if (!p.nullable) {
-          if (p.type == "string" || p.type == "password") {
-            if (p.valueStr != undefined && p.valueStr.trim() == "") {
-              valid = false
-            }
-          }
-          else if (p.type == "int") {
-          }
-        }
-      })
-    }
-
-    return valid
-  }
-
-  //-------------------------------------------------------------------------
-
-  private createConfig() : string {
-    let config = ""
-
-    if (this.params != undefined) {
-      let map : any = {}
-
-      this.params.forEach( p => {
-        switch (p.type) {
-          case "string":
-          case "password":
-            map[p.name] = p.valueStr
-            break;
-
-          case "bool":
-            map[p.name] = p.valueBool
-            break;
-
-          case "int":
-            map[p.name] = p.valueInt
-            break;
-        }
-      })
-
-      config = JSON.stringify(map)
-    }
-
-    return config
-  }
 
   //-------------------------------------------------------------------------
 

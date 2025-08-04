@@ -1,0 +1,39 @@
+//=============================================================================
+//===
+//=== Copyright (C) 2025 Andrea Carboni
+//===
+//=== Use of this source code is governed by an MIT-style license that can be
+//=== found in the LICENSE file
+//=============================================================================
+
+.dialog-layout {
+}
+
+//=============================================================================
+
+.form-layout {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0;
+  height   : 100%;
+  overflow: hidden;
+}
+
+//=============================================================================
+
+.login-error {
+  color      : red;
+  height     : 24px;
+  font-weight:  bold;
+}
+
+//=============================================================================
+
+input-text-required {
+  width: 350px;
+}
+
+//=============================================================================

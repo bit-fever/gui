@@ -97,11 +97,11 @@ export class FinalizationResponse {
 //=============================================================================
 
 export class ConnectionSpec {
-  id?          : number
-  code         : string = ""
-  name         : string = ""
-  systemCode   : string = ""
-  systemConfig : string = ""
+  id?                 : number
+  code                : string = ""
+  name                : string = ""
+  systemCode          : string = ""
+  systemConfigParams  : string = ""
 }
 
 //=============================================================================
@@ -121,18 +121,21 @@ export class Connection extends ConnectionSpec {
 //=============================================================================
 
 export class ConnectionRequest {
-  systemCode? : string
-  config      : any
+  systemCode?   : string
+  configParams  : any
+  connectParams : any
 }
 
 //=============================================================================
 
-export const ConnectionResultStatusOpenUrl = "open-url"
+export const ConnectionResultStatusConnected = "connected"
+export const ConnectionResultStatusConnecting= "connecting"
+export const ConnectionResultStatusError     = "error"
 
 export class ConnectionResult {
-  instanceCode : string = ""
-  status       : string = ""
-  message      : string = ""
+  status   : string = ""
+  action   : string = ""
+  message  : string = ""
 }
 
 //=============================================================================
@@ -302,7 +305,8 @@ export class AdapterParam {
 export class Adapter {
   code?                 : string
   name?                 : string
-  params                : AdapterParam[] = []
+  configParams          : AdapterParam[] = []
+  connectParams         : AdapterParam[] = []
   supportsFeed?         : boolean
   supportsBroker?       : boolean
   supportsMultipleData? : boolean
@@ -821,6 +825,13 @@ export class AnnualAggregate {
   netAvgTrade   : number = 0
   netWinPerc    : number = 0
   trades        : number = 0
+}
+
+//=============================================================================
+
+export class TestAdapterRequest {
+  service : string = ""
+  query   : string = ""
 }
 
 //=============================================================================
