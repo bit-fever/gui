@@ -19,7 +19,7 @@ import {FlexTablePanel}       from "../../../../../component/panel/flex-table/fl
 import {LabelService}         from "../../../../../service/label.service";
 import {EventBusService}      from "../../../../../service/eventbus.service";
 import {
-  ConnectionStyler, IsoDateTranscoder,
+  FlagStyler, IsoDateTranscoder,
 } from "../../../../../component/panel/flex-table/transcoders";
 import {Router, RouterModule} from "@angular/router";
 import {Url} from "../../../../../model/urls";
@@ -142,7 +142,7 @@ export class ConnectionPanel extends AbstractPanel {
 
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          this.table?.reload()
+          conn.connected = true
         }
       })
     }
@@ -168,7 +168,7 @@ export class ConnectionPanel extends AbstractPanel {
       new FlexTableColumn(ts, "name"),
       new FlexTableColumn(ts, "systemCode"),
       new FlexTableColumn(ts, "systemName"),
-      new FlexTableColumn(ts, "instanceCode", undefined, new ConnectionStyler()),
+      new FlexTableColumn(ts, "connected", undefined, new FlagStyler()),
       new FlexTableColumn(ts, "updatedAt", new IsoDateTranscoder()),
     ]
   }
@@ -188,7 +188,7 @@ export class ConnectionPanel extends AbstractPanel {
     if ( selection.length == 1) {
       let conn = selection[0]
       let isLocal = (conn.supportsMultipleData == true)
-      let isConnected = (conn.instanceCode != "")
+      let isConnected = (conn.connected != undefined) && conn.connected
       this.disEdit    = isConnected
       this.disConnect = isConnected  || isLocal
       this.disDisconn = !isConnected || isLocal

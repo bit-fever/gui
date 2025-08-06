@@ -145,20 +145,6 @@ var FLAG_TRUE_RED   = new IconStyle("radio_button_checked",   "#A00000");
 
 //=============================================================================
 
-export class ConnectionStyler implements IconStyler {
-
-  getStyle(value : string, row? : any) : IconStyle {
-    let isConnected = value != ""
-    let isLocal     = row["supportsMultipleData"] == true
-
-    if (isConnected || isLocal) return FLAG_TRUE_GREEN;
-
-    return FLAG_FALSE;
-  }
-}
-
-//=============================================================================
-
 export class TradingSystemRunningStyler implements IconStyler {
 
   getStyle(value : boolean, row? : any) : IconStyle {

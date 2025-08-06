@@ -61,7 +61,7 @@ export class InstrumentSelectorDialog extends AbstractPanel {
               private collectorService: CollectorService,
               private dialogRef       : MatDialogRef<InstrumentSelectorDialog>) {
 
-    super(eventBusService, labelService, router, "instrumentSelector");
+    super(eventBusService, labelService, router, "dialog.instrumentSelector");
 
     this.service = collectorService.getDataInstruments;
   }

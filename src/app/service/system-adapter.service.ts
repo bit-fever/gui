@@ -10,7 +10,15 @@ import {Injectable}        from "@angular/core";
 import {Observable}        from "rxjs";
 import {ListResponse}      from "../model/flex-table";
 import {HttpService}       from "./http.service";
-import {Adapter, ConnectionRequest, ConnectionResult, ConnectionSpec, TestAdapterRequest} from "../model/model";
+import {
+  Adapter,
+  ConnectionRequest,
+  ConnectionResult,
+  ConnectionSpec,
+  RootSymbol,
+  TestAdapterRequest
+} from "../model/model";
+import {HttpParams} from "@angular/common/http";
 
 //=============================================================================
 
@@ -45,6 +53,21 @@ export class SystemAdapterService {
 
   public connect = (connectionCode : string, cr : ConnectionRequest): Observable<ConnectionResult> => {
     return this.httpService.put<ConnectionResult>('/api/system/v1/connections/'+ connectionCode, cr);
+  }
+
+  //---------------------------------------------------------------------------
+
+  public getRootSymbols = (connectionCode : string, filter : string): Observable<ListResponse<RootSymbol>> => {
+    let params = new HttpParams()
+    params = params.set("filter", filter)
+
+    return this.httpService.get<ListResponse<RootSymbol>>('/api/system/v1/connections/'+ connectionCode +"/roots", { params: params });
+  }
+
+  //---------------------------------------------------------------------------
+
+  public getRootSymbol = (connectionCode : string, root : string): Observable<RootSymbol> => {
+    return this.httpService.get<RootSymbol>('/api/system/v1/connections/'+ connectionCode +"/roots/"+root);
   }
 
   //---------------------------------------------------------------------------

@@ -61,7 +61,7 @@ export class PresetProductSelectorDialog extends AbstractPanel {
               private presetsService: PresetsService,
               private dialogRef     : MatDialogRef<PresetProductSelectorDialog>) {
 
-    super(eventBusService, labelService, router, "presetProductSelector");
+    super(eventBusService, labelService, router, "dialog.presetProductSelector");
 
     this.products = presetsService.getProducts();
 

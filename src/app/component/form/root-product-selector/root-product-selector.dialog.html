@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>{{loc("title")}}</h2>
+
+<mat-dialog-content class="main-layout">
+
+    <!-- Search panel - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <div class="search-layout">
+      <mat-form-field class="search-field">
+        <mat-label>{{loc("filter")}}</mat-label>
+        <input matInput placeholder="{{loc('placeholder')}}" [formControl]="formControl"(keyup)="handleEnter($event)">
+      </mat-form-field>
+
+      <button mat-stroked-button [disabled]="true">{{roots.length}}</button>
+
+      <button mat-icon-button (click)="onSearch()" [disabled]="disSearch">
+        <span class="material-symbols-outlined">search</span>
+      </button>
+    </div>
+
+    <!-- Table - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <flex-table #table class="table-panel"
+                [columns] = "columns"
+                [data]    = "roots"
+                [searchPanel] = "false"
+                (onRowsSelected)="onRowSelected($event)"
+    ></flex-table>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [disabled]="disSelect" (click)="onSelect()">{{button("select")}}</button>
+  <button mat-button (click)="onCancel()">{{button("cancel")}}</button>
+</mat-dialog-actions>

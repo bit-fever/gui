@@ -109,7 +109,7 @@ export class ConnectionSpec {
 export class Connection extends ConnectionSpec {
   username?             : string
   systemName?           : string
-  instanceCode?         : string
+  connected?            : boolean
   supportsData?         : boolean
   supportsBroker?       : boolean
   supportsMultipleData? : boolean
@@ -832,6 +832,22 @@ export class AnnualAggregate {
 export class TestAdapterRequest {
   service : string = ""
   query   : string = ""
+}
+
+//=============================================================================
+//===
+//=== System Adapter
+//===
+//=============================================================================
+
+export class RootSymbol {
+  code        : string = ""
+  instrument  : string = ""
+  exchange    : string = ""
+  pointValue  : number = 0
+  increment   : number = 0
+  country     : string = ""
+  currency    : string = ""
 }
 
 //=============================================================================

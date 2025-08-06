@@ -86,7 +86,7 @@ export class InstrumentSelectorPanel extends AbstractSubscriber {
   //-------------------------------------------------------------------------
 
   public loc = (code : string) : string => {
-    return this.labelService.getLabelString("page.instrumentSelector."+ code);
+    return this.labelService.getLabelString("page.dialog.instrumentSelector."+ code);
   }
 
   //---------------------------------------------------------------------------

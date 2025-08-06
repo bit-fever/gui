@@ -1,0 +1,10 @@
+<mat-form-field class="main-layout">
+  <mat-label>{{label}}</mat-label>
+  <input matInput type="text" [formControl]="formControl" [errorStateMatcher]="matcher">
+  <button matSuffix mat-icon-button (click)="onSearch()"  [disabled]="disabled">
+    <mat-icon>search</mat-icon>
+  </button>
+  <mat-error *ngIf="formControl.hasError('required')">
+    {{loc("input.required")}}
+  </mat-error>
+</mat-form-field>

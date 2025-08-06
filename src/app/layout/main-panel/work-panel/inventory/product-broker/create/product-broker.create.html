@@ -8,8 +8,9 @@
                            [list]="connections"
                            (keyChange)="onConnectionChange($event)"></select-required><br/>
     <br/>
-    <div *ngIf="status == Status.Local">
-      <input-text-required   #pbSymbolCtrl       [label]="mod('symbol')"           [(value)]="pb.symbol"           [len]="16"></input-text-required><br/>
+    <div *ngIf="status != Status.Selecting">
+      <text-selector                                             [label]="mod('symbol')"           [(value)]="pb.symbol" (click)="onSearch()" *ngIf="status == Status.Inventory"></text-selector>
+      <input-text-required   #pbSymbolCtrl       [label]="mod('symbol')"           [(value)]="pb.symbol"           [len]="16" *ngIf="status == Status.Local"></input-text-required><br/>
       <input-text-required   #pbNameCtrl         [label]="mod('name')"             [(value)]="pb.name"             [len]="64"></input-text-required><br/>
       <input-number-required #pbPointValueCtrl   [label]="mod('pointValue')"       [(value)]="pb.pointValue"       [min]="0"></input-number-required><br/>
       <input-number-required #pbCostPerOperCtrl  [label]="mod('costPerOperation')" [(value)]="pb.costPerOperation" [min]="0"></input-number-required><br/>

@@ -23,7 +23,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
 import {InputTextRequired} from "../../../../../../component/form/input-text-required/input-text-required";
-import {BrokerProductSpec, Connection, Exchange} from "../../../../../../model/model";
+import {BrokerProductSpec, Connection, Exchange, RootSymbol} from "../../../../../../model/model";
 import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
 import {InventoryService} from "../../../../../../service/inventory.service";
 import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
@@ -32,6 +32,11 @@ import {
 } from "../../../../../../component/form/preset-product-selector/preset-product-selector.dialog";
 import {PresetProduct} from "../../../../../../service/presets.service";
 import {MatDialog} from "@angular/material/dialog";
+import {TextSelectorPanel} from "../../../../../../component/form/text-selector/text-selector.panel";
+import {
+  RootProductSelectorDialog
+} from "../../../../../../component/form/root-product-selector/root-product-selector.dialog";
+import {DialogData} from "../../../../../../component/form/root-product-selector/dialog-data";
 
 //=============================================================================
 
@@ -46,10 +51,10 @@ enum Status {
 @Component({
     selector: "productBroker-create",
     templateUrl: './product-broker.create.html',
-    styleUrls: ['./product-broker.create.scss'],
+    styleUrls: [ './product-broker.create.scss'],
     imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
-        MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
-        MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired
+      MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
+      MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired, TextSelectorPanel
     ]
 })
 
@@ -70,6 +75,7 @@ export class BrokerProductCreatePanel extends AbstractPanel {
   exchanges   : Exchange[]   = []
 
   status = Status.Selecting
+  currConn? : Connection
 
   @ViewChild("pbConnCtrl")         pbConnCtrl?         : SelectRequired
 
@@ -88,7 +94,6 @@ export class BrokerProductCreatePanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   readonly Status = Status
-
 
   //-------------------------------------------------------------------------
   //---
@@ -157,13 +162,50 @@ export class BrokerProductCreatePanel extends AbstractPanel {
     else {
       this.status = Status.Selecting
     }
+
+    this.currConn = conn
+  }
+
+  //-------------------------------------------------------------------------
+
+  public onSearch() {
+    const dialogRef = this.dialog.open(RootProductSelectorDialog, {
+      minWidth : "1200px",
+      data     : <DialogData>{
+        connectionCode: this.currConn?.code
+      }
+    })
+
+    dialogRef.afterClosed().subscribe((rs : RootSymbol) => {
+      if (rs) {
+        this.pb.symbol     = rs.code
+        this.pb.name       = rs.instrument
+        this.pb.exchangeId = this.getExchangeId(rs.exchange)
+        this.pb.productType= "FU"
+        this.pb.pointValue = rs.pointValue
+        this.pb.increment  = rs.increment
+      }
+    })
   }
 
   //-------------------------------------------------------------------------
 
   public saveEnabled() : boolean|undefined {
+    let symbolValid = false
+
+    if (this.pbSymbolCtrl) {
+      //--- Symbol is defined when the connection is LOCAL
+      symbolValid = this.pbSymbolCtrl.isValid()
+    }
+    else {
+      //--- Symbol is undefined when the connection is other
+      if (this.pb.symbol) {
+        symbolValid = this.pb.symbol.length > 0
+      }
+    }
+
     return  this.pbConnCtrl        ?.isValid() &&
-            this.pbSymbolCtrl      ?.isValid() &&
+            symbolValid                        &&
             this.pbNameCtrl        ?.isValid() &&
             this.pbPointValueCtrl  ?.isValid() &&
             this.pbCostPerOperCtrl ?.isValid() &&
@@ -172,6 +214,18 @@ export class BrokerProductCreatePanel extends AbstractPanel {
             this.pbMarketCtrl      ?.isValid() &&
             this.pbProductCtrl     ?.isValid() &&
             this.pbExchangeCtrl    ?.isValid()
+  }
+
+  //-------------------------------------------------------------------------
+
+  public onSave() : void {
+
+    console.log("Broker product is : \n"+ JSON.stringify(this.pb));
+
+    this.inventoryService.addBrokerProduct(this.pb).subscribe( c => {
+      this.onClose();
+      this.emitToApp(new AppEvent<any>(AppEvent.BROKERPRODUCT_LIST_RELOAD))
+    })
   }
 
   //-------------------------------------------------------------------------
@@ -196,18 +250,6 @@ export class BrokerProductCreatePanel extends AbstractPanel {
         this.pb.costPerOperation= pp.costPerOperation
         this.pb.marginValue     = pp.margin
       }
-    })
-  }
-
-  //-------------------------------------------------------------------------
-
-  public onSave() : void {
-
-    console.log("Broker product is : \n"+ JSON.stringify(this.pb));
-
-    this.inventoryService.addBrokerProduct(this.pb).subscribe( c => {
-      this.onClose();
-      this.emitToApp(new AppEvent<any>(AppEvent.BROKERPRODUCT_LIST_RELOAD))
     })
   }
 

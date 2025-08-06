@@ -16,22 +16,26 @@ import {Router} from "@angular/router";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgIf} from "@angular/common";
 import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
 import {InputTextRequired} from "../../../../../../component/form/input-text-required/input-text-required";
-import {Connection, DataProductSpec, Exchange} from "../../../../../../model/model";
+import {Connection, DataProductSpec, Exchange, RootSymbol} from "../../../../../../model/model";
 import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
 import {InventoryService} from "../../../../../../service/inventory.service";
-import {InputNumberRequired} from "../../../../../../component/form/input-integer-required/input-number-required";
 import {MatDialog} from "@angular/material/dialog";
 import {
   PresetProductSelectorDialog
 } from "../../../../../../component/form/preset-product-selector/preset-product-selector.dialog";
 import {PresetProduct} from "../../../../../../service/presets.service";
+import {TextSelectorPanel} from "../../../../../../component/form/text-selector/text-selector.panel";
+import {
+  RootProductSelectorDialog
+} from "../../../../../../component/form/root-product-selector/root-product-selector.dialog";
+import {DialogData} from "../../../../../../component/form/root-product-selector/dialog-data";
 
 //=============================================================================
 
@@ -46,10 +50,10 @@ enum Status {
 @Component({
     selector: "productData-create",
     templateUrl: './product-data.create.html',
-    styleUrls: ['./product-data.create.scss'],
-    imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
-        MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
-        MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired
+    styleUrls: [ './product-data.create.scss'],
+    imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule,
+      MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
+      MatDividerModule, InputTextRequired, SelectRequired, TextSelectorPanel, NgIf,
     ]
 })
 
@@ -70,6 +74,7 @@ export class ProductDataCreatePanel extends AbstractPanel {
   exchanges   : Exchange[]   = []
 
   status = Status.Selecting
+  currConn? : Connection
 
   @ViewChild("pdConnCtrl")     pdConnCtrl?     : SelectRequired
 
@@ -152,13 +157,48 @@ export class ProductDataCreatePanel extends AbstractPanel {
     else {
       this.status = Status.Selecting
     }
+
+    this.currConn = conn
+  }
+
+  //-------------------------------------------------------------------------
+
+  public onSearch() {
+    const dialogRef = this.dialog.open(RootProductSelectorDialog, {
+      minWidth : "1200px",
+      data     : <DialogData>{
+        connectionCode: this.currConn?.code
+      }
+    })
+
+    dialogRef.afterClosed().subscribe((rs : RootSymbol) => {
+      if (rs) {
+        this.pd.symbol     = rs.code
+        this.pd.name       = rs.instrument
+        this.pd.exchangeId = this.getExchangeId(rs.exchange)
+        this.pd.productType= "FU"
+      }
+    })
   }
 
   //-------------------------------------------------------------------------
 
   public saveEnabled() : boolean|undefined {
+    let symbolValid = false
+
+    if (this.pdSymbolCtrl) {
+      //--- Symbol is defined when the connection is LOCAL
+      symbolValid = this.pdSymbolCtrl.isValid()
+    }
+    else {
+      //--- Symbol is undefined when the connection is other
+      if (this.pd.symbol) {
+        symbolValid = this.pd.symbol.length > 0
+      }
+    }
+
     return  this.pdConnCtrl    ?.isValid() &&
-            this.pdSymbolCtrl  ?.isValid() &&
+            symbolValid                    &&
             this.pdNameCtrl    ?.isValid() &&
             this.pdMarketCtrl  ?.isValid() &&
             this.pdProductCtrl ?.isValid() &&

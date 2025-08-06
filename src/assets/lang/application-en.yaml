@@ -134,7 +134,7 @@ model:
     name                 : Name
     systemCode           : System code
     systemName           : System name
-    instanceCode         : Connected
+    connected            : Connected
     supportsData         : Data
     supportsBroker       : Broker
     supportsMultipleData : MData
@@ -278,6 +278,14 @@ model:
       netAvgTrade  : Net Avg Trade
       netWinPerc   : Net win (%)
       trades       : Trades
+
+  rootSymbol:
+    code      : Root
+    instrument: Sample instrument
+    exchange  : Exchange
+    pointValue: Point value
+    country   : Country
+    currency  : Currency
 
 # ==============================================================================
 # ===
@@ -539,17 +547,6 @@ page:
 
   # ==============================================================================
 
-  instrumentSelector:
-    message: Data instrument
-    title  : Data instrument selector
-
-  # ==============================================================================
-
-  presetProductSelector:
-    title  : Products selector
-
-  # ==============================================================================
-
   tool:
     biasAnalysis:
       new         :   New bias analysis
@@ -626,6 +623,21 @@ page:
       system: System
       login:
         title: System login to
+
+  # ==============================================================================
+
+  dialog:
+    instrumentSelector:
+      message: Data instrument
+      title  : Data instrument selector
+
+    presetProductSelector:
+      title  : Products selector
+
+    rootProductSelector:
+      title       : Root product selector
+      filter      : Filter
+      placeholder : Type at least 1 character
 
   # ==============================================================================
 

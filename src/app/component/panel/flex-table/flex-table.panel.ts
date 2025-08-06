@@ -128,6 +128,7 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
     this.rawData        = value
     this.tableData.data = value
     this.rowCount       = value.length
+    this.clearSelection()
     this.applyFilter()
   }
 
