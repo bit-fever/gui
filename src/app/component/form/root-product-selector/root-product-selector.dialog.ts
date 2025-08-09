@@ -110,6 +110,10 @@ export class RootProductSelectorDialog extends AbstractPanel {
   onSearch() {
     this.adapterService.getRootSymbols(this.data.connectionCode, this.filter).subscribe(res => {
       this.roots = res.result
+
+      if (this.roots == undefined) {
+        this.roots = []
+      }
     })
   }
 
