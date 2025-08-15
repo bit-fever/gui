@@ -6,7 +6,14 @@
                 [columns]       = "columns"
                 [data]          = "products"
                 (onRowsSelected)="onRowSelected($event)"
-    ></flex-table>
+                [filter]        = "tableFilter"
+    >
+      <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="selFilter" class="filter-mode">
+        <mat-button-toggle value="all"      (change)="onFilterChange()" class="filter-mode">{{ loc("filter.all")      }}</mat-button-toggle>
+        <mat-button-toggle value="standard" (change)="onFilterChange()" class="filter-mode">{{ loc("filter.standard") }}</mat-button-toggle>
+        <mat-button-toggle value="micro"    (change)="onFilterChange()" class="filter-mode">{{ loc("filter.micro")    }}</mat-button-toggle>
+      </mat-button-toggle-group>
+    </flex-table>
   </div>
 </mat-dialog-content>
 

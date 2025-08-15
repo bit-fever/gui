@@ -22,7 +22,7 @@ import {MatTooltip} from "@angular/material/tooltip";
 
 //=============================================================================
 
-type FlexTableFilter<T> = (row: T, filter: string) => boolean;
+export type FlexTableFilter<T> = (row: T, filter: string) => boolean;
 
 //=============================================================================
 

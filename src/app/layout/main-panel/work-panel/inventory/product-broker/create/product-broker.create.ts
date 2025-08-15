@@ -240,7 +240,7 @@ export class BrokerProductCreatePanel extends AbstractPanel {
 
     dialogRef.afterClosed().subscribe((pp : PresetProduct) => {
       if (pp) {
-        this.pb.symbol          = pp.symbol
+        this.pb.symbol          = pp.symbolDefault
         this.pb.name            = pp.name
         this.pb.increment       = pp.increment
         this.pb.marketType      = pp.market

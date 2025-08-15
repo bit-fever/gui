@@ -114,7 +114,7 @@ export class InvDataProductViewPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  onRowSelected(selection : DataProduct[]) {
+  onRowSelected(selection : DataInstrument[]) {
     if (selection.length == 1) {
       this.selInstr = selection[0].id
       this.disData  = false

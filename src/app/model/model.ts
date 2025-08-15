@@ -148,6 +148,8 @@ export class DataProductSpec {
   name?         : string
   marketType?   : string
   productType?  : string
+  months?       : string
+  rollType      : number = 0
 }
 
 //=============================================================================

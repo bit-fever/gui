@@ -16,6 +16,37 @@
       <select-required       #pdMarketCtrl      [label]="mod('marketType')"   [(key)]  ="pd.marketType"  [map]="markets"></select-required><br/>
       <select-required       #pdProductCtrl     [label]="mod('productType')"  [(key)]  ="pd.productType" [map]="products"></select-required><br/>
       <select-required       #pdExchangeCtrl    [label]="mod('exchangeCode')" [(key)]  ="pd.exchangeId"  keyField="id" valueField="code" [list]="exchanges"></select-required>
+
+      <div *ngIf="status == Status.Inventory">
+        <select-required #pdRollTypeCtrl [label]="mod('rollType')" [(key)]="pd.rollType" keyField="id" valueField="type" [list]="rollTypes"></select-required><br/>
+        <span class="contracts-style">{{loc("contracts")}}</span><br/>
+        <table>
+          <tr>
+            <td class="column-style"><mat-checkbox [checked]="monthJan" [disabled]="!monthExists('F')">{{map("months","jan")}}</mat-checkbox></td>
+            <td                     ><mat-checkbox [checked]="monthJul" [disabled]="!monthExists('N')">{{map("months","jul")}}</mat-checkbox></td>
+          </tr>
+          <tr>
+            <td><mat-checkbox [checked]="monthFeb" [disabled]="!monthExists('G')">{{map("months","feb")}}</mat-checkbox></td>
+            <td><mat-checkbox [checked]="monthAug" [disabled]="!monthExists('Q')">{{map("months","aug")}}</mat-checkbox></td>
+          </tr>
+          <tr>
+            <td><mat-checkbox [checked]="monthMar" [disabled]="!monthExists('H')">{{map("months","mar")}}</mat-checkbox></td>
+            <td><mat-checkbox [checked]="monthSep" [disabled]="!monthExists('U')">{{map("months","sep")}}</mat-checkbox></td>
+          </tr>
+          <tr>
+            <td><mat-checkbox [checked]="monthApr" [disabled]="!monthExists('J')">{{map("months","apr")}}</mat-checkbox></td>
+            <td><mat-checkbox [checked]="monthOct" [disabled]="!monthExists('V')">{{map("months","oct")}}</mat-checkbox></td>
+          </tr>
+          <tr>
+            <td><mat-checkbox [checked]="monthMay" [disabled]="!monthExists('K')">{{map("months","may")}}</mat-checkbox></td>
+            <td><mat-checkbox [checked]="monthNov" [disabled]="!monthExists('X')">{{map("months","nov")}}</mat-checkbox></td>
+          </tr>
+          <tr>
+            <td><mat-checkbox [checked]="monthJun" [disabled]="!monthExists('M')">{{map("months","jun")}}</mat-checkbox></td>
+            <td><mat-checkbox [checked]="monthDec" [disabled]="!monthExists('Z')">{{map("months","dec")}}</mat-checkbox></td>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
 

@@ -30,12 +30,13 @@ import {MatDialog} from "@angular/material/dialog";
 import {
   PresetProductSelectorDialog
 } from "../../../../../../component/form/preset-product-selector/preset-product-selector.dialog";
-import {PresetProduct} from "../../../../../../service/presets.service";
+import {PresetProduct, PresetsService} from "../../../../../../service/presets.service";
 import {TextSelectorPanel} from "../../../../../../component/form/text-selector/text-selector.panel";
 import {
   RootProductSelectorDialog
 } from "../../../../../../component/form/root-product-selector/root-product-selector.dialog";
 import {DialogData} from "../../../../../../component/form/root-product-selector/dialog-data";
+import {MatCheckbox} from "@angular/material/checkbox";
 
 //=============================================================================
 
@@ -51,10 +52,10 @@ enum Status {
     selector: "productData-create",
     templateUrl: './product-data.create.html',
     styleUrls: [ './product-data.create.scss'],
-    imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule,
-      MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
-      MatDividerModule, InputTextRequired, SelectRequired, TextSelectorPanel, NgIf,
-    ]
+  imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule,
+    MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
+    MatDividerModule, InputTextRequired, SelectRequired, TextSelectorPanel, NgIf, MatCheckbox,
+  ]
 })
 
 //=============================================================================
@@ -72,9 +73,25 @@ export class ProductDataCreatePanel extends AbstractPanel {
   markets     : Object = {}
   products    : Object = {}
   exchanges   : Exchange[]   = []
+  rollTypes   : Object[] = []
 
   status = Status.Selecting
   currConn? : Connection
+
+  monthJan : boolean = false
+  monthFeb : boolean = false
+  monthMar : boolean = false
+  monthApr : boolean = false
+  monthMay : boolean = false
+  monthJun : boolean = false
+  monthJul : boolean = false
+  monthAug : boolean = false
+  monthSep : boolean = false
+  monthOct : boolean = false
+  monthNov : boolean = false
+  monthDec : boolean = false
+
+  //-------------------------------------------------------------------------
 
   @ViewChild("pdConnCtrl")     pdConnCtrl?     : SelectRequired
 
@@ -83,6 +100,9 @@ export class ProductDataCreatePanel extends AbstractPanel {
   @ViewChild("pdMarketCtrl")   pdMarketCtrl?   : SelectRequired
   @ViewChild("pdProductCtrl")  pdProductCtrl?  : SelectRequired
   @ViewChild("pdExchangeCtrl") pdExchangeCtrl? : SelectRequired
+  @ViewChild("pdRollTypeCtrl") pdRollTypeCtrl? : SelectRequired
+
+  //-------------------------------------------------------------------------
 
   private connMap = new Map<number, Connection>()
 
@@ -100,7 +120,8 @@ export class ProductDataCreatePanel extends AbstractPanel {
               labelService             : LabelService,
               router                   : Router,
               public  dialog           : MatDialog,
-              private inventoryService : InventoryService) {
+              private inventoryService : InventoryService,
+              private presetsService   : PresetsService) {
 
     super(eventBusService, labelService, router, "inventory.dataProduct", "dataProduct");
     super.subscribeToApp(AppEvent.DATAPRODUCT_CREATE_START, (e : AppEvent) => this.onStart(e));
@@ -124,6 +145,8 @@ export class ProductDataCreatePanel extends AbstractPanel {
       result => {
         this.exchanges = result.result;
       })
+
+    this.rollTypes = this.labelMap('rollTypes')
   }
 
   //-------------------------------------------------------------------------
@@ -158,7 +181,9 @@ export class ProductDataCreatePanel extends AbstractPanel {
       this.status = Status.Selecting
     }
 
-    this.currConn = conn
+    this.currConn        = conn
+    this.pd              = new DataProductSpec()
+    this.pd.connectionId = conn?.id
   }
 
   //-------------------------------------------------------------------------
@@ -167,7 +192,8 @@ export class ProductDataCreatePanel extends AbstractPanel {
     const dialogRef = this.dialog.open(RootProductSelectorDialog, {
       minWidth : "1200px",
       data     : <DialogData>{
-        connectionCode: this.currConn?.code
+        connectionCode: this.currConn?.code,
+        systemCode    : this.currConn?.systemCode
       }
     })
 
@@ -177,6 +203,18 @@ export class ProductDataCreatePanel extends AbstractPanel {
         this.pd.name       = rs.instrument
         this.pd.exchangeId = this.getExchangeId(rs.exchange)
         this.pd.productType= "FU"
+        this.pd.months     = "fghjkmnquvxz"
+        this.pd.marketType = undefined
+
+        if (this.currConn) {
+          let preset = this.presetsService.getProduct(rs.code, this.currConn?.systemCode)
+          if (preset != undefined) {
+            this.pd.marketType = preset.market
+            this.pd.months     = preset.months
+          }
+        }
+
+        this.setupContractMonths(this.pd.months)
       }
     })
   }
@@ -184,7 +222,10 @@ export class ProductDataCreatePanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   public saveEnabled() : boolean|undefined {
+    //--- Validate symbol
+
     let symbolValid = false
+    let rollValid   = true
 
     if (this.pdSymbolCtrl) {
       //--- Symbol is defined when the connection is LOCAL
@@ -195,10 +236,17 @@ export class ProductDataCreatePanel extends AbstractPanel {
       if (this.pd.symbol) {
         symbolValid = this.pd.symbol.length > 0
       }
+
+      if (this.pdRollTypeCtrl) {
+        rollValid = this.pdRollTypeCtrl.isValid()
+      }
     }
+
+    //--- Overall
 
     return  this.pdConnCtrl    ?.isValid() &&
             symbolValid                    &&
+            rollValid                      &&
             this.pdNameCtrl    ?.isValid() &&
             this.pdMarketCtrl  ?.isValid() &&
             this.pdProductCtrl ?.isValid() &&
@@ -210,6 +258,7 @@ export class ProductDataCreatePanel extends AbstractPanel {
   public onSave() : void {
 
     console.log("Data product is : \n"+ JSON.stringify(this.pd));
+    this.pd.months = this.buildMonths()
 
     this.inventoryService.addDataProduct(this.pd).subscribe( c => {
       this.onClose();
@@ -222,14 +271,14 @@ export class ProductDataCreatePanel extends AbstractPanel {
   public onPresets() : void {
     const dialogRef = this.dialog.open(PresetProductSelectorDialog, {
       minWidth: "1024px",
-      minHeight: "800px",
+      minHeight: "700px",
       data: {
       }
     })
 
     dialogRef.afterClosed().subscribe((pp : PresetProduct) => {
       if (pp) {
-        this.pd.symbol      = pp.symbol
+        this.pd.symbol      = pp.symbolDefault
         this.pd.name        = pp.name
         this.pd.marketType  = pp.market
         this.pd.productType = pp.product
@@ -243,6 +292,16 @@ export class ProductDataCreatePanel extends AbstractPanel {
   public onClose() : void {
     let event = new AppEvent(AppEvent.RIGHT_PANEL_CLOSE);
     super.emitToApp(event);
+  }
+
+  //-------------------------------------------------------------------------
+
+  monthExists(code:string) : boolean {
+    if (this.pd.months) {
+      return this.pd.months.toLowerCase().indexOf(code.toLowerCase()) != -1
+    }
+
+    return false
   }
 
   //-------------------------------------------------------------------------
@@ -264,6 +323,57 @@ export class ProductDataCreatePanel extends AbstractPanel {
 
     return id
   }
+
+  //-------------------------------------------------------------------------
+
+  private setupContractMonths(months : string) {
+    this.monthJan = this.monthTraded(months, "F")
+    this.monthFeb = this.monthTraded(months, "G")
+    this.monthMar = this.monthTraded(months, "H")
+    this.monthApr = this.monthTraded(months, "J")
+    this.monthMay = this.monthTraded(months, "K")
+    this.monthJun = this.monthTraded(months, "M")
+    this.monthJul = this.monthTraded(months, "N")
+    this.monthAug = this.monthTraded(months, "Q")
+    this.monthSep = this.monthTraded(months, "U")
+    this.monthOct = this.monthTraded(months, "V")
+    this.monthNov = this.monthTraded(months, "X")
+    this.monthDec = this.monthTraded(months, "Z")
+  }
+
+  //-------------------------------------------------------------------------
+
+  private buildMonths() : string {
+    let res = ""
+
+    if (this.monthJan) res = res +"F"
+    if (this.monthFeb) res = res +"G"
+    if (this.monthMar) res = res +"H"
+    if (this.monthApr) res = res +"J"
+    if (this.monthMay) res = res +"K"
+    if (this.monthJun) res = res +"M"
+    if (this.monthJul) res = res +"N"
+    if (this.monthAug) res = res +"Q"
+    if (this.monthSep) res = res +"U"
+    if (this.monthOct) res = res +"V"
+    if (this.monthNov) res = res +"X"
+    if (this.monthDec) res = res +"Z"
+
+    return res
+  }
+
+  //-------------------------------------------------------------------------
+
+  private monthTraded(months : string, code : string) : boolean {
+    return months.indexOf(code) != -1
+  }
+}
+
+//=============================================================================
+
+class ContractMonth {
+  code : string = ""
+  name : string = ""
 }
 
 //=============================================================================

@@ -8,6 +8,7 @@
 
 export interface DialogData {
   connectionCode : string
+  systemCode     : string
 }
 
 //=============================================================================

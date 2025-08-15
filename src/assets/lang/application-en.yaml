@@ -161,6 +161,7 @@ model:
     name           : Name
     marketType     : Market type
     productType    : Product type
+    rollType       : Rollover type
     createdAt      : Created at
     updatedAt      : Updated at
     connectionCode : Connection
@@ -207,7 +208,7 @@ model:
     exchangeCode    : Exchange
 
   presetProduct:
-    symbol          : Symbol
+    symbolDefault   : Symbol
     name            : Name
     increment       : Increment
     market          : Market
@@ -302,9 +303,13 @@ page:
 
   inventory:
     dataProduct:
-      new:   New data product
-      edit:  Edit data product
+      new        : New data product
+      edit       : Edit data product
       instruments: Instruments
+      contracts  : Contracts
+      rollTypes:
+        - id  : 0
+          type: Standard
       upload:
         title   : Data instrument upload
         success : Datafile successfully uploaded
@@ -633,6 +638,10 @@ page:
 
     presetProductSelector:
       title  : Products selector
+      filter:
+        all     : All
+        standard: Standard
+        micro   : Micro
 
     rootProductSelector:
       title       : Root product selector

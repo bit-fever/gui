@@ -58,6 +58,24 @@ export class PresetsService {
   }
 
   //-------------------------------------------------------------------------
+
+  public getProduct = (symbol:string, systemCode : string) : PresetProduct|undefined => {
+    for (let p of this.products) {
+      let pSymbol = p.symbol[systemCode]
+
+      if (pSymbol == undefined) {
+        pSymbol = p.symbol["default"]
+      }
+
+      if (symbol == pSymbol) {
+        return p
+      }
+    }
+
+    return undefined
+  }
+
+  //-------------------------------------------------------------------------
   //---
   //--- Private methods
   //---
@@ -68,6 +86,10 @@ export class PresetsService {
     this.httpService.get<string>("assets/preset/"+ PresetsService.PRODUCTS_FILE, { responseType : "text" })
       .subscribe(result => {
         this.products = parse(result)
+        this.products.forEach( p => {
+          p.symbolDefault = p.symbol["default"]
+        })
+
         this.updateStatus()
       });
   }
@@ -88,15 +110,18 @@ export class PresetsService {
 //=============================================================================
 
 export class PresetProduct {
-  symbol          : string = ""
-  name            : string = ""
-  increment       : number = 0
-  market          : string = ""
-  product         : string = ""
-  exchange        : string = ""
-  pointValue      : number = 0
-  costPerOperation: number = 0
-  margin          : number = 0
+  symbol          : any
+  symbolDefault?  : string
+  name            : string  = ""
+  increment       : number  = 0
+  market          : string  = ""
+  product         : string  = ""
+  exchange        : string  = ""
+  pointValue      : number  = 0
+  costPerOperation: number  = 0
+  margin          : number  = 0
+  months          : string  = ""
+  micro           : boolean = false
 }
 
 //=============================================================================
