@@ -173,13 +173,14 @@ model:
     symbol         : Symbol
     name           : Name
     expirationDate : Expiration date
-    isContinuous   : Continuous
+    continuous     : Continuous
     dataFrom       : Data from
     dataTo         : Data to
     status         : Status
     productSymbol  : Product symbol
     connectionCode : Connection
     systemCode     : System
+    progress       : Progress
 
   dataPoint:
     time      : Date/time

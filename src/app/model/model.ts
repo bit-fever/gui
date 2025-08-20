@@ -168,14 +168,16 @@ export class DataInstrument {
   symbol?        : string
   name?          : string
   expirationDate?: string
-  isContinuous?  : boolean
-  dataFrom?      :number
-  dataTo?        :number
+  continuous?    : boolean
 }
 
 //=============================================================================
 
 export class DataInstrumentExt extends DataInstrument {
+  status?   : number
+  dataFrom? : number
+  dataTo?   : number
+  progress? : number
 }
 
 //=============================================================================
@@ -581,7 +583,6 @@ export class SelectedFilters {
 export class DatafileUploadSpec {
   symbol?       : string
   name?         : string
-  continuous?   : boolean
   fileTimezone? : string
   parser?       : string
 }

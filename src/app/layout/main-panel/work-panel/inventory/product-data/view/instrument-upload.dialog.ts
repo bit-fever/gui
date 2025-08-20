@@ -95,12 +95,6 @@ export class InstrumentUploadDialog extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  onContinuousChange(e: MatChipSelectionChange) {
-    this.spec.continuous = e.selected;
-  }
-
-  //-------------------------------------------------------------------------
-
   onFileChange(files : any[]) {
     this.files          = files
     this.uploadDisabled = files.length == 0

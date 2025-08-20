@@ -167,10 +167,11 @@ export class InvDataProductViewPanel extends AbstractPanel {
       new FlexTableColumn(ts, "symbol"),
       new FlexTableColumn(ts, "name"),
       new FlexTableColumn(ts, "expirationDate", new IntDateTranscoder()),
-      new FlexTableColumn(ts, "isContinuous", undefined, new FlagStyler()),
+      new FlexTableColumn(ts, "continuous", undefined, new FlagStyler()),
       new FlexTableColumn(ts, "dataFrom", new IntDateTranscoder()),
       new FlexTableColumn(ts, "dataTo", new IntDateTranscoder()),
       new FlexTableColumn(ts, "status", undefined, new InstrumentStatusStyler()),
+      new FlexTableColumn(ts, "progress"),
     ]
   }
 

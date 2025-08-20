@@ -75,8 +75,8 @@ export class CollectorService {
 
   //---------------------------------------------------------------------------
 
-  public getDataInstrumentsByProductId = (id: number): Observable<ListResponse<DataInstrument>> => {
-    return this.httpService.get<ListResponse<DataInstrument>>('/api/collector/v1/data-products/'+id+'/instruments');
+  public getDataInstrumentsByProductId = (id: number): Observable<ListResponse<DataInstrumentExt>> => {
+    return this.httpService.get<ListResponse<DataInstrumentExt>>('/api/collector/v1/data-products/'+id+'/instruments');
   }
 
   //---------------------------------------------------------------------------

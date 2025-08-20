@@ -207,15 +207,21 @@ export class InstrumentStatusStyler implements IconStyler {
 
   getStyle(value : number, row? : any) : IconStyle {
     if (value == 0) return STATUS_READY;
-    if (value == 1) return STATUS_PROCESSING;
+    if (value == 1) return STATUS_WAITING;
+    if (value == 2) return STATUS_LOADING;
+    if (value == 3) return STATUS_PROCESSING;
+    if (value == 4) return STATUS_SLEEPING;
 
     return STATUS_ERROR;
   }
 }
 
-var STATUS_READY      = new IconStyle("done",  "#00A000");
-var STATUS_PROCESSING = new IconStyle("build", "#0080FF");
-var STATUS_ERROR      = new IconStyle("error", "#A00000");
+var STATUS_WAITING    = new IconStyle("hourglass",        "#A0A0A0");
+var STATUS_LOADING    = new IconStyle("database_upload",  "#0080FF");
+var STATUS_PROCESSING = new IconStyle("build",            "#A040A0");
+var STATUS_READY      = new IconStyle("done",             "#00A000");
+var STATUS_ERROR      = new IconStyle("error",            "#A00000");
+var STATUS_SLEEPING   = new IconStyle("snooze",           "#A0A000");
 
 //=============================================================================
 

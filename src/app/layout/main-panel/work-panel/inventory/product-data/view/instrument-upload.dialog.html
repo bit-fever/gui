@@ -2,15 +2,10 @@
 
 <mat-dialog-content class="mat-typography">
   <div class="main-layout">
-    <input-text-required   #iuSymbolCtrl [label]="mod('symbol')"         [(value)]="spec.symbol"         [len]="16" [disabled]="buttonsDisabled"></input-text-required>
-    <input-text-required   #iuNameCtrl   [label]="mod('name')"           [(value)]="spec.name"           [len]="64" [disabled]="buttonsDisabled"></input-text-required>
-    <mat-chip-listbox>
-      <mat-chip-option (selectionChange)="onContinuousChange($event)" [selected]="spec.continuous">{{loc("continuous")}}</mat-chip-option>
-    </mat-chip-listbox>
-  </div>
-  <div class="main-layout">
-    <select-required  #fileTimezoneCtrl [label]="loc('fileTimezone')" [(key)]="spec.fileTimezone" [map]="fileTimezones"></select-required>
-    <select-required  #parserCtrl       [label]="loc('parser')"       [(key)]="spec.parser"       [map]="parsers"></select-required>
+    <input-text-required #iuSymbolCtrl   [label]="mod('symbol')"       [(value)]="spec.symbol"         [len]="16" [disabled]="buttonsDisabled"></input-text-required>
+    <input-text-required #iuNameCtrl     [label]="mod('name')"         [(value)]="spec.name"           [len]="64" [disabled]="buttonsDisabled"></input-text-required>
+    <select-required     #fileTimezoneCtrl [label]="loc('fileTimezone')" [(key)]="spec.fileTimezone" [map]="fileTimezones"></select-required>
+    <select-required     #parserCtrl       [label]="loc('parser')"       [(key)]="spec.parser"       [map]="parsers"></select-required>
   </div>
   <file-uploader #fileUpload [acceptedTypes]="'csv'" (onFileChange)="onFileChange($event)" [disabled]="buttonsDisabled"></file-uploader>
   <br>
