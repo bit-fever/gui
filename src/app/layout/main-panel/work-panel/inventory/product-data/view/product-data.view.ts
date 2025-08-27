@@ -27,7 +27,7 @@ import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {InstrumentUploadDialog} from "./instrument-upload.dialog";
 import {
   FlagStyler, InstrumentStatusStyler,
-  IntDateTranscoder,
+  IntDateTranscoder, IsoDateTranscoder,
 } from "../../../../../../component/panel/flex-table/transcoders";
 import {CollectorService} from "../../../../../../service/collector.service";
 import {Url} from "../../../../../../model/urls";
@@ -166,7 +166,7 @@ export class InvDataProductViewPanel extends AbstractPanel {
     this.columns = [
       new FlexTableColumn(ts, "symbol"),
       new FlexTableColumn(ts, "name"),
-      new FlexTableColumn(ts, "expirationDate", new IntDateTranscoder()),
+      new FlexTableColumn(ts, "expirationDate", new IsoDateTranscoder()),
       new FlexTableColumn(ts, "continuous", undefined, new FlagStyler()),
       new FlexTableColumn(ts, "dataFrom", new IntDateTranscoder()),
       new FlexTableColumn(ts, "dataTo", new IntDateTranscoder()),

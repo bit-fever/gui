@@ -206,6 +206,8 @@ var TS_STATUS_BROKEN = new IconStyle("heart_broken",           "#E03000", "Broke
 export class InstrumentStatusStyler implements IconStyler {
 
   getStyle(value : number, row? : any) : IconStyle {
+    if (value == undefined) return STATUS_NOTSTORED
+
     if (value == 0) return STATUS_READY;
     if (value == 1) return STATUS_WAITING;
     if (value == 2) return STATUS_LOADING;
@@ -216,6 +218,7 @@ export class InstrumentStatusStyler implements IconStyler {
   }
 }
 
+var STATUS_NOTSTORED  = new IconStyle("database_off",     "#605030");
 var STATUS_WAITING    = new IconStyle("hourglass",        "#A0A0A0");
 var STATUS_LOADING    = new IconStyle("database_upload",  "#0080FF");
 var STATUS_PROCESSING = new IconStyle("build",            "#A040A0");
