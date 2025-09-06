@@ -18,7 +18,7 @@
       <select-required       #pdExchangeCtrl    [label]="mod('exchangeCode')" [(key)]  ="pd.exchangeId"  keyField="id" valueField="code" [list]="exchanges"></select-required>
 
       <div *ngIf="status == Status.Inventory">
-        <select-required #pdRollTypeCtrl [label]="mod('rollType')" [(key)]="pd.rollType" keyField="id" valueField="type" [list]="rollTypes"></select-required><br/>
+        <select-required #pdRollTypeCtrl [label]="mod('rolloverTrigger')" [(key)]="pd.rolloverTrigger" [map]="rollTriggers"></select-required><br/>
         <span class="contracts-style">{{loc("contracts")}}</span><br/>
         <table>
           <tr>

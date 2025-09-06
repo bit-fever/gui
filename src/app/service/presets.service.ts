@@ -122,6 +122,7 @@ export class PresetProduct {
   margin          : number  = 0
   months          : string  = ""
   micro           : boolean = false
+  rollover        : string  = "xxx"
 }
 
 //=============================================================================

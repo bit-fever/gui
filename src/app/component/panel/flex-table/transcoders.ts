@@ -213,18 +213,20 @@ export class InstrumentStatusStyler implements IconStyler {
     if (value == 2) return STATUS_LOADING;
     if (value == 3) return STATUS_PROCESSING;
     if (value == 4) return STATUS_SLEEPING;
+    if (value == 5) return STATUS_EMPTY;
 
     return STATUS_ERROR;
   }
 }
 
-var STATUS_NOTSTORED  = new IconStyle("database_off",     "#605030");
-var STATUS_WAITING    = new IconStyle("hourglass",        "#A0A0A0");
-var STATUS_LOADING    = new IconStyle("database_upload",  "#0080FF");
-var STATUS_PROCESSING = new IconStyle("build",            "#A040A0");
-var STATUS_READY      = new IconStyle("done",             "#00A000");
-var STATUS_ERROR      = new IconStyle("error",            "#A00000");
-var STATUS_SLEEPING   = new IconStyle("snooze",           "#A0A000");
+var STATUS_NOTSTORED  = new IconStyle("database_off",     "#605030", "Not stored");
+var STATUS_WAITING    = new IconStyle("hourglass",        "#A0A0A0", "Waiting");
+var STATUS_LOADING    = new IconStyle("database_upload",  "#0080FF", "Loading");
+var STATUS_PROCESSING = new IconStyle("build",            "#A040A0", "Processing");
+var STATUS_READY      = new IconStyle("done",             "#00A000", "Ready");
+var STATUS_ERROR      = new IconStyle("error",            "#A00000", "Error");
+var STATUS_SLEEPING   = new IconStyle("snooze",           "#A0A000", "Sleeping");
+var STATUS_EMPTY      = new IconStyle("unknown_document", "#C04010", "Empty");
 
 //=============================================================================
 

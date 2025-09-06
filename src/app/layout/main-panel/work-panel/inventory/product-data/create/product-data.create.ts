@@ -73,7 +73,7 @@ export class ProductDataCreatePanel extends AbstractPanel {
   markets     : Object = {}
   products    : Object = {}
   exchanges   : Exchange[]   = []
-  rollTypes   : Object[] = []
+  rollTriggers: Object = {}
 
   status = Status.Selecting
   currConn? : Connection
@@ -145,8 +145,6 @@ export class ProductDataCreatePanel extends AbstractPanel {
       result => {
         this.exchanges = result.result;
       })
-
-    this.rollTypes = this.labelMap('rollTypes')
   }
 
   //-------------------------------------------------------------------------
@@ -158,10 +156,11 @@ export class ProductDataCreatePanel extends AbstractPanel {
   private onStart(event : AppEvent) : void {
     console.log("ProductDataCreatePanel: Starting...");
 
-    this.pd       = new DataProductSpec()
-    this.status   = Status.Selecting
-    this.markets  = this.labelService.getLabel("map.market")
-    this.products = this.labelService.getLabel("map.product")
+    this.pd           = new DataProductSpec()
+    this.status       = Status.Selecting
+    this.markets      = this.labelService.getLabel("map.market")
+    this.products     = this.labelService.getLabel("map.product")
+    this.rollTriggers = this.labelService.getLabel("map.rolloverTrigger")
   }
 
   //-------------------------------------------------------------------------
@@ -199,18 +198,20 @@ export class ProductDataCreatePanel extends AbstractPanel {
 
     dialogRef.afterClosed().subscribe((rs : RootSymbol) => {
       if (rs) {
-        this.pd.symbol     = rs.code
-        this.pd.name       = rs.instrument
-        this.pd.exchangeId = this.getExchangeId(rs.exchange)
-        this.pd.productType= "FU"
-        this.pd.months     = "fghjkmnquvxz"
-        this.pd.marketType = undefined
+        this.pd.symbol          = rs.code
+        this.pd.name            = rs.instrument
+        this.pd.exchangeId      = this.getExchangeId(rs.exchange)
+        this.pd.productType     = "FU"
+        this.pd.months          = "fghjkmnquvxz"
+        this.pd.marketType      = undefined
+        this.pd.rolloverTrigger = undefined
 
         if (this.currConn) {
           let preset = this.presetsService.getProduct(rs.code, this.currConn?.systemCode)
           if (preset != undefined) {
-            this.pd.marketType = preset.market
-            this.pd.months     = preset.months
+            this.pd.marketType      = preset.market
+            this.pd.months          = preset.months
+            this.pd.rolloverTrigger = preset.rollover
           }
         }
 

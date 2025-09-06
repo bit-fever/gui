@@ -59,6 +59,7 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
       }
 
       if (value != null) {
+        value = "" + value
         value = value.trim().toLowerCase()
 
         if (value.indexOf(filter) != -1) {

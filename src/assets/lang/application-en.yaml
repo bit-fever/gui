@@ -161,7 +161,7 @@ model:
     name           : Name
     marketType     : Market type
     productType    : Product type
-    rollType       : Rollover type
+    rolloverTrigger: Rollover trigger
     createdAt      : Created at
     updatedAt      : Updated at
     connectionCode : Connection
@@ -308,9 +308,6 @@ page:
       edit       : Edit data product
       instruments: Instruments
       contracts  : Contracts
-      rollTypes:
-        - id  : 0
-          type: Standard
       upload:
         title   : Data instrument upload
         success : Datafile successfully uploaded
@@ -810,6 +807,11 @@ map:
     MR: Mean reversal
     BI: Bias
     OT: Other
+
+  rolloverTrigger:
+    sd4 :  4 solar days before expiration
+    sd6 :  6 solar days before expiration
+    sd30: 30 solar days before expiration
 
 # ==============================================================================
 

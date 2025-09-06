@@ -141,15 +141,15 @@ export class ConnectionResult {
 //=============================================================================
 
 export class DataProductSpec {
-  id?           : number
-  connectionId? : number
-  exchangeId?   : number
-  symbol?       : string
-  name?         : string
-  marketType?   : string
-  productType?  : string
-  months?       : string
-  rollType      : number = 0
+  id?             : number
+  connectionId?   : number
+  exchangeId?     : number
+  symbol?         : string
+  name?           : string
+  marketType?     : string
+  productType?    : string
+  months?         : string
+  rolloverTrigger?: string
 }
 
 //=============================================================================
