@@ -12,7 +12,7 @@ import {MatInputModule}       from "@angular/material/input";
 import {MatCardModule}        from "@angular/material/card";
 import {MatIconModule}        from "@angular/material/icon";
 import {MatButtonModule}      from "@angular/material/button";
-import {DataInstrument, DataProduct, DataProductExt} from "../../../../../../model/model";
+import {DataInstrumentExt, DataProductExt, DIEStatus} from "../../../../../../model/model";
 import {FlexTableColumn, ListResponse, ListService} from "../../../../../../model/flex-table";
 import {AbstractPanel}        from "../../../../../../component/abstract.panel";
 import {FlexTablePanel}       from "../../../../../../component/panel/flex-table/flex-table.panel";
@@ -31,6 +31,8 @@ import {
 } from "../../../../../../component/panel/flex-table/transcoders";
 import {CollectorService} from "../../../../../../service/collector.service";
 import {Url} from "../../../../../../model/urls";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 //=============================================================================
 
@@ -38,8 +40,8 @@ import {Url} from "../../../../../../model/urls";
     selector: 'productData-view',
     templateUrl: './product-data.view.html',
     styleUrls: ['./product-data.view.scss'],
-    imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
-        RouterModule, FlexTablePanel, MatTabsModule, MatDialogModule]
+  imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
+    RouterModule, FlexTablePanel, MatTabsModule, MatDialogModule, MatButtonToggleModule, ReactiveFormsModule]
 })
 
 //=============================================================================
@@ -58,12 +60,15 @@ export class InvDataProductViewPanel extends AbstractPanel {
   market   : string = ""
   product  : string = ""
   columns  : FlexTableColumn[] = [];
-  service? : ListService<DataInstrument>;
+  service? : ListService<DataInstrumentExt>;
   disChart : boolean = false;
   disData  : boolean = true;
   selInstr?: number
 
-  @ViewChild("table") table : FlexTablePanel<DataInstrument>|null = null;
+  selContractType = new FormControl("*")
+  selStatusType   = new FormControl("*")
+
+  @ViewChild("table") table : FlexTablePanel<DataInstrumentExt>|null = null;
 
   //-------------------------------------------------------------------------
   //---
@@ -92,7 +97,7 @@ export class InvDataProductViewPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  private getInstruments = (): Observable<ListResponse<DataInstrument>> => {
+  private getInstruments = (): Observable<ListResponse<DataInstrumentExt>> => {
     return this.collectorService.getDataInstrumentsByProductId(this.pdId);
   }
 
@@ -114,7 +119,7 @@ export class InvDataProductViewPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
 
-  onRowSelected(selection : DataInstrument[]) {
+  onRowSelected(selection : DataInstrumentExt[]) {
     if (selection.length == 1) {
       this.selInstr = selection[0].id
       this.disData  = false
@@ -152,6 +157,61 @@ export class InvDataProductViewPanel extends AbstractPanel {
 
   onDataClick() {
     this.navigateTo([ Url.Inventory_DataInstruments, this.selInstr, Url.Sub_Data ]);
+  }
+
+  //-------------------------------------------------------------------------
+
+  onFilterChange() {
+    this.table?.applyFilter()
+  }
+
+  //-------------------------------------------------------------------------
+  //--- Filter
+  //-------------------------------------------------------------------------
+
+  tableFilter = (row : DataInstrumentExt, filter : string) : boolean => {
+      // @ts-ignore
+    return this.typeFilter(row) && this.statusFilter(row) && this.table?.defaultFilter(row, filter)
+  }
+
+  //-------------------------------------------------------------------------
+
+  private typeFilter(row : DataInstrumentExt) : boolean {
+    let type = this.selContractType.value
+
+    if (type=="*") {
+      return true
+    }
+
+    if (type == "reg" && !row.continuous) {
+      return true
+    }
+
+    if (type == "cont" && row.continuous) {
+      return true
+    }
+
+    return false
+  }
+
+  //-------------------------------------------------------------------------
+
+  private statusFilter(row : DataInstrumentExt) : boolean {
+    let type = this.selStatusType.value
+
+    if (type=="*") {
+      return true
+    }
+
+    if (type == "stor") {
+      return row.status != undefined
+    }
+
+    if (type == "bad") {
+      return row.status == DIEStatus.Empty || row.status == DIEStatus.Error
+    }
+
+    return false
   }
 
   //-------------------------------------------------------------------------

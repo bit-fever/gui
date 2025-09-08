@@ -328,6 +328,12 @@ page:
         timezone : Timezone
         exchange : Exchange
         tooManyDataPoints : Too many datapoints. Try reducing the time period or increasing the timeframe. Max 10.000 datapoints can be returned.
+      filters:
+        all       : All
+        regular   : Regular
+        continuous: Continuous
+        stored    : Stored
+        bad       : Bad
 
     # ----------------------------------------------------------------------------
 

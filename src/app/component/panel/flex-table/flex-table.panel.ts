@@ -46,31 +46,6 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
   @Input() dataProvider? : ListService<T>;
   @Input() searchPanel    = true
 
-  @Input() filter: FlexTableFilter<T> = (row : T, filter : string) => {
-    if (filter.length == 0) {
-      return true
-    }
-
-    for (let fc of this.tableColumns) {
-      // @ts-ignore
-      let value = row[fc.column]
-      if (fc.transcoder != undefined) {
-        value = fc.transcoder.transcode(value, row)
-      }
-
-      if (value != null) {
-        value = "" + value
-        value = value.trim().toLowerCase()
-
-        if (value.indexOf(filter) != -1) {
-          return true
-        }
-      }
-    }
-
-    return false
-  }
-
   @Output() onRowsSelected : EventEmitter<T[]> = new EventEmitter<T[]>();
 
   @ViewChild(MatSort) sort : MatSort |null = null;
@@ -84,7 +59,6 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
   tableData = new MatTableDataSource<T>();
   selection = new SelectionModel<T>(true, []);
 
-  oldFilter: (data: T, filter: string) => boolean;
   textToFilter : string = ""
 
   //-------------------------------------------------------------------------
@@ -94,7 +68,6 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
   //-------------------------------------------------------------------------
 
   constructor(private labelService : LabelService) {
-    this.oldFilter = this.tableData.filterPredicate
     this.tableData.filterPredicate = this.filterPredicate
   }
 
@@ -228,13 +201,43 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
   }
 
   //-------------------------------------------------------------------------
+
+  public defaultFilter:(FlexTableFilter<T>) = (row : T, filter : string) => {
+    if (filter.length == 0) {
+      return true
+    }
+
+    for (let fc of this.tableColumns) {
+      // @ts-ignore
+      let value = row[fc.column]
+      if (fc.transcoder != undefined) {
+        value = fc.transcoder.transcode(value, row)
+      }
+
+      if (value != null) {
+        value = "" + value
+        value = value.trim().toLowerCase()
+
+        if (value.indexOf(filter) != -1) {
+          return true
+        }
+      }
+    }
+
+    return false
+  }
+
+  //-------------------------------------------------------------------------
+
+  @Input() filter: FlexTableFilter<T> = this.defaultFilter
+
+  //-------------------------------------------------------------------------
   //---
   //--- Private methods
   //---
   //-------------------------------------------------------------------------
 
   private filterPredicate = (row: T, filter: string) : boolean => {
-    // @ts-ignore
     return this.filter(row, this.textToFilter)
   }
 }

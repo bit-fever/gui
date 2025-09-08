@@ -173,6 +173,16 @@ export class DataInstrument {
 
 //=============================================================================
 
+export enum DIEStatus {
+  Ready      = 0,
+  Waiting    = 1,
+  Loading    = 2,
+  Processing = 3,
+  Sleeping   = 4,
+  Empty      = 5,
+  Error      = -1
+}
+
 export class DataInstrumentExt extends DataInstrument {
   status?   : number
   dataFrom? : number
