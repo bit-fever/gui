@@ -7,6 +7,8 @@
 //=============================================================================
 
 export enum Setting {
+  Inventory_DataProd_Status    = "invent.dp.status",
+
   Portfolio_TradSys_Scope      = "port.ts.scope",
   Portfolio_TradSys_Running    = "port.ts.running",
   Portfolio_TradSys_Active     = "port.ts.active",

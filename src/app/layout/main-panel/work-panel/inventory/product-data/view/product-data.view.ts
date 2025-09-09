@@ -33,6 +33,8 @@ import {CollectorService} from "../../../../../../service/collector.service";
 import {Url} from "../../../../../../model/urls";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {Setting} from "../../../../../../model/setting";
+import {LocalService} from "../../../../../../service/local.service";
 
 //=============================================================================
 
@@ -82,6 +84,7 @@ export class InvDataProductViewPanel extends AbstractPanel {
               private route           : ActivatedRoute,
               private inventoryService: InventoryService,
               private collectorService: CollectorService,
+              private localService    : LocalService,
               public  dialog          : MatDialog) {
 
     super(eventBusService, labelService, router, "inventory.dataProduct", "dataProduct");
@@ -107,6 +110,8 @@ export class InvDataProductViewPanel extends AbstractPanel {
     this.setupColumns();
     this.pdId    = Number(this.route.snapshot.paramMap.get("id"));
     this.service = this.getInstruments;
+
+    this.selStatusType.setValue(this.localService.getItemWithDefault(Setting.Inventory_DataProd_Status, "*"))
 
     this.inventoryService.getDataProductById(this.pdId, true).subscribe(
       result => {
@@ -162,6 +167,8 @@ export class InvDataProductViewPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onFilterChange() {
+    let value = this.selStatusType.value
+    this.localService.setItem(Setting.Inventory_DataProd_Status, value)
     this.table?.applyFilter()
   }
 
