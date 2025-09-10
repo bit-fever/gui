@@ -101,7 +101,7 @@ export class InvDataProductViewPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   private getInstruments = (): Observable<ListResponse<DataInstrumentExt>> => {
-    return this.collectorService.getDataInstrumentsByProductId(this.pdId);
+    return this.collectorService.getDataInstrumentsByProductId(this.pdId, false);
   }
 
   //-------------------------------------------------------------------------

@@ -37,6 +37,7 @@ import {
   ApexDataLabels, ChartComponent,
 } from "ng-apexcharts";
 import {ChartOptions} from "../../../../../../../lib/chart-lib";
+import {InstrumentStatusStyler} from "../../../../../../../component/panel/flex-table/transcoders";
 
 //=============================================================================
 
@@ -134,7 +135,7 @@ export class DataInstrumentChartPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   private getInstruments = (): Observable<ListResponse<DataInstrument>> => {
-    return this.collectorService.getDataInstrumentsByProductId(this.pdId);
+    return this.collectorService.getDataInstrumentsByProductId(this.pdId, true);
   }
 
   //-------------------------------------------------------------------------
@@ -196,6 +197,7 @@ export class DataInstrumentChartPanel extends AbstractPanel {
 
     this.columns = [
       new FlexTableColumn(instr, "symbol"),
+      new FlexTableColumn(instr, "status", undefined, new InstrumentStatusStyler()),
     ]
   }
 

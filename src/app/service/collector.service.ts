@@ -75,8 +75,10 @@ export class CollectorService {
 
   //---------------------------------------------------------------------------
 
-  public getDataInstrumentsByProductId = (id: number): Observable<ListResponse<DataInstrumentExt>> => {
-    return this.httpService.get<ListResponse<DataInstrumentExt>>('/api/collector/v1/data-products/'+id+'/instruments');
+  public getDataInstrumentsByProductId = (id: number, stored: boolean): Observable<ListResponse<DataInstrumentExt>> => {
+    let params = new HttpParams()
+    params = params.set("stored", stored)
+    return this.httpService.get<ListResponse<DataInstrumentExt>>('/api/collector/v1/data-products/'+id+'/instruments', { params: params });
   }
 
   //---------------------------------------------------------------------------
