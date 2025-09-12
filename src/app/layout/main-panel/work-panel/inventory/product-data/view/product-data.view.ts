@@ -27,7 +27,7 @@ import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {InstrumentUploadDialog} from "./instrument-upload.dialog";
 import {
   FlagStyler, InstrumentStatusStyler,
-  IntDateTranscoder, IsoDateTranscoder,
+  IntDateTranscoder, IsoDateTranscoder, RolloverStatusStyler,
 } from "../../../../../../component/panel/flex-table/transcoders";
 import {CollectorService} from "../../../../../../service/collector.service";
 import {Url} from "../../../../../../model/urls";
@@ -35,6 +35,8 @@ import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {Setting} from "../../../../../../model/setting";
 import {LocalService} from "../../../../../../service/local.service";
+import {ChartComponent} from "ng-apexcharts";
+import {ChartOptions} from "../../../../../../lib/chart-lib";
 
 //=============================================================================
 
@@ -43,7 +45,7 @@ import {LocalService} from "../../../../../../service/local.service";
     templateUrl: './product-data.view.html',
     styleUrls: ['./product-data.view.scss'],
   imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
-    RouterModule, FlexTablePanel, MatTabsModule, MatDialogModule, MatButtonToggleModule, ReactiveFormsModule]
+    RouterModule, FlexTablePanel, MatTabsModule, MatDialogModule, MatButtonToggleModule, ReactiveFormsModule, ChartComponent]
 })
 
 //=============================================================================
@@ -61,16 +63,26 @@ export class InvDataProductViewPanel extends AbstractPanel {
 
   market   : string = ""
   product  : string = ""
-  columns  : FlexTableColumn[] = [];
   service? : ListService<DataInstrumentExt>;
   disChart : boolean = false;
   disData  : boolean = true;
   selInstr?: number
 
+  columnsStandard : FlexTableColumn[]   = [];
+  dataStandard    : DataInstrumentExt[] = []
+  columnsRollover : FlexTableColumn[]   = [];
+  dataRollover    : DataInstrumentExt[] = []
+  columnsDownload : FlexTableColumn[]   = [];
+  dataDownload    : DataInstrumentExt[] = []
+  columnsIngestion: FlexTableColumn[]   = [];
+  dataIngestion   : DataInstrumentExt[] = []
+
   selContractType = new FormControl("*")
   selStatusType   = new FormControl("*")
 
   @ViewChild("table") table : FlexTablePanel<DataInstrumentExt>|null = null;
+
+  options : ChartOptions;
 
   //-------------------------------------------------------------------------
   //---
@@ -89,6 +101,8 @@ export class InvDataProductViewPanel extends AbstractPanel {
 
     super(eventBusService, labelService, router, "inventory.dataProduct", "dataProduct");
 
+    this.options = this.buildInitialChartOptions();
+
     eventBusService.subscribeToApp(AppEvent.DATAINSTRUMENT_LIST_RELOAD, () => {
       this.table?.reload()
     })
@@ -100,16 +114,9 @@ export class InvDataProductViewPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  private getInstruments = (): Observable<ListResponse<DataInstrumentExt>> => {
-    return this.collectorService.getDataInstrumentsByProductId(this.pdId, false);
-  }
-
-  //-------------------------------------------------------------------------
-
   override init = () : void => {
     this.setupColumns();
-    this.pdId    = Number(this.route.snapshot.paramMap.get("id"));
-    this.service = this.getInstruments;
+    this.pdId = Number(this.route.snapshot.paramMap.get("id"));
 
     this.selStatusType.setValue(this.localService.getItemWithDefault(Setting.Inventory_DataProd_Status, "*"))
 
@@ -120,6 +127,17 @@ export class InvDataProductViewPanel extends AbstractPanel {
         this.product  = this.labelService.getLabelString("map.product."+this.pd.productType)
       }
     )
+
+    this.reload()
+  }
+
+  //-------------------------------------------------------------------------
+
+  reload() {
+    this.collectorService.getDataInstrumentsByProductId(this.pdId, false).subscribe( result => {
+      this.dataStandard = result.result
+      this.rebuildLists()
+    })
   }
 
   //-------------------------------------------------------------------------
@@ -223,14 +241,14 @@ export class InvDataProductViewPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
   //---
-  //--- Init methods
+  //--- Private methods
   //---
   //-------------------------------------------------------------------------
 
   setupColumns = () => {
     let ts = this.labelService.getLabel("model.dataInstrument");
 
-    this.columns = [
+    this.columnsStandard = [
       new FlexTableColumn(ts, "symbol"),
       new FlexTableColumn(ts, "name"),
       new FlexTableColumn(ts, "expirationDate", new IsoDateTranscoder()),
@@ -240,14 +258,166 @@ export class InvDataProductViewPanel extends AbstractPanel {
       new FlexTableColumn(ts, "status", undefined, new InstrumentStatusStyler()),
       new FlexTableColumn(ts, "progress"),
     ]
+
+    this.columnsRollover = [
+      new FlexTableColumn(ts, "symbol"),
+      new FlexTableColumn(ts, "expirationDate", new IsoDateTranscoder()),
+      new FlexTableColumn(ts, "month"),
+      new FlexTableColumn(ts, "rolloverDate",   new IsoDateTranscoder()),
+      new FlexTableColumn(ts, "rolloverDelta"),
+      new FlexTableColumn(ts, "rolloverStatus", undefined, new RolloverStatusStyler()),
+      new FlexTableColumn(ts, "status", undefined, new InstrumentStatusStyler()),
+    ]
+
+    this.columnsDownload = [
+      new FlexTableColumn(ts, "symbol"),
+      new FlexTableColumn(ts, "djLoadFrom", new IntDateTranscoder()),
+      new FlexTableColumn(ts, "djLoadTo",   new IntDateTranscoder()),
+      new FlexTableColumn(ts, "djPriority"),
+      new FlexTableColumn(ts, "djCurrDay"),
+      new FlexTableColumn(ts, "djTotDays"),
+      new FlexTableColumn(ts, "djError"),
+    ]
+
+    this.columnsIngestion = [
+      new FlexTableColumn(ts, "symbol"),
+      new FlexTableColumn(ts, "ijFilename"),
+      new FlexTableColumn(ts, "ijRecords"),
+      new FlexTableColumn(ts, "ijBytes"),
+      new FlexTableColumn(ts, "ijTimezone"),
+      new FlexTableColumn(ts, "ijParser"),
+      new FlexTableColumn(ts, "ijError"),
+    ]
   }
 
   //-------------------------------------------------------------------------
-  //---
-  //--- Private methods
-  //---
+
+  private rebuildLists() {
+    this.dataRollover = this.buildRolloverData (this.dataStandard)
+    this.dataDownload = this.buildDownloadData (this.dataStandard)
+    this.dataIngestion= this.buildIngestionData(this.dataStandard)
+
+    this.rebuildChartOptions()
+  }
+
   //-------------------------------------------------------------------------
 
+  private buildRolloverData (data: DataInstrumentExt[]) : DataInstrumentExt[] {
+    let res : DataInstrumentExt[] = []
+
+    data.forEach(item => {
+      if (item.status != undefined) {
+        res = [...res, item]
+      }
+    })
+
+    return res
+  }
+
+  //-------------------------------------------------------------------------
+
+  private buildDownloadData (data: DataInstrumentExt[]) : DataInstrumentExt[] {
+    let res : DataInstrumentExt[] = []
+
+    data.forEach(item => {
+      if (item.djStatus != undefined) {
+        res = [...res, item]
+      }
+    })
+
+    return res
+  }
+
+  //-------------------------------------------------------------------------
+
+  private buildIngestionData (data: DataInstrumentExt[]) : DataInstrumentExt[] {
+    let res : DataInstrumentExt[] = []
+
+    data.forEach(item => {
+      if (item.ijFilename != undefined) {
+        res = [...res, item]
+      }
+    })
+
+    return res
+  }
+
+  //-------------------------------------------------------------------------
+
+  private rebuildChartOptions() {
+    // @ts-ignore
+    this.options.series = this.buildDonutSerie()
+  }
+
+  //-------------------------------------------------------------------------
+
+  private buildDonutLabels () : string[] {
+    let map = this.labelService.getLabel("map.dataInstrumentStatus")
+    return [
+      map["waiting"], map["loading"], map["processing"], map["sleeping"],
+      map["empty"],   map["ready"],   map["error"]
+    ]
+  }
+
+  //-------------------------------------------------------------------------
+
+  private buildDonutSerie() : number[] {
+    let list = [
+      0, //--- Waiting
+      0, //--- Loading
+      0, //--- Processing
+      0, //--- Sleeping
+      0, //--- Empty
+      0, //--- Ready
+      0, //--- Error
+    ]
+
+    this.dataStandard.forEach(i => {
+      if (i.status != undefined) {
+        switch (i.status) {
+          case DIEStatus.Waiting   : list[0]++; break;
+          case DIEStatus.Loading   : list[1]++; break;
+          case DIEStatus.Processing: list[2]++; break;
+          case DIEStatus.Sleeping  : list[3]++; break;
+          case DIEStatus.Empty     : list[4]++; break;
+          case DIEStatus.Ready     : list[5]++; break;
+          case DIEStatus.Error     : list[6]++; break;
+        }
+      }
+    })
+    return list
+  }
+
+  //-------------------------------------------------------------------------
+
+  private buildInitialChartOptions() : ChartOptions {
+    return {
+      title: {},
+      series: [{
+        data: []
+      }
+      ],
+      chart: {
+        type: "donut",
+      },
+      labels: this.buildDonutLabels(),
+      plotOptions: {
+        pie: {
+          customScale: 1.1,
+          donut: {
+            size: "50%"
+          },
+        }
+      },
+      dataLabels: {},
+      stroke: {},
+      xaxis: {},
+      yaxis: {},
+      colors: ['#A0A0A0', '#0080FF', '#A040A0', '#A0A000', '#C04010', '#00A000','#A00000'],
+      annotations: {},
+      grid: {}
+    };
+  }
 }
 
 //=============================================================================

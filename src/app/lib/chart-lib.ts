@@ -31,6 +31,7 @@ export type ChartOptions = {
   colors      : string[]
   annotations : ApexAnnotations
   grid        : ApexGrid
+  labels      : string[]
 };
 
 //=============================================================================

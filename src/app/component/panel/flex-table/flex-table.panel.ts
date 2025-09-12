@@ -47,6 +47,7 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
   @Input() searchPanel    = true
 
   @Output() onRowsSelected : EventEmitter<T[]> = new EventEmitter<T[]>();
+  @Output() onRefresh      : EventEmitter<any> = new EventEmitter<any>();
 
   @ViewChild(MatSort) sort : MatSort |null = null;
 
@@ -130,11 +131,15 @@ export class FlexTablePanel<T = any> implements AfterViewInit {
         }
       )
     }
-    else if (this.data != undefined) {
-      this.tableData.data = this.data;
-      this.rowCount       = this.data.length
-      this.clearSelection();
-      this.applyFilter()
+    else {
+      this.onRefresh.emit()
+
+      // if (this.data != undefined) {
+      //   this.tableData.data = this.data;
+      //   this.rowCount       = this.data.length
+      //   this.clearSelection();
+      //   this.applyFilter()
+      // }
     }
   }
 

@@ -155,6 +155,7 @@ export class DataProductSpec {
 //=============================================================================
 
 export class DataProduct extends DataProductSpec {
+  status?         : number
   username?       : string
   createdAt?      : string
   updatedAt?      : string
@@ -184,10 +185,26 @@ export enum DIEStatus {
 }
 
 export class DataInstrumentExt extends DataInstrument {
-  status?   : number
-  dataFrom? : number
-  dataTo?   : number
-  progress? : number
+  status?     : number
+  dataFrom?   : number
+  dataTo?     : number
+  progress?   : number
+  global      : boolean = false
+
+  djPriority? : number
+  djStatus?   : number
+  djError?    : string
+  djLoadFrom? : number
+  djLoadTo?   : number
+  djCurrDay?  : number
+  djTotDays?  : number
+
+  ijFilename? : string
+  ijRecords?  : number
+  ijBytes?    : number
+  ijTimezone? : string
+  ijParser?   : string
+  ijError?    : string
 }
 
 //=============================================================================
@@ -203,6 +220,16 @@ export class DataInstrumentFull extends DataInstrument {
 export class DataProductExt extends DataProduct {
   connection? : Connection
   exchange?   : Exchange
+
+  public global = (): boolean => {
+    if (this.connection != undefined) {
+      if (this.connection.supportsMultipleData != undefined) {
+        return !this.connection.supportsMultipleData
+      }
+    }
+
+    return false
+  };
 }
 
 //=============================================================================

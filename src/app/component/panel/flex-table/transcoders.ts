@@ -203,6 +203,23 @@ var TS_STATUS_BROKEN = new IconStyle("heart_broken",           "#E03000", "Broke
 
 //=============================================================================
 
+export class DataProductStatusStyler implements IconStyler {
+
+  getStyle(value : number, row? : any) : IconStyle {
+    if (value == 0) return STATUS_READY;
+    if (value == 1) return STATUS_INVENTORY;
+    if (value == 2) return STATUS_DATA;
+
+    return STATUS_UNKNOWN;
+  }
+}
+
+var STATUS_INVENTORY= new IconStyle("inventory_2",      "#A040A0", "Fetching instruments");
+var STATUS_DATA     = new IconStyle("database_upload",  "#0080FF", "Loading data");
+var STATUS_UNKNOWN  = new IconStyle("exclamation",      "#A00000", "Unknown (!)");
+
+//=============================================================================
+
 export class InstrumentStatusStyler implements IconStyler {
 
   getStyle(value : number, row? : any) : IconStyle {
@@ -227,6 +244,25 @@ var STATUS_READY      = new IconStyle("done",             "#00A000", "Ready");
 var STATUS_ERROR      = new IconStyle("error",            "#A00000", "Error");
 var STATUS_SLEEPING   = new IconStyle("snooze",           "#A0A000", "Sleeping");
 var STATUS_EMPTY      = new IconStyle("unknown_document", "#C04010", "Empty");
+
+//=============================================================================
+
+export class RolloverStatusStyler implements IconStyler {
+
+  getStyle(value : number, row? : any) : IconStyle {
+    if (value ==  0) return ROLLOVER_WAITING;
+    if (value ==  1) return ROLLOVER_READY;
+    if (value == -1) return ROLLOVER_NOMATCH;
+    if (value == -2) return ROLLOVER_NODATA;
+
+    return STATUS_ERROR;
+  }
+}
+
+var ROLLOVER_WAITING  = new IconStyle("hourglass",        "#A0A0A0", "Waiting");
+var ROLLOVER_READY    = new IconStyle("done",             "#00A000", "Ready");
+var ROLLOVER_NOMATCH  = new IconStyle("data_alert",       "#A00000", "No match");
+var ROLLOVER_NODATA   = new IconStyle("unknown_document", "#C04010", "No data");
 
 //=============================================================================
 

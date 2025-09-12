@@ -1,17 +1,19 @@
-<div class="search-panel" *ngIf="searchPanel">
-  <mat-form-field class="search-field">
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="updateFilter($event)" placeholder="...">
-  </mat-form-field>
+@if (searchPanel) {
+  <div class="search-panel">
+    <mat-form-field class="search-field">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="updateFilter($event)" placeholder="...">
+    </mat-form-field>
 
-  <ng-content></ng-content>
+    <ng-content></ng-content>
 
-  <button mat-stroked-button [disabled]="true">{{rowCount}}</button>
+    <button mat-stroked-button [disabled]="true">{{rowCount}}</button>
 
-  <button mat-icon-button (click)="reload()">
-    <span class="material-symbols-outlined">refresh</span>
-  </button>
-</div>
+    <button mat-icon-button (click)="reload()">
+      <span class="material-symbols-outlined">refresh</span>
+    </button>
+  </div>
+}
 
 <table mat-table [dataSource]="tableData" matSort class="table-panel">
 
@@ -41,13 +43,18 @@
 <!--                fontIcon="{{column.iconStyler.getStyle(element[column.column], element).icon}}"-->
 <!--                style="color:{{column.iconStyler.getStyle(element[column.column], element).color}}"-->
 <!--      ></mat-icon>-->
-      <span *ngIf="column.iconStyler" matTooltip="{{column.iconStyler.getStyle(element[column.column], element).tooltip}}"
-            class="material-symbols-outlined"
-            matTooltipPosition="after"
-            style="color:{{column.iconStyler.getStyle(element[column.column], element).color}}">
+      @if (column.iconStyler) {
+        <span matTooltip="{{column.iconStyler.getStyle(element[column.column], element).tooltip}}"
+              class="material-symbols-outlined"
+              matTooltipPosition="after"
+              style="color:{{column.iconStyler.getStyle(element[column.column], element).color}}">
         {{column.iconStyler.getStyle(element[column.column], element).icon}}
       </span>
-      <span *ngIf="!column.iconStyler" style="{{column.cellStyle(element[column.column], element)}}">{{column.transcode(element[column.column], element)}}</span>
+      }
+
+      @if (!column.iconStyler) {
+        <span style="{{column.cellStyle(element[column.column], element)}}">{{column.transcode(element[column.column], element)}}</span>
+      }
     </td>
   </ng-container>
 

@@ -336,7 +336,8 @@ export class DataInstrumentChartPanel extends AbstractPanel {
       yaxis: {},
       colors: [],
       annotations: {},
-      grid: {}
+      grid: {},
+      labels: []
     };
   }
 
@@ -420,7 +421,8 @@ export class DataInstrumentChartPanel extends AbstractPanel {
       yaxis: {},
       colors: [],
       annotations: {},
-      grid: {}
+      grid: {},
+      labels: []
     };
   }
 

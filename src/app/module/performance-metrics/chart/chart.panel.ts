@@ -204,6 +204,7 @@ export class PerformanceChartPanel extends AbstractPanel {
         }
       },
       annotations: {},
+      labels: [],
       grid: {
         borderColor: "#B0B0B0",
         strokeDashArray: 3,

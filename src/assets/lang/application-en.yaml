@@ -167,6 +167,10 @@ model:
     connectionCode : Connection
     systemCode     : System
     exchangeCode   : Exchange
+    status         : Status
+    timezone       : Timezone
+    months         : Months
+    rollTrigger    : Rollover trigger
 
   dataInstrument:
     id: Id
@@ -181,6 +185,23 @@ model:
     connectionCode : Connection
     systemCode     : System
     progress       : Progress
+    rolloverDate   : Rollover date
+    rolloverDelta  : Rollover delta
+    rolloverStatus : Rollover status
+    month          : Month
+    djStatus       : Status
+    djLoadFrom     : Load from
+    djLoadTo       : Load to
+    djPriority     : Priority
+    djCurrDay      : Current day
+    djTotDays      : Total days
+    djError        : Error
+    ijFilename     : Filename
+    ijRecords      : Records
+    ijBytes        : Bytes
+    ijTimezone     : File timezone
+    ijParser       : Parser
+    ijError        : Error
 
   dataPoint:
     time      : Date/time
@@ -307,6 +328,9 @@ page:
       new        : New data product
       edit       : Edit data product
       instruments: Instruments
+      rollover   : Rollover
+      download   : Download
+      ingestion  : Ingestion
       contracts  : Contracts
       upload:
         title   : Data instrument upload
@@ -818,6 +842,16 @@ map:
     sd4 :  4 solar days before expiration
     sd6 :  6 solar days before expiration
     sd30: 30 solar days before expiration
+
+  dataInstrumentStatus:
+    waiting   : Waiting
+    loading   : Loading
+    processing: Processing
+    sleeping  : Sleeping
+    empty     : Empty
+    ready     : Ready
+    error     : Error
+    notStored : Not stored
 
 # ==============================================================================
 
