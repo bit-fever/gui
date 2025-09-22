@@ -1,7 +1,7 @@
 #--- Indices --------------------------------
 
 - symbol:
-    default       : ES
+    default       : ESc
   name            : E-Mini S&P 500
   increment       : 0.25
   market          : IN

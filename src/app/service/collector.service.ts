@@ -104,6 +104,12 @@ export class CollectorService {
   }
 
   //---------------------------------------------------------------------------
+
+  public reloadDataInstrumentData = (diId: number) : Observable<void> => {
+    return this.httpService.post<void>('/api/collector/v1/data-instruments/'+ diId +'/reload',{})
+  }
+
+  //---------------------------------------------------------------------------
   //--- Bias analyses
   //---------------------------------------------------------------------------
 

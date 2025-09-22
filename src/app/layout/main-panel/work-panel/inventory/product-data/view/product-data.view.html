@@ -1,10 +1,13 @@
 <div class="main-panel">
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-  <div>
+  <div class="buttons-layout">
     <button mat-button (click)="onUploadClick()" [disabled]="pd.months!=''">{{button("upload")}}</button>
     <button mat-button (click)="onChartClick()"  [disabled]="disChart">{{button("chart")}}</button>
     <button mat-button (click)="onDataClick()"   [disabled]="disData">{{button("data")}}</button>
+    <button mat-button (click)="onReloadClick()" [disabled]="disReload">{{button("reload")}}</button>
+    <span class="spacer"></span>
+    <toggle-button label="{{loc('autoRefresh')}}" [(checked)]="autoRefresh"></toggle-button>
   </div>
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

@@ -10,8 +10,8 @@
 
   <div class="center-layout">
     <div class="options-layout">
-      <date-picker      #fromDateCtrl  [label]="loc('fromDate')"  [(value)]="fromDate" (valueChange)="onFromChange($event)"></date-picker>
-      <date-picker      #toDateCtrl    [label]="loc('toDate')"    [(value)]="toDate"   (valueChange)="onToChange($event)"></date-picker>
+      <date-picker      #fromDateCtrl     [label]="loc('fromDate')"  [(value)]="fromDate" (valueChange)="onFromChange($event)"></date-picker>
+      <date-picker      #toDateCtrl       [label]="loc('toDate')"    [(value)]="toDate"   (valueChange)="onToChange($event)"></date-picker>
       <select-required  #timeframeCtrl [label]="loc('timeframe')" [(key)]  ="timeframe" [map]="timeframes"                                       (keyChange)="onTimeframeChange($event)"></select-required>
       <select-required  #timezoneCtrl  [label]="loc('timezone')"  [(key)]  ="timezone"  keyField="timezone" valueField="code" [list]="timezones" (keyChange)="onTimezoneChange($event)"></select-required>
 

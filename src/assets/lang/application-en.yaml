@@ -332,6 +332,8 @@ page:
       download   : Download
       ingestion  : Ingestion
       contracts  : Contracts
+      reloaded   : Instrument is being reloaded
+      autoRefresh: Auto refresh
       upload:
         title   : Data instrument upload
         success : Datafile successfully uploaded
@@ -784,12 +786,13 @@ map:
     exc: Exchange
 
   timeframe:
-    1m : 1 min
-    5m : 5 min
-    10m: 10 min
-    15m: 15 min
-    30m: 30 min
-    60m: 1 hour
+    1m   : 1 min
+    5m   : 5 min
+    10m  : 10 min
+    15m  : 15 min
+    30m  : 30 min
+    60m  : 1 hour
+    1440m: Daily
 
   dows:
     sun: Sunday

@@ -20,7 +20,6 @@ import {LabelService}         from "../../../../../../service/label.service";
 import {EventBusService}      from "../../../../../../service/eventbus.service";
 import {ActivatedRoute, Router, RouterModule} from "@angular/router";
 import {AppEvent} from "../../../../../../model/event";
-import {Observable} from "rxjs";
 import {InventoryService} from "../../../../../../service/inventory.service";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
@@ -37,6 +36,9 @@ import {Setting} from "../../../../../../model/setting";
 import {LocalService} from "../../../../../../service/local.service";
 import {ChartComponent} from "ng-apexcharts";
 import {ChartOptions} from "../../../../../../lib/chart-lib";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {interval, Subscription, timer} from "rxjs";
+import {ToggleButton} from "../../../../../../component/form/toggle-button/toggle-button";
 
 //=============================================================================
 
@@ -45,7 +47,7 @@ import {ChartOptions} from "../../../../../../lib/chart-lib";
     templateUrl: './product-data.view.html',
     styleUrls: ['./product-data.view.scss'],
   imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule,
-    RouterModule, FlexTablePanel, MatTabsModule, MatDialogModule, MatButtonToggleModule, ReactiveFormsModule, ChartComponent]
+    RouterModule, FlexTablePanel, MatTabsModule, MatDialogModule, MatButtonToggleModule, ReactiveFormsModule, ChartComponent, ToggleButton]
 })
 
 //=============================================================================
@@ -61,11 +63,14 @@ export class InvDataProductViewPanel extends AbstractPanel {
   pdId : number         = 0
   pd   : DataProductExt = new DataProductExt()
 
-  market   : string = ""
-  product  : string = ""
-  service? : ListService<DataInstrumentExt>;
-  disChart : boolean = false;
-  disData  : boolean = true;
+  market     : string = ""
+  product    : string = ""
+  service?   : ListService<DataInstrumentExt>;
+  disChart   : boolean = false;
+  disData    : boolean = true;
+  disReload  : boolean = true;
+  autoRefresh: boolean = false;
+
   selInstr?: number
 
   columnsStandard : FlexTableColumn[]   = [];
@@ -83,6 +88,7 @@ export class InvDataProductViewPanel extends AbstractPanel {
   @ViewChild("table") table : FlexTablePanel<DataInstrumentExt>|null = null;
 
   options : ChartOptions;
+  reloadInterval? : Subscription;
 
   //-------------------------------------------------------------------------
   //---
@@ -93,6 +99,7 @@ export class InvDataProductViewPanel extends AbstractPanel {
   constructor(eventBusService         : EventBusService,
               labelService            : LabelService,
               router                  : Router,
+              private snackBar        : MatSnackBar,
               private route           : ActivatedRoute,
               private inventoryService: InventoryService,
               private collectorService: CollectorService,
@@ -129,6 +136,20 @@ export class InvDataProductViewPanel extends AbstractPanel {
     )
 
     this.reload()
+
+    this.reloadInterval = interval(5000).subscribe(
+      result => {
+        if (this.autoRefresh) {
+          this.reload()
+        }
+      }
+    )
+  }
+
+  //-------------------------------------------------------------------------
+
+  override destroy = () : void => {
+    this.reloadInterval?.unsubscribe()
   }
 
   //-------------------------------------------------------------------------
@@ -144,12 +165,15 @@ export class InvDataProductViewPanel extends AbstractPanel {
 
   onRowSelected(selection : DataInstrumentExt[]) {
     if (selection.length == 1) {
-      this.selInstr = selection[0].id
+      let die = selection[0];
+      this.selInstr = die.id
       this.disData  = false
+      this.disReload= (die.status != DIEStatus.Ready) && (die.status != DIEStatus.Empty)
     }
     else {
       this.selInstr = undefined
       this.disData  = true
+      this.disReload= true;
     }
   }
 
@@ -188,6 +212,20 @@ export class InvDataProductViewPanel extends AbstractPanel {
     let value = this.selStatusType.value
     this.localService.setItem(Setting.Inventory_DataProd_Status, value)
     this.table?.applyFilter()
+  }
+
+  //-------------------------------------------------------------------------
+
+  onReloadClick() {
+    if (this.selInstr) {
+      this.collectorService.reloadDataInstrumentData(this.selInstr).subscribe(
+        result => {
+          this.reload()
+          let message = this.loc("reloaded")
+          this.snackBar.open(message, "", { duration:3000 } )
+        }
+      )
+    }
   }
 
   //-------------------------------------------------------------------------
