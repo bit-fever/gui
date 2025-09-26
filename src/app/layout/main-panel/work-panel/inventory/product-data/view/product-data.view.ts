@@ -267,7 +267,7 @@ export class InvDataProductViewPanel extends AbstractPanel {
     }
 
     if (type == "stor") {
-      return row.status != undefined
+      return (row.status != undefined) || row.virtualInstrument
     }
 
     if (type == "bad") {

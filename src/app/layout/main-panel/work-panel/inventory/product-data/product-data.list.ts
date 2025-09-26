@@ -24,8 +24,6 @@ import {AppEvent} from "../../../../../model/event";
 import {Observable} from "rxjs";
 import {InventoryService} from "../../../../../service/inventory.service";
 import {
-  DataProductStatusStyler,
-  InstrumentStatusStyler,
   LabelTranscoder
 } from "../../../../../component/panel/flex-table/transcoders";
 
@@ -143,7 +141,6 @@ export class InvDataProductPanel extends AbstractPanel {
       new FlexTableColumn(ts, "exchangeCode"),
       new FlexTableColumn(ts, "connectionCode"),
       new FlexTableColumn(ts, "systemCode"),
-      new FlexTableColumn(ts, "status", undefined, new DataProductStatusStyler()),
     ]
   }
 

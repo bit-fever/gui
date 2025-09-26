@@ -8,7 +8,7 @@
 
 import {CellStyler, IconStyle, IconStyler, Transcoder} from "../../../model/flex-table";
 import {LabelService} from "../../../service/label.service";
-import {TsStatus} from "../../../model/model";
+import {DataInstrumentExt, DIRStatus, TsStatus} from "../../../model/model";
 import {isCollection} from "yaml";
 
 //=============================================================================
@@ -203,26 +203,20 @@ var TS_STATUS_BROKEN = new IconStyle("heart_broken",           "#E03000", "Broke
 
 //=============================================================================
 
-export class DataProductStatusStyler implements IconStyler {
-
-  getStyle(value : number, row? : any) : IconStyle {
-    if (value == 0) return STATUS_READY;
-    if (value == 1) return STATUS_INVENTORY;
-    if (value == 2) return STATUS_DATA;
-
-    return STATUS_UNKNOWN;
-  }
-}
-
-var STATUS_INVENTORY= new IconStyle("inventory_2",      "#A040A0", "Fetching instruments");
-var STATUS_DATA     = new IconStyle("database_upload",  "#0080FF", "Loading data");
-var STATUS_UNKNOWN  = new IconStyle("exclamation",      "#A00000", "Unknown (!)");
-
-//=============================================================================
-
 export class InstrumentStatusStyler implements IconStyler {
-
   getStyle(value : number, row? : any) : IconStyle {
+    if (row) {
+      let vi = <DataInstrumentExt> row
+      if (vi.virtualInstrument) {
+        let status = vi.rolloverStatus
+
+        if (status==DIRStatus.Waiting) return STATUS_WAITING
+        if (status==DIRStatus.Ready)   return STATUS_READY
+
+        return STATUS_READY_BUT
+      }
+    }
+
     if (value == undefined) return STATUS_NOTSTORED
 
     if (value == 0) return STATUS_READY;
@@ -244,6 +238,7 @@ var STATUS_READY      = new IconStyle("done",             "#00A000", "Ready");
 var STATUS_ERROR      = new IconStyle("error",            "#A00000", "Error");
 var STATUS_SLEEPING   = new IconStyle("snooze",           "#A0A000", "Sleeping");
 var STATUS_EMPTY      = new IconStyle("unknown_document", "#C04010", "Empty");
+var STATUS_READY_BUT  = new IconStyle("done",             "#C04010", "Ready but not fully available");
 
 //=============================================================================
 

@@ -163,13 +163,26 @@ export class DataProduct extends DataProductSpec {
 
 //=============================================================================
 
+export enum DIRStatus {
+  Waiting =  0,
+  Ready   =  1,
+  NoMatch = -1,
+  NoData  = -2
+}
+
 export class DataInstrument {
-  id?            : number
-  dataProductId? : number
-  symbol?        : string
-  name?          : string
-  expirationDate?: string
-  continuous?    : boolean
+  id?              : number
+  dataProductId?   : number
+  dataBlockId?     : number
+  symbol?          : string
+  name?            : string
+  expirationDate?  : string
+  rolloverDate?    : string
+  continuous?      : boolean
+  month?           : string
+  rolloverDelta?   : number
+  rolloverStatus?  : number
+  virtualInstrument: boolean = false
 }
 
 //=============================================================================
@@ -185,26 +198,25 @@ export enum DIEStatus {
 }
 
 export class DataInstrumentExt extends DataInstrument {
-  status?     : number
-  dataFrom?   : number
-  dataTo?     : number
-  progress?   : number
-  global      : boolean = false
+  status?          : number
+  dataFrom?        : number
+  dataTo?          : number
+  progress?        : number
+  global           : boolean = false
+  djPriority?      : number
+  djStatus?        : number
+  djLoadFrom?      : number
+  djLoadTo?        : number
+  djCurrDay?       : number
+  djTotDays?       : number
+  djError?         : string
 
-  djPriority? : number
-  djStatus?   : number
-  djError?    : string
-  djLoadFrom? : number
-  djLoadTo?   : number
-  djCurrDay?  : number
-  djTotDays?  : number
-
-  ijFilename? : string
-  ijRecords?  : number
-  ijBytes?    : number
-  ijTimezone? : string
-  ijParser?   : string
-  ijError?    : string
+  ijFilename?      : string
+  ijRecords?       : number
+  ijBytes?         : number
+  ijTimezone?      : string
+  ijParser?        : string
+  ijError?         : string
 }
 
 //=============================================================================
