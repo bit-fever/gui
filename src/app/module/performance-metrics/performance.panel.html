@@ -12,10 +12,11 @@
     <span style="flex:1 0 auto"></span>
 
     <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="selTab">
-      <mat-button-toggle value="summary"    (change)="onTabSet()">{{ loc("tab.summary") }}</mat-button-toggle>
-      <mat-button-toggle value="charts"     (change)="onTabSet()">{{ loc("tab.charts") }}</mat-button-toggle>
-      <mat-button-toggle value="aggregates" (change)="onTabSet()">{{ loc("tab.aggregates") }}</mat-button-toggle>
-      <mat-button-toggle value="trades"     (change)="onTabSet()">{{ loc("tab.trades") }}</mat-button-toggle>
+      <mat-button-toggle value="summary"      (change)="onTabSet()">{{ loc("tab.summary") }}</mat-button-toggle>
+      <mat-button-toggle value="charts"       (change)="onTabSet()">{{ loc("tab.charts") }}</mat-button-toggle>
+      <mat-button-toggle value="aggregates"   (change)="onTabSet()">{{ loc("tab.aggregates") }}</mat-button-toggle>
+      <mat-button-toggle value="distribution" (change)="onTabSet()">{{ loc("tab.distribution") }}</mat-button-toggle>
+      <mat-button-toggle value="trades"       (change)="onTabSet()">{{ loc("tab.trades") }}</mat-button-toggle>
     </mat-button-toggle-group>
 
     <div>
@@ -27,10 +28,17 @@
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-  <performance-summary-panel   *ngIf="selTab.value=='summary'"    class="panel-layout" [par]="par"></performance-summary-panel>
+  @if (selTab.value=='summary') {
+    <performance-summary-panel class="panel-layout" [par]="par"></performance-summary-panel>
+  }
+
   <performance-chart-panel     *ngIf="selTab.value=='charts'"     class="panel-layout" [par]="par"></performance-chart-panel>
   <performance-aggregate-panel *ngIf="selTab.value=='aggregates'" class="panel-layout" [par]="par"></performance-aggregate-panel>
   <performance-trade-panel     *ngIf="selTab.value=='trades'"     class="panel-layout" [par]="par"></performance-trade-panel>
+
+  @if (selTab.value=='distribution') {
+    <performance-distribution-panel class="panel-layout" [par]="par"></performance-distribution-panel>
+  }
 
   <!-- ============================================================================================================= -->
 

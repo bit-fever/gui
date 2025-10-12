@@ -33,7 +33,7 @@ export function buildEquityChartOptions(title : string, clickFunction: any) : Ch
     },
 
     series: [],
-
+    legend: {},
     plotOptions: {},
 
     stroke: {

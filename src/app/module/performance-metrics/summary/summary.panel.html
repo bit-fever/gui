@@ -11,7 +11,7 @@
     </thead>
 
     <tbody>
-      <ng-template ngFor let-row [ngForOf]="summary">
+      @for (row of summary; track row) {
         <tr>
           <td class="metric-style" rowspan="2">{{row.text}}</td>
           <td class="up-type-style">{{loc('gross')}}</td>
@@ -25,7 +25,7 @@
           <td class="down-value-style {{ row.netLonStyle()}}">{{row.netLong}}</td>
           <td class="down-value-style {{ row.netShoStyle()}}">{{row.netShort}}</td>
         </tr>
-      </ng-template>
+      }
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
@@ -36,6 +36,37 @@
         <td class="value-style">{{par?.longEquities?.trades}}</td>
         <td class="value-style">{{par?.shortEquities?.trades}}</td>
       </tr>
+    </tbody>
+  </table>
+
+  <p>
+
+  <table class="table-layout">
+    <thead>
+    <tr>
+      <th>{{loc('metric')}}</th>
+      <th>{{loc('value')}}</th>
+    </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>SR</td>
+        <td>{{par?.general?.sharpeRatioAnnualized}}</td>
+      </tr>
+
+      <tr>
+        <td>stddev</td>
+        <td>{{par?.general?.standardDevAnnualized}}</td>
+      </tr>
+
+      <tr>
+        <td>lower</td>
+        <td>{{par?.general?.lowerTail}}</td>
+      </tr>
+
+      <td>upper</td>
+      <td>{{par?.general?.upperTail}}</td>
     </tbody>
   </table>
 </div>

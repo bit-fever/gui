@@ -10,7 +10,7 @@ import {
   ApexAnnotations,
   ApexAxisChartSeries,
   ApexChart,
-  ApexDataLabels,
+  ApexDataLabels, ApexLegend,
   ApexPlotOptions,
   ApexStroke, ApexTitleSubtitle,
   ApexXAxis,
@@ -32,6 +32,7 @@ export type ChartOptions = {
   annotations : ApexAnnotations
   grid        : ApexGrid
   labels      : string[]
+  legend      : ApexLegend
 };
 
 //=============================================================================

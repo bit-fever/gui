@@ -439,6 +439,7 @@ export class InvDataProductViewPanel extends AbstractPanel {
         type: "donut",
       },
       labels: this.buildDonutLabels(),
+      legend: {},
       plotOptions: {
         pie: {
           customScale: 1.1,

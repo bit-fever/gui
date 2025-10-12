@@ -177,7 +177,7 @@ export class PerformanceChartPanel extends AbstractPanel {
       },
 
       series: [],
-
+      legend: {},
       plotOptions: {},
 
       stroke: {

@@ -34,16 +34,17 @@ import {BroadcastEvent, BroadcastService, EventType} from "../../service/broadca
 import {ModuleTitlePanel} from "../../component/panel/module-title/module-title.panel";
 import {DatePicker} from "../../component/form/date-picker/date-picker";
 import {PerformanceAggregatePanel} from "./aggregate/aggregate.panel";
+import {PerformanceDistributionPanel} from "./distribution/distribution.panel";
 
 //=============================================================================
 
 @Component({
     selector: "tradingSystem-performance",
     templateUrl: './performance.panel.html',
-    styleUrls: ['./performance.panel.scss'],
+    styleUrls : ['./performance.panel.scss'],
   imports: [MatFormFieldModule, MatOptionModule, MatSelectModule,
     MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
-    MatDividerModule, MatButtonToggleModule, MatIconModule, PerformanceSummaryPanel, PerformanceChartPanel, PerformanceTradePanel, NgIf, SelectRequired, ModuleTitlePanel, DatePicker, PerformanceAggregatePanel,
+    MatDividerModule, MatButtonToggleModule, MatIconModule, PerformanceSummaryPanel, PerformanceChartPanel, PerformanceTradePanel, NgIf, SelectRequired, ModuleTitlePanel, DatePicker, PerformanceAggregatePanel, PerformanceDistributionPanel,
   ]
 })
 

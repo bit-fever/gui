@@ -326,6 +326,7 @@ export class DataInstrumentChartPanel extends AbstractPanel {
         }
       },
       stroke: {},
+      legend: {},
       xaxis: {
         type: "datetime",
         tooltip: {
@@ -415,6 +416,7 @@ export class DataInstrumentChartPanel extends AbstractPanel {
       stroke: {
         width: 0
       },
+      legend: {},
       xaxis: {
         type: "datetime",
       },

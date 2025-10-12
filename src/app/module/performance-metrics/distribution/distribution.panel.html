@@ -1,0 +1,82 @@
+<div class="main-layout">
+  <div class="header-layout">
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="chartType" class="toggle-layout">
+      <mat-button-toggle value="trades" (change)="onChartTypeChange()">{{ loc("trades") }}</mat-button-toggle>
+      <mat-button-toggle value="daily"  (change)="onChartTypeChange()">{{ loc("daily") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="tradeType" class="toggle-layout" [disabled]="isDaily()">
+      <mat-button-toggle value="all"    (change)="onTradeTypeChange()">{{ loc("all") }}</mat-button-toggle>
+      <mat-button-toggle value="long"   (change)="onTradeTypeChange()">{{ loc("long") }}</mat-button-toggle>
+      <mat-button-toggle value="short"  (change)="onTradeTypeChange()">{{ loc("short") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="profitType" class="toggle-layout" [disabled]="isDaily()">
+      <mat-button-toggle value="gross"  (change)="onProfitTypeChange()">{{ loc("gross") }}</mat-button-toggle>
+      <mat-button-toggle value="net"    (change)="onProfitTypeChange()">{{ loc("net") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <!-- ============================================================================================================= -->
+
+  <div class="info-layout">
+    <div>
+      <table>
+        <tbody>
+          <tr><td></td><td></td></tr>
+          <tr>
+            <td class="metric-style">{{loc('annualStdDev')}}</td>
+            <td class="value-style">{{par?.distributions?.annualStandardDev}}</td>
+          </tr>
+            <tr>
+            <td class="metric-style">{{loc('annualSharpe')}}</td>
+            <td class="value-style">{{par?.distributions?.annualSharpeRatio}}</td>
+          </tr>
+          <tr><td></td><td></td></tr>
+          <tr>
+            <td class="metric-style">{{loc('mean')}}</td>
+            <td class="value-style">{{selDistrib?.mean}}</td>
+          </tr>
+          <tr>
+            <td class="metric-style">{{loc('median')}}</td>
+            <td class="value-style">{{selDistrib?.median}}</td>
+          </tr>
+          <tr>
+            <td class="metric-style">{{loc('standardDev')}}</td>
+            <td class="value-style">{{selDistrib?.standardDev}}</td>
+          </tr>
+          <tr>
+            <td class="metric-style">{{loc('sharpeRatio')}}</td>
+            <td class="value-style">{{selDistrib?.sharpeRatio}}</td>
+          </tr>
+          <tr>
+            <td class="metric-style">{{loc('lowerTail')}}</td>
+            <td class="value-style">{{selDistrib?.lowerTail}}</td>
+          </tr>
+          <tr>
+            <td class="metric-style">{{loc('upperTail')}}</td>
+            <td class="value-style">{{selDistrib?.upperTail}}</td>
+          </tr>
+          <tr>
+            <td class="metric-style">{{loc('skewness')}}</td>
+            <td class="value-style">{{selDistrib?.skewness}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <apx-chart  class="chart-layout"
+                [title]      = "chartOptions.title"
+                [chart]      = "chartOptions.chart"
+                [series]     = "chartOptions.series"
+                [dataLabels] = "chartOptions.dataLabels"
+                [plotOptions]= "chartOptions.plotOptions"
+                [stroke]     = "chartOptions.stroke"
+                [xaxis]      = "chartOptions.xaxis"
+                [colors]     = "chartOptions.colors"
+                [yaxis]      = "chartOptions.yaxis"
+                [grid]       = "chartOptions.grid"
+                [legend]     = "chartOptions.legend"
+    ></apx-chart>
+  </div>
+</div>

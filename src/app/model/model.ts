@@ -803,13 +803,18 @@ export class PerformanceAnalysisResponse {
   shortEquities? : PerfEquities
   trades         : Trade[] = []
   aggregates?    : Aggregates
+  distributions? : Distributions
 }
 
 //=============================================================================
 
 export class General {
-  fromDate : number = 0
-  toDate   : number = 0
+  fromDate               : number = 0
+  toDate                 : number = 0
+  sharpeRatioAnnualized? : number
+  standardDevAnnualized? : number
+  lowerTail?             : number
+  upperTail?             : number
 }
 
 //=============================================================================
@@ -879,6 +884,52 @@ export class AnnualAggregate {
   trades        : number = 0
 }
 
+//=============================================================================
+
+export class Distributions {
+  daily?             : Distribution
+  tradesAllGross?    : Distribution
+  tradesAllNet?      : Distribution
+  tradesLongGross?   : Distribution
+  tradesLongNet?     : Distribution
+  tradesShortGross?  : Distribution
+  tradesShortNet?    : Distribution
+  annualSharpeRatio? : number
+  annualStandardDev? : number
+}
+
+//=============================================================================
+
+export class Distribution {
+  mean?        : number
+  median?      : number
+  standardDev? : number
+  sharpeRatio? : number
+  lowerTail?   : number
+  upperTail?   : number
+  skewness?    : number
+  histogram?   : Histogram
+}
+
+//=============================================================================
+
+export class Histogram {
+  bars    : number  [] = []
+  ranges  : BarRange[] = []
+  gaussian: number  [] = []
+}
+
+//=============================================================================
+
+export class BarRange {
+  minValue : number = 0
+  maxValue : number = 0
+}
+
+//=============================================================================
+//===
+//=== Adapter testing
+//===
 //=============================================================================
 
 export class TestAdapterRequest {

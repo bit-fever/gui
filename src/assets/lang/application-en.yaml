@@ -706,11 +706,12 @@ page:
         - id: -1
           name: Custom
       tab:
-        summary   : Summary
-        charts    : Charts
-        periodic  : Periodic
-        aggregates: Aggregates
-        trades    : Trades
+        summary     : Summary
+        charts      : Charts
+        periodic    : Periodic
+        aggregates  : Aggregates
+        distribution: Distribution
+        trades      : Trades
       summary:
         metric  : Metric
         all     : All
@@ -736,6 +737,24 @@ page:
         grossDrawdown : Gross drawdown
         netDrawdown   : Net drawdown
         stepline      : Stepline
+      distribution:
+        trades      : Trades
+        daily       : Daily
+        all         : All
+        long        : Long
+        short       : Short
+        gross       : Gross
+        net         : Net
+        annualSharpe: Annual Sharpe Ratio
+        annualStdDev: Annual Standard Dev
+        mean        : Mean
+        median      : Median
+        standardDev : Standard Dev
+        sharpeRatio : Sharpe Ratio
+        lowerTail   : Lower Tail
+        upperTail   : Upper Tail
+        skewness    : Skewness
+        returnsDistr: Distribution of returns
       trades:
         filter: Filter...
 
