@@ -8,11 +8,10 @@
 
 import {Component, Input} from '@angular/core';
 import {Router} from "@angular/router";
-import {NgForOf} from "@angular/common";
 import {AbstractPanel} from "../../../component/abstract.panel";
-import {PerformanceAnalysisResponse} from "../../../model/model";
 import {EventBusService} from "../../../service/eventbus.service";
 import {LabelService} from "../../../service/label.service";
+import {PerformanceAnalysisResponse} from "../../../model/performance";
 
 //=============================================================================
 
@@ -21,7 +20,6 @@ import {LabelService} from "../../../service/label.service";
   templateUrl: './summary.panel.html',
   styleUrls: ['./summary.panel.scss'],
   imports: [
-    NgForOf
   ]
 })
 

@@ -9,25 +9,18 @@
 import {Component, Input} from '@angular/core';
 import {Router} from "@angular/router";
 import {
-  ApexAxisChartSeries,
-  ApexChart,
   ApexPlotOptions,
-  ApexStroke,
-  ApexTitleSubtitle,
-  ApexXAxis,
   ChartComponent
 } from "ng-apexcharts";
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
 import {AbstractPanel} from "../../../component/abstract.panel";
-import {ToggleButton} from "../../../component/form/toggle-button/toggle-button";
-import {Distribution, PerfEquities, PerformanceAnalysisResponse} from "../../../model/model";
 import {ChartOptions} from "../../../lib/chart-lib";
 import {EventBusService} from "../../../service/eventbus.service";
 import {LabelService} from "../../../service/label.service";
 import {LocalService} from "../../../service/local.service";
 import {Setting} from "../../../model/setting";
-import {Lib} from "../../../lib/lib";
+import {Distribution, PerformanceAnalysisResponse} from "../../../model/performance";
 
 //=============================================================================
 
@@ -72,7 +65,7 @@ export class PerformanceDistributionPanel extends AbstractPanel {
   profitType  = new FormControl("net")
 
   chartOptions : ChartOptions;
-  selDistrib? : Distribution
+  selDistrib?  : Distribution
 
   //---------------------------------------------------------------------------
   //---
@@ -165,37 +158,22 @@ export class PerformanceDistributionPanel extends AbstractPanel {
 
       dataLabels: {
         enabled: false,
+//        formatter: this.countFormatter
       },
 
       colors: [ "#008FFB", "#808080"],
 
-      xaxis: {
-      },
+      xaxis: {},
 
       yaxis: {
+        decimalsInFloat: 0,
         title: {
           text: this.loc("returnsDistr")
         }
-        // tickAmount: 20,
-        // decimalsInFloat: 0,
-        // axisBorder: {
-        //   show: true,
-        // },
-        // axisTicks: {
-        //   show: true,
-        // }
       },
       annotations: {},
       labels: [],
-      grid: {
-        // borderColor: "#B0B0B0",
-        // strokeDashArray: 3,
-        // xaxis: {
-        //   lines: {
-        //     show: true
-        //   }
-        // }
-      }
+      grid: {}
     }
   }
 
@@ -215,11 +193,10 @@ export class PerformanceDistributionPanel extends AbstractPanel {
     }
 
     this.chartOptions.series = [{
-      name: "Returns",
+      name: this.loc("count"),
       data: datasets,
     },
     {
-      name:"xxx",
       type:"line",
       data: gaussian
     }
@@ -281,7 +258,7 @@ export class PerformanceDistributionPanel extends AbstractPanel {
 
     if (this.selDistrib != undefined) {
       this.selDistrib.histogram?.ranges.forEach(bar => {
-        let label = Math.floor(bar.minValue) +" : "+ Math.floor(bar.maxValue)
+        let label = this.formatPrice(Math.floor(bar.minValue)) +" : "+ this.formatPrice(Math.floor(bar.maxValue))
         labels.push(label)
       })
     }
@@ -306,6 +283,16 @@ export class PerformanceDistributionPanel extends AbstractPanel {
     }
 
     return colors
+  }
+
+  //-------------------------------------------------------------------------
+
+  private formatPrice = (value : number) : string => {
+    if (value >= 0) {
+      return this._par?.tradingSystem?.currencySymbol + String(value)
+    }
+
+    return "-"+ this._par?.tradingSystem?.currencySymbol + Math.abs(value)
   }
 }
 

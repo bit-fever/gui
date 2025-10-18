@@ -14,12 +14,13 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormField, MatSuffix} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
 import {AbstractPanel} from "../../../component/abstract.panel";
-import {PerformanceAnalysisResponse, Trade} from "../../../model/model";
+import {Trade} from "../../../model/model";
 import {FlexTableColumn} from "../../../model/flex-table";
 import {EventBusService} from "../../../service/eventbus.service";
 import {LabelService} from "../../../service/label.service";
 import {DataPointTimeTranscoder} from "../../../component/panel/flex-table/transcoders";
 import {FlexTablePanel} from "../../../component/panel/flex-table/flex-table.panel";
+import {PerformanceAnalysisResponse} from "../../../model/performance";
 
 //=============================================================================
 

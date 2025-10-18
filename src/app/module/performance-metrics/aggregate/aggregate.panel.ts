@@ -8,14 +8,13 @@
 
 import {Component, Input} from '@angular/core';
 import {Router} from "@angular/router";
-import {NgForOf} from "@angular/common";
 import {AbstractPanel} from "../../../component/abstract.panel";
-import {AnnualAggregate, PerformanceAnalysisResponse} from "../../../model/model";
 import {EventBusService} from "../../../service/eventbus.service";
 import {LabelService} from "../../../service/label.service";
 import {FlexTablePanel} from "../../../component/panel/flex-table/flex-table.panel";
 import {FlexTableColumn} from "../../../model/flex-table";
-import {LabelTranscoder, NumericClassStyler} from "../../../component/panel/flex-table/transcoders";
+import { NumericClassStyler} from "../../../component/panel/flex-table/transcoders";
+import {AnnualAggregate, PerformanceAnalysisResponse} from "../../../model/performance";
 
 //=============================================================================
 

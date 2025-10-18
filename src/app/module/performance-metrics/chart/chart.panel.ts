@@ -8,18 +8,18 @@
 
 import {Component, Input} from '@angular/core';
 import {Router} from "@angular/router";
-import {ApexAxisChartSeries, ApexChart, ApexStroke, ApexTitleSubtitle, ApexXAxis, ChartComponent} from "ng-apexcharts";
+import { ApexStroke, ApexXAxis, ChartComponent} from "ng-apexcharts";
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
 import {AbstractPanel} from "../../../component/abstract.panel";
 import {ToggleButton} from "../../../component/form/toggle-button/toggle-button";
-import {PerfEquities, PerformanceAnalysisResponse} from "../../../model/model";
 import {ChartOptions} from "../../../lib/chart-lib";
 import {EventBusService} from "../../../service/eventbus.service";
 import {LabelService} from "../../../service/label.service";
 import {LocalService} from "../../../service/local.service";
 import {Setting} from "../../../model/setting";
 import {Lib} from "../../../lib/lib";
+import {PerfEquities, PerformanceAnalysisResponse} from "../../../model/performance";
 
 //=============================================================================
 

@@ -1,0 +1,80 @@
+<div class="main-layout">
+  <div>
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="chartType" class="toggle-layout">
+      <mat-button-toggle value="returns" (change)="onChartTypeChange()">{{ loc("returns") }}</mat-button-toggle>
+      <mat-button-toggle value="trades"  (change)="onChartTypeChange()">{{ loc("trades") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="tradeType" class="toggle-layout">
+      <mat-button-toggle value="all"    (change)="onTradeTypeChange()">{{ loc("all") }}</mat-button-toggle>
+      <mat-button-toggle value="long"   (change)="onTradeTypeChange()">{{ loc("long") }}</mat-button-toggle>
+      <mat-button-toggle value="short"  (change)="onTradeTypeChange()">{{ loc("short") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="returnType" class="toggle-layout" [disabled]="chartType.value=='trades'">
+      <mat-button-toggle value="gross"  (change)="onReturnTypeChange()">{{ loc("gross") }}</mat-button-toggle>
+      <mat-button-toggle value="net"    (change)="onReturnTypeChange()">{{ loc("net") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="viewType" class="toggle-layout">
+      <mat-button-toggle value="daily"   (change)="onViewTypeChange()">{{ loc("daily") }}</mat-button-toggle>
+      <mat-button-toggle value="monthly" (change)="onViewTypeChange()">{{ loc("monthly") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <!-- ============================================================================================================= -->
+
+  <div class="rolling-layout">
+
+    <!-- Daily total - - - - - - - - - - - - - - - - - - -->
+
+    <apx-chart
+      [chart]      = "dailyOptions.chart"
+      [series]     = "dailyOptions.series"
+      [dataLabels] = "dailyOptions.dataLabels"
+      [plotOptions]= "dailyOptions.plotOptions"
+      [xaxis]      = "dailyOptions.xaxis"
+      [legend]     = "dailyOptions.legend"
+      [hidden]     = "viewType.value != 'daily'"
+    ></apx-chart>
+
+    <!-- Daily, year over year - - - - - - - - - - - - - - - -->
+
+    <div class="chart-layout">
+      <apx-chart
+        [chart]      = "dayYoYOptions.chart"
+        [series]     = "dayYoYOptions.series"
+        [dataLabels] = "dayYoYOptions.dataLabels"
+        [plotOptions]= "dayYoYOptions.plotOptions"
+        [xaxis]      = "dayYoYOptions.xaxis"
+        [legend]     = "dayYoYOptions.legend"
+        [hidden]     = "viewType.value != 'daily'"
+      ></apx-chart>
+    </div>
+
+    <!-- Monthly total - - - - - - - - - - - - - - - - - - - -->
+
+    <apx-chart
+      [chart]      = "monthlyOptions.chart"
+      [series]     = "monthlyOptions.series"
+      [dataLabels] = "monthlyOptions.dataLabels"
+      [plotOptions]= "monthlyOptions.plotOptions"
+      [xaxis]      = "monthlyOptions.xaxis"
+      [legend]     = "monthlyOptions.legend"
+      [hidden]     = "viewType.value != 'monthly'"
+    ></apx-chart>
+
+    <!-- Monthly, year over year - - - - - - - - - - - - - - - -->
+
+    <apx-chart class="chart-layout"
+      [chart]      = "monthYoYOptions.chart"
+      [series]     = "monthYoYOptions.series"
+      [dataLabels] = "monthYoYOptions.dataLabels"
+      [plotOptions]= "monthYoYOptions.plotOptions"
+      [xaxis]      = "monthYoYOptions.xaxis"
+      [legend]     = "monthYoYOptions.legend"
+      [hidden]     = "viewType.value != 'monthly'"
+    ></apx-chart>
+
+  </div>
+</div>

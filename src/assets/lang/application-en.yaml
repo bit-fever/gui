@@ -710,6 +710,7 @@ page:
         charts      : Charts
         periodic    : Periodic
         aggregates  : Aggregates
+        rolling     : Rolling
         distribution: Distribution
         trades      : Trades
       summary:
@@ -755,6 +756,17 @@ page:
         upperTail   : Upper Tail
         skewness    : Skewness
         returnsDistr: Distribution of returns
+        count       : Count
+      rolling:
+        trades  : Trades
+        returns : Returns
+        all     : All
+        long    : Long
+        short   : Short
+        gross   : Gross
+        net     : Net
+        daily   : Daily
+        monthly : Monthly
       trades:
         filter: Filter...
 

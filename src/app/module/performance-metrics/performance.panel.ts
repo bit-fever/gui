@@ -11,7 +11,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
-import {NgForOf, NgIf} from "@angular/common";
 import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
@@ -22,7 +21,6 @@ import {PerformanceSummaryPanel} from "./summary/summary.panel";
 import {PerformanceChartPanel} from "./chart/chart.panel";
 import {PerformanceTradePanel} from "./trade/trade.panel";
 import {AbstractPanel} from "../../component/abstract.panel";
-import {PerformanceAnalysisRequest, PerformanceAnalysisResponse} from "../../model/model";
 import {EventBusService} from "../../service/eventbus.service";
 import {LabelService} from "../../service/label.service";
 import {InventoryService} from "../../service/inventory.service";
@@ -35,6 +33,8 @@ import {ModuleTitlePanel} from "../../component/panel/module-title/module-title.
 import {DatePicker} from "../../component/form/date-picker/date-picker";
 import {PerformanceAggregatePanel} from "./aggregate/aggregate.panel";
 import {PerformanceDistributionPanel} from "./distribution/distribution.panel";
+import {PerformanceRollingPanel} from "./rolling/rolling.panel";
+import {PerformanceAnalysisRequest, PerformanceAnalysisResponse} from "../../model/performance";
 
 //=============================================================================
 
@@ -44,7 +44,7 @@ import {PerformanceDistributionPanel} from "./distribution/distribution.panel";
     styleUrls : ['./performance.panel.scss'],
   imports: [MatFormFieldModule, MatOptionModule, MatSelectModule,
     MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
-    MatDividerModule, MatButtonToggleModule, MatIconModule, PerformanceSummaryPanel, PerformanceChartPanel, PerformanceTradePanel, NgIf, SelectRequired, ModuleTitlePanel, DatePicker, PerformanceAggregatePanel, PerformanceDistributionPanel,
+    MatDividerModule, MatButtonToggleModule, MatIconModule, PerformanceSummaryPanel, PerformanceChartPanel, PerformanceTradePanel, SelectRequired, ModuleTitlePanel, DatePicker, PerformanceAggregatePanel, PerformanceDistributionPanel, PerformanceRollingPanel,
   ]
 })
 

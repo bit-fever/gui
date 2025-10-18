@@ -15,22 +15,12 @@ import {
   ApexAxisChartSeries,
   ApexChart,
   ApexDataLabels,
-  ApexPlotOptions,
   ApexXAxis,
   NgApexchartsModule
 } from "ng-apexcharts";
-import {
-  MatChipGrid,
-  MatChipInput,
-  MatChipListbox,
-  MatChipOption,
-  MatChipRemove,
-  MatChipRow,
-} from "@angular/material/chips";
 import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
 import {AbstractPanel} from "../../../../../../component/abstract.panel";
 import {
 } from "../../../../../../model/model";
@@ -48,6 +38,8 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {Url} from "../../../../../../model/urls";
 import {BiasConfig, BiasSummaryResponse, DataPointDowList, DataPointEntry} from "../model";
 import {ToggleButton} from "../../../../../../component/form/toggle-button/toggle-button";
+import {Lib} from "../../../../../../lib/lib";
+import {MinMax} from "../../../../../../lib/min-max";
 
 //=============================================================================
 
@@ -509,7 +501,7 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
       this.buildSerie("sun", result.result[0], minMax, months, exclSet),
     ]
 
-    this.options.plotOptions = this.buildPlotOptions(minMax)
+    this.options.plotOptions = Lib.chart.buildHeathmapPlotOptions(minMax)
     this.buildBarChart([])
 
     return series
@@ -541,76 +533,6 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
     return {
       name: this.labelService.getLabelString("map.dows."+code),
       data: data
-    }
-  }
-
-  //-------------------------------------------------------------------------
-
-  private buildPlotOptions(mm : MinMax) : ApexPlotOptions {
-    return {
-      heatmap: {
-        enableShades: false,
-        colorScale: {
-          min: mm.minVal,
-          max: mm.maxVal,
-          ranges: [
-            {
-              from: mm.minVal*4/4,
-              to:   mm.minVal*3/4,
-              color: '#FF1010',
-              name: 'very negative',
-            },
-            {
-              from: mm.minVal*3/4,
-              to:   mm.minVal*2/4,
-              color: '#E03030',
-              name: 'very negative',
-            },
-            {
-              from: mm.minVal*2/4,
-              to:   mm.minVal*1/4,
-              color: '#D06060',
-              name: 'very negative',
-            },
-            {
-              from: mm.minVal*1/4,
-              to: -0.0000001,
-              color: '#B08080',
-              name: 'negative',
-            },
-            {
-              from: 0,
-              to: 0,
-              color: '#808080',
-              name: 'zero',
-            },
-            {
-              from: 0.000001,
-              to: mm.maxVal*1/4,
-              color: '#80B080',
-              name: 'positive',
-            },
-            {
-              from: mm.maxVal*1/4,
-              to: mm.maxVal*2/4,
-              color: '#60D060',
-              name: 'very positive',
-            },
-            {
-              from: mm.maxVal*2/4,
-              to: mm.maxVal*3/4,
-              color: '#30E030',
-              name: 'very positive',
-            },
-            {
-              from: mm.maxVal*3/4,
-              to: mm.maxVal*4/4,
-              color: '#10FF10',
-              name: 'very positive',
-            }
-          ]
-        }
-      }
     }
   }
 
@@ -773,26 +695,6 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
 
     xaxis: <ApexXAxis>{
       categories: []
-    }
-  }
-}
-
-//=============================================================================
-
-export class MinMax {
-  minVal  : number  = 0
-  maxVal  : number  = 0
-  hasData : boolean = false
-
-  update(value : number) {
-    if ( ! this.hasData) {
-      this.minVal = value
-      this.maxVal = value
-      this.hasData= true
-    }
-    else {
-      this.minVal = Math.min(this.minVal, value)
-      this.maxVal = Math.max(this.maxVal, value)
     }
   }
 }

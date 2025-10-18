@@ -20,10 +20,10 @@ import {
   TradingSystemPropertyResponse,
   Portfolio,
   PortfolioTree,
-  FinalizationResponse, PerformanceAnalysisRequest, PerformanceAnalysisResponse,
 } from "../model/model";
 import {HttpService}     from "./http.service";
 import {ListResponse} from "../model/flex-table";
+import {PerformanceAnalysisRequest, PerformanceAnalysisResponse} from "../model/performance";
 
 //=============================================================================
 

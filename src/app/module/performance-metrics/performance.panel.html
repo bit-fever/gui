@@ -15,6 +15,7 @@
       <mat-button-toggle value="summary"      (change)="onTabSet()">{{ loc("tab.summary") }}</mat-button-toggle>
       <mat-button-toggle value="charts"       (change)="onTabSet()">{{ loc("tab.charts") }}</mat-button-toggle>
       <mat-button-toggle value="aggregates"   (change)="onTabSet()">{{ loc("tab.aggregates") }}</mat-button-toggle>
+      <mat-button-toggle value="rolling"      (change)="onTabSet()">{{ loc("tab.rolling") }}</mat-button-toggle>
       <mat-button-toggle value="distribution" (change)="onTabSet()">{{ loc("tab.distribution") }}</mat-button-toggle>
       <mat-button-toggle value="trades"       (change)="onTabSet()">{{ loc("tab.trades") }}</mat-button-toggle>
     </mat-button-toggle-group>
@@ -32,12 +33,24 @@
     <performance-summary-panel class="panel-layout" [par]="par"></performance-summary-panel>
   }
 
-  <performance-chart-panel     *ngIf="selTab.value=='charts'"     class="panel-layout" [par]="par"></performance-chart-panel>
-  <performance-aggregate-panel *ngIf="selTab.value=='aggregates'" class="panel-layout" [par]="par"></performance-aggregate-panel>
-  <performance-trade-panel     *ngIf="selTab.value=='trades'"     class="panel-layout" [par]="par"></performance-trade-panel>
+  @if (selTab.value=='charts') {
+    <performance-chart-panel class="panel-layout" [par]="par"></performance-chart-panel>
+  }
+
+  @if (selTab.value=='aggregates') {
+    <performance-aggregate-panel class="panel-layout" [par]="par"></performance-aggregate-panel>
+  }
+
+  @if (selTab.value=='trades') {
+    <performance-trade-panel class="panel-layout" [par]="par"></performance-trade-panel>
+  }
 
   @if (selTab.value=='distribution') {
     <performance-distribution-panel class="panel-layout" [par]="par"></performance-distribution-panel>
+  }
+
+  @if (selTab.value=='rolling') {
+    <performance-rolling-panel class="panel-layout" [par]="par"></performance-rolling-panel>
   }
 
   <!-- ============================================================================================================= -->
