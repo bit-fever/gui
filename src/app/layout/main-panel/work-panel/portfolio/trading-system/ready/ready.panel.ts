@@ -22,7 +22,7 @@ import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
 import {PorTradingSystem} from "../../../../../../model/model";
 import {PortfolioService} from "../../../../../../service/portfolio.service";
-import {ReadyCard} from "./ready-card/ready.card";
+import {ReadyCard} from "./card/ready.card";
 import {AppEvent} from "../../../../../../model/event";
 
 //=============================================================================

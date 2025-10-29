@@ -14,16 +14,9 @@
       }
     </mat-form-field>
 
-    <div>
-      <button mat-button (click)="onCreateClick()"   [disabled]="disCreate"  >{{button("create")}}</button>
-      <button mat-button (click)="onViewClick()"     [disabled]="disView"    >{{button("view")}}</button>
-      <button mat-button (click)="onEditClick()"     [disabled]="disEdit"    >{{button("edit")}}</button>
-      <button mat-button (click)="onDeleteClick()"   [disabled]="disDelete"  >{{button("delete")}}</button>
-      <button mat-button (click)="onFinalizeClick()" [disabled]="disFinalize">{{button("finalize")}}</button>
-      <button mat-button (click)="onDocumentClick()" [disabled]="disView"    >{{button("document")}}</button>
-    </div>
-
     <span style="flex:1 0 auto"></span>
+
+    <flat-button icon="add" label="{{button('create')}}" (click)="onCreateClick()"></flat-button>
 
     <button mat-stroked-button [disabled]="true">{{tradingSystems.length}}</button>
     <div>
@@ -35,11 +28,9 @@
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-  <flex-table #table class="table-panel"
-              [columns]    = "columns"
-              [data]       = "tradingSystems"
-              [searchPanel]= "false"
-              (onRowsSelected)="onRowSelected($event)"
-  ></flex-table>
-
+  <div class="ts-layout">
+    @for (ts of tradingSystems; track ts) {
+      <development-card [tradingSystem]="ts"></development-card>
+    }
+  </div>
 </div>

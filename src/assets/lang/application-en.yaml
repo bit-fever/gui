@@ -5,7 +5,7 @@
 # ==============================================================================
 
 button:
-  create    : CREATE
+  create    : Create
   view      : VIEW
   edit      : EDIT
   delete    : DELETE
@@ -126,6 +126,9 @@ model:
     tags            : Tags
     externalRef     : External reference
     overnight       : Overnight
+    inSampleFrom    : In sample from
+    inSampleTo      : In sample to
+    engineCode      : Engine
 
   connection:
     id                   : Id
@@ -165,6 +168,7 @@ model:
     createdAt      : Created at
     updatedAt      : Updated at
     connectionCode : Connection
+    connectionName : Connection
     systemCode     : System
     exchangeCode   : Exchange
     status         : Status
@@ -662,6 +666,14 @@ page:
   # ==============================================================================
 
   dialog:
+    dataProductSelector:
+      message: Data product
+      title  : Data product selector
+
+    brokerProductSelector:
+      message: Broker product
+      title  : Broker product selector
+
     instrumentSelector:
       message: Data instrument
       title  : Data instrument selector
@@ -886,6 +898,10 @@ map:
     ready     : Ready
     error     : Error
     notStored : Not stored
+
+  engineCode:
+    bfl     : Scripting language
+    external: External (agent based)
 
 # ==============================================================================
 

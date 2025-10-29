@@ -18,7 +18,7 @@ import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
 import {AbstractPanel} from "../../../../../../component/abstract.panel";
-import {TradingCard} from "./trading-card/trading.card";
+import {TradingCard} from "./card/trading.card";
 import {PorTradingSystem} from "../../../../../../model/model";
 import {EventBusService} from "../../../../../../service/eventbus.service";
 import {LabelService} from "../../../../../../service/label.service";

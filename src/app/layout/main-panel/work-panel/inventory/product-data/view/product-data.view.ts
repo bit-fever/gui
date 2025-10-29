@@ -13,7 +13,7 @@ import {MatCardModule}        from "@angular/material/card";
 import {MatIconModule}        from "@angular/material/icon";
 import {MatButtonModule}      from "@angular/material/button";
 import {DataInstrumentExt, DataProductExt, DIEStatus} from "../../../../../../model/model";
-import {FlexTableColumn, ListResponse, ListService} from "../../../../../../model/flex-table";
+import {FlexTableColumn, ListService} from "../../../../../../model/flex-table";
 import {AbstractPanel}        from "../../../../../../component/abstract.panel";
 import {FlexTablePanel}       from "../../../../../../component/panel/flex-table/flex-table.panel";
 import {LabelService}         from "../../../../../../service/label.service";
@@ -37,7 +37,7 @@ import {LocalService} from "../../../../../../service/local.service";
 import {ChartComponent} from "ng-apexcharts";
 import {ChartOptions} from "../../../../../../lib/chart-lib";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {interval, Subscription, timer} from "rxjs";
+import {interval, Subscription} from "rxjs";
 import {ToggleButton} from "../../../../../../component/form/toggle-button/toggle-button";
 
 //=============================================================================
@@ -127,7 +127,7 @@ export class InvDataProductViewPanel extends AbstractPanel {
 
     this.selStatusType.setValue(this.localService.getItemWithDefault(Setting.Inventory_DataProd_Status, "*"))
 
-    this.inventoryService.getDataProductById(this.pdId, true).subscribe(
+    this.inventoryService.getDataProductById(this.pdId).subscribe(
       result => {
         this.pd = result
         this.market   = this.labelService.getLabelString("map.market." +this.pd.marketType)

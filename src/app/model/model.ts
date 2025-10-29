@@ -69,6 +69,9 @@ export class TradingSystemSpec {
   tags?             : string
   agentProfileId?   : number
   externalRef?      : string
+  inSampleFrom      : number|null = null
+  inSampleTo        : number|null = null
+  engineCode?       : string
 }
 
 //=============================================================================
@@ -155,10 +158,18 @@ export class DataProductSpec {
 //=============================================================================
 
 export class DataProduct extends DataProductSpec {
-  status?         : number
-  username?       : string
-  createdAt?      : string
-  updatedAt?      : string
+  username?  : string
+  createdAt? : string
+  updatedAt? : string
+}
+
+//=============================================================================
+
+export class DataProductFull extends DataProduct {
+  connectionCode? : string
+  connectionName? : string
+  systemCode?     : string
+  exchangeCode?   : string
 }
 
 //=============================================================================
@@ -263,12 +274,36 @@ export class BrokerProductSpec {
 //=============================================================================
 
 export class BrokerProduct extends BrokerProductSpec {
-  username?       : string
-  createdAt?      : string
-  updatedAt?      : string
+  username?  : string
+  createdAt? : string
+  updatedAt? : string
+}
+
+//=============================================================================
+
+export class BrokerProductFull extends BrokerProduct {
   connectionCode? : string
+  connectionName? : string
+  systemCode?     : string
   exchangeCode?   : string
   currencyCode?   : string
+}
+
+//=============================================================================
+
+export class BrokerProductExt extends BrokerProduct {
+  connection? : Connection
+  exchange?   : Exchange
+
+  public global = (): boolean => {
+    if (this.connection != undefined) {
+      if (this.connection.supportsMultipleData != undefined) {
+        return !this.connection.supportsMultipleData
+      }
+    }
+
+    return false
+  };
 }
 
 //=============================================================================
@@ -330,6 +365,9 @@ export class PorTradingSystem {
   lastNetProfit?   : number
   lastNetAvgTrade? : number
   lastNumTrades?   : number
+  inSampleFrom?    : number
+  inSampleTo?      : number
+  engineCode?      : string
 }
 
 //=============================================================================

@@ -1,0 +1,7 @@
+<mat-form-field class="main-panel">
+  <mat-label>{{hint()}}</mat-label>
+  <input matInput type="text" [ngModel]="text()" disabled="true" class="input-width">
+  <button matSuffix mat-icon-button (click)="onSearch()">
+    <mat-icon>search</mat-icon>
+  </button>
+</mat-form-field>

@@ -6,6 +6,10 @@
 //=== found in the LICENSE file
 //=============================================================================
 
+@import "../../../../../../../styles/variables";
+
+//=============================================================================
+
 .main-panel {
   display        : flex;
   flex-direction : column;
@@ -15,13 +19,6 @@
   gap            : 0;
   height         : 100%;
   overflow       : hidden;
-}
-
-//=============================================================================
-
-.table-panel {
-  flex: 1 1 auto;
-  overflow: auto;
 }
 
 //=============================================================================
@@ -42,6 +39,19 @@
   button {
     vertical-align: middle;
   }
+}
+
+//=============================================================================
+
+.ts-layout {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap     : 0;
+  height  : 100%;
+  overflow: auto;
+  background-color: $backgroundColor;
 }
 
 //=============================================================================

@@ -6,7 +6,7 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {Component, Input, ViewChild} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {Router, RouterModule} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -17,10 +17,8 @@ import {EventBusService} from "../../../../../../service/eventbus.service";
 import {LabelService} from "../../../../../../service/label.service";
 import {LocalService} from "../../../../../../service/local.service";
 import {InventoryService} from "../../../../../../service/inventory.service";
-import {FlexTablePanel} from "../../../../../../component/panel/flex-table/flex-table.panel";
 import {MatButton, MatIconButton} from "@angular/material/button";
-import {FlexTableColumn} from "../../../../../../model/flex-table";
-import {InvTradingSystemFull} from "../../../../../../model/model";
+import {PorTradingSystem} from "../../../../../../model/model";
 import {AppEvent} from "../../../../../../model/event";
 import {Url} from "../../../../../../model/urls";
 import {MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
@@ -28,6 +26,9 @@ import {MatIcon} from "@angular/material/icon";
 import {MatInput} from "@angular/material/input";
 import {BroadcastService} from "../../../../../../service/broadcast.service";
 import {ModuleService} from "../../../../../../service/module.service";
+import {DevelopmentCard} from "./card/development.card";
+import {PortfolioService} from "../../../../../../service/portfolio.service";
+import {FlatButton} from "../../../../../../component/form/flat-button/flat-button";
 
 //=============================================================================
 
@@ -35,7 +36,7 @@ import {ModuleService} from "../../../../../../service/module.service";
     selector: 'development-panel',
     templateUrl: './development.panel.html',
     styleUrls: ['./development.panel.scss'],
-    imports: [CommonModule, RouterModule, MatTabsModule, ReactiveFormsModule, FormsModule, FlexTablePanel, MatButton, MatFormField, MatIcon, MatIconButton, MatInput, MatLabel, MatSuffix]
+  imports: [CommonModule, RouterModule, MatTabsModule, ReactiveFormsModule, FormsModule, MatButton, MatFormField, MatIcon, MatIconButton, MatInput, MatLabel, MatSuffix, DevelopmentCard, FlatButton]
 })
 
 //=============================================================================
@@ -50,18 +51,15 @@ export class DevelopmentPanel extends AbstractPanel {
 
   _filter = ""
 
-  columns    : FlexTableColumn[] = [];
   disCreate  : boolean = false
   disView    : boolean = true
   disEdit    : boolean = true
   disDelete  : boolean = true
   disFinalize: boolean = true
 
-  tradingSystems : InvTradingSystemFull[] = []
+  tradingSystems : PorTradingSystem[] = []
 
-  private tradingSystemsOrig : InvTradingSystemFull[] = []
-
-  @ViewChild("table") table : FlexTablePanel<InvTradingSystemFull>|null = null;
+  private tradingSystemsOrig : PorTradingSystem[] = []
 
   //-------------------------------------------------------------------------
   //---
@@ -74,6 +72,7 @@ export class DevelopmentPanel extends AbstractPanel {
               router                  : Router,
               private snackBar        : MatSnackBar,
               private inventoryService: InventoryService,
+              private portfolioService: PortfolioService,
               private storageService  : LocalService,
               private moduleService   : ModuleService,
               private broadcastService: BroadcastService) {
@@ -82,7 +81,6 @@ export class DevelopmentPanel extends AbstractPanel {
 
     eventBusService.subscribeToApp(AppEvent.TRADINGSYSTEM_DEVEL_LIST_RELOAD, () => {
       this.reload()
-      this.updateButtons([])
     })
   }
 
@@ -93,29 +91,7 @@ export class DevelopmentPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   override init = () : void => {
-    this.setupColumns();
     this.reload()
-  }
-
-  //-------------------------------------------------------------------------
-
-  setupColumns = () => {
-    let ts = this.labelService.getLabel("model.tradingSystem");
-
-    this.columns = [
-      new FlexTableColumn(ts, "name"),
-      new FlexTableColumn(ts, "dataSymbol"),
-      new FlexTableColumn(ts, "brokerSymbol"),
-      new FlexTableColumn(ts, "timeframe"),
-      new FlexTableColumn(ts, "type"),
-      new FlexTableColumn(ts, "overnight"),
-      new FlexTableColumn(ts, "tradingSession"),
-    ]
-  }
-
-  //-------------------------------------------------------------------------
-
-  override destroy = () : void => {
   }
 
   //-------------------------------------------------------------------------
@@ -143,9 +119,8 @@ export class DevelopmentPanel extends AbstractPanel {
 
     this.tradingSystemsOrig = []
     this.tradingSystems     = []
-    this.table?.clearSelection()
 
-    this.inventoryService.getTradingSystems(true).subscribe( res => {
+    this.portfolioService.getTradingSystems().subscribe( res => {
       this.tradingSystemsOrig = res.result
       this.rebuildTSList()
     });
@@ -155,12 +130,6 @@ export class DevelopmentPanel extends AbstractPanel {
   //---
   //--- Events
   //---
-  //-------------------------------------------------------------------------
-
-  onRowSelected(selection : InvTradingSystemFull[]) {
-    this.updateButtons(selection);
-  }
-
   //-------------------------------------------------------------------------
 
   onCreateClick() {
@@ -203,43 +172,9 @@ export class DevelopmentPanel extends AbstractPanel {
   }
 
   //-------------------------------------------------------------------------
-
-  onFinalizeClick() {
-    // @ts-ignore
-    let selection = this.table.getSelection();
-
-    for (let i=0; i<selection.length; i++) {
-      let id = selection[i].id
-      // @ts-ignore
-      this.inventoryService.finalizeTradingSystem(id).subscribe( res => {
-        this.reload()
-      })
-    }
-  }
-
-  //-------------------------------------------------------------------------
-
-  onDocumentClick() {
-    // @ts-ignore
-    let tsId = this.table.getSelection()[0].id;
-    if (tsId != undefined) {
-      this.moduleService.openDocEditor(tsId)
-    }
-  }
-
-  //-------------------------------------------------------------------------
   //---
   //--- Private methods
   //---
-  //-------------------------------------------------------------------------
-
-  private updateButtons = (selection : InvTradingSystemFull[]) => {
-    this.disView    = (selection.length != 1)
-    this.disEdit    = (selection.length != 1)
-    this.disDelete  = (selection.length == 0)
-    this.disFinalize= (selection.length == 0)
-  }
-
   //-------------------------------------------------------------------------
 
   private rebuildTSList() {
@@ -252,13 +187,13 @@ export class DevelopmentPanel extends AbstractPanel {
   //--- Filtering
   //-------------------------------------------------------------------------
 
-  private runFilter = (ts : InvTradingSystemFull) : boolean => {
+  private runFilter = (ts : PorTradingSystem) : boolean => {
     return this.filterText(ts, this._filter)
   }
 
   //-------------------------------------------------------------------------
 
-  private filterText(ts : InvTradingSystemFull, filter : string) : boolean {
+  private filterText(ts : PorTradingSystem, filter : string) : boolean {
     let name = ts.name?.trim().toLowerCase()
     if (name?.length == 0) {
       return true

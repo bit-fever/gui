@@ -15,7 +15,8 @@ import {
   InvTradingSystemFull, Portfolio, PortfolioTree,
   BrokerProduct, BrokerProductSpec,
   DataProduct, DataProductExt, DataProductSpec,
-  TradingSession, TradingSystemSpec, DatafileUploadResponse, AgentProfile, FinalizationResponse
+  TradingSession, TradingSystemSpec, DatafileUploadResponse, AgentProfile, FinalizationResponse, DataProductFull,
+  BrokerProductExt, BrokerProductFull
 } from "../model/model";
 import {HttpService, UploadEvent} from "./http.service";
 import { HttpParams } from "@angular/common/http";
@@ -73,17 +74,16 @@ export class InventoryService {
   //--- Product tool
   //---------------------------------------------------------------------------
 
-  public getDataProducts = (details: boolean): Observable<ListResponse<DataProduct>> => {
+  public getDataProducts = (details: boolean): Observable<ListResponse<DataProductFull>> => {
     let params = new HttpParams()
     params = params.set("details", details)
-    return this.httpService.get<ListResponse<DataProduct>>('/api/inventory/v1/data-products', { params: params });
+    return this.httpService.get<ListResponse<DataProductFull>>('/api/inventory/v1/data-products', { params: params });
   }
 
   //---------------------------------------------------------------------------
 
-  public getDataProductById = (id:number, details: boolean): Observable<DataProductExt> => {
+  public getDataProductById = (id:number): Observable<DataProductExt> => {
     let params = new HttpParams()
-    params = params.set("details", details)
     return this.httpService.get<DataProductExt>('/api/inventory/v1/data-products/'+ id, { params: params });
   }
 
@@ -103,10 +103,17 @@ export class InventoryService {
   //--- Product brokers
   //---------------------------------------------------------------------------
 
-  public getBrokerProducts = (details: boolean): Observable<ListResponse<BrokerProduct>> => {
+  public getBrokerProducts = (details: boolean): Observable<ListResponse<BrokerProductFull>> => {
     let params = new HttpParams()
     params = params.set("details", details)
-    return this.httpService.get<ListResponse<BrokerProduct>>('/api/inventory/v1/broker-products', { params: params });
+    return this.httpService.get<ListResponse<BrokerProductFull>>('/api/inventory/v1/broker-products', { params: params });
+  }
+
+  //---------------------------------------------------------------------------
+
+  public getBrokerProductById = (id:number): Observable<BrokerProductExt> => {
+    let params = new HttpParams()
+    return this.httpService.get<BrokerProductExt>('/api/inventory/v1/broker-products/'+ id, { params: params });
   }
 
   //---------------------------------------------------------------------------

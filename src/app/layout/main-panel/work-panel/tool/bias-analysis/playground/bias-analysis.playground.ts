@@ -18,7 +18,7 @@ import {
   ApexXAxis,
   NgApexchartsModule
 } from "ng-apexcharts";
-import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
+import {MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {AbstractPanel} from "../../../../../../component/abstract.panel";
@@ -824,7 +824,7 @@ export class MonthsTranscoder implements Transcoder {
 
 class MoneyTranscoder implements Transcoder {
   transcode(value: number, row?: any): string {
-    return value +" "+ this.outer.result.brokerProduct.currencyCode
+    return value +" " //+ this.outer.result.brokerProduct.currencyCode
   }
 
   constructor(private outer:BiasAnalysisPlaygroundPanel) {}

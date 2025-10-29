@@ -36,6 +36,11 @@ import {EventBusService} from "../../../../../../../service/eventbus.service";
 import {LabelService} from "../../../../../../../service/label.service";
 import {InventoryService} from "../../../../../../../service/inventory.service";
 import {AppEvent} from "../../../../../../../model/event";
+import {DataProductSelector} from "../../../../../../../component/form/data-product-selector/product-selector.panel";
+import {
+  BrokerProductSelector
+} from "../../../../../../../component/form/broker-product-selector/product-selector.panel";
+import {DatePicker} from "../../../../../../../component/form/date-picker/date-picker";
 
 //=============================================================================
 
@@ -43,10 +48,10 @@ import {AppEvent} from "../../../../../../../model/event";
     selector: "tradingSystem-devel-edit",
     templateUrl: './edit.panel.html',
     styleUrls: ['./edit.panel.scss'],
-    imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule,
-        MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
-        MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired, ChipSetTextComponent, SelectTextRequired, MatSlideToggle, NgIf
-    ]
+  imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule,
+    MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
+    MatDividerModule, InputTextRequired, SelectRequired, InputNumberRequired, ChipSetTextComponent, SelectTextRequired, MatSlideToggle, NgIf, DataProductSelector, BrokerProductSelector, DatePicker
+  ]
 })
 
 //=============================================================================
@@ -64,13 +69,14 @@ export class TradingSystemDevelEditPanel extends AbstractPanel {
   brokers       : BrokerProduct [] = []
   sessions      : TradingSession[] = []
   strategyTypes : Object        [] = []
+  engineCodes   : Object        [] = []
   profiles      : AgentProfile  [] = []
   tagSet        : string        [] = []
 
   title : string =""
 
   @ViewChild("tsNameCtrl")      tsNameCtrl?      : InputTextRequired
-  @ViewChild("tsDataCtrl")      tsDataCtrl?      : SelectRequired
+  @ViewChild("tsDataCtrl")      tsDataCtrl?      : DataProductSelector
   @ViewChild("tsBrokerCtrl")    tsBrokerCtrl?    : SelectRequired
   @ViewChild("tsSessionCtrl")   tsSessionCtrl?   : SelectRequired
   @ViewChild("tsTimeframeCtrl") tsTimeframeCtrl? : InputNumberRequired
@@ -125,6 +131,7 @@ export class TradingSystemDevelEditPanel extends AbstractPanel {
     console.log("TradingSystemEditPanel: Starting...");
 
     this.strategyTypes  = this.labelService.getLabel("map.strategyType")
+    this.engineCodes    = this.labelService.getLabel("map.engineCode")
 
     if (event.params == undefined) {
       this.ts = new TradingSystemSpec()
