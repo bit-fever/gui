@@ -135,7 +135,7 @@ export class MenuService extends AbstractSubscriber {
         id: 'menu.link',
         label: this.get('admin.link'),
         iconClasses: 'http',
-        url: '//github.com/bit-fever',
+        url: '//github.com/tradalia',
       },
     ];
 

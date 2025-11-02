@@ -18,7 +18,7 @@ export class BroadcastService {
   //---
   //-------------------------------------------------------------------------
 
-  private bc = new BroadcastChannel("bit-fever")
+  private bc = new BroadcastChannel("tradalia")
 
   //-------------------------------------------------------------------------
   //---
