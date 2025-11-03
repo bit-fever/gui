@@ -1,5 +1,5 @@
 # Gui
-Frontend to the Bit Fever ecosystem
+Frontend to the Tradalia ecosystem
 
 ## Development server
 
