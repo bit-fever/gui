@@ -18,8 +18,10 @@ export enum Url {
   Portfolio_TradingSystems_Id  = "portfolio/trading-systems/:id",
   Portfolio_Monitoring         = "portfolio/monitoring",
 
-  Tool_BiasAnalyses            = "tool/bias-analyses",
-  Tool_BiasAnalyses_Id         = "tool/bias-analyses/:id",
+  Tool_MarketAnalysis          = "tool/market-analysis",
+
+  Tool_BiasAnalysis            = "tool/bias-analysis",
+  Tool_BiasAnalysis_Id         = "tool/bias-analysis/:id",
 
   Admin_Connections            = "admin/connections",
   Admin_Config                 = "admin/config",
@@ -50,7 +52,9 @@ export enum Url {
   //--- Modules ---------------------------------------------------------------
 
   Module_DocEditor           = "module/doc-editor/:id",
-  Module_PerformanceAnalysis = "module/performance-analysis/:id"
+  Module_PerformanceAnalysis = "module/performance-analysis/:id",
+  Module_QualityAnalysis     = "module/quality-analysis/:id",
+  Module_Simulator           = "module/simulation/:id",
 }
 
 //=============================================================================

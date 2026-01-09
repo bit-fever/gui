@@ -6,7 +6,7 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {Component, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Router} from "@angular/router";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatOptionModule} from "@angular/material/core";
@@ -16,30 +16,32 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
-import {DataProductSelector} from "../../../../../component/form/data-product-selector/product-selector.panel";
-import {SelectRequired} from "../../../../../component/form/select-required/select-required";
-import {AbstractPanel} from "../../../../../component/abstract.panel";
-import {EventBusService} from "../../../../../service/eventbus.service";
-import {LabelService} from "../../../../../service/label.service";
-import {CollectorService} from "../../../../../service/collector.service";
-import {MarketAnalysisDailyPanel} from "./daily/market-analysis.daily";
-import {DailyResult} from "./model";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {AbstractPanel} from "../../../component/abstract.panel";
+import {EventBusService} from "../../../service/eventbus.service";
+import {LabelService} from "../../../service/label.service";
+import {PortfolioService} from "../../../service/portfolio.service";
+import {FlatButton} from "../../../component/form/flat-button/flat-button";
+import {MatCardModule} from "@angular/material/card";
+import {MatProgressSpinnerModule, ProgressSpinnerMode} from "@angular/material/progress-spinner";
+import {SimulationResult} from "../../../model/simulation";
+import {IntDateTranscoder} from "../../../component/panel/flex-table/transcoders";
+import {PorTradingSystem} from "../../../model/model";
 
 //=============================================================================
 
 @Component({
-  selector: "market-analysis-list",
-  templateUrl: './market-analysis.list.html',
-  styleUrls: [ './market-analysis.list.scss'],
+  selector: "simulation-waiting",
+  templateUrl: './waiting.panel.html',
+  styleUrls : ['./waiting.panel.scss'],
   imports: [MatFormFieldModule, MatOptionModule, MatSelectModule,
     MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
-    MatDividerModule, SelectRequired, DataProductSelector, MarketAnalysisDailyPanel
-  ]
+    MatDividerModule, MatButtonToggleModule, MatIconModule, FlatButton, MatCardModule, MatProgressSpinnerModule]
 })
 
 //=============================================================================
 
-export class MarketAnalysisListPanel extends AbstractPanel {
+export class SimulationWaitingPanel extends AbstractPanel {
 
   //-------------------------------------------------------------------------
   //---
@@ -47,13 +49,11 @@ export class MarketAnalysisListPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  id?            : number
-  selectedPeriod : number = 0
-  periods        : any
+  mode: ProgressSpinnerMode = 'determinate';
 
-  dailyResults : DailyResult[] = []
-
-  @ViewChild("tsDataCtrl") tsDataCtrl? : DataProductSelector
+  @Input() ts?  : PorTradingSystem
+  @Input() res? : SimulationResult
+  @Output() stopChange = new EventEmitter();
 
   //-------------------------------------------------------------------------
   //---
@@ -64,9 +64,9 @@ export class MarketAnalysisListPanel extends AbstractPanel {
   constructor(eventBusService          : EventBusService,
               labelService             : LabelService,
               router                   : Router,
-              private collectorService : CollectorService) {
+              private portfolioService : PortfolioService) {
 
-    super(eventBusService, labelService, router, "tool.marketAnalysis");
+    super(eventBusService, labelService, router, "module.simulation.waiting");
   }
 
   //-------------------------------------------------------------------------
@@ -76,9 +76,7 @@ export class MarketAnalysisListPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   override init = () : void => {
-    console.log("MarketAnalysisListPanel: Initializing...")
-
-    this.periods = this.labelMap("periods");
+    console.log("SimulationWaitingPanel: Initializing...")
   }
 
   //-------------------------------------------------------------------------
@@ -87,31 +85,48 @@ export class MarketAnalysisListPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  onProductChange(value:number|undefined) {
-    console.log("Product change : ", value)
-    this.id = value
-    this.reload();
-  }
-
-  //-------------------------------------------------------------------------
-
-  onPeriodChange(value: string) {
-    console.log("Analysis period change : ", value)
-    this.reload();
+  onStopClick() {
+    this.stopChange.emit()
   }
 
   //-------------------------------------------------------------------------
   //---
-  //--- Private methods
+  //--- Public methods
   //---
   //-------------------------------------------------------------------------
 
-  private reload() : void {
-    if (this.id) {
-      this.collectorService.analyzeProduct(this.id, this.selectedPeriod).subscribe( res => {
-        this.dailyResults = res.dailyResults
-      })
+  getMode() : ProgressSpinnerMode {
+    if (this.res == undefined) {
+      return "indeterminate";
     }
+
+    if (this.res.status == "waiting") {
+      return "indeterminate";
+    }
+
+    return "determinate";
+  }
+
+  //-------------------------------------------------------------------------
+
+  getValue() : number {
+    if (this.res?.step) {
+      let value = this.res.step * 100 / 6
+      return Math.min(value, 100)
+    }
+
+    return 0
+  }
+  //---------------------------------------------------------------------------
+
+  firstTrade () : string {
+    return new IntDateTranscoder().transcode(this.res?.firstTradeDate)
+  }
+
+  //---------------------------------------------------------------------------
+
+  lastTrade() : string {
+    return new IntDateTranscoder().transcode(this.res?.lastTradeDate)
   }
 }
 

@@ -42,6 +42,8 @@ menu-button:
   toReady      : Move to ready
   delete       : Delete
   deleteTrades : Delete trades
+  quality      : Quality
+  simulation   : Simulation
 
 # ==============================================================================
 # ===
@@ -64,7 +66,8 @@ menu:
     monitoring   : Monitoring
   tool:
     _label: Tool
-    biasAnalyses: Bias analyses
+    marketAnalysis: Market analysis
+    biasAnalyses  : Bias analysis
 
   admin:
     _label: Administration
@@ -313,6 +316,16 @@ model:
     pointValue: Point value
     country   : Country
     currency  : Currency
+
+  dailyResult:
+    date           : Date
+    price          : Price
+    percDailyChange: Daily change (%)
+    sqn100         : SQN(100d)
+    trueRange      : True range
+    percAtr20      : ATR(20d) (%)
+    direction      : Direction
+    volatility     : Volatility
 
 # ==============================================================================
 # ===
@@ -587,6 +600,18 @@ page:
   # ==============================================================================
 
   tool:
+    marketAnalysis:
+      period: Period
+      periods:
+        - id: 365
+          name: Last year
+        - id: 730
+          name: Last 2 years
+        - id: 1825
+          name: Last 5 years
+        - id: 0
+          name: All
+
     biasAnalysis:
       new         :   New bias analysis
       view        :  View bias analysis
@@ -782,6 +807,89 @@ page:
       trades:
         filter: Filter...
 
+    quality:
+      title: Quality analysis for
+      period  : Analysis period
+      periods:
+        - id: 180
+          name: Last 6 months
+        - id: 365
+          name: Last year
+        - id: 730
+          name: Last 2 years
+        - id: 1825
+          name: Last 5 years
+        - id: 0
+          name: All
+      tab:
+        market    : Market
+      market:
+        all  : All
+        long : Long
+        short: Short
+        gross: Gross
+        net  : Net
+        market      : Market
+        quiet       : Quiet
+        normal      : Normal
+        volatile    : Volatile
+        veryVolatile: Very volatile
+        total       : Total
+        strongBear  : Strong bear
+        bear        : Bear
+        neutral     : Neutral
+        bull        : Bull
+        strongBull  : Strong bull
+        sqn         : SQN
+        sqn100      : SQN(100)
+        trades      : Trades
+        tradesPerc  : Trades (%)
+        maxDrawdown : Max drawdown
+
+    simulation:
+      title: Simulation for
+      params:
+        title: Simulation parameters
+        period  : Analysis period
+        periods:
+          - id: 180
+            name: Last 6 months
+          - id: 365
+            name: Last year
+          - id: 730
+            name: Last 2 years
+          - id: 1825
+            name: Last 5 years
+          - id: 0
+            name: All
+        runs: Runs
+        capital   : Initial capital
+        ruinPerc  : Ruin risk (%)
+        ruinAmount: Ruin amount
+        run       : Run
+      waiting:
+        title     : Running simulation
+        startTime : Start time
+        step      : Step completed
+        firstTrade: First trade found
+        lastTrade : Last trade found
+        risk      : Risk / stop loss
+        stop      : Stop
+      result:
+        rerun    : Re-run
+        all      : All
+        long     : Long
+        short    : Short
+        gross    : Gross
+        net      : Net
+        equities : Equities
+        drawdowns: Drawdowns
+        chartTitle: Distribution of max drawdowns vs R-multiples
+        maxDDCount: Count of maximum drawdowns
+        maxDDRMult: R multiples
+        probMsg1  : There is a
+        probMsg2  : probability to get a maximum drawdown bigger than
+
 # ==============================================================================
 # ===
 # === Adapters
@@ -909,6 +1017,9 @@ list:
   dowShort: [ Sun, Mon, Tue, Wed, Thu, Fri, Sat ]
   dowLong : [ Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday ]
   monShort: [ Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec ]
+
+  direction: [ "Strong bear", "Bear", "Neutral", "Bull", "Strong bull" ]
+  volatility: [ "Quiet", "Normal", "Volatile", "Very volatile"]
 
 # ==============================================================================
 # ===

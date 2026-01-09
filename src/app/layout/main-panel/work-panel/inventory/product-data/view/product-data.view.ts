@@ -25,8 +25,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {InstrumentUploadDialog} from "./instrument-upload.dialog";
 import {
-  FlagStyler, InstrumentStatusStyler,
-  IntDateTranscoder, IsoDateTranscoder, RolloverStatusStyler,
+  IntDateTranscoder, IsoDateTranscoder
 } from "../../../../../../component/panel/flex-table/transcoders";
 import {CollectorService} from "../../../../../../service/collector.service";
 import {Url} from "../../../../../../model/urls";
@@ -39,6 +38,11 @@ import {ChartOptions} from "../../../../../../lib/chart-lib";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {interval, Subscription} from "rxjs";
 import {ToggleButton} from "../../../../../../component/form/toggle-button/toggle-button";
+import {
+  FlagStyler,
+  InstrumentStatusStyler,
+  RolloverStatusStyler
+} from "../../../../../../component/panel/flex-table/icon-sylers";
 
 //=============================================================================
 

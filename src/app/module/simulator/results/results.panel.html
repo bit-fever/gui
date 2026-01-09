@@ -1,0 +1,57 @@
+<div class="main-layout">
+  <div class="header-layout">
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="tradeType">
+      <mat-button-toggle value="all"    (change)="onTradeTypeChange()">{{ loc("all") }}</mat-button-toggle>
+      <mat-button-toggle value="long"   (change)="onTradeTypeChange()">{{ loc("long") }}</mat-button-toggle>
+      <mat-button-toggle value="short"  (change)="onTradeTypeChange()">{{ loc("short") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="returnType">
+      <mat-button-toggle value="gross"  (change)="onReturnTypeChange()">{{ loc("gross") }}</mat-button-toggle>
+      <mat-button-toggle value="net"    (change)="onReturnTypeChange()">{{ loc("net") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <span style="flex:1 0 auto"></span>
+
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="viewType">
+      <mat-button-toggle value="equity"    (change)="onReturnTypeChange()">{{ loc("equities") }}</mat-button-toggle>
+      <mat-button-toggle value="drawdown"  (change)="onReturnTypeChange()">{{ loc("drawdowns") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <flat-button icon="start" label="{{loc('rerun')}}" (click)="onReRunClick()"></flat-button>
+
+  </div>
+
+  <!-- ============================================================================================================= -->
+
+  <div class="panel-layout">
+    @if (viewEquity()) {
+      <img src="data:image/png;base64,{{details()?.equities}}">
+    }
+
+    @if (viewDrawdown()) {
+      <apx-chart  class="chart-layout"
+                  [title]      = "chartOptions.title"
+                  [chart]      = "chartOptions.chart"
+                  [series]     = "chartOptions.series"
+                  [dataLabels] = "chartOptions.dataLabels"
+                  [plotOptions]= "chartOptions.plotOptions"
+                  [stroke]     = "chartOptions.stroke"
+                  [xaxis]      = "chartOptions.xaxis"
+                  [colors]     = "chartOptions.colors"
+                  [yaxis]      = "chartOptions.yaxis"
+                  [grid]       = "chartOptions.grid"
+                  [legend]     = "chartOptions.legend"
+      ></apx-chart>
+
+      @if (maxDDPerc != undefined) {
+        <div>
+          {{loc("probMsg1")}}
+          <b>{{maxDDPerc}}%</b>
+          {{loc("probMsg2")}}
+          <b>{{maxDDRMul}} ( {{maxxDDValue()}} )</b>
+        </div>
+      }
+    }
+  </div>
+</div>

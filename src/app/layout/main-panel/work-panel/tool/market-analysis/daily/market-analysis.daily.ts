@@ -6,7 +6,7 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-import {Component, ViewChild} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 import {CommonModule}         from "@angular/common";
 import {MatCardModule}        from "@angular/material/card";
 import {MatIconModule}        from "@angular/material/icon";
@@ -18,6 +18,7 @@ import {FlexTableColumn} from "../../../../../../model/flex-table";
 import {EventBusService} from "../../../../../../service/eventbus.service";
 import {LabelService} from "../../../../../../service/label.service";
 import {DailyResult} from "../model";
+import {IntDateTranscoder, ListLabelTranscoder} from "../../../../../../component/panel/flex-table/transcoders";
 
 //=============================================================================
 
@@ -40,7 +41,9 @@ export class MarketAnalysisDailyPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   columns : FlexTableColumn[] = [];
-  results : DailyResult[]     = [];
+
+  @Input()
+  dailyResults : DailyResult[]     = [];
 
   @ViewChild("table") table : FlexTablePanel<DailyResult>|null = null;
 
@@ -77,19 +80,15 @@ export class MarketAnalysisDailyPanel extends AbstractPanel {
     let ts = this.labelService.getLabel("model.dailyResult");
 
     this.columns = [
-      new FlexTableColumn(ts, "name"),
-      new FlexTableColumn(ts, "dataSymbol"),
-      new FlexTableColumn(ts, "dataName"),
-      new FlexTableColumn(ts, "brokerSymbol"),
-      new FlexTableColumn(ts, "brokerName"),
+      new FlexTableColumn(ts, "date", new IntDateTranscoder()),
+      new FlexTableColumn(ts, "price"),
+      new FlexTableColumn(ts, "percDailyChange"),
+      new FlexTableColumn(ts, "trueRange"),
+      new FlexTableColumn(ts, "sqn100"),
+      new FlexTableColumn(ts, "percAtr20"),
+      new FlexTableColumn(ts, "direction", new ListLabelTranscoder(this.labelService, "list.direction", 2)),
+      new FlexTableColumn(ts, "volatility", new ListLabelTranscoder(this.labelService, "list.volatility")),
     ]
-  }
-
-  //-------------------------------------------------------------------------
-
-  reload(list : DailyResult[]) {
-    console.log("Reloading daily results...")
-    this.results = list;
   }
 }
 

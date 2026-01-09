@@ -6,29 +6,22 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-.main-panel {
+.main-layout {
+  width: 100%;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: stretch;
-  gap: 0;
   height: 100%;
   overflow: hidden;
 }
 
 //=============================================================================
 
-.inner-panel {
+.panel-layout {
   flex: 1 1 auto;
   overflow: auto;
-}
-
-//=============================================================================
-
-data-product-selector {
-  width: 300px;
-  margin-right: 8px;
 }
 
 //=============================================================================

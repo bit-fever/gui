@@ -2,10 +2,11 @@
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
   <div>
-    <data-product-selector #tsDataCtrl class="half-width" [(productId)]="dataProductId"></data-product-selector>
+    <data-product-selector #tsDataCtrl class="half-width" [productId]="id" (productIdChange)="onProductChange($event)"></data-product-selector>
+    <select-required [label]="loc('period')" [(key)]="selectedPeriod" [list]="periods" (keyChange)="onPeriodChange($event)" keyField="id" valueField="name"></select-required>
   </div>
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-  <market-analysis-daily class="inner-panel"></market-analysis-daily>
+  <market-analysis-daily class="inner-panel" [dailyResults]="dailyResults"></market-analysis-daily>
 </div>

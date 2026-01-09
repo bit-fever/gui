@@ -17,7 +17,7 @@ import {Router} from "@angular/router";
 import {MatMenuModule} from "@angular/material/menu";
 import {CheckButton} from "../../../../../../../component/form/check-button/check-button";
 import {AbstractPanel} from "../../../../../../../component/abstract.panel";
-import {TradingSystemStatusStyler} from "../../../../../../../component/panel/flex-table/transcoders";
+import {TradingSystemStatusStyler} from "../../../../../../../component/panel/flex-table/icon-sylers";
 import {CheckButtonConfig} from "../../../../../../../component/form/check-button/check-button-config";
 import {PorTradingSystem, TspResponseStatus} from "../../../../../../../model/model";
 import {EventBusService} from "../../../../../../../service/eventbus.service";
@@ -250,6 +250,18 @@ export class TradingCard extends AbstractPanel {
 
   onMenuDocumentation() {
     this.moduleService.openDocEditor(this.ts.id)
+  }
+
+  //-------------------------------------------------------------------------
+
+  onMenuQuality() {
+    this.moduleService.openQualityAnalyzer(this.ts.id)
+  }
+
+  //-------------------------------------------------------------------------
+
+  onMenuSimulation() {
+    this.moduleService.openSimulator(this.ts.id)
   }
 
   //-------------------------------------------------------------------------

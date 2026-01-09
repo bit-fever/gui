@@ -308,7 +308,7 @@ export class BiasAnalysisPlaygroundPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onBacktestClick() {
-    this.navigateTo([ Url.Tool_BiasAnalyses, this.baId, Url.Sub_Backtest ]);
+    this.navigateTo([ Url.Tool_BiasAnalysis, this.baId, Url.Sub_Backtest ]);
   }
 
   //-------------------------------------------------------------------------

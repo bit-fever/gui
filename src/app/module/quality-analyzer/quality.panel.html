@@ -1,0 +1,30 @@
+<div class="main-layout">
+  <module-title-panel icon="query_stats" title="{{loc('title') + ' '+qar.tradingSystem?.name}}" (onClose)="onClose()"></module-title-panel>
+
+  <!-- ============================================================================================================= -->
+
+  <div class="header-layout">
+    <select-required [label]="loc('period')" [(key)]="selectedPeriod" [list]="periods" (keyChange)="onPeriodChange($event)" keyField="id" valueField="name"></select-required>
+
+    <span style="flex:1 0 auto"></span>
+
+    <mat-button-toggle-group [hideSingleSelectionIndicator]="true" [formControl]="selTab">
+      <mat-button-toggle value="market"      (change)="onTabSet()">{{ loc("tab.market") }}</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <div>
+      <button mat-icon-button (click)="onReloadClick()">
+        <span class="material-symbols-outlined">refresh</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  @if (selTab.value=='market') {
+    <quality-market-panel class="panel-layout" [qar]="qar"></quality-market-panel>
+  }
+
+  <!-- ============================================================================================================= -->
+
+</div>

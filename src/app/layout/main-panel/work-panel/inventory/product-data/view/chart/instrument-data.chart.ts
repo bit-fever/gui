@@ -37,7 +37,7 @@ import {
   ApexDataLabels, ChartComponent,
 } from "ng-apexcharts";
 import {ChartOptions} from "../../../../../../../lib/chart-lib";
-import {InstrumentStatusStyler} from "../../../../../../../component/panel/flex-table/transcoders";
+import {InstrumentStatusStyler} from "../../../../../../../component/panel/flex-table/icon-sylers";
 
 //=============================================================================
 

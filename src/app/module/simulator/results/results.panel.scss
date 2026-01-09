@@ -6,29 +6,44 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-.main-panel {
+.main-layout {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: stretch;
-  gap: 0;
-  height: 100%;
+  gap: 8px;
+  height   : 100%;
   overflow: hidden;
 }
 
 //=============================================================================
 
-.inner-panel {
-  flex: 1 1 auto;
-  overflow: auto;
+.header-layout {
+  margin: 4px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
 }
 
 //=============================================================================
 
-data-product-selector {
-  width: 300px;
-  margin-right: 8px;
+.panel-layout {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+//=============================================================================
+
+.chart-layout {
+  flex: 1 1 auto;
 }
 
 //=============================================================================

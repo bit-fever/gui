@@ -1,0 +1,20 @@
+<div class="main-layout">
+  <module-title-panel icon="query_stats" title="{{loc('title') + ' '+ts.name}}" (onClose)="onClose()"></module-title-panel>
+
+  <!-- ============================================================================================================= -->
+
+  @if (status == "idle") {
+    <simulation-params class="panel-layout" [ts]="ts" [req]=req (runChange)="onRunClick($event)"></simulation-params>
+  }
+
+  @if (status == "waiting" || status == "running") {
+    <simulation-waiting class="panel-layout" [ts]="ts" [res]="res" (stopChange)="onStopClick()"></simulation-waiting>
+  }
+
+  @if (status == "complete") {
+    <simulation-results class="panel-layout" [ts]="ts" [res]="res" (rerunChange)="onReRunClick()"></simulation-results>
+  }
+
+  <!-- ============================================================================================================= -->
+
+</div>

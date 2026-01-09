@@ -18,9 +18,7 @@ import {AbstractPanel}        from "../../../../../component/abstract.panel";
 import {FlexTablePanel}       from "../../../../../component/panel/flex-table/flex-table.panel";
 import {LabelService}         from "../../../../../service/label.service";
 import {EventBusService}      from "../../../../../service/eventbus.service";
-import {
-  FlagStyler, IsoDateTranscoder,
-} from "../../../../../component/panel/flex-table/transcoders";
+import {IsoDateTranscoder}    from "../../../../../component/panel/flex-table/transcoders";
 import {Router, RouterModule} from "@angular/router";
 import {Url} from "../../../../../model/urls";
 import {AppEvent} from "../../../../../model/event";
@@ -28,6 +26,7 @@ import {InventoryService} from "../../../../../service/inventory.service";
 import {MatDialog} from "@angular/material/dialog";
 import {SystemLoginDialog} from "./login/system-login.dialog";
 import {DialogData} from "./login/dialog-data";
+import {FlagStyler} from "../../../../../component/panel/flex-table/icon-sylers";
 
 //=============================================================================
 

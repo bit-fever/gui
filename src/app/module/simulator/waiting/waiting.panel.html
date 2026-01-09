@@ -1,0 +1,34 @@
+<div class="waiting-layout">
+  <mat-card class="panel-layout">
+    <mat-card-header>
+      <mat-card-title>{{loc('title')}}</mat-card-title>
+      <mat-card-subtitle>&nbsp;</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="content-layout">
+        <mat-progress-spinner [mode]="getMode()" [value]="getValue()"></mat-progress-spinner>
+        <table class="data-layout">
+          <tr>
+            <td>{{loc('step')}}</td>
+            <td>{{res?.step}}</td>
+          </tr>
+          <tr>
+            <td>{{loc('risk')}}</td>
+            <td>{{res?.risk +' '+ ts?.currencyCode}}</td>
+          </tr>
+          <tr>
+            <td>{{loc('firstTrade')}}</td>
+            <td>{{firstTrade()}}</td>
+          </tr>
+          <tr>
+            <td>{{loc('lastTrade')}}</td>
+            <td>{{lastTrade()}}</td>
+          </tr>
+        </table>
+      </div>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <flat-button icon="stop" label="{{loc('stop')}}" (click)="onStopClick()"></flat-button>
+    </mat-card-actions>
+  </mat-card>
+</div>

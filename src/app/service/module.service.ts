@@ -49,6 +49,26 @@ export class ModuleService {
       console.log("PerformanceMetrics' window is null")
     }
   }
+
+  //-------------------------------------------------------------------------
+
+  public openQualityAnalyzer(tsId:number) {
+    let extWindow = window.open('module/quality-analysis/'+tsId, '', 'popup,width=1500,height=950,left=100,top=100');
+
+    if (extWindow == null) {
+      console.log("QualityAnalyzer's window is null")
+    }
+  }
+
+  //-------------------------------------------------------------------------
+
+  public openSimulator(tsId:number) {
+    let extWindow = window.open('module/simulation/'+tsId, '', 'popup,width=1500,height=950,left=100,top=100');
+
+    if (extWindow == null) {
+      console.log("Simulator's window is null")
+    }
+  }
 }
 
 //=============================================================================

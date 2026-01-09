@@ -1,0 +1,19 @@
+<div class="params-layout">
+  <mat-card class="panel-layout">
+    <mat-card-header>
+      <mat-card-title>{{loc('title')}}</mat-card-title>
+      <mat-card-subtitle>&nbsp;</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <select-required [label]="loc('period')" [(key)]="req.daysBack" [list]="periods" keyField="id" valueField="name"></select-required>
+      <input-number-required #tsRunsCtrl [(value)]="req.runs"              [label]="loc('runs')"     [min]="10" [max]="50000"></input-number-required>
+<!--      <input-number-required #tsCapitalCtrl [(value)]="req.initialCapital" [label]="loc('capital') +' ('+ ts?.currencyCode +')'" [min]="10" [max]="50000000"></input-number-required>-->
+<!--      <input-number-required #tsRuinPerCtrl [(value)]="req.ruinPercentage" [label]="loc('ruinPerc')" [min]="5"  [max]="95"></input-number-required>-->
+<!--      <span>{{loc('ruinAmount') + ' : ' + getRuinAmount() +' '+ ts?.currencyCode }}</span>-->
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <flat-button icon="start" [label]="loc('run')" (click)="onRunClick()" [disabled]="!runEnabled()"></flat-button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+

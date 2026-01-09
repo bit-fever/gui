@@ -99,7 +99,7 @@ export class BiasAnalisysListPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   onCreateClick() {
-    this.openRightPanel(Url.Tool_BiasAnalyses, Url.Right_BiasAnalysis_Create, AppEvent.BIASANALYSIS_CREATE_START);
+    this.openRightPanel(Url.Tool_BiasAnalysis, Url.Right_BiasAnalysis_Create, AppEvent.BIASANALYSIS_CREATE_START);
   }
 
   //-------------------------------------------------------------------------
@@ -107,7 +107,7 @@ export class BiasAnalisysListPanel extends AbstractPanel {
   onViewClick() {
     // @ts-ignore
     let selection = this.table.getSelection();
-    this.openRightPanel(Url.Tool_BiasAnalyses, Url.Right_BiasAnalysis_View, AppEvent.BIASANALYSIS_VIEW_START, selection[0]);
+    this.openRightPanel(Url.Tool_BiasAnalysis, Url.Right_BiasAnalysis_View, AppEvent.BIASANALYSIS_VIEW_START, selection[0]);
   }
 
   //-------------------------------------------------------------------------
@@ -115,7 +115,7 @@ export class BiasAnalisysListPanel extends AbstractPanel {
   onEditClick() {
     // @ts-ignore
     let selection = this.table.getSelection();
-    this.openRightPanel(Url.Tool_BiasAnalyses, Url.Right_BiasAnalysis_Edit, AppEvent.BIASANALYSIS_EDIT_START, selection[0]);
+    this.openRightPanel(Url.Tool_BiasAnalysis, Url.Right_BiasAnalysis_Edit, AppEvent.BIASANALYSIS_EDIT_START, selection[0]);
   }
 
   //-------------------------------------------------------------------------
@@ -124,7 +124,7 @@ export class BiasAnalisysListPanel extends AbstractPanel {
     // @ts-ignore
     let selection = this.table.getSelection();
 
-    this.navigateTo([ Url.Tool_BiasAnalyses, selection[0].id, Url.Sub_Playground ]);
+    this.navigateTo([ Url.Tool_BiasAnalysis, selection[0].id, Url.Sub_Playground ]);
   }
 
   //-------------------------------------------------------------------------

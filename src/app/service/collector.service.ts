@@ -31,6 +31,7 @@ import {
   BiasConfig,
   BiasSummaryResponse
 } from "../layout/main-panel/work-panel/tool/bias-analysis/model";
+import {DataProductAnalysisResponse} from "../layout/main-panel/work-panel/tool/market-analysis/model";
 
 //=============================================================================
 
@@ -52,7 +53,17 @@ export class CollectorService {
   //---------------------------------------------------------------------------
 
   //---------------------------------------------------------------------------
-  //--- Products & Instruments
+  //--- Products
+  //---------------------------------------------------------------------------
+
+  public analyzeProduct = (id : number, backDays : number): Observable<DataProductAnalysisResponse> => {
+    let params = new HttpParams()
+    params = params.set("backDays", backDays)
+    return this.httpService.get<DataProductAnalysisResponse>('/api/collector/v1/data-products/'+ id +'/analysis', { params: params });
+  }
+
+  //---------------------------------------------------------------------------
+  //--- Instruments
   //---------------------------------------------------------------------------
 
   public getParsers = (): Observable<ParserMap> => {

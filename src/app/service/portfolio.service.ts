@@ -24,6 +24,8 @@ import {
 import {HttpService}     from "./http.service";
 import {ListResponse} from "../model/flex-table";
 import {PerformanceAnalysisRequest, PerformanceAnalysisResponse} from "../model/performance";
+import {QualityAnalysisRequest, QualityAnalysisResponse} from "../model/quality";
+import {SimulationRequest, SimulationResult} from "../model/simulation";
 
 //=============================================================================
 
@@ -54,8 +56,20 @@ export class PortfolioService {
 
   //---------------------------------------------------------------------------
 
+  public getTradingSystem = (id : number): Observable<PorTradingSystem> => {
+    return this.httpService.get<PorTradingSystem>('/api/portfolio/v1/trading-systems/'+ id);
+  }
+
+  //---------------------------------------------------------------------------
+
   public getPerformanceAnalysis = (id:number, req : PerformanceAnalysisRequest): Observable<PerformanceAnalysisResponse> => {
     return this.httpService.post<PerformanceAnalysisResponse>('/api/portfolio/v1/trading-systems/'+ id +'/performance-analysis', req);
+  }
+
+  //---------------------------------------------------------------------------
+
+  public getQualityAnalysis = (id:number, req : QualityAnalysisRequest): Observable<QualityAnalysisResponse> => {
+    return this.httpService.post<QualityAnalysisResponse>('/api/portfolio/v1/trading-systems/'+ id +'/quality-analysis', req);
   }
 
   //---------------------------------------------------------------------------
@@ -124,6 +138,26 @@ export class PortfolioService {
 
   public getFilterOptimizationInfo = (tsId : number): Observable<FilterOptimizationResponse> => {
     return this.httpService.get<FilterOptimizationResponse>('/api/portfolio/v1/trading-systems/'+ tsId +'/filter-optimization');
+  }
+
+  //---------------------------------------------------------------------------
+  //--- Simulation
+  //---------------------------------------------------------------------------
+
+  public startSimulation = (tsId : number, req : SimulationRequest): Observable<StatusResponse> => {
+    return this.httpService.post<StatusResponse>('/api/portfolio/v1/trading-systems/'+ tsId +'/simulation', req);
+  }
+
+  //---------------------------------------------------------------------------
+
+  public stopSimulation = (tsId : number): Observable<StatusResponse> => {
+    return this.httpService.delete<StatusResponse>('/api/portfolio/v1/trading-systems/'+ tsId +'/simulation');
+  }
+
+  //---------------------------------------------------------------------------
+
+  public getSimulationResult = (tsId : number): Observable<SimulationResult> => {
+    return this.httpService.get<SimulationResult>('/api/portfolio/v1/trading-systems/'+ tsId +'/simulation');
   }
 
   //---------------------------------------------------------------------------

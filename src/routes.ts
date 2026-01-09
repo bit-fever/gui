@@ -61,6 +61,9 @@ import {
   TradingSystemReadyEditPanel
 } from "./app/layout/main-panel/work-panel/portfolio/trading-system/ready/edit/edit.panel";
 import {AdapterTestPanel} from "./app/layout/main-panel/work-panel/admin/test/adapter-test.panel";
+import {MarketAnalysisListPanel} from "./app/layout/main-panel/work-panel/tool/market-analysis/market-analysis.list";
+import {TradingSystemQualityPanel} from "./app/module/quality-analyzer/quality.panel";
+import {TradingSystemSimulationPanel} from "./app/module/simulator/simulation.panel";
 
 //=============================================================================
 
@@ -101,11 +104,12 @@ export const routes: Routes = [
 
   //--- Tool
 
-  { path: Url.Tool_BiasAnalyses,                  component: BiasAnalisysListPanel           },
+  { path: Url.Tool_MarketAnalysis,                component: MarketAnalysisListPanel         },
+  { path: Url.Tool_BiasAnalysis,                  component: BiasAnalisysListPanel           },
   { path: Url.Right_BiasAnalysis_Create,          component: BiasAnalysisCreatePanel, outlet : 'right' },
   { path: Url.Right_BiasAnalysis_View,            component: BiasAnalysisViewPanel,   outlet : 'right' },
   { path: Url.Right_BiasAnalysis_Edit,            component: BiasAnalysisEditPanel,   outlet : 'right' },
-  { path: Url.Tool_BiasAnalyses_Id, children : [
+  { path: Url.Tool_BiasAnalysis_Id, children : [
       { path: Url.Sub_Playground, component:  BiasAnalysisPlaygroundPanel },
       { path: Url.Sub_Backtest,   component:  BiasAnalysisBacktestPanel   }
     ]},
@@ -122,6 +126,8 @@ export const routes: Routes = [
 
   { path: Url.Module_DocEditor,                   component: DocEditorComponent            },
   { path: Url.Module_PerformanceAnalysis,         component: TradingSystemPerformancePanel },
+  { path: Url.Module_QualityAnalysis,             component: TradingSystemQualityPanel     },
+  { path: Url.Module_Simulator,                   component: TradingSystemSimulationPanel  },
 
   { path:'**',                                    component: UnknownPanel },
 ];

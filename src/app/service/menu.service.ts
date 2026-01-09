@@ -107,9 +107,15 @@ export class MenuService extends AbstractSubscriber {
         header: this.get('tool._label')
       },
       {
+        id: 'menu.tool.maket-analyzer',
+        label: this.get('tool.marketAnalysis'),
+        route: Url.Tool_MarketAnalysis,
+        iconClasses: 'ssid_chart'
+      },
+      {
         id: 'menu.tool.bias-analyzer',
         label: this.get('tool.biasAnalyses'),
-        route: Url.Tool_BiasAnalyses,
+        route: Url.Tool_BiasAnalysis,
         iconClasses: 'query_stats'
       },
 

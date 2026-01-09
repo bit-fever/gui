@@ -13,7 +13,7 @@ import {EventBusService} from "../../../service/eventbus.service";
 import {LabelService} from "../../../service/label.service";
 import {FlexTablePanel} from "../../../component/panel/flex-table/flex-table.panel";
 import {FlexTableColumn} from "../../../model/flex-table";
-import { NumericClassStyler} from "../../../component/panel/flex-table/transcoders";
+import { NumericClassStyler} from "../../../component/panel/flex-table/icon-sylers";
 import {AnnualAggregate, PerformanceAnalysisResponse} from "../../../model/performance";
 
 //=============================================================================

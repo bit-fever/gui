@@ -6,29 +6,54 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-.main-panel {
+.main-layout {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: stretch;
-  gap: 0;
-  height: 100%;
+  gap: 8px;
+  height   : 100%;
   overflow: hidden;
 }
 
 //=============================================================================
 
-.inner-panel {
-  flex: 1 1 auto;
-  overflow: auto;
+mat-button-toggle-group {
+  margin-left: 8px;
 }
 
 //=============================================================================
 
-data-product-selector {
-  width: 300px;
-  margin-right: 8px;
+.panel-layout {
+  flex: 1 1 auto;
+  horiz-align: center;
+}
+
+//=============================================================================
+
+table {
+  width: 80%;
+  background-color: #F8F8F8;
+  text-align: center;
+}
+
+//=============================================================================
+
+tr td {
+  width: 16%;
+}
+
+//=============================================================================
+
+.title {
+  background-color: #F0F0F0;
+}
+
+//=============================================================================
+
+.total {
+  font-weight: bolder;
 }
 
 //=============================================================================

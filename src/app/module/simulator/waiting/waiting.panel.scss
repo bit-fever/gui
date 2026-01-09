@@ -1,34 +1,46 @@
 //=============================================================================
 //===
-//=== Copyright (C) 2025 Andrea Carboni
+//=== Copyright (C) 2026 Andrea Carboni
 //===
 //=== Use of this source code is governed by an MIT-style license that can be
 //=== found in the LICENSE file
 //=============================================================================
 
-.main-panel {
+@import "../../../../styles/variables";
+
+//=============================================================================
+
+.waiting-layout {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: $backgroundColor;
+}
+
+//=============================================================================
+
+.panel-layout {
+  width: 500px;
+}
+
+//=============================================================================
+
+.content-layout {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: stretch;
-  gap: 0;
-  height: 100%;
-  overflow: hidden;
+  gap: 64px;
 }
 
 //=============================================================================
 
-.inner-panel {
-  flex: 1 1 auto;
-  overflow: auto;
-}
-
-//=============================================================================
-
-data-product-selector {
-  width: 300px;
-  margin-right: 8px;
+.data-layout {
+  flex: 1 0 auto;
 }
 
 //=============================================================================

@@ -19,7 +19,7 @@ import {NgIf} from "@angular/common";
   selector: 'flat-button',
   templateUrl: './flat-button.html',
   styleUrls  :['./flat-button.scss'],
-  imports: [MatFormFieldModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIconModule, NgIf]
+  imports: [MatFormFieldModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatIconModule]
 })
 
 //=============================================================================
@@ -32,8 +32,9 @@ export class FlatButton {
   //---
   //-------------------------------------------------------------------------
 
-  @Input() icon  : string = ""
-  @Input() label?: string
+  @Input() icon     : string = ""
+  @Input() label?   : string
+  @Input() disabled : boolean = false
 
   //-------------------------------------------------------------------------
   //---
