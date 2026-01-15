@@ -11,7 +11,7 @@ import {Observable}        from "rxjs";
 import {ListResponse}      from "../model/flex-table";
 import {HttpService}       from "./http.service";
 import {
-  Adapter,
+  Adapter, AdapterParam,
   ConnectionRequest,
   ConnectionResult,
   ConnectionSpec,
@@ -47,6 +47,12 @@ export class SystemAdapterService {
 
   public getAdapter = (code : string): Observable<Adapter> => {
     return this.httpService.get<Adapter>('/api/system/v1/adapters/'+code);
+  }
+
+  //---------------------------------------------------------------------------
+
+  public getConnectionParams = (code : string, configParams : {[index: string]:any}): Observable<AdapterParam[]> => {
+    return this.httpService.post<AdapterParam[]>('/api/system/v1/adapters/'+ code +'/connection', configParams);
   }
 
   //---------------------------------------------------------------------------

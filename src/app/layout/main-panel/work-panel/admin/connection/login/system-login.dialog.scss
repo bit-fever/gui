@@ -6,20 +6,15 @@
 //=== found in the LICENSE file
 //=============================================================================
 
-.dialog-layout {
-}
-
-//=============================================================================
-
 .form-layout {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: flex-start;
-  align-items: center;
+  align-items: stretch;
   gap: 0;
-  height   : 100%;
-  overflow: hidden;
+  //height: 100%;
+  //overflow: hidden;
 }
 
 //=============================================================================
@@ -28,12 +23,6 @@
   color      : red;
   height     : 24px;
   font-weight:  bold;
-}
-
-//=============================================================================
-
-input-text-required {
-  width: 350px;
 }
 
 //=============================================================================

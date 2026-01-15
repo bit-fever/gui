@@ -898,19 +898,42 @@ page:
 
 adapter:
   IBKR:
-    username: Username
-    password: Password
-    live    : Live
-    authUrl : Authentication URL
-    apiUrl  : API URL
-    noAuth  : No authentication
+    username:
+      label: Username
+    password:
+      label: Password
+    live:
+      label: Live
+    authUrl:
+      label: Authentication URL
+    apiUrl:
+      label: API URL
+    noAuth:
+      label: No authentication
 
   TS:
-    clientId   : Client ID / API Key
-    liveAccount: Connect to LIVE account
-    username   : Username
-    password   : Password
-    twoFACode  : Two Factor Authentication Code
+    account:
+      label: Account to connect to
+      values:
+        test: Test
+        live: Live
+    authType:
+      label: Authentication type
+      values:
+        browser : Browser (classic)
+        internal: Internal (only 24H sessions)
+    clientId:
+      label: Client ID
+    clientSecret:
+      label: Client secret
+    clientCode:
+      label: Code (from browser's url)
+    username:
+      label: Username
+    password:
+      label: Password
+    twoFACode:
+      label: Two Factor Authentication Code
 
 # ==============================================================================
 # ===

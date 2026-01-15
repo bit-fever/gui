@@ -16,7 +16,6 @@ import {Router} from "@angular/router";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
-import {NgForOf, NgIf} from "@angular/common";
 import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
@@ -27,8 +26,7 @@ import {SystemAdapterService} from "../../../../../../service/system-adapter.ser
 import {Adapter, AdapterParam, Connection, ConnectionSpec} from "../../../../../../model/model";
 import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
 import {InventoryService} from "../../../../../../service/inventory.service";
-import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
-import {areAdapterParamsValid, createConfig} from "../param-utils";
+import {CustomParams} from "../../../../../../component/custom-params/custom-params";
 
 //=============================================================================
 
@@ -36,9 +34,9 @@ import {areAdapterParamsValid, createConfig} from "../param-utils";
     selector: 'connection-edit',
     templateUrl: './edit.panel.html',
     styleUrls: ['./edit.panel.scss'],
-    imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
-        MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
-        MatDividerModule, InputTextRequired, SelectRequired, MatCheckbox
+    imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule,
+        MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
+        MatDividerModule, InputTextRequired, SelectRequired, CustomParams
     ]
 })
 
@@ -53,10 +51,12 @@ export class ConnectionEditPanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   conn = new ConnectionSpec()
-  adapters     : Adapter     [] = []
-  configParams : AdapterParam[] = []
+  adapters : Adapter     []  = []
+  params   : AdapterParam[]  = []
+  values   : {[index: string]:any} = {}
 
   @ViewChild("connNameCtrl") connNameCtrl? : InputTextRequired
+  @ViewChild("paramsCtrl")   paramsCtrl?   : CustomParams
 
   //-------------------------------------------------------------------------
   //---
@@ -85,13 +85,12 @@ export class ConnectionEditPanel extends AbstractPanel {
   	console.log("ConnectionEditPanel: Starting...");
 
   	let conn : Connection = event.params;
-
     this.conn = Object.assign(new Connection(), conn)
 
     let adapter = this.findAdapter(conn.systemCode)
     if (adapter != undefined) {
-      let map = this.createMap(conn.systemConfigParams)
-      this.configParams = this.updateParameters(adapter.configParams, map)
+      this.params = adapter.configParams
+      this.values = JSON.parse(conn.systemConfigParams)
       console.log("Connection parameters have been initialized")
     }
     else {
@@ -105,20 +104,8 @@ export class ConnectionEditPanel extends AbstractPanel {
   //---
   //-------------------------------------------------------------------------
 
-  onCheckChange(e : MatCheckboxChange, p : AdapterParam) {
-    p.valueBool = e.checked
-  }
-
-  //-------------------------------------------------------------------------
-
-  public label(code : string) : string {
-    return this.labelService.getLabelString("adapter."+ this.conn.systemCode +"."+ code);
-  }
-
-  //-------------------------------------------------------------------------
-
   public saveEnabled() : boolean|undefined {
-    return areAdapterParamsValid(this.configParams) && this.connNameCtrl?.isValid()
+    return this.paramsCtrl?.areParamsValid() && this.connNameCtrl?.isValid()
   }
 
   //-------------------------------------------------------------------------
@@ -129,7 +116,7 @@ export class ConnectionEditPanel extends AbstractPanel {
     conn.code               = this.conn.code
     conn.name               = this.conn.name
     conn.systemCode         = this.conn.systemCode
-    conn.systemConfigParams = createConfig(this.configParams)
+    conn.systemConfigParams = JSON.stringify(this.values)
 
     this.inventoryService.updateConnection(conn).subscribe( c => {
       this.onClose();
@@ -160,43 +147,6 @@ export class ConnectionEditPanel extends AbstractPanel {
     })
 
     return adapter
-  }
-
-  //-------------------------------------------------------------------------
-
-
-  //-------------------------------------------------------------------------
-
-  private createMap(config : string ) : any {
-    return JSON.parse(config)
-  }
-
-  //-------------------------------------------------------------------------
-
-  private updateParameters(list : AdapterParam[], map : any) : AdapterParam[] {
-    if (list == null) {
-      return []
-    }
-
-    let newList : AdapterParam[] = []
-
-    list.forEach(p => {
-      newList = [ ...newList, p ]
-      switch (p.type) {
-        case "string":
-        case "password":
-          p.valueStr = map[p.name]
-          break;
-        case "int":
-          p.valueInt = map[p.name]
-          break;
-        case "bool":
-          p.valueBool = map[p.name]
-          break;
-      }
-    })
-
-    return newList
   }
 }
 

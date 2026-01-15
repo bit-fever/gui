@@ -125,20 +125,21 @@ export class Connection extends ConnectionSpec {
 
 export class ConnectionRequest {
   systemCode?   : string
-  configParams  : any
-  connectParams : any
+  configValues  : any
+  connectValues : any
 }
 
 //=============================================================================
 
-export const ConnectionResultStatusConnected = "connected"
-export const ConnectionResultStatusConnecting= "connecting"
-export const ConnectionResultStatusError     = "error"
+export const ConnectionResultStatusError     = -1
+export const ConnectionResultStatusConnecting=  1
+export const ConnectionResultStatusConnected =  2
 
 export class ConnectionResult {
-  status   : string = ""
-  action   : string = ""
+  status   : number = 0
   message  : string = ""
+  url      : string = ""
+  params   : AdapterParam[] = []
 }
 
 //=============================================================================
@@ -380,16 +381,18 @@ export class PorTradingSystem {
 //=============================================================================
 
 export class AdapterParam {
-  name      : string  = ""
-  type      : string  = ""
-  defValue  : string  = ""
-  nullable  : boolean = false
-  minValue  : number  = 0
-  maxValue  : number  = 0
-  groupName : string  = ""
-  valueStr  : string  = ""
-  valueBool : boolean = false
-  valueInt  : number  = 0
+  name      : string   = ""
+  type      : string   = ""
+  defValue  : string   = ""
+  nullable  : boolean  = false
+  minValue  : number   = 0
+  maxValue  : number   = 0
+  values    : string[] = []
+  valueMap  : any      = {}
+
+  valueStr  : string   = ""
+  valueBool : boolean  = false
+  valueInt  : number   = 0
 }
 
 //=============================================================================

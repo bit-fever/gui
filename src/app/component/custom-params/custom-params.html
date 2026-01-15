@@ -1,0 +1,19 @@
+<div class="form-layout">
+  @for (param of params; track param.name) {
+    @if (param.type=='string') {
+      <input-text-required [(value)]="param.valueStr" [label]="label(param.name)" [len]="param.maxValue" (valueChange)="onValueChange()"></input-text-required>
+    }
+
+    @if (param.type=='password') {
+      <input-text-required [(value)]="param.valueStr" [label]="label(param.name)" [len]="param.maxValue" type="password" (valueChange)="onValueChange()"></input-text-required>
+    }
+
+    @if (param.type=='bool') {
+      <mat-checkbox [checked]="param.valueBool" (change)="onCheckChange($event, param)">{{label(param.name)}}</mat-checkbox>
+    }
+
+    @if (param.type=='list') {
+      <select-required [(key)]="param.valueStr" [label]="label(param.name)" [map]="param.valueMap" (keyChange)="onValueChange()"></select-required><br/>
+    }
+  }
+</div>

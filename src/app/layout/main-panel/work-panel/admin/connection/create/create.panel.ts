@@ -16,7 +16,6 @@ import {Router} from "@angular/router";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
-import {NgForOf, NgIf} from "@angular/common";
 import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
@@ -24,11 +23,10 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
 import {InputTextRequired} from "../../../../../../component/form/input-text-required/input-text-required";
 import {SystemAdapterService} from "../../../../../../service/system-adapter.service";
-import {Adapter, AdapterParam, Connection, ConnectionSpec} from "../../../../../../model/model";
+import {Adapter, AdapterParam, ConnectionSpec} from "../../../../../../model/model";
 import {SelectRequired} from "../../../../../../component/form/select-required/select-required";
 import {InventoryService} from "../../../../../../service/inventory.service";
-import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
-import {areAdapterParamsValid, createConfig, initParameters} from "../param-utils";
+import {CustomParams} from "../../../../../../component/custom-params/custom-params";
 
 //=============================================================================
 
@@ -36,10 +34,10 @@ import {areAdapterParamsValid, createConfig, initParameters} from "../param-util
     selector: 'connection-create',
     templateUrl: './create.panel.html',
     styleUrls: ['./create.panel.scss'],
-    imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule, NgForOf, //NgModel,
-        MatInputModule, MatIconModule, MatButtonModule, NgIf, FormsModule, ReactiveFormsModule,
-        MatDividerModule, InputTextRequired, SelectRequired, MatCheckbox
-    ]
+  imports: [RightTitlePanel, MatFormFieldModule, MatOptionModule, MatSelectModule,
+    MatInputModule, MatIconModule, MatButtonModule, FormsModule, ReactiveFormsModule,
+    MatDividerModule, InputTextRequired, SelectRequired, CustomParams
+  ]
 })
 
 //=============================================================================
@@ -53,12 +51,14 @@ export class ConnectionCreatePanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   conn = new ConnectionSpec()
-  adapters     : Adapter     [] = []
-  configParams : AdapterParam[] = []
+  adapters : Adapter     []  = []
+  params   : AdapterParam[]  = []
+  values   : {[index: string]:any} = {}
 
   @ViewChild("connCodeCtrl")       connCodeCtrl?       : InputTextRequired
   @ViewChild("connNameCtrl")       connNameCtrl?       : InputTextRequired
   @ViewChild("connSystemCodeCtrl") connSystemCodeCtrl? : SelectRequired
+  @ViewChild("paramsCtrl")         paramsCtrl?         : CustomParams
 
   //-------------------------------------------------------------------------
   //---
@@ -85,8 +85,8 @@ export class ConnectionCreatePanel extends AbstractPanel {
 
   private onStart(event : AppEvent) : void {
   	console.log("ConnectionCreatePanel: Starting...");
-    this.conn         = new ConnectionSpec()
-    this.configParams = []
+    this.conn   = new ConnectionSpec()
+    this.params = []
   }
 
   //-------------------------------------------------------------------------
@@ -100,27 +100,16 @@ export class ConnectionCreatePanel extends AbstractPanel {
 
     this.adapters.forEach( a => {
       if (a.code == e) {
-        this.configParams = initParameters(a.configParams)
+        this.params = a.configParams
+        this.values = {}
       }
     })
   }
 
   //-------------------------------------------------------------------------
 
-  onCheckChange(e : MatCheckboxChange, p : AdapterParam) {
-    p.valueBool = e.checked
-  }
-
-  //-------------------------------------------------------------------------
-
-  public label(code : string) : string {
-    return this.labelService.getLabelString("adapter."+ this.conn.systemCode +"."+ code);
-  }
-
-  //-------------------------------------------------------------------------
-
   public saveEnabled() : boolean|undefined {
-    return  areAdapterParamsValid(this.configParams) &&
+    return  this.paramsCtrl?.areParamsValid() &&
             this.connCodeCtrl?.isValid() &&
             this.connNameCtrl?.isValid() &&
             this.connSystemCodeCtrl?.isValid()
@@ -129,8 +118,7 @@ export class ConnectionCreatePanel extends AbstractPanel {
   //-------------------------------------------------------------------------
 
   public onSave() : void {
-    this.conn.systemConfigParams = createConfig(this.configParams)
-
+    this.conn.systemConfigParams = JSON.stringify(this.values)
     this.inventoryService.addConnection(this.conn).subscribe( c => {
       this.onClose();
       this.emitToApp(new AppEvent<any>(AppEvent.CONNECTION_LIST_RELOAD))
@@ -143,13 +131,6 @@ export class ConnectionCreatePanel extends AbstractPanel {
   	let event = new AppEvent(AppEvent.RIGHT_PANEL_CLOSE);
   	super.emitToApp(event);
   }
-
-  //-------------------------------------------------------------------------
-  //---
-  //--- Private methods
-  //---
-  //-------------------------------------------------------------------------
-
 }
 
 //=============================================================================

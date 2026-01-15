@@ -1,12 +1,7 @@
 <h2 mat-dialog-title>{{loc("title")}} : <b>{{data.conn.name}}</b></h2>
-<mat-dialog-content class="dialog-layout">
+<mat-dialog-content>
   <div class="form-layout">
-    <ng-container *ngFor="let param of connectParams">
-      <input-text-required *ngIf="param.type=='string'"   [(value)]="param.valueStr" label="{{label(param.name)}}" [len]="param.maxValue"></input-text-required>
-      <input-text-required *ngIf="param.type=='password'" [(value)]="param.valueStr" label="{{label(param.name)}}" [len]="param.maxValue" type="password"></input-text-required>
-      <mat-checkbox *ngIf="param.type=='bool'" [checked]="param.valueBool" (change)="onCheckChange($event, param)">{{label(param.name)}}</mat-checkbox>
-    </ng-container>
-
+    <custom-params #paramsCtrl [params]="connectParams" [(values)]="connectValues" [systemCode]="systemCode"></custom-params>
     <span class="login-error">{{error}}</span>
   </div>
 </mat-dialog-content>
